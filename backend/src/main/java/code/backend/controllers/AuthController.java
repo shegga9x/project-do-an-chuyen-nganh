@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -110,9 +111,11 @@ public class AuthController {
                 new MessageResponse("Password reset successful, you can now login"));
     }
 
-    @GetMapping("/error")
+    @PreAuthorize("hasRole('ROLE_Admin')")
+    @GetMapping("/okok")
     public ResponseEntity<?> errorPage() {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Old JWT"));
+        return ResponseEntity.ok(
+                new MessageResponse("Password reset successful, you can now login"));
 
     }
 
