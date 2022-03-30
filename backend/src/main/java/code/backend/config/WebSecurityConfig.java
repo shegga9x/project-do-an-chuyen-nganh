@@ -1,8 +1,10 @@
 package code.backend.config;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +17,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -27,6 +30,7 @@ import code.backend.service.subService.UserDetailsCustomService;
         // securedEnabled = true,
         // jsr250Enabled = true,
         prePostEnabled = true)
+
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsCustomService userDetailsService;
@@ -61,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         config.setAllowCredentials(true);
         // Don't do this in production, use a proper list of allowed origins
         config.setAllowedOriginPatterns(Arrays.asList("*"));
-        config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept","authorization"));
+        config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "authorization"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH"));
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);

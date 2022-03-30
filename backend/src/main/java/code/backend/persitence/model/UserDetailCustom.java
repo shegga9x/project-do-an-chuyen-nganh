@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,7 +41,7 @@ public class UserDetailCustom implements UserDetails {
 
     public static UserDetailCustom build(Account user) {
         List<GrantedAuthority> authorities = user.getListOfRole().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getRoleName().name()))
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRoleName().name()))
                 .collect(Collectors.toList());
         return new UserDetailCustom(
                 user.getIdAccount(),

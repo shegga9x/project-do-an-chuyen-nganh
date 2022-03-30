@@ -23,9 +23,6 @@ public class EmailService {
 
     public void sendMail(String to, String subject, String html, String from) throws MailException, MessagingException {
         String msg = html;
-        msg = MessageFormat.format(
-                "<h4>Email Already Registered</h4><p>Your email <strong>{0}</strong> is already registered.</p>{1}",
-                to, html);
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
         helper.setFrom("shegga10x@gmail.com");

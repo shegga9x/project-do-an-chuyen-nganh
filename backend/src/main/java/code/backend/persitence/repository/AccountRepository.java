@@ -11,5 +11,4 @@ import code.backend.persitence.entities.Account;
 public interface AccountRepository extends JpaRepository<Account, String> {
     Optional<Account> findByEmail(String username);
     
-    Boolean existsByEmail(String email);
 }

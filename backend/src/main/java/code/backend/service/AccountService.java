@@ -1,6 +1,5 @@
 package code.backend.service;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -62,7 +61,6 @@ public class AccountService {
             emailService.sendAlreadyRegisteredEmail(model.getEmail(), origin);
             throw new CustomException("This Email already be taken !!!");
         } catch (Exception e) {
-
         }
         Account account = new Account();
         account.setIdAccount(UUID.randomUUID().toString());
