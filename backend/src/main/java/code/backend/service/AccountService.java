@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import code.backend.helpers.advice.CustomException;
 import code.backend.helpers.payload.request.AuthenticateRequest;
 import code.backend.helpers.payload.request.ForgotPasswordRequest;
 import code.backend.helpers.payload.request.RegisterRequest;
@@ -27,7 +28,6 @@ import code.backend.persitence.entities.ResetToken;
 import code.backend.persitence.entities.Role;
 import code.backend.persitence.entities.RoleEnum;
 import code.backend.persitence.entities.VerificationToken;
-import code.backend.persitence.repository.AccountDetailRepository;
 import code.backend.persitence.repository.AccountRepository;
 import code.backend.persitence.repository.RefreshTokenRepository;
 import code.backend.persitence.repository.ResetTokenRepository;
@@ -56,19 +56,24 @@ public class AccountService {
     @Autowired
     TokenUtils tokenUtils;
 
-    public void register(RegisterRequest model, String origin)
-            throws IllegalAccessException, InvocationTargetException {
+    public void register(RegisterRequest model, String origin) {
         try {
             accountRepository.findByEmail(model.getEmail()).get();
             emailService.sendAlreadyRegisteredEmail(model.getEmail(), origin);
-            return;
+            throw new CustomException("This Email already be taken !!!");
         } catch (Exception e) {
+
         }
         Account account = new Account();
         account.setIdAccount(UUID.randomUUID().toString());
         AccountDetail accountDetail = new AccountDetail(account.getIdAccount());
-        BeanUtils.copyProperties(account, model);
-        BeanUtils.copyProperties(accountDetail, model);
+        try {
+            BeanUtils.copyProperties(account, model);
+            BeanUtils.copyProperties(accountDetail, model);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new CustomException("Error Mapper");
+        }
         // first registered account is an admin
         account.setCreated(new Date());
         account.setPasswordHash(encoder.encode(model.getPassword()));
@@ -93,19 +98,18 @@ public class AccountService {
             verificationToken = verificationTokenRepository.findByVerificationTokenContent(token).get();
         } catch (Exception e) {
             System.out.println(e);
-            return;
+            throw new CustomException("Can't find token !!!");
         }
         verificationToken.setVerified(new Date());
         verificationToken.setVerificationTokenContent(null);
         verificationTokenRepository.save(verificationToken);
     }
 
-    public AuthenticateResponse authenticate(AuthenticateRequest model, String ipAddress)
-            throws IllegalAccessException, InvocationTargetException {
+    public AuthenticateResponse authenticate(AuthenticateRequest model, String ipAddress) {
         Account account = accountRepository.findByEmail(model.email).get();
         if (account == null || account.getVerificationToken().getVerified() == null
                 || !encoder.matches(model.password, account.getPasswordHash())) {
-            return null;
+                    throw new CustomException("Wrong password or Not Active yet !!!");
         } else {
             account.setLastExpires(new Date());
             // delete OldRefreshTokens
@@ -123,19 +127,23 @@ public class AccountService {
             response.setRole(roles);
             response.jwtToken = jwtToken;
             response.refreshToken = refreshToken.getToken();
-            BeanUtils.copyProperties(response, account);
-            BeanUtils.copyProperties(response, account.getAccountDetail());
+            try {
+                BeanUtils.copyProperties(response, account);
+                BeanUtils.copyProperties(response, account.getAccountDetail());
+            } catch (Exception e) {
+                throw new CustomException("Error Mapper");
+            }
             return response;
         }
     }
 
-    public AuthenticateResponse refreshToken(String token, String ipAddress)
-            throws IllegalAccessException, InvocationTargetException {
+    public AuthenticateResponse refreshToken(String token, String ipAddress) {
         RefreshToken refreshToken = null;
         try {
             refreshToken = refreshTokenRepository.findByToken(token).get();
         } catch (Exception e) {
-            return null;
+            throw new CustomException("Can't find token !!!");
+            
         }
 
         Account account = refreshToken.getAccount();
@@ -145,7 +153,8 @@ public class AccountService {
             refreshTokenRepository.save(refreshToken);
         }
         if (!refreshToken.IsActive()) {
-            return null;
+            throw new CustomException("Token is UnActive !!!");
+            
         }
         RefreshToken newRefreshToken = tokenUtils.rotateRefreshToken(refreshToken, ipAddress);
         refreshToken = tokenUtils.revokeRefreshToken(refreshToken, ipAddress, "Replaced by new token",
@@ -164,8 +173,12 @@ public class AccountService {
         response.role = roles;
         response.jwtToken = jwtToken;
         response.refreshToken = newRefreshToken.getToken();
-        BeanUtils.copyProperties(response, account);
-        BeanUtils.copyProperties(response, account.getAccountDetail());
+        try {
+            BeanUtils.copyProperties(response, account);
+            BeanUtils.copyProperties(response, account.getAccountDetail());
+        } catch (Exception e) {
+            throw new CustomException("Error Mapper");
+        }
 
         return response;
     }
@@ -173,7 +186,7 @@ public class AccountService {
     public void revokeToken(String token, String ipAddress) {
         RefreshToken refreshToken = refreshTokenRepository.findByToken(token).get();
         if (!refreshToken.IsActive()) {
-            // ??
+            throw new CustomException("Token is UnActive");
         }
         // revoke token and save
         refreshToken = tokenUtils.revokeRefreshToken(refreshToken, ipAddress, "Revoked without replacement", null);
@@ -187,8 +200,7 @@ public class AccountService {
         try {
             account = accountRepository.findByEmail(model.getEmail()).get();
         } catch (Exception e) {
-            System.out.println(e);
-            return;
+            throw new CustomException("Can't find Email !!!");
         }
         ResetToken resetToken = account.getResetToken();
         // create reset token that expires after 1 day
@@ -206,7 +218,7 @@ public class AccountService {
 
     public void resetPassword(ResetPasswordRequest model) {
         Account account = tokenUtils.getAccountByResetToken(model.getToken());
-        account.setResetToken(new ResetToken(account.getIdAccount(),new Date(), null, null));
+        account.setResetToken(new ResetToken(account.getIdAccount(), new Date(), null, null));
         account.setPasswordHash(encoder.encode(model.getPassword()));
         accountRepository.save(account);
     }

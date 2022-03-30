@@ -1,11 +1,23 @@
 package code.backend.helpers.payload.request;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 public class RegisterRequest {
+    @NotEmpty
     public String title;
+    @NotEmpty
     public String firstName;
+    @NotEmpty
     public String lastName;
+    @NotEmpty
+    @Email
     public String email;
+    @NotEmpty
+    @Size(min = 6)
     public String password;
+    @NotEmpty
     public String confirmPassword;
     public String acceptTerms;
 

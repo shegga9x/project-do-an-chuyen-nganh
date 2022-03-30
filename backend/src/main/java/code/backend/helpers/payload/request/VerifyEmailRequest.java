@@ -1,12 +1,15 @@
 package code.backend.helpers.payload.request;
 
-public class VerifyEmailRequest
-{
-    public String token ;
+import javax.validation.constraints.NotNull;
+
+public class VerifyEmailRequest {
+    @NotNull
+    public String token;
 
     public VerifyEmailRequest(String token) {
         this.token = token;
     }
+
     public VerifyEmailRequest() {
     }
 
@@ -18,5 +21,4 @@ public class VerifyEmailRequest
         this.token = token;
     }
 
-    
 }

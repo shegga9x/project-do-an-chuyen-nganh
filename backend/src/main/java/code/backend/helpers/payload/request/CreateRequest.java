@@ -2,19 +2,26 @@ package code.backend.helpers.payload.request;
 
 import java.util.List;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 public class CreateRequest {
+    @NotEmpty(message = "title cannot be empty")
     public String title;
-
+    @NotEmpty(message = "firstName cannot be empty")
     public String firstName;
-
+    @NotEmpty(message = "lastName cannot be empty")
     public String lastName;
-
+    @NotEmpty(message = "role cannot be empty")
     public List<String> role;
-
+    @NotEmpty(message = "email cannot be empty")
+    @Email
     public String email;
-
+    @NotEmpty(message = "password cannot be empty")
+    @Size(min = 6)
     public String password;
-
+    @NotEmpty(message = "confirmPassword cannot be empty")
     public String confirmPassword;
 
     public CreateRequest(String title, String firstName, String lastName, List<String> role, String email,

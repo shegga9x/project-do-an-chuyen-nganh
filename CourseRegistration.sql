@@ -15,20 +15,21 @@ CREATE SEQUENCE [dbo].[hibernate_sequence]
  go
 create table Role
 (
-	[id] [int] IDENTITY(1,1) NOT NULL,
-	[role_name] [int] NOT NULL,
-	PRIMARY KEY ([id]) 
+  [id] [int] IDENTITY(1,1) NOT NULL,
+  [role_name] [int] NOT NULL,
+  PRIMARY KEY ([id])
 )
 
 --dữ liệu bảng Privilege
 
 create table Privilege
 (
-	id int  IDENTITY(1,1) PRIMARY KEY,
-	ID_Role int NOT NULL FOREIGN KEY REFERENCES Role ([id]),
-	Name_Privilege nvarchar(50) not null,
+  id int IDENTITY(1,1) PRIMARY KEY,
+  ID_Role int NOT NULL FOREIGN KEY REFERENCES Role ([id]),
+  Name_Privilege nvarchar(50) not null,
 )
-CREATE TABLE ACCOUNT (
+CREATE TABLE ACCOUNT
+(
   ID_ACCOUNT nvarchar(50) NOT NULL,
   --Admin là ad ,student là st,professor là pr
   email nvarchar(50) NOT NULL,
@@ -39,52 +40,58 @@ CREATE TABLE ACCOUNT (
   [accept_terms] [bit] ,
   PRIMARY KEY (ID_ACCOUNT)
 )
-CREATE TABLE ACCOUNT_has_role (
-  ID_ACCOUNT nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT),  
+CREATE TABLE ACCOUNT_has_role
+(
+  ID_ACCOUNT nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT),
   [id] int NOT NULL FOREIGN KEY REFERENCES Role ([id]),
-  PRIMARY KEY (ID_ACCOUNT,[id]) 
+  PRIMARY KEY (ID_ACCOUNT,[id])
 )
 
 
-CREATE TABLE ACCOUNT_detail (
+CREATE TABLE ACCOUNT_detail
+(
   ID_ACCOUNT nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT),
   first_name nvarchar(max) ,
   last_name nvarchar(max) ,
   address nvarchar(50)  ,
   phone_number varchar(10) ,
   birthday smalldatetime ,
-  PRIMARY KEY (ID_ACCOUNT) 
+  PRIMARY KEY (ID_ACCOUNT)
 )
 
 
-CREATE TABLE refresh_token (
- 	[id] [int] IDENTITY(1,1) NOT NULL,
-	[token] [nvarchar](max) NULL,
-	[expires] [datetime2](7) NOT NULL,
-	[created] [datetime2](7) NOT NULL,
-	[created_by_ip] [nvarchar](max) NULL,
-	[revoked] [datetime2](7) NULL,
-	[revoked_by_ip] [nvarchar](max) NULL,
-	[replaced_by_token] [nvarchar](max) NULL,
-	[reason_revoked] [nvarchar](max) NULL,
-	[account_id] nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT),
-	PRIMARY KEY ([id])
-  )
-  CREATE TABLE verification_token (
-    ID_ACCOUNT nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT),  
-	[verification_token_content] [nvarchar](max) NULL,
-	[verified] [datetime2](7) NULL,
-	PRIMARY KEY (ID_ACCOUNT)
+CREATE TABLE refresh_token
+(
+  [id] [int] IDENTITY(1,1) NOT NULL,
+  [token] [nvarchar](max) NULL,
+  [expires] [datetime2](7) NOT NULL,
+  [created] [datetime2](7) NOT NULL,
+  [created_by_ip] [nvarchar](max) NULL,
+  [revoked] [datetime2](7) NULL,
+  [revoked_by_ip] [nvarchar](max) NULL,
+  [replaced_by_token] [nvarchar](max) NULL,
+  [reason_revoked] [nvarchar](max) NULL,
+  [account_id] nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT),
+  PRIMARY KEY ([id])
+)
+CREATE TABLE verification_token
+(
+  ID_ACCOUNT nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT),
+  [verification_token_content] [nvarchar](max) NULL,
+  [verified] [datetime2](7) NULL,
+  PRIMARY KEY (ID_ACCOUNT)
 )
 
-CREATE TABLE [dbo].[reset_token](
-    ID_ACCOUNT nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT),  
-	[reset_token_content] [nvarchar](max) NULL,
-	[reset_token_expires] [datetime2](7) NULL,
-	[password_reset] [datetime2](7) NULL,
-	PRIMARY KEY (ID_ACCOUNT)
-	)
-CREATE TABLE Faculty (
+CREATE TABLE [dbo].[reset_token]
+(
+  ID_ACCOUNT nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT),
+  [reset_token_content] [nvarchar](max) NULL,
+  [reset_token_expires] [datetime2](7) NULL,
+  [password_reset] [datetime2](7) NULL,
+  PRIMARY KEY (ID_ACCOUNT)
+)
+CREATE TABLE Faculty
+(
   -- mã khoa (VD DH18DTA thì mã khoa là DT)
   ID_Faculty nvarchar(50) NOT NULL,
   ID_Faculty_N int NOT NULL,
@@ -93,7 +100,8 @@ CREATE TABLE Faculty (
   PRIMARY KEY (ID_Faculty)
 )
 
-CREATE TABLE Clazz (
+CREATE TABLE Clazz
+(
   -- mã khoa (VD DH18DTA thì mã khoa là DT)
   Clazz_code nvarchar(50) NOT NULL,
   ID_Faculty nvarchar(50) NOT NULL,
@@ -102,7 +110,8 @@ CREATE TABLE Clazz (
   PRIMARY KEY (Clazz_code)
 )
 
-CREATE TABLE Student (
+CREATE TABLE Student
+(
   ID_Student nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT) ON DELETE CASCADE,
   Student_Name nvarchar(50) NOT NULL,
   -- mã khoa
@@ -114,13 +123,16 @@ CREATE TABLE Student (
   Clazz_code nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Clazz (Clazz_code),
   -- Thêm vào số chứng chỉ bắt buộc ra trường
   -- Ngành CNTT thì tao nhớ ko nhầm tích lũy 145 chỉ là dc ra trường
-  Cert_number_required smallint NOT NULL, -- Tính năng mới
+  Cert_number_required smallint NOT NULL,
+  -- Tính năng mới
   -- Số chứng chỉ đã tích lũy được
-  Cert_number_accumulated smallint NOT NULL, -- Tính năng mới
+  Cert_number_accumulated smallint NOT NULL,
+  -- Tính năng mới
   PRIMARY KEY (ID_Student)
 )
 
-CREATE TABLE Professor (
+CREATE TABLE Professor
+(
   ID_Professor nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT) ON DELETE CASCADE,
   Professor_Name nvarchar(50) NOT NULL,
   -- mã khoa
@@ -133,25 +145,28 @@ CREATE TABLE Professor (
   PRIMARY KEY (ID_Professor)
 )
 
-CREATE TABLE Semester (
+CREATE TABLE Semester
+(
   ID_Semester nvarchar(50) NOT NULL,
   start_Date date NOT NULL,
   end_Date date NOT NULL,
   years smallint,
   number_S smallint NOT NULL
-  PRIMARY KEY (ID_Semester)
+    PRIMARY KEY (ID_Semester)
 )
 
-CREATE TABLE Time_For_Course_Register (
+CREATE TABLE Time_For_Course_Register
+(
   ID_Semester nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Semester (ID_Semester),
   start_Date date NOT NULL,
   end_Date date NOT NULL,
   PRIMARY KEY (ID_Semester)
 )
 
-CREATE TABLE Course (
+CREATE TABLE Course
+(
   ID_Course nvarchar(50) NOT NULL,
-  ID_Faculty nvarchar(50)  FOREIGN KEY REFERENCES Faculty (ID_Faculty),
+  ID_Faculty nvarchar(50) FOREIGN KEY REFERENCES Faculty (ID_Faculty),
   Name_Course nvarchar(50) NOT NULL,
   -- số chứng chỉ học phần (cao nhất là 4 nên để tinyint)	
   Course_certificate tinyint NOT NULL,
@@ -159,10 +174,11 @@ CREATE TABLE Course (
   years int ,
   -- học kì cố định có môn này sẽ mở nếu/ hk sẽ là 1, 2  / nếu ko thì sẽ là null
   number_S smallint
-  PRIMARY KEY (ID_Course)
+    PRIMARY KEY (ID_Course)
 )
 
-CREATE TABLE Course_Offering (
+CREATE TABLE Course_Offering
+(
   ID_Course_Offering nvarchar(50) NOT NULL,
   ID_Course nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Course (ID_Course) ON DELETE CASCADE,
   -- mã lớp (VD DH18DTA)
@@ -177,7 +193,8 @@ CREATE TABLE Course_Offering (
   PRIMARY KEY (ID_Course_Offering)
 )
 
-CREATE TABLE Schedule (
+CREATE TABLE Schedule
+(
   ID_Schedule nvarchar(50) NOT NULL,
   ID_Course_Offering nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Course_Offering (ID_Course_Offering) ON DELETE CASCADE,
   -- Mã giáo viên
@@ -201,32 +218,35 @@ CREATE TABLE Schedule (
   PRIMARY KEY (ID_Schedule)
 )
 
-CREATE TABLE Student_Schedule (
+CREATE TABLE Student_Schedule
+(
   ID_Semester nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Semester (ID_Semester),
   ID_Schedule nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Schedule (ID_Schedule) ON DELETE CASCADE,
   ID_Student nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Student (ID_Student) ON DELETE CASCADE,
   PRIMARY KEY (ID_Student, ID_Semester, ID_Schedule)
 )
-CREATE TABLE Student_Schedule_R (
+CREATE TABLE Student_Schedule_R
+(
   ID_Semester nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Semester (ID_Semester),
   ID_Schedule nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Schedule (ID_Schedule) ON DELETE CASCADE,
   ID_Student nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Student (ID_Student) ON DELETE CASCADE,
   PRIMARY KEY (ID_Student, ID_Semester, ID_Schedule)
 )
-CREATE TABLE Professor_Schedule (
+CREATE TABLE Professor_Schedule
+(
   ID_Semester nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Semester (ID_Semester),
   ID_Schedule nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Schedule (ID_Schedule) ON DELETE CASCADE,
   ID_Professor nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Professor (ID_Professor) ON DELETE CASCADE,
   PRIMARY KEY (ID_Professor, ID_Semester, ID_Schedule)
 )
-CREATE TABLE front_Sub (
+CREATE TABLE front_Sub
+(
   ID_Course_B nvarchar(50),
   ID_Course nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Course (ID_Course),
   PRIMARY KEY (ID_Course)
 )
 
-CREATE TABLE Sub_Pass
--- sub pass ko co id mon hoc la vi id mon hoc trong schedule /thay hoi sai =))
+CREATE TABLE Sub_Pass -- sub pass ko co id mon hoc la vi id mon hoc trong schedule /thay hoi sai =))
 (
   -- Học kỳ
   ID_Semester nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Semester (ID_Semester),
@@ -241,7 +261,8 @@ CREATE TABLE Sub_Pass
   PRIMARY KEY (ID_Student, ID_Course, ID_Semester)
 )
 
-CREATE TABLE semester_Result (
+CREATE TABLE semester_Result
+(
   ID_Semester nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Semester (ID_Semester),
   ID_Student nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Student (ID_Student) ON DELETE CASCADE,
   --diem trung binh trong ki nay 
@@ -252,14 +273,16 @@ CREATE TABLE semester_Result (
   PRIMARY KEY (ID_Semester, ID_Student)
 )
 
-CREATE TABLE Final_Result (
+CREATE TABLE Final_Result
+(
   ID_Student nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Student (ID_Student),
   grade_Av float,
   grade_Av_4 float,
   PRIMARY KEY (ID_Student)
 )
 
-CREATE TABLE Billing_System (
+CREATE TABLE Billing_System
+(
   ID_Semester nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Semester (ID_Semester),
   ID_Student nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Student (ID_Student),
   Paymoney float,
@@ -276,11 +299,11 @@ RETURNS TABLE
 AS
   RETURN
   SELECT sd.ID_Schedule,
-         sd.ID_Course_Offering
-  FROM Schedule sd JOIN
+  sd.ID_Course_Offering
+FROM Schedule sd JOIN
   Course_Offering co ON sd.ID_Course_Offering = co.ID_Course_Offering JOIN
   Student_Schedule stc ON stc.ID_Schedule = sd.ID_Schedule
-  WHERE stc.ID_Student = @ID_ACCOUNT
+WHERE stc.ID_Student = @ID_ACCOUNT
   AND stc.ID_Semester IN (SELECT
     ID_Semester
   FROM Semester
@@ -297,14 +320,14 @@ BEGIN
     @ID_Course_B1 = fs.ID_Course_B
   FROM front_Sub fs
   WHERE fs.ID_Course_B = @ID_Course_B
-  AND fs.ID_Course =
+    AND fs.ID_Course =
                     CASE
                       WHEN (SELECT
-                          ID_Course
-                        FROM Sub_Pass
-                        WHERE ID_Course = fs.ID_Course
-                        AND ID_Student = @ID_ACCOUNT
-                        AND Score >= 4)
+      ID_Course
+    FROM Sub_Pass
+    WHERE ID_Course = fs.ID_Course
+      AND ID_Student = @ID_ACCOUNT
+      AND Score >= 4)
                         IS NOT NULL THEN fs.ID_Course
                       ELSE NULL
                     END)
@@ -319,48 +342,48 @@ RETURNS TABLE
 AS
   RETURN
   SELECT sc.ID_Schedule
-  FROM Course_Offering co JOIN
+FROM Course_Offering co JOIN
   Course c ON c.ID_Course = co.ID_Course JOIN
   Schedule sc ON sc.ID_Course_Offering = co.ID_Course_Offering
 
-  WHERE c.ID_Faculty =
+WHERE c.ID_Faculty =
                       CASE
                         WHEN c.ID_Faculty IS NULL THEN c.ID_Faculty
                         ELSE (SELECT
-                            ID_Faculty
-                          FROM Student
-                          WHERE ID_Student = @ID_ACCOUNT)
+    ID_Faculty
+  FROM Student
+  WHERE ID_Student = @ID_ACCOUNT)
                       END
   AND c.years =
                CASE
                  WHEN c.years IS NULL THEN c.years
                  ELSE (SELECT
-                     (YEAR(GETDATE()) - YEAR(Create_date))
-                   FROM Student
-                   WHERE ID_Student = @ID_ACCOUNT)
+    (YEAR(GETDATE()) - YEAR(Create_date))
+  FROM Student
+  WHERE ID_Student = @ID_ACCOUNT)
                END
   AND c.number_S =
                   CASE
                     WHEN c.number_S = 0 THEN c.number_S
                     ELSE (SELECT
-                        number_S
-                      FROM Semester
-                      WHERE ID_Semester IN (SELECT
-                        ID_Semester
-                      FROM Semester
-                      WHERE GETDATE() BETWEEN start_Date AND end_Date))
+    number_S
+  FROM Semester
+  WHERE ID_Semester IN (SELECT
+    ID_Semester
+  FROM Semester
+  WHERE GETDATE() BETWEEN start_Date AND end_Date))
                   END
   AND c.ID_Course =
                    CASE
                      WHEN (SELECT
-                         ID_Course_B
-                       FROM front_Sub
-                       WHERE ID_Course_B = c.ID_Course)
+    ID_Course_B
+  FROM front_Sub
+  WHERE ID_Course_B = c.ID_Course)
                        IS NULL THEN c.ID_Course
                      WHEN [dbo].sub_Passed(c.ID_Course, @ID_ACCOUNT) IS NULL THEN NULL
                      ELSE [dbo].sub_Passed(c.ID_Course, @ID_ACCOUNT)
                    END
-  AND  CAST(SUBSTRING(co.Clazz_code,3,2) AS int) = (( YEAR( GETDATE() ) % 100 )) + 1 - (c.number_S - 1) - c.years
+  AND CAST(SUBSTRING(co.Clazz_code,3,2) AS int) = (( YEAR( GETDATE() ) % 100 )) + 1 - (c.number_S - 1) - c.years
 
 
   
@@ -373,9 +396,9 @@ RETURNS TABLE
 AS
   RETURN
   SELECT sc.Start_Slot
-  FROM Schedule sc JOIN
+FROM Schedule sc JOIN
   Student_Schedule stc ON sc.ID_Schedule = stc.ID_Schedule
-  WHERE stc.ID_Student = @ID_ACCOUNT
+WHERE stc.ID_Student = @ID_ACCOUNT
   AND stc.ID_Semester IN (SELECT
     ID_Semester
   FROM Semester
@@ -388,11 +411,11 @@ RETURNS TABLE
 AS
   RETURN
   SELECT c.ID_Course
-  FROM Schedule sc JOIN
+FROM Schedule sc JOIN
   Student_Schedule stc ON sc.ID_Schedule = stc.ID_Schedule JOIN
   Course_Offering co ON co.ID_Course_Offering = sc.ID_Course_Offering JOIN
   Course c ON c.ID_Course = co.ID_Course
-  WHERE stc.ID_Student = @ID_ACCOUNT
+WHERE stc.ID_Student = @ID_ACCOUNT
   AND stc.ID_Semester IN (SELECT
     ID_Semester
   FROM Semester
@@ -403,9 +426,9 @@ RETURNS TABLE
 AS
   RETURN
   SELECT sc.ID_Schedule
-  FROM Schedule sc JOIN
+FROM Schedule sc JOIN
   Course_Offering co ON co.ID_Course_Offering = sc.ID_Course_Offering
-  WHERE (sc.Start_Slot IN (SELECT
+WHERE (sc.Start_Slot IN (SELECT
     Start_Slot
   FROM check_Start_Slot_TeachDay(@ID_ACCOUNT, sc.Start_Slot, sc.Teaching_Day))
   OR co.ID_Course IN (SELECT
@@ -420,11 +443,11 @@ RETURNS TABLE
 AS
   RETURN
   SELECT c.ID_Course
-  FROM Schedule sc JOIN
+FROM Schedule sc JOIN
   Professor_Schedule prc ON sc.ID_Schedule = prc.ID_Schedule JOIN
   Course_Offering co ON co.ID_Course_Offering = sc.ID_Course_Offering JOIN
   Course c ON c.ID_Course = co.ID_Course
-  WHERE prc.ID_Professor = @ID_ACCOUNT
+WHERE prc.ID_Professor = @ID_ACCOUNT
   AND prc.ID_Semester IN (SELECT
     ID_Semester
   FROM Semester
@@ -437,10 +460,10 @@ RETURNS TABLE
 AS
   RETURN
   SELECT sd.*
-  FROM Schedule sd JOIN
+FROM Schedule sd JOIN
   Course_Offering co ON sd.ID_Course_Offering = co.ID_Course_Offering JOIN
   Professor_Schedule prc ON prc.ID_Schedule = sd.ID_Schedule
-  WHERE prc.ID_Professor = @ID_Professor
+WHERE prc.ID_Professor = @ID_Professor
   AND prc.ID_Semester IN (SELECT
     ID_Semester
   FROM Semester
@@ -452,10 +475,10 @@ RETURNS TABLE
 AS
   RETURN
   SELECT sc.ID_Schedule
-  FROM Schedule sc JOIN
+FROM Schedule sc JOIN
   Course_Offering co ON sc.ID_Course_Offering = co.ID_Course_Offering JOIN
   Course c ON co.ID_Course = c.ID_Course
-  WHERE sc.Id_Profeesor IS NULL
+WHERE sc.Id_Profeesor IS NULL
   AND (c.ID_Faculty = (SELECT
     pf.ID_Faculty
   FROM Professor pf
@@ -468,9 +491,9 @@ RETURNS TABLE
 AS
   RETURN	
   SELECT sc.Start_Slot
-  FROM Schedule sc JOIN
+FROM Schedule sc JOIN
   Professor_Schedule prc ON sc.ID_Schedule = prc.ID_Schedule
-  WHERE prc.ID_Professor = @ID_Professor
+WHERE prc.ID_Professor = @ID_Professor
   AND prc.ID_Semester IN (SELECT
     ID_Semester
   FROM Semester
@@ -489,9 +512,9 @@ RETURNS TABLE
 AS
   RETURN
   SELECT sc.ID_Schedule
-  FROM Schedule sc JOIN
+FROM Schedule sc JOIN
   Course_Offering co ON co.ID_Course_Offering = sc.ID_Course_Offering
-  WHERE (sc.Start_Slot IN (SELECT
+WHERE (sc.Start_Slot IN (SELECT
     Start_Slot
   FROM check_Start_Slot_Teach_Day_PR(@ID_Professor, sc.Start_Slot, sc.Teaching_Day))
   OR co.ID_Course IN (SELECT
@@ -508,14 +531,14 @@ RETURNS TABLE
 AS
   RETURN
   SELECT c.ID_Course,
-         c.Name_Course,
-         c.Course_certificate,
-         sp.Score,
-         sp.Score_System_4
-  FROM Sub_Pass sp JOIN
+  c.Name_Course,
+  c.Course_certificate,
+  sp.Score,
+  sp.Score_System_4
+FROM Sub_Pass sp JOIN
   Course c ON sp.ID_Course = c.ID_Course
 
-  WHERE sp.ID_Student = @ID_Student
+WHERE sp.ID_Student = @ID_Student
   AND sp.ID_Semester = @ID_Semester
 GO
 
@@ -1043,8 +1066,18 @@ go
 ---- AND st.ID_Student = '18130005'
 
 
-select * from Sub_Pass where ID_Semester = '2018_1'  ORDER BY ID_Student
-select * from Final_Result
-select * from semester_Result where ID_Semester = '2018_1'  ORDER BY ID_Student
-SELECT * FROM Sub_Pass sp WHERE  sp.ID_Student = '18130005'
-select * from Student
+select *
+from Sub_Pass
+where ID_Semester = '2018_1'
+ORDER BY ID_Student
+select *
+from Final_Result
+select *
+from semester_Result
+where ID_Semester = '2018_1'
+ORDER BY ID_Student
+SELECT *
+FROM Sub_Pass sp
+WHERE  sp.ID_Student = '18130005'
+select *
+from Student

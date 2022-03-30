@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import code.backend.helpers.advice.CustomException;
 import code.backend.persitence.entities.Account;
 import code.backend.persitence.entities.RefreshToken;
 import code.backend.persitence.entities.ResetToken;
@@ -94,11 +95,11 @@ public class TokenUtils {
         try {
             ResetToken resetToken = resetTokenRepository.findByResetTokenContent(token);
             if (resetToken.getResetTokenExpires().before(new Date())) {
-                return null;
+                throw new CustomException("Token expired !!!");
             }
             return resetToken.getAccount();
         } catch (Exception e) {
-            return null;
+            throw new CustomException("Can't find token !!!");
         }
     }
 

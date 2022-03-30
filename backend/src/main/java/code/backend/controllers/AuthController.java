@@ -1,6 +1,5 @@
 package code.backend.controllers;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,8 +39,7 @@ public class AuthController {
     AccountService accountService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest model, HttpServletRequest request)
-            throws IllegalAccessException, InvocationTargetException {
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest model, HttpServletRequest request) {
         accountService.register(model, request.getHeader("origin"));
         return ResponseEntity.ok(
                 new MessageResponse("Registration successful, please check your email for verification instructions"));
@@ -57,21 +55,14 @@ public class AuthController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticate(@Valid @RequestBody AuthenticateRequest model,
-            HttpServletResponse servletResponse)
-            throws IllegalAccessException, InvocationTargetException {
+            HttpServletResponse servletResponse) {
         var response = accountService.authenticate(model, controlerUtils.ipAddress());
-        if (response == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new MessageResponse("Wrong password or Not Active yet !!!"));
-        } else {
-            controlerUtils.setTokenCookie(servletResponse, response.getRefreshToken());
-            return ResponseEntity.ok(response);
-        }
+        controlerUtils.setTokenCookie(servletResponse, response.getRefreshToken());
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/refresh-token")
-    public ResponseEntity<?> refreshToken(HttpServletResponse servletResponse)
-            throws IllegalAccessException, InvocationTargetException {
+    public ResponseEntity<?> refreshToken(HttpServletResponse servletResponse) {
         String refreshToken = controlerUtils.getSingleFormCookie("refreshToken");
         var response = accountService.refreshToken(refreshToken, controlerUtils.ipAddress());
         try {

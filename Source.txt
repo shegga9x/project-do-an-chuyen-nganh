@@ -1,3 +1,6 @@
 Template
 https://github.com/radwan503/Managment--Education
-ssss
+Spring jwt
+https://www.bezkoder.com/spring-boot-jwt-authentication/
+C# jwt + FrameWork
+https://jasonwatmore.com/post/2022/02/26/net-6-boilerplate-api-tutorial-with-email-sign-up-verification-authentication-forgot-password
