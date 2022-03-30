@@ -38,7 +38,7 @@ public class JwtUtils {
         return Jwts.builder()
                 .setSubject(account.getEmail())
                 .claim("email", account.getEmail())
-                .claim("birthday", account.getLastExpires().toString())
+                .claim("birthday", account.getLastExpires().toInstant().toString())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
