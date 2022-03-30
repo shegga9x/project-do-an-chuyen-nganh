@@ -109,7 +109,7 @@ public class AccountService {
         Account account = accountRepository.findByEmail(model.email).get();
         if (account == null || account.getVerificationToken().getVerified() == null
                 || !encoder.matches(model.password, account.getPasswordHash())) {
-                    throw new CustomException("Wrong password or Not Active yet !!!");
+            throw new CustomException("Wrong password or Not Active yet !!!");
         } else {
             account.setLastExpires(new Date());
             // delete OldRefreshTokens
@@ -143,7 +143,6 @@ public class AccountService {
             refreshToken = refreshTokenRepository.findByToken(token).get();
         } catch (Exception e) {
             throw new CustomException("Can't find token !!!");
-            
         }
 
         Account account = refreshToken.getAccount();
@@ -154,15 +153,15 @@ public class AccountService {
         }
         if (!refreshToken.IsActive()) {
             throw new CustomException("Token is UnActive !!!");
-            
+
         }
         RefreshToken newRefreshToken = tokenUtils.rotateRefreshToken(refreshToken, ipAddress);
         refreshToken = tokenUtils.revokeRefreshToken(refreshToken, ipAddress, "Replaced by new token",
                 newRefreshToken.getToken());
         tokenUtils.removeOldRefreshTokens(account);
-        refreshTokenRepository.save(refreshToken);
-        refreshTokenRepository.save(newRefreshToken);
 
+        account.addToListOfRefreshToken(newRefreshToken);
+        account.addToListOfRefreshToken(refreshToken);
         account.setLastExpires(new Date());
         String jwtToken = jwtUtils.generateJwtToken(account);
         List<String> roles = new ArrayList<>();
@@ -179,7 +178,7 @@ public class AccountService {
         } catch (Exception e) {
             throw new CustomException("Error Mapper");
         }
-
+        accountRepository.save(account);
         return response;
     }
 

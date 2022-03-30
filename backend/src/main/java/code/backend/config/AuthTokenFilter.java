@@ -12,12 +12,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import code.backend.helpers.utils.JwtUtils;
+import code.backend.persitence.model.UserDetailCustom;
 import code.backend.service.subService.UserDetailsCustomService;
 
 public class AuthTokenFilter extends OncePerRequestFilter {
@@ -34,11 +34,16 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 String email = jwtUtils.getAllClaimsFromToken(jwt).get("email").toString();
-                UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                String lastExpires = jwtUtils.getAllClaimsFromToken(jwt).get("birthday").toString();
+                UserDetailCustom userDetails = (UserDetailCustom) userDetailsService.loadUserByUsername(email);
+                if (!userDetails.getLastExpireds().toInstant().toString().equals(lastExpires)) {
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Old Token");
+                } else {
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                            userDetails, null, userDetails.getAuthorities());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
             }
         } catch (Exception e) {
             logger.error("Cannot set user authentication: {}", e);

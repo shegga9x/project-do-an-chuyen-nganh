@@ -1,6 +1,7 @@
 package code.backend.persitence.model;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -20,18 +21,20 @@ public class UserDetailCustom implements UserDetails {
     private String username;
     private String email;
     private List<RefreshToken> listOfRefreshToken;
+    private Date lastExpireds;
     @JsonIgnore
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
     public UserDetailCustom(String id, String username, String email, String password,
-            List<RefreshToken> listOfRefreshToken,
+            List<RefreshToken> listOfRefreshToken, Date lastExpireds,
             Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.listOfRefreshToken = listOfRefreshToken;
+        this.lastExpireds = lastExpireds;
         this.authorities = authorities;
     }
 
@@ -45,6 +48,7 @@ public class UserDetailCustom implements UserDetails {
                 user.getEmail(),
                 user.getPasswordHash(),
                 user.getListOfRefreshToken(),
+                user.getLastExpires(),
                 authorities);
     }
 
@@ -113,6 +117,14 @@ public class UserDetailCustom implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Date getLastExpireds() {
+        return this.lastExpireds;
+    }
+
+    public void setLastExpireds(Date lastExpireds) {
+        this.lastExpireds = lastExpireds;
     }
 
     @Override

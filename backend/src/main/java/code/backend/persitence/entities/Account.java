@@ -159,6 +159,10 @@ public class Account implements Serializable {
     public List<RefreshToken> getListOfRefreshToken() {
         return this.listOfRefreshToken;
     }
+    public void addToListOfRefreshToken(RefreshToken refreshToken) {
+        this.listOfRefreshToken.add(refreshToken);
+        setListOfRefreshToken(this.listOfRefreshToken);
+    }
 
     public ResetToken getResetToken() {
         return this.resetToken;

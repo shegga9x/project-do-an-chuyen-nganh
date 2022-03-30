@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -107,6 +108,12 @@ public class AuthController {
         accountService.resetPassword(model);
         return ResponseEntity.ok(
                 new MessageResponse("Password reset successful, you can now login"));
+    }
+
+    @GetMapping("/error")
+    public ResponseEntity<?> errorPage() {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Old JWT"));
+
     }
 
 }
