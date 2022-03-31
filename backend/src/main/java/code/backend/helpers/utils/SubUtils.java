@@ -30,6 +30,7 @@ public class SubUtils {
         try {
             BeanUtils.copyProperties(to, from);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new CustomException("Error Mapper");
         }
         return to;

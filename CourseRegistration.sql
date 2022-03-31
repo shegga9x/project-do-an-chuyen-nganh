@@ -19,9 +19,7 @@ create table Role
   [role_name] [int] NOT NULL,
   PRIMARY KEY ([id])
 )
-
 --dữ liệu bảng Privilege
-
 create table Privilege
 (
   id int IDENTITY(1,1) PRIMARY KEY,
@@ -40,15 +38,13 @@ CREATE TABLE ACCOUNT
   [accept_terms] [bit] ,
   PRIMARY KEY (ID_ACCOUNT)
 )
-CREATE TABLE ACCOUNT_has_role
+CREATE TABLE ACCOUNT_Has_Role
 (
   ID_ACCOUNT nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT),
   [id] int NOT NULL FOREIGN KEY REFERENCES Role ([id]),
   PRIMARY KEY (ID_ACCOUNT,[id])
 )
-
-
-CREATE TABLE ACCOUNT_detail
+CREATE TABLE ACCOUNT_Detail
 (
   ID_ACCOUNT nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT),
   first_name nvarchar(max) ,
@@ -58,9 +54,7 @@ CREATE TABLE ACCOUNT_detail
   birthday smalldatetime ,
   PRIMARY KEY (ID_ACCOUNT)
 )
-
-
-CREATE TABLE refresh_token
+CREATE TABLE Refresh_Token
 (
   [id] [int] IDENTITY(1,1) NOT NULL,
   [token] [nvarchar](max) NULL,
@@ -74,15 +68,14 @@ CREATE TABLE refresh_token
   [account_id] nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT),
   PRIMARY KEY ([id])
 )
-CREATE TABLE verification_token
+CREATE TABLE Verification_Token
 (
   ID_ACCOUNT nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT),
   [verification_token_content] [nvarchar](max) NULL,
   [verified] [datetime2](7) NULL,
   PRIMARY KEY (ID_ACCOUNT)
 )
-
-CREATE TABLE [dbo].[reset_token]
+CREATE TABLE Reset_Token
 (
   ID_ACCOUNT nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT),
   [reset_token_content] [nvarchar](max) NULL,
@@ -99,7 +92,6 @@ CREATE TABLE Faculty
 
   PRIMARY KEY (ID_Faculty)
 )
-
 CREATE TABLE Clazz
 (
   -- mã khoa (VD DH18DTA thì mã khoa là DT)
@@ -109,7 +101,6 @@ CREATE TABLE Clazz
   Current_Size tinyint NOT NULL,
   PRIMARY KEY (Clazz_code)
 )
-
 CREATE TABLE Student
 (
   ID_Student nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT) ON DELETE CASCADE,
@@ -130,7 +121,6 @@ CREATE TABLE Student
   -- Tính năng mới
   PRIMARY KEY (ID_Student)
 )
-
 CREATE TABLE Professor
 (
   ID_Professor nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT) ON DELETE CASCADE,
@@ -144,7 +134,6 @@ CREATE TABLE Professor
   Degree nvarchar(50),
   PRIMARY KEY (ID_Professor)
 )
-
 CREATE TABLE Semester
 (
   ID_Semester nvarchar(50) NOT NULL,
@@ -154,7 +143,6 @@ CREATE TABLE Semester
   number_S smallint NOT NULL
     PRIMARY KEY (ID_Semester)
 )
-
 CREATE TABLE Time_For_Course_Register
 (
   ID_Semester nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Semester (ID_Semester),
@@ -162,7 +150,6 @@ CREATE TABLE Time_For_Course_Register
   end_Date date NOT NULL,
   PRIMARY KEY (ID_Semester)
 )
-
 CREATE TABLE Course
 (
   ID_Course nvarchar(50) NOT NULL,
@@ -176,7 +163,6 @@ CREATE TABLE Course
   number_S smallint
     PRIMARY KEY (ID_Course)
 )
-
 CREATE TABLE Course_Offering
 (
   ID_Course_Offering nvarchar(50) NOT NULL,
@@ -192,7 +178,6 @@ CREATE TABLE Course_Offering
   -- ngày bắt đầu
   PRIMARY KEY (ID_Course_Offering)
 )
-
 CREATE TABLE Schedule
 (
   ID_Schedule nvarchar(50) NOT NULL,
@@ -217,7 +202,6 @@ CREATE TABLE Schedule
   End_Slot tinyint NOT NULL,
   PRIMARY KEY (ID_Schedule)
 )
-
 CREATE TABLE Student_Schedule
 (
   ID_Semester nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Semester (ID_Semester),
@@ -239,13 +223,12 @@ CREATE TABLE Professor_Schedule
   ID_Professor nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Professor (ID_Professor) ON DELETE CASCADE,
   PRIMARY KEY (ID_Professor, ID_Semester, ID_Schedule)
 )
-CREATE TABLE front_Sub
+CREATE TABLE Front_Sub
 (
   ID_Course_B nvarchar(50),
   ID_Course nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Course (ID_Course),
   PRIMARY KEY (ID_Course)
 )
-
 CREATE TABLE Sub_Pass -- sub pass ko co id mon hoc la vi id mon hoc trong schedule /thay hoi sai =))
 (
   -- Học kỳ
@@ -260,8 +243,7 @@ CREATE TABLE Sub_Pass -- sub pass ko co id mon hoc la vi id mon hoc trong schedu
   Rated nvarchar(10) NOT NULL,
   PRIMARY KEY (ID_Student, ID_Course, ID_Semester)
 )
-
-CREATE TABLE semester_Result
+CREATE TABLE Semester_Result
 (
   ID_Semester nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Semester (ID_Semester),
   ID_Student nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Student (ID_Student) ON DELETE CASCADE,
@@ -272,7 +254,6 @@ CREATE TABLE semester_Result
   credit_Get smallint,
   PRIMARY KEY (ID_Semester, ID_Student)
 )
-
 CREATE TABLE Final_Result
 (
   ID_Student nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Student (ID_Student),
@@ -280,7 +261,6 @@ CREATE TABLE Final_Result
   grade_Av_4 float,
   PRIMARY KEY (ID_Student)
 )
-
 CREATE TABLE Billing_System
 (
   ID_Semester nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Semester (ID_Semester),
@@ -600,6 +580,10 @@ insert into ACCOUNT Values(N'220',N'220@st.hcmuaf.edu.vn',N'$2a$10$g/AIRfhpFhGPj
 insert into ACCOUNT Values(N'300',N'300@st.hcmuaf.edu.vn',N'$2a$10$g/AIRfhpFhGPjAnUw5m8qu974.uI71HwrBpjXeYQu4khl8KI.4VgS',getdate(),null,null,1)
 
 
+
+
+
+
 --dữ liệu bảng Faculty
 INSERT INTO Faculty VALUES ('DT', 130,N'Khoa Công Nghệ Thông Tin')
 INSERT INTO Faculty VALUES ('TY', 131,N'Khoa Thú Y')
@@ -636,28 +620,47 @@ insert into ACCOUNT_has_role VALUES (N'220',2) ;
 insert into ACCOUNT_has_role VALUES (N'300',2) ;
 
 ----dữ liệu bảng ACCOUNT_detail
---insert into ACCOUNT_detail VALUES (N'18130005','','','','','10/20/2018')
---insert into ACCOUNT_detail VALUES (N'18130077','','','','','10/20/2018')
---insert into ACCOUNT_detail VALUES (N'18130001','','','','','10/20/2018')
---insert into ACCOUNT_detail VALUES (N'18130002','','','','','10/20/2018')
---insert into ACCOUNT_detail VALUES (N'18130003','','','','','10/20/2018')
---insert into ACCOUNT_detail VALUES (N'18130004','','','','','10/20/2018')
---insert into ACCOUNT_detail VALUES (N'18130006','','','','','10/20/2018')
---insert into ACCOUNT_detail VALUES (N'19130006','','','','','10/20/2018')
---insert into ACCOUNT_detail VALUES (N'19130007','','','','','10/20/2018')
---insert into ACCOUNT_detail VALUES (N'20130006','','','','','10/20/2018')
---insert into ACCOUNT_detail VALUES (N'20130007','','','','','10/20/2018')
+insert into ACCOUNT_detail VALUES (N'18130005','','','','','10/20/2018')
+insert into ACCOUNT_detail VALUES (N'18130077','','','','','10/20/2018')
+insert into ACCOUNT_detail VALUES (N'18130001','','','','','10/20/2018')
+insert into ACCOUNT_detail VALUES (N'18130002','','','','','10/20/2018')
+insert into ACCOUNT_detail VALUES (N'18130003','','','','','10/20/2018')
+insert into ACCOUNT_detail VALUES (N'18130004','','','','','10/20/2018')
+insert into ACCOUNT_detail VALUES (N'18130006','','','','','10/20/2018')
+insert into ACCOUNT_detail VALUES (N'19130006','','','','','10/20/2018')
+insert into ACCOUNT_detail VALUES (N'19130007','','','','','10/20/2018')
+insert into ACCOUNT_detail VALUES (N'20130006','','','','','10/20/2018')
+insert into ACCOUNT_detail VALUES (N'20130007','','','','','10/20/2018')
 
---insert into ACCOUNT_detail VALUES (N'pdt','','','','','10/20/2018')
+insert into ACCOUNT_detail VALUES (N'pdt','','','','','10/20/2018')
 
---insert into ACCOUNT_detail VALUES (N'224','','','','','10/20/2018')
---insert into ACCOUNT_detail VALUES (N'225','','','','','10/20/2018')
---insert into ACCOUNT_detail VALUES (N'226','','','','','10/20/2018')
---insert into ACCOUNT_detail VALUES (N'227','','','','','10/20/2018')
---insert into ACCOUNT_detail VALUES (N'228','','','','','10/20/2018')
---insert into ACCOUNT_detail VALUES (N'229','','','','','10/20/2018')
---insert into ACCOUNT_detail VALUES (N'220','','','','','10/20/2018')
---insert into ACCOUNT_detail VALUES (N'300','','','','','10/20/2018')
+insert into ACCOUNT_detail VALUES (N'224','','','','','10/20/2018')
+insert into ACCOUNT_detail VALUES (N'225','','','','','10/20/2018')
+insert into ACCOUNT_detail VALUES (N'226','','','','','10/20/2018')
+insert into ACCOUNT_detail VALUES (N'227','','','','','10/20/2018')
+insert into ACCOUNT_detail VALUES (N'228','','','','','10/20/2018')
+insert into ACCOUNT_detail VALUES (N'229','','','','','10/20/2018')
+insert into ACCOUNT_detail VALUES (N'220','','','','','10/20/2018')
+insert into ACCOUNT_detail VALUES (N'300','','','','','10/20/2018')
+-- dữ liệu bảng Vertification Token
+insert into Verification_Token VALUES (N'18130005',null,getdate())
+insert into Verification_Token VALUES (N'18130077',null,getdate())
+insert into Verification_Token VALUES (N'18130001',null,getdate())
+insert into Verification_Token VALUES (N'18130002',null,getdate())
+insert into Verification_Token VALUES (N'18130003',null,getdate())
+insert into Verification_Token VALUES (N'18130004',null,getdate())
+insert into Verification_Token VALUES (N'19130007',null,getdate())
+insert into Verification_Token VALUES (N'20130006',null,getdate())
+insert into Verification_Token VALUES (N'20130007',null,getdate())
+insert into Verification_Token VALUES (N'224',null,getdate())
+insert into Verification_Token VALUES (N'225',null,getdate())
+insert into Verification_Token VALUES (N'226',null,getdate())
+insert into Verification_Token VALUES (N'227',null,getdate())
+insert into Verification_Token VALUES (N'228',null,getdate())
+insert into Verification_Token VALUES (N'229',null,getdate())
+insert into Verification_Token VALUES (N'220',null,getdate())
+insert into Verification_Token VALUES (N'300',null,getdate())
+insert into Verification_Token VALUES (N'pdt',null,getdate())
 -- dữ liệu bảng Clazz
 insert into Clazz Values(N'DH18DTA','DT',100,0)
 insert into Clazz Values(N'DH19DTA','DT',100,0)

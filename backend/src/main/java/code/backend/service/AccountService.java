@@ -26,8 +26,8 @@ import code.backend.persitence.entities.AccountDetail;
 import code.backend.persitence.entities.RefreshToken;
 import code.backend.persitence.entities.ResetToken;
 import code.backend.persitence.entities.Role;
-import code.backend.persitence.entities.RoleEnum;
 import code.backend.persitence.entities.VerificationToken;
+import code.backend.persitence.enumModel.RoleEnum;
 import code.backend.persitence.repository.AccountRepository;
 import code.backend.persitence.repository.RefreshTokenRepository;
 import code.backend.persitence.repository.ResetTokenRepository;
@@ -67,6 +67,8 @@ public class AccountService {
         Account account = new Account();
         account.setIdAccount(UUID.randomUUID().toString());
         AccountDetail accountDetail = new AccountDetail(account.getIdAccount());
+        accountDetail = (AccountDetail) SubUtils.mapperObject(model, accountDetail);
+        account.setAccountDetail(accountDetail);
         account = (Account) SubUtils.mapperObject(model, account);
         // first registered account is an admin
         account.setCreated(new Date());
@@ -206,7 +208,8 @@ public class AccountService {
     }
 
     public List<AccountResponse> getAll() {
-        List<AccountResponse> accountResponses = (List<AccountResponse>) SubUtils.mapperList(accountRepository.findAll(),
+        List<AccountResponse> accountResponses = (List<AccountResponse>) SubUtils.mapperList(
+                accountRepository.findAll(),
                 new AccountResponse());
         return accountResponses;
     }
