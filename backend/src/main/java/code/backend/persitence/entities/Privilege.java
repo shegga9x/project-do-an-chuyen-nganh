@@ -14,75 +14,76 @@ import javax.persistence.*;
  *
  */
 @Entity
-@Table(name="Privilege", schema="dbo", catalog="Course_Registration" )
+@Table(name = "Privilege", schema = "dbo", catalog = "Course_Registration")
 public class Privilege implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    //--- ENTITY PRIMARY KEY 
+    // --- ENTITY PRIMARY KEY
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="id", nullable=false)
-    private Integer    id ;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
-    //--- ENTITY DATA FIELDS 
-    @Column(name="ID_Role", nullable=false)
-    private Integer    idRole ;
+    // --- ENTITY DATA FIELDS
+    @Column(name = "ID_Role", nullable = false)
+    private Integer idRole;
 
-    @Column(name="Name_Privilege", nullable=false, length=50)
-    private String     namePrivilege ;
+    @Column(name = "Name_Privilege", nullable = false, length = 50)
+    private String namePrivilege;
 
-
-    //--- ENTITY LINKS ( RELATIONSHIP )
+    // --- ENTITY LINKS ( RELATIONSHIP )
     @ManyToOne
-    @JoinColumn(name="ID_Role", referencedColumnName="id", insertable=false, updatable=false)
-    private Role       role ; 
-
-
+    @JoinColumn(name = "ID_Role", referencedColumnName = "id", insertable = false, updatable = false)
+    private Role role;
+    
     /**
      * Constructor
      */
     public Privilege() {
-		super();
+        super();
     }
-    
-    //--- GETTERS & SETTERS FOR FIELDS
-    public void setId( Integer id ) {
-        this.id = id ;
+
+    // --- GETTERS & SETTERS FOR FIELDS
+    public void setId(Integer id) {
+        this.id = id;
     }
+
     public Integer getId() {
         return this.id;
     }
 
-    public void setIdRole( Integer idRole ) {
-        this.idRole = idRole ;
+    public void setIdRole(Integer idRole) {
+        this.idRole = idRole;
     }
+
     public Integer getIdRole() {
         return this.idRole;
     }
 
-    public void setNamePrivilege( String namePrivilege ) {
-        this.namePrivilege = namePrivilege ;
+    public void setNamePrivilege(String namePrivilege) {
+        this.namePrivilege = namePrivilege;
     }
+
     public String getNamePrivilege() {
         return this.namePrivilege;
     }
 
-    //--- GETTERS FOR LINKS
+    // --- GETTERS FOR LINKS
     public Role getRole() {
         return this.role;
-    } 
+    }
 
-    //--- toString specific method
-	@Override
-    public String toString() { 
-        StringBuilder sb = new StringBuilder(); 
+    // --- toString specific method
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
         sb.append(id);
         sb.append("|");
         sb.append(idRole);
         sb.append("|");
         sb.append(namePrivilege);
-        return sb.toString(); 
-    } 
+        return sb.toString();
+    }
 
 }

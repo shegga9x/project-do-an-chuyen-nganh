@@ -91,4 +91,19 @@ public class AccountResponse {
         this.isVerified = isVerified;
     }
 
+    @Override
+    public String toString() {
+        return "{" +
+            " idAccount='" + getIdAccount() + "'" +
+            ", title='" + getTitle() + "'" +
+            ", firstName='" + getFirstName() + "'" +
+            ", lastName='" + getLastName() + "'" +
+            ", email='" + getEmail() + "'" +
+            ", role='" + getRole() + "'" +
+            ", created='" + getCreated() + "'" +
+            ", updated='" + getUpdated() + "'" +
+            ", isVerified='" + isIsVerified() + "'" +
+            "}";
+    }
+
 }

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,6 +17,7 @@ import code.backend.helpers.payload.request.ForgotPasswordRequest;
 import code.backend.helpers.payload.request.RegisterRequest;
 import code.backend.helpers.payload.request.ResetPasswordRequest;
 import code.backend.helpers.payload.request.ValidateResetTokenRequest;
+import code.backend.helpers.payload.response.AccountResponse;
 import code.backend.helpers.payload.response.AuthenticateResponse;
 import code.backend.helpers.utils.JwtUtils;
 import code.backend.helpers.utils.SubUtils;
@@ -25,8 +27,8 @@ import code.backend.persitence.entities.AccountDetail;
 import code.backend.persitence.entities.RefreshToken;
 import code.backend.persitence.entities.ResetToken;
 import code.backend.persitence.entities.Role;
-import code.backend.persitence.entities.RoleEnum;
 import code.backend.persitence.entities.VerificationToken;
+import code.backend.persitence.enumModel.RoleEnum;
 import code.backend.persitence.repository.AccountRepository;
 import code.backend.persitence.repository.RefreshTokenRepository;
 import code.backend.persitence.repository.ResetTokenRepository;
@@ -34,6 +36,7 @@ import code.backend.persitence.repository.VerificationTokenRepository;
 import code.backend.service.subService.EmailService;
 
 @Service
+@SuppressWarnings("unchecked")
 public class AccountService {
     @Value("${bezkoder.app.jwtRefreshExpirationMs}")
     private int jwtRefreshExpirationMs;
@@ -65,6 +68,8 @@ public class AccountService {
         Account account = new Account();
         account.setIdAccount(UUID.randomUUID().toString());
         AccountDetail accountDetail = new AccountDetail(account.getIdAccount());
+        accountDetail = (AccountDetail) SubUtils.mapperObject(model, accountDetail);
+        account.setAccountDetail(accountDetail);
         account = (Account) SubUtils.mapperObject(model, account);
         // first registered account is an admin
         account.setCreated(new Date());
@@ -72,7 +77,7 @@ public class AccountService {
         account.setAcceptTerms(true);
         account.setLastExpires(new Date());
         boolean isFirstAccount = accountRepository.findAll().size() == 0;
-        RoleEnum roleEnum = (isFirstAccount ? RoleEnum.Admin : RoleEnum.User);
+        RoleEnum roleEnum = (isFirstAccount ? RoleEnum.Admin : RoleEnum.Student);
         List<Role> roles = new ArrayList<>(List.of(new Role(roleEnum)));
         account.setListOfRole(roles);
         VerificationToken verificationToken = new VerificationToken(account.getIdAccount(),
@@ -203,7 +208,13 @@ public class AccountService {
         accountRepository.save(account);
     }
 
-    public List<Account> getAll() {
-        return accountRepository.findAll();
+    public List<AccountResponse> getAll() {
+        List<AccountResponse> listRespone = new ArrayList<>();
+        for (Account account : accountRepository.findAll()) {
+            AccountResponse objectToReturn = new AccountResponse();
+            objectToReturn = (AccountResponse) SubUtils.mapperObject(account, objectToReturn);
+            listRespone.add(objectToReturn);
+        }
+        return listRespone;
     }
 }
