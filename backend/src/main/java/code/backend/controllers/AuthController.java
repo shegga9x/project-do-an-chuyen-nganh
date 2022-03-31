@@ -25,7 +25,6 @@ import code.backend.helpers.payload.request.RegisterRequest;
 import code.backend.helpers.payload.request.ResetPasswordRequest;
 import code.backend.helpers.payload.request.ValidateResetTokenRequest;
 import code.backend.helpers.payload.request.VerifyEmailRequest;
-import code.backend.helpers.payload.response.AccountResponse;
 import code.backend.helpers.payload.response.MessageResponse;
 import code.backend.helpers.utils.ControlerUtils;
 import code.backend.helpers.utils.SubUtils;
@@ -35,7 +34,6 @@ import code.backend.service.AccountService;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/accounts")
-@SuppressWarnings("unchecked")
 public class AuthController {
     @Autowired
     ControlerUtils controlerUtils;
@@ -115,10 +113,8 @@ public class AuthController {
 
     @PreAuthorize("hasRole('ROLE_Admin')")
     @GetMapping("")
-    public ResponseEntity<?> errorPage() {
-        List<AccountResponse> accountResponses = (List<AccountResponse>) SubUtils.mapperList(accountService.getAll(),
-                new AccountResponse());
-        return ResponseEntity.ok(accountResponses);
+    public ResponseEntity<?> getAll() {
+        return ResponseEntity.ok(accountService.getAll());
     }
 
 }

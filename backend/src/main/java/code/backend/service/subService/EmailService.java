@@ -36,9 +36,6 @@ public class EmailService {
     public void sendVerificationEmail(Account account, String origin, VerificationToken verificationToken) {
         String message;
         if (!SubUtils.isNullOrBlank(origin)) {
-            // origin exists if request sent from browser single page app (e.g. Angular or
-            // React)
-            // so send link to verify via single page app
             String verifyUrl = MessageFormat.format(
                     "{0}/account/verify-email?token={1}", origin,
                     verificationToken.getVerificationTokenContent());
@@ -46,8 +43,7 @@ public class EmailService {
                     "<p>Please click the below link to verify your email address:</p><p><a href=\"\"{0}\"\">{0}</a></p>",
                     verifyUrl);
         } else {
-            // origin missing if request sent directly to api (e.g. from Postman)
-            // so send instructions to verify directly with api
+
             message = MessageFormat.format(
                     "<p>Please use the below token to verify your email address with the <code>/accounts/verify-email</code> api route:</p><p><code>{0}</code></p>",
                     account.getVerificationToken().getVerificationTokenContent());

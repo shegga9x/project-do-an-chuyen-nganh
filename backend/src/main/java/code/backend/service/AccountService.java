@@ -16,6 +16,7 @@ import code.backend.helpers.payload.request.ForgotPasswordRequest;
 import code.backend.helpers.payload.request.RegisterRequest;
 import code.backend.helpers.payload.request.ResetPasswordRequest;
 import code.backend.helpers.payload.request.ValidateResetTokenRequest;
+import code.backend.helpers.payload.response.AccountResponse;
 import code.backend.helpers.payload.response.AuthenticateResponse;
 import code.backend.helpers.utils.JwtUtils;
 import code.backend.helpers.utils.SubUtils;
@@ -34,6 +35,7 @@ import code.backend.persitence.repository.VerificationTokenRepository;
 import code.backend.service.subService.EmailService;
 
 @Service
+@SuppressWarnings("unchecked")
 public class AccountService {
     @Value("${bezkoder.app.jwtRefreshExpirationMs}")
     private int jwtRefreshExpirationMs;
@@ -72,7 +74,7 @@ public class AccountService {
         account.setAcceptTerms(true);
         account.setLastExpires(new Date());
         boolean isFirstAccount = accountRepository.findAll().size() == 0;
-        RoleEnum roleEnum = (isFirstAccount ? RoleEnum.Admin : RoleEnum.User);
+        RoleEnum roleEnum = (isFirstAccount ? RoleEnum.Admin : RoleEnum.Student);
         List<Role> roles = new ArrayList<>(List.of(new Role(roleEnum)));
         account.setListOfRole(roles);
         VerificationToken verificationToken = new VerificationToken(account.getIdAccount(),
@@ -203,7 +205,9 @@ public class AccountService {
         accountRepository.save(account);
     }
 
-    public List<Account> getAll() {
-        return accountRepository.findAll();
+    public List<AccountResponse> getAll() {
+        List<AccountResponse> accountResponses = (List<AccountResponse>) SubUtils.mapperList(accountRepository.findAll(),
+                new AccountResponse());
+        return accountResponses;
     }
 }
