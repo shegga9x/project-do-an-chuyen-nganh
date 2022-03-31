@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -208,9 +209,12 @@ public class AccountService {
     }
 
     public List<AccountResponse> getAll() {
-        List<AccountResponse> accountResponses = (List<AccountResponse>) SubUtils.mapperList(
-                accountRepository.findAll(),
-                new AccountResponse());
-        return accountResponses;
+        List<AccountResponse> listRespone = new ArrayList<>();
+        for (Account account : accountRepository.findAll()) {
+            AccountResponse objectToReturn = new AccountResponse();
+            objectToReturn = (AccountResponse) SubUtils.mapperObject(account, objectToReturn);
+            listRespone.add(objectToReturn);
+        }
+        return listRespone;
     }
 }

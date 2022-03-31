@@ -567,7 +567,7 @@ insert into ACCOUNT Values(N'20130006',N'20130006@st.hcmuaf.edu.vn',N'$2a$10$g/A
 insert into ACCOUNT Values(N'20130007',N'20130007@st.hcmuaf.edu.vn',N'$2a$10$g/AIRfhpFhGPjAnUw5m8qu974.uI71HwrBpjXeYQu4khl8KI.4VgS',getdate(),null,null,1)
 
 
-insert into ACCOUNT Values('pdt','pdt','$2a$10$g/AIRfhpFhGPjAnUw5m8qu974.uI71HwrBpjXeYQu4khl8KI.4VgS',getdate(),null,null,1)
+insert into ACCOUNT Values('pdt','pdt@st.hcmuaf.edu.vn','$2a$10$g/AIRfhpFhGPjAnUw5m8qu974.uI71HwrBpjXeYQu4khl8KI.4VgS',getdate(),null,null,1)
 
 
 insert into ACCOUNT Values(N'224',N'224@st.hcmuaf.edu.vn',N'$2a$10$g/AIRfhpFhGPjAnUw5m8qu974.uI71HwrBpjXeYQu4khl8KI.4VgS',getdate(),null,null,1)
@@ -578,10 +578,6 @@ insert into ACCOUNT Values(N'228',N'228@st.hcmuaf.edu.vn',N'$2a$10$g/AIRfhpFhGPj
 insert into ACCOUNT Values(N'229',N'229@st.hcmuaf.edu.vn',N'$2a$10$g/AIRfhpFhGPjAnUw5m8qu974.uI71HwrBpjXeYQu4khl8KI.4VgS',getdate(),null,null,1)
 insert into ACCOUNT Values(N'220',N'220@st.hcmuaf.edu.vn',N'$2a$10$g/AIRfhpFhGPjAnUw5m8qu974.uI71HwrBpjXeYQu4khl8KI.4VgS',getdate(),null,null,1)
 insert into ACCOUNT Values(N'300',N'300@st.hcmuaf.edu.vn',N'$2a$10$g/AIRfhpFhGPjAnUw5m8qu974.uI71HwrBpjXeYQu4khl8KI.4VgS',getdate(),null,null,1)
-
-
-
-
 
 
 --dữ liệu bảng Faculty
@@ -620,28 +616,28 @@ insert into ACCOUNT_has_role VALUES (N'220',2) ;
 insert into ACCOUNT_has_role VALUES (N'300',2) ;
 
 ----dữ liệu bảng ACCOUNT_detail
-insert into ACCOUNT_detail VALUES (N'18130005','','','','','10/20/2018')
-insert into ACCOUNT_detail VALUES (N'18130077','','','','','10/20/2018')
-insert into ACCOUNT_detail VALUES (N'18130001','','','','','10/20/2018')
-insert into ACCOUNT_detail VALUES (N'18130002','','','','','10/20/2018')
-insert into ACCOUNT_detail VALUES (N'18130003','','','','','10/20/2018')
-insert into ACCOUNT_detail VALUES (N'18130004','','','','','10/20/2018')
-insert into ACCOUNT_detail VALUES (N'18130006','','','','','10/20/2018')
-insert into ACCOUNT_detail VALUES (N'19130006','','','','','10/20/2018')
-insert into ACCOUNT_detail VALUES (N'19130007','','','','','10/20/2018')
-insert into ACCOUNT_detail VALUES (N'20130006','','','','','10/20/2018')
-insert into ACCOUNT_detail VALUES (N'20130007','','','','','10/20/2018')
+insert into ACCOUNT_detail VALUES (N'18130005','','','','','20/10/2018')
+insert into ACCOUNT_detail VALUES (N'18130077','','','','','20/10/2018')
+insert into ACCOUNT_detail VALUES (N'18130001','','','','','20/10/2018')
+insert into ACCOUNT_detail VALUES (N'18130002','','','','','20/10/2018')
+insert into ACCOUNT_detail VALUES (N'18130003','','','','','20/10/2018')
+insert into ACCOUNT_detail VALUES (N'18130004','','','','','20/10/2018')
+insert into ACCOUNT_detail VALUES (N'18130006','','','','','20/10/2018')
+insert into ACCOUNT_detail VALUES (N'19130006','','','','','20/10/2018')
+insert into ACCOUNT_detail VALUES (N'19130007','','','','','20/10/2018')
+insert into ACCOUNT_detail VALUES (N'20130006','','','','','20/10/2018')
+insert into ACCOUNT_detail VALUES (N'20130007','','','','','20/10/2018')
 
-insert into ACCOUNT_detail VALUES (N'pdt','','','','','10/20/2018')
+insert into ACCOUNT_detail VALUES (N'pdt','','','','','20/10/2018')
 
-insert into ACCOUNT_detail VALUES (N'224','','','','','10/20/2018')
-insert into ACCOUNT_detail VALUES (N'225','','','','','10/20/2018')
-insert into ACCOUNT_detail VALUES (N'226','','','','','10/20/2018')
-insert into ACCOUNT_detail VALUES (N'227','','','','','10/20/2018')
-insert into ACCOUNT_detail VALUES (N'228','','','','','10/20/2018')
-insert into ACCOUNT_detail VALUES (N'229','','','','','10/20/2018')
-insert into ACCOUNT_detail VALUES (N'220','','','','','10/20/2018')
-insert into ACCOUNT_detail VALUES (N'300','','','','','10/20/2018')
+insert into ACCOUNT_detail VALUES (N'224','','','','','20/10/2018')
+insert into ACCOUNT_detail VALUES (N'225','','','','','20/10/2018')
+insert into ACCOUNT_detail VALUES (N'226','','','','','20/10/2018')
+insert into ACCOUNT_detail VALUES (N'227','','','','','20/10/2018')
+insert into ACCOUNT_detail VALUES (N'228','','','','','20/10/2018')
+insert into ACCOUNT_detail VALUES (N'229','','','','','20/10/2018')
+insert into ACCOUNT_detail VALUES (N'220','','','','','20/10/2018')
+insert into ACCOUNT_detail VALUES (N'300','','','','','20/10/2018')
 -- dữ liệu bảng Vertification Token
 insert into Verification_Token VALUES (N'18130005',null,getdate())
 insert into Verification_Token VALUES (N'18130077',null,getdate())
