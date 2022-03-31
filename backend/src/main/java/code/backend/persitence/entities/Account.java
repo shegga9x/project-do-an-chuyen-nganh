@@ -61,27 +61,26 @@ public class Account implements Serializable {
     private Boolean acceptTerms;
 
     // --- ENTITY LINKS ( RELATIONSHIP )
-  
 
-    @OneToOne(mappedBy = "account",cascade=CascadeType.ALL)
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     private Student student;
 
-    @OneToMany(mappedBy = "account",cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<RefreshToken> listOfRefreshToken;
 
-    @OneToOne(mappedBy = "account",cascade=CascadeType.ALL)
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     private ResetToken resetToken;
 
-    @OneToOne(mappedBy = "account",cascade=CascadeType.ALL)
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     private VerificationToken verificationToken;
 
-    @OneToOne(mappedBy = "account",cascade=CascadeType.ALL)
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     private Professor professor;
 
-    @OneToOne(mappedBy = "account",cascade=CascadeType.ALL)
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     private AccountDetail accountDetail;
 
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "ACCOUNT_has_role", joinColumns = @JoinColumn(name = "ID_ACCOUNT", referencedColumnName = "ID_ACCOUNT"), inverseJoinColumns = @JoinColumn(name = "id", referencedColumnName = "id"))
     private List<Role> listOfRole;
 
@@ -151,7 +150,6 @@ public class Account implements Serializable {
 
     // --- GETTERS FOR LINKS
 
-
     public Student getStudent() {
         return this.student;
     }
@@ -159,6 +157,7 @@ public class Account implements Serializable {
     public List<RefreshToken> getListOfRefreshToken() {
         return this.listOfRefreshToken;
     }
+
     public void addToListOfRefreshToken(RefreshToken refreshToken) {
         this.listOfRefreshToken.add(refreshToken);
         setListOfRefreshToken(this.listOfRefreshToken);
@@ -223,4 +222,23 @@ public class Account implements Serializable {
     public void setListOfRole(List<Role> listOfRole) {
         this.listOfRole = listOfRole;
     }
+
+    // getter setter for respone or request
+
+    public String getFirstName() {
+        return this.getAccountDetail().getFirstName();
+    }
+
+    public void setFirstName(String firstName) {
+        this.getAccountDetail().setFirstName(firstName);
+    }
+
+    public String getLastName() {
+        return this.getAccountDetail().getLastName();
+    }
+
+    public void setLastName(String lastName) {
+        this.getAccountDetail().setLastName(lastName);
+    }
+
 }

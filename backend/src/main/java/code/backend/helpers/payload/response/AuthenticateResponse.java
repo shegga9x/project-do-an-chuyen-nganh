@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class AuthenticateResponse {
-    public int id;
+    public String idAccount;
     public String title;
     public String firstName;
     public String lastName;
@@ -17,14 +17,15 @@ public class AuthenticateResponse {
 
     public String refreshToken;
 
-    public int getId() {
-        return this.id;
+
+    public String getIdAccount() {
+        return this.idAccount;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdAccount(String idAccount) {
+        this.idAccount = idAccount;
     }
-
+  
     public String getTitle() {
         return this.title;
     }
@@ -112,7 +113,7 @@ public class AuthenticateResponse {
     @Override
     public String toString() {
         return "{" +
-                " id='" + getId() + "'" +
+                " id='" + getIdAccount() + "'" +
                 ", title='" + getTitle() + "'" +
                 ", firstName='" + getFirstName() + "'" +
                 ", lastName='" + getLastName() + "'" +
