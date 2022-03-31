@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +18,7 @@ import code.backend.helpers.payload.request.ResetPasswordRequest;
 import code.backend.helpers.payload.request.ValidateResetTokenRequest;
 import code.backend.helpers.payload.response.AuthenticateResponse;
 import code.backend.helpers.utils.JwtUtils;
+import code.backend.helpers.utils.SubUtils;
 import code.backend.helpers.utils.TokenUtils;
 import code.backend.persitence.entities.Account;
 import code.backend.persitence.entities.AccountDetail;
@@ -65,13 +65,7 @@ public class AccountService {
         Account account = new Account();
         account.setIdAccount(UUID.randomUUID().toString());
         AccountDetail accountDetail = new AccountDetail(account.getIdAccount());
-        try {
-            BeanUtils.copyProperties(account, model);
-            BeanUtils.copyProperties(accountDetail, model);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new CustomException("Error Mapper");
-        }
+        account = (Account) SubUtils.mapperObject(model, account);
         // first registered account is an admin
         account.setCreated(new Date());
         account.setPasswordHash(encoder.encode(model.getPassword()));
@@ -125,12 +119,7 @@ public class AccountService {
             response.setRole(roles);
             response.jwtToken = jwtToken;
             response.refreshToken = refreshToken.getToken();
-            try {
-                BeanUtils.copyProperties(response, account);
-                BeanUtils.copyProperties(response, account.getAccountDetail());
-            } catch (Exception e) {
-                throw new CustomException("Error Mapper");
-            }
+            response = (AuthenticateResponse) SubUtils.mapperObject(account, response);
             return response;
         }
     }
@@ -170,12 +159,7 @@ public class AccountService {
         response.role = roles;
         response.jwtToken = jwtToken;
         response.refreshToken = newRefreshToken.getToken();
-        try {
-            BeanUtils.copyProperties(response, account);
-            BeanUtils.copyProperties(response, account.getAccountDetail());
-        } catch (Exception e) {
-            throw new CustomException("Error Mapper");
-        }
+        response = (AuthenticateResponse) SubUtils.mapperObject(account, response);
         accountRepository.save(account);
         return response;
     }
@@ -206,7 +190,6 @@ public class AccountService {
         resetTokenRepository.save(resetToken);
         // send email
         emailService.sendPasswordResetEmail(account, origin);
-
     }
 
     public void validateResetToken(ValidateResetTokenRequest model) {
@@ -218,5 +201,9 @@ public class AccountService {
         account.setResetToken(new ResetToken(account.getIdAccount(), new Date(), null, null));
         account.setPasswordHash(encoder.encode(model.getPassword()));
         accountRepository.save(account);
+    }
+
+    public List<Account> getAll() {
+        return accountRepository.findAll();
     }
 }

@@ -76,15 +76,13 @@ import { LibraryComponent } from './pages/library/library.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AccountService] },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
-
-    // provider used to create fake backend
-    //fakeBackendProvider
   ],
   bootstrap: [AppComponent]
 })

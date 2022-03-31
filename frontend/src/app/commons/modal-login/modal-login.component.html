@@ -7,12 +7,21 @@
                 <div class="loginmodal-container">
                     <h1>Đăng nhập vào tài khoản của bạn</h1>
                     <br>
-                    <form>
-                        <input type="text" name="user" placeholder="Username">
-                        <input type="password" name="pass" placeholder="Password">
+                    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                        <input type="text" formControlName="email" name="user" placeholder="Username"
+                            [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                            <div *ngIf="f.email.errors.required">Email is required</div>
+                            <div *ngIf="f.email.errors.email">Email is invalid</div>
+                        </div>
+                        <input type="password" formControlName="password" name="pass" placeholder="Password"
+                            [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+                        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                            <div *ngIf="f.password.errors.required">Password is required</div>
+                        </div>
                         <input type="submit" name="login" class="login loginmodal-submit" value="Login">
                     </form>
-                    <div class="login-help"> <a href="#" class="top-login182">Đăng ký</a> - <a href="#">Quên mật
+                    <div class="login-help"> <a class="top-login182">Đăng ký</a> - <a>Quên mật
                             khẩu</a> </div>
                 </div>
             </div>
