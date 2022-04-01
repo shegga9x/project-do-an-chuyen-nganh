@@ -1,0 +1,43 @@
+.tab {
+	position: relative;
+	margin-bottom: 1px;
+	width: 100%;
+	color: #fff;
+	overflow: hidden;
+	label {
+		position: relative;
+		display: block;
+		padding: 0 0 0 1em;
+		background: #16a085;
+		font-weight: bold;
+		line-height: 3;
+		cursor: pointer;
+	}
+}
+input[type=checkbox] {
+	position: absolute;
+	opacity: 0;
+	z-index: -1;
+}
+.blue {
+	label {
+		background: #2980b9;
+	}
+	.tab-content {
+		background: #3498db;
+	}
+}
+.tab-content {
+	max-height: 0;
+	overflow: hidden;
+	background: #1abc9c;
+	-webkit-transition: max-height .35s;
+	-o-transition: max-height .35s;
+	transition: max-height .35s;
+	p {
+		margin: 1em;
+	}
+}
+input:checked ~ .tab-content {
+    max-height: 20em;
+}
