@@ -36,10 +36,10 @@ class BackendApplicationTests {
 		List<String> listParam = Arrays.asList("18130005", "2021_1");
 		List<String[]> columns = new ArrayList<>();
 		columns = (List<String[]>) entityService.getFunction("get_Semester_Reuslt", listParam, columns);
-		for (String[] strings : columns) {
-			String[] str = strings.keySet().toArray(new String[strings.size()]);
-
-		}
+//		for (String[] strings : columns) {
+//			String[] str = strings.keySet().toArray(new String[strings.size()]);
+//
+//		}
 		System.out.println(columns);
 
 	}
