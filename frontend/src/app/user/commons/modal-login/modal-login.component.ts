@@ -46,8 +46,8 @@ export class ModalLoginComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: () => {
-          // get return url from query parameters or default to home page
-          // const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/user/home';
+          const boxes = Array.from(document.getElementsByClassName('fade in'));
+          boxes.forEach(box => { box.remove(); });
           this.router.routeReuseStrategy.shouldReuseRoute = () => false;
           this.router.onSameUrlNavigation = 'reload';
           this.router.navigate(['./'], { relativeTo: this.route });

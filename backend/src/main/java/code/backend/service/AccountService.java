@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,7 +35,6 @@ import code.backend.persitence.repository.VerificationTokenRepository;
 import code.backend.service.subService.EmailService;
 
 @Service
-@SuppressWarnings("unchecked")
 public class AccountService {
     @Value("${bezkoder.app.jwtRefreshExpirationMs}")
     private int jwtRefreshExpirationMs;

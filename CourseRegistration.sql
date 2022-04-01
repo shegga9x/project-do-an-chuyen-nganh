@@ -314,8 +314,8 @@ BEGIN
 END
 GO
 
--- những môn sẽ hiển thị khi nhấn đăng ký môn học
--- những môn có thể đăng ký của giáo viên thì chọn những môn nào trong bảng schedule có chỗ id pr là null
+-- những môn sẽ hiển thị khi nhấn đăng k
+-- những môn có thể đăng ký của giáo viên thì chọn những môn nào trong bảng schedule có chỗ id pr là nullý môn học
 CREATE FUNCTION Sub_Available_ST (@ID_ACCOUNT varchar(50))
 RETURNS TABLE
 AS
@@ -702,8 +702,11 @@ insert into Time_For_Course_Register Values(N'2019_2','3/5/2020','12/5/2020')
 insert into Time_For_Course_Register Values(N'2020_1','6/1/2021','12/1/2021')
 insert into Time_For_Course_Register Values(N'2020_2','3/5/2021','12/5/2021')
 insert into Time_For_Course_Register Values(N'2021_1','6/1/2022','27/1/2022')
-insert into Time_For_Course_Register Values(N'2021_2','3/5/2022','12/5/2022')
+insert into Time_For_Course_Register Values(N'2021_2','30/3/2022','3/4/2022')
 
+UPDATE Time_For_Course_Register
+SET end_Date = '30/3/2022', start_Date = '3/4/2022'
+WHERE ID_Semester = N'2021_2',;
 -- insert into course
 -- đại cương
 insert into Course Values(N'213603',null,N'Anh văn 1',4,1,1)
