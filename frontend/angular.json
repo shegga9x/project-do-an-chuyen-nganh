@@ -36,14 +36,12 @@
             "styles": [
               "src/styles.scss",
               "src/static/css/bootstrap.css",
-              "src/static/css/style.css",
               "src/static/css/animate.css",
               "src/static/css/font-awesome.min.css"
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",
-              "src/static/js/bootstrap.min.js",
-              "src/static/js/main.js"
+              "src/static/js/bootstrap.min.js"
             ]
           },
           "configurations": {
@@ -81,6 +79,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "frontend:build"
+          },
           "configurations": {
             "production": {
               "browserTarget": "frontend:build:production"

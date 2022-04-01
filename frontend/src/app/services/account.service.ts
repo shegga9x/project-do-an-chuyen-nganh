@@ -40,7 +40,7 @@ export class AccountService {
     this.http.post<any>(`${baseUrl}/revoke-token`, {}, { withCredentials: true }).subscribe();
     this.stopRefreshTokenTimer();
     this.accountSubject.next(null);
-    this.router.navigate(['/account/login']);
+    window.location.reload();
   }
 
   refreshToken() {
