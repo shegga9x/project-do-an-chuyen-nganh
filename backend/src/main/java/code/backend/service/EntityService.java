@@ -1,6 +1,7 @@
 package code.backend.service;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,11 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@SuppressWarnings("unchecked")
 public class EntityService {
     @Autowired
     private EntityManager entityManager;
 
-    public List<?> getFunction(String functionName, List<String> listParam, List<?> list) {
+    public List<String[]> getFunctionResult(String functionName, List<String> listParam) {
         String params = "";
         for (int i = 0; i < listParam.size(); i++) {
             params += ":" + i + ",";
@@ -23,10 +25,20 @@ public class EntityService {
         String queryContent = MessageFormat.format("SELECT * FROM {0}({1})", functionName, params);
         Query query = entityManager.createNativeQuery(queryContent);
         for (int i = 0; i < listParam.size(); i++) {
-            query.setParameter(i+"", listParam.get(i));
+            query.setParameter(i + "", listParam.get(i));
         }
-        list = query.getResultList();
-        return list;
+        List<Object[]> list = query.getResultList();
+        List<String[]> result = new ArrayList<>();
+        for (Object[] strings : list) {
+            String[] stringsToChar = new String[strings.length];
+            for (int i = 0; i < strings.length; i++) {
+                stringsToChar[i] = strings[i].toString();
+            }
+            result.add(stringsToChar);
+
+        }
+
+        return result;
 
     }
 }

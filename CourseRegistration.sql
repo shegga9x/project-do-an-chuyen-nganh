@@ -704,9 +704,7 @@ insert into Time_For_Course_Register Values(N'2020_2','3/5/2021','12/5/2021')
 insert into Time_For_Course_Register Values(N'2021_1','6/1/2022','27/1/2022')
 insert into Time_For_Course_Register Values(N'2021_2','30/3/2022','3/4/2022')
 
-UPDATE Time_For_Course_Register
-SET end_Date = '30/3/2022', start_Date = '3/4/2022'
-WHERE ID_Semester = N'2021_2',;
+
 -- insert into course
 -- đại cương
 insert into Course Values(N'213603',null,N'Anh văn 1',4,1,1)
