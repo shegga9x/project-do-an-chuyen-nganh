@@ -6,6 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { appInitializer, ErrorInterceptor, JwtInterceptor } from 'src/app/helpers';
 import { AccountService } from 'src/app/services';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule} from '@angular/material/dialog';
 
 
 //component
@@ -42,6 +44,7 @@ import { JscExamResultComponent } from './user/pages/result/jsc-exam-result/jsc-
 import { LibraryComponent } from './user/pages/library/library.component';
 import { UserComponent } from './user/user.component';
 import { AdminComponent } from './admin/admin.component';
+import { DialogLoginComponent } from './user/shared/dialog-login/dialog-login.component';
 
 @NgModule({
   declarations: [
@@ -77,14 +80,17 @@ import { AdminComponent } from './admin/admin.component';
     JscExamResultComponent,
     LibraryComponent,
     UserComponent,
-    AdminComponent
+    AdminComponent,
+    DialogLoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatDialogModule
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AccountService] },

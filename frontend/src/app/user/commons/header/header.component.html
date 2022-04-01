@@ -13,12 +13,14 @@
                 </div>
             </div>
             <div class="col-md-5">
-                <div class="header-right"> <a href="#" data-toggle="modal" data-target="#login-modal"
-                        class="top-login">Login</a>
-                    <button *ngIf="account !== null" type="button" class="Admission-button" (click)="logout()">Logout</button>
+                <div class="header-right"> <a style="cursor: pointer;" (click)="openDialogLogin()" class="top-login">Login</a>
+                    <button *ngIf="account !== null" type="button" class="Admission-button"
+                        (click)="logout()">Logout</button>
                 </div>
             </div>
         </div>
     </div>
 </section>
 <!-- End of Header -->
+
+ <!-- data-toggle="modal" data-target="#login-modal" -->
