@@ -31,10 +31,10 @@ import { LibraryComponent } from './user/pages/library/library.component';
 
 const routes: Routes = [
   {
-    path: '', component: UserComponent,
+    path: 'user', component: UserComponent,
     children: [
       {
-        path: '', component: HomeComponent,
+        path: 'home', component: HomeComponent,
       },
       {
         path: 'about', component: AboutComponent,
@@ -42,7 +42,7 @@ const routes: Routes = [
           {
             path: '', redirectTo: 'about-us', pathMatch: 'full'
           },
-          {   
+          {
             path: 'about-us', component: AboutUsComponent
           },
           {
