@@ -289,7 +289,6 @@ WHERE stc.ID_Student = @ID_ACCOUNT
   FROM Semester
   WHERE GETDATE() BETWEEN start_Date AND end_Date)
 
-
 GO
 CREATE FUNCTION sub_Passed (@ID_Course_B nvarchar(50), @ID_ACCOUNT nvarchar(50))
 RETURNS nvarchar(50)
