@@ -2,6 +2,7 @@ package code.backend.service;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -29,15 +30,21 @@ public class EntityService {
         }
         List<Object[]> list = query.getResultList();
         List<String[]> result = new ArrayList<>();
-        for (Object[] strings : list) {
-            String[] stringsToChar = new String[strings.length];
-            for (int i = 0; i < strings.length; i++) {
-                stringsToChar[i] = strings[i].toString();
+        try {
+            for (Object[] strings : list) {
+                String[] stringsToChar = new String[strings.length];
+                for (int i = 0; i < strings.length; i++) {
+                    stringsToChar[i] = strings[i].toString();
+                }
+                result.add(stringsToChar);
             }
-            result.add(stringsToChar);
-
+        } catch (Exception e) {
+            String resultSplit = list.toString().substring(1, list.toString().length() - 1);
+            List<String> listAfterConvert = new ArrayList<String>(Arrays.asList(resultSplit.split(", ")));
+            for (String string : listAfterConvert) {
+                result.add(new String[] { string });
+            }
         }
-
         return result;
 
     }

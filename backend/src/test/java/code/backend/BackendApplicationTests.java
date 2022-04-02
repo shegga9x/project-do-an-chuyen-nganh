@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import code.backend.helpers.payload.testModel.NewModel;
 import code.backend.service.EntityService;
 
 @RunWith(SpringRunner.class)
@@ -26,7 +27,9 @@ class BackendApplicationTests {
 		List<String> listParam = Arrays.asList("18130005", "2021_1");
 		List<String[]> columns = entityService.getFunctionResult("get_Semester_Reuslt", listParam);
 		for (String[] strings : columns) {
-			System.out.println(Arrays.toString(strings));
+			NewModel model = new NewModel(strings[0], strings[1], Double.parseDouble(strings[2]),
+					Double.parseDouble(strings[2]), Double.parseDouble(strings[2]));
+			System.out.println(model.toString());
 		}
 	}
 }

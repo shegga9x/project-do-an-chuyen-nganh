@@ -1,4 +1,4 @@
-package code.backend.service;
+package code.backend.helpers.payload.testModel;
 
 public class NewModel {
     String id;
