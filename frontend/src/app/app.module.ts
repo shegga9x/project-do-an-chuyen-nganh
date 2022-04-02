@@ -17,7 +17,6 @@ import { FooterComponent } from './user/commons/footer/footer.component';
 import { HeaderBarComponent } from './user/commons/header-bar/header-bar.component';
 import { HomeComponent } from './user/pages/home/home.component';
 import { ContactComponent } from './user/pages/contact/contact.component';
-import { ModalLoginComponent } from './user/commons/modal-login/modal-login.component';
 import { AboutUsComponent } from './user/pages/about/about-us/about-us.component';
 import { AboutComponent } from './user/pages/about/about.component';
 import { OurPrincipalComponent } from './user/pages/about/our-principal/our-principal.component';
@@ -54,7 +53,6 @@ import { DialogLoginComponent } from './user/shared/dialog-login/dialog-login.co
     HeaderBarComponent,
     HomeComponent,
     ContactComponent,
-    ModalLoginComponent,
     AboutUsComponent,
     AboutComponent,
     OurPrincipalComponent,
