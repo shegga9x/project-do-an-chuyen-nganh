@@ -48,7 +48,6 @@ export class AccountService {
   refreshToken() {
     return this.http.post<any>(`${baseUrl}/refresh-token`, {}, { withCredentials: true })
       .pipe(map((account) => {
-        console.log(account);
         this.accountSubject.next(account);
         this.startRefreshTokenTimer();
         return account;
@@ -56,7 +55,7 @@ export class AccountService {
   }
 
   register(account: Account) {
-    return this.http.post(`${baseUrl}/register`, account);
+      
   }
 
   verifyEmail(token: string) {
@@ -91,7 +90,7 @@ export class AccountService {
     return this.http.put(`${baseUrl}/${id}`, params)
       .pipe(map((account: any) => {
         // update the current account if it was updated
-        if (account.id === this.accountValue!.id) {
+        if (account.id === this.accountValue!.idAccount) {
           // publish updated account to subscribers
           account = { ...this.accountValue, ...account };
           this.accountSubject.next(account);
@@ -104,7 +103,7 @@ export class AccountService {
     return this.http.delete(`${baseUrl}/${id}`)
       .pipe(finalize(() => {
         // auto logout if the logged in account was deleted
-        if (id === this.accountValue!.id)
+        if (id === this.accountValue!.idAccount)
           this.logout();
       }));
   }

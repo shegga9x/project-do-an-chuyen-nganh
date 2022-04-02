@@ -18,7 +18,6 @@ export class HeaderComponent implements OnInit {
   }
 
   openDialogLogin() {
-    console.log('open');
     this.generalService.openDialogLogin();
   }
 

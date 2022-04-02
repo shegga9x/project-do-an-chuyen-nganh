@@ -14,6 +14,9 @@ public class SubUtils {
 
     public static Object mapperObject(Object from, Object to) {
         try {
+            if (from == null) {
+                return null;
+            }
             BeanUtils.copyProperties(to, from);
         } catch (Exception e) {
             e.printStackTrace();

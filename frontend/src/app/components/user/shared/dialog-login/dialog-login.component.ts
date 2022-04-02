@@ -56,7 +56,6 @@ export class DialogLoginComponent implements OnInit {
           this.generealService.onRefresh(this.router.url);
         },
         error: error => {
-          console.log(error);
           //this.alertService.error(error);
           //this.loading = false;
         }

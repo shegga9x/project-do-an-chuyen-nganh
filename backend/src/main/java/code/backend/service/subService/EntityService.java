@@ -1,4 +1,4 @@
-package code.backend.service;
+package code.backend.service.subService;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
