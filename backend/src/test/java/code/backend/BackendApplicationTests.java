@@ -25,10 +25,12 @@ class BackendApplicationTests {
 	@Transactional
 	void contextLoads() {
 		List<String> listParam = Arrays.asList("18130005", "2021_1");
+
 		List<String[]> columns = entityService.getFunctionResult("get_Semester_Reuslt", listParam);
+
 		for (String[] strings : columns) {
 			NewModel model = new NewModel(strings[0], strings[1], Double.parseDouble(strings[2]),
-					Double.parseDouble(strings[2]), Double.parseDouble(strings[2]));
+					Double.parseDouble(strings[3]), Double.parseDouble(strings[4]));
 			System.out.println(model.toString());
 		}
 	}

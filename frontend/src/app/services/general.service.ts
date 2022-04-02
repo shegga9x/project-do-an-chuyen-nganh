@@ -1,6 +1,7 @@
+import { DialogLoginComponent } from './../components/user/shared/dialog-login/dialog-login.component';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogLoginComponent } from '../user/shared/dialog-login/dialog-login.component';
+
 import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class GeneralService {
       data: {},
     });
   }
-  
+
 
   // use on refresh the special url
   onRefresh(uri: string) {
