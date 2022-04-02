@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject } from 'rxjs';
 import { map, finalize } from 'rxjs/operators';
+import { GeneralService } from './general.service';
 
 import { Account } from 'src/app/models'
 
@@ -18,7 +19,8 @@ export class AccountService {
 
   constructor(
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private generalService: GeneralService
   ) {
     this.accountSubject = new BehaviorSubject<Account | null>(null);
   }
@@ -40,7 +42,7 @@ export class AccountService {
     this.http.post<any>(`${baseUrl}/revoke-token`, {}, { withCredentials: true }).subscribe();
     this.stopRefreshTokenTimer();
     this.accountSubject.next(null);
-    window.location.reload();
+    this.generalService.onRefresh(this.router.url);
   }
 
   refreshToken() {

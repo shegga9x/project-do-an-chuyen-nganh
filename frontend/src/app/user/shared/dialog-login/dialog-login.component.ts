@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { GeneralService } from 'src/app/services/general.service';
 import { first } from 'rxjs/operators';
 
 import { AccountService } from 'src/app/services';
@@ -20,7 +21,8 @@ export class DialogLoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private accountService: AccountService,
-    public dialogRef: MatDialogRef<DialogLoginComponent>, 
+    private generealService: GeneralService,
+    public dialogRef: MatDialogRef<DialogLoginComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
@@ -51,13 +53,7 @@ export class DialogLoginComponent implements OnInit {
       .subscribe({
         next: () => {
           this.dialogRef.close();
-          // const boxes = Array.from(document.getElementsByClassName('fade in'));
-          // boxes.forEach(box => { box.remove(); });
-          // this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-          // this.router.onSameUrlNavigation = 'reload';
-          //this.router.navigate(['./'], { relativeTo: this.route });
-          // console.log(this.router.url);
-          window.location.reload();
+          this.generealService.onRefresh(this.router.url);
         },
         error: error => {
           console.log(error);
