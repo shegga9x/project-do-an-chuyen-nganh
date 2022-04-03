@@ -17,7 +17,7 @@ export class CourseManageService {
     }
 
     getSubAvailableRegist() {
-        let params = { "id": this.service.accountValue?.idAccount + "" };
+        let params = { "id": "18130077" };
         return this.http.get(`${baseUrl}/get_sub_available_st/`, { params: params });
     }
 }
