@@ -53,6 +53,7 @@ export class DialogLoginComponent implements OnInit {
       .subscribe({
         next: () => {
           this.dialogRef.close();
+          console.log(this.router.url);
           this.generealService.onRefresh(this.router.url);
         },
         error: error => {

@@ -20,6 +20,6 @@ export class GeneralService {
 
   // use on refresh the special url
   onRefresh(uri: string) {
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => this.router.navigate([uri]));
+    this.router.navigateByUrl('/dummy', { skipLocationChange: true }).then(() => this.router.navigate([uri]));
   }
 }
