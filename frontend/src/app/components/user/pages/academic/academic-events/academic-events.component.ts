@@ -13,7 +13,6 @@ import { CourseManageService } from 'src/app/services/course-manage.service';
   styleUrls: ['./academic-events.component.scss']
 })
 export class AcademicEventsComponent implements OnInit {
-
   clazzs: Clazz[] = [];
   courses: Course[] = [];
   courseOfferings: CourseOffering[] = [];
