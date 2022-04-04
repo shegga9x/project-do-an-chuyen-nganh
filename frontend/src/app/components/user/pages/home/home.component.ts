@@ -1,10 +1,7 @@
-import { Schedule } from './../../../../models/schedule';
-import { Faculty } from './../../../../models/faculty';
-import { CourseOffering } from './../../../../models/courseOffering';
-import { Course } from './../../../../models/course';
-import { Clazz } from './../../../../models/clazz';
-import { CourseManageService } from './../../../../services/course-manage.service';
-import { Component, OnInit } from '@angular/core';
+import { Clazz, Course, CourseOffering, Faculty, Schedule } from 'src/app/models'
+import { CourseManageService } from 'src/app/services/course-manage.service';
+import { Component, OnInit, Inject } from '@angular/core';
+import { L10N_LOCALE, L10nLocale } from 'angular-l10n';
 import { Title } from "@angular/platform-browser";
 
 @Component({
@@ -15,7 +12,10 @@ import { Title } from "@angular/platform-browser";
 export class HomeComponent implements OnInit {
   result: any[];
   finish: boolean = false;
-  constructor(private titleService: Title, private courseManageService: CourseManageService) {
+
+  constructor(
+    @Inject(L10N_LOCALE) public locale: L10nLocale,
+    private titleService: Title, private courseManageService: CourseManageService) {
     this.titleService.setTitle("Home");
   }
 
@@ -24,11 +24,6 @@ export class HomeComponent implements OnInit {
   }
 
   getSubAvailable() {
-    this.courseManageService.getSubAvailableRegist().subscribe(x => {
-      this.result = x;
-      this.finish = true;
-      console.log(this.result[0]['clazzDTO']);
 
-    });
   }
 }

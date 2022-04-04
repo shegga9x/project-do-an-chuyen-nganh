@@ -367,6 +367,10 @@ WHERE c.ID_Faculty =
 
   
 GO
+
+select * from ACCOUNT
+select * from Sub_Available_ST('18130077');
+
 -- bảng này là bảng check khi nhấn vào ô chọn môn học nếu trùng giờ trùng ngày , trùng môn nếu rỗng thì ko đk được
 GO
 

@@ -9,14 +9,22 @@ import { AccountService } from 'src/app/services';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule} from '@angular/material/dialog';
 
+//config l10n(include multi languages)
+import { L10nTranslationModule, L10nIntlModule } from 'angular-l10n';
+import { l10nConfig } from './l10n-config';
+
 
 //component
 import { AppComponent } from './app.component';
 import { UserDeclarations } from './components/user/user.declarations';
 
+//pipe
+import { TranslatePipe } from './pipe/translate-pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
+    TranslatePipe,
     ...UserDeclarations
   ],
   imports: [
@@ -26,7 +34,9 @@ import { UserDeclarations } from './components/user/user.declarations';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatDialogModule
+    MatDialogModule,
+    L10nTranslationModule.forRoot(l10nConfig),
+    L10nIntlModule,
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AccountService] },
