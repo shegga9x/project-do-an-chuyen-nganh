@@ -15,16 +15,13 @@ export const l10nConfig: L10nConfig = {
     {
       locale: {
         language: 'en-US'
-      },
-      dir: 'ltr',
-      text: 'United States',
+      }
     },
     {
       locale: {
         language: 'vn-VN'
-      },
-      dir: 'ltr',
-      text: 'VN',
+      }
     },
   ],
+  defaultRouting: true
 };

@@ -5,9 +5,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { appInitializer, ErrorInterceptor, JwtInterceptor } from 'src/app/helpers';
-import { AccountService } from 'src/app/services';
+import { AccountService, TranslateService } from 'src/app/services';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 //config l10n(include multi languages)
 import { L10nTranslationModule, L10nIntlModule } from 'angular-l10n';

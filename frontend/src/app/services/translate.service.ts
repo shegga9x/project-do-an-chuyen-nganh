@@ -23,9 +23,14 @@ export class TranslateService {
   }
 
   setLocale(language: string): void {
+    console.log('???')
     if (language == "en") {
+      console.log(this.translation.getLocale());
+      localStorage.setItem('lang', 'en');
       this.translation.setLocale(this.schema[0].locale);
     } else {
+      console.log(this.translation.getLocale());
+      localStorage.setItem('lang', 'vn');
       this.translation.setLocale(this.schema[1].locale);
     }
   }
