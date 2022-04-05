@@ -28,9 +28,8 @@ export class HeaderComponent implements OnInit {
   }
 
   changeLanguage(language: string) {
-    console.log(language);
-    console.log('click');
-    this.translateService.setLocale(language);
+    localStorage.setItem('lang',language);
+    // this.translateService.setLocale(language);
     this.generalService.onRefresh(this.router.url);
   }
 
