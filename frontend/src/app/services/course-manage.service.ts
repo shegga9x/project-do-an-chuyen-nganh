@@ -14,8 +14,8 @@ export class CourseManageService {
     constructor(private http: HttpClient, private service: AccountService) {
     }
 
-    getSubAvailableRegist() {
-        let params = { "id": "18130077" };
-        return this.http.get(`${baseUrl}/get_sub_available_st/`, { params: params });
-    }
+getSubAvailableRegist() {
+    let params = { "id": "18130077" };
+    return this.http.get(`${baseUrl}/get_sub_available_st/`, { params: params });
+}
 }

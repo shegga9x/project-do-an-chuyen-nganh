@@ -29,6 +29,7 @@ export class AcademicEventsComponent implements OnInit {
   }
 
   getSubAvailable() {
+
     this.courseManageService.getSubAvailableRegist().subscribe({
       next: (x: any) => {
         x.forEach((element: any) => {
