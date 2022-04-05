@@ -4,7 +4,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { L10N_LOCALE, L10nLocale } from 'angular-l10n';
 import { Title } from "@angular/platform-browser";
 
-@Component({
+@Component({  
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
