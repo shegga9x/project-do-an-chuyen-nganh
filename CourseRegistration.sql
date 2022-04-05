@@ -290,6 +290,7 @@ WHERE stc.ID_Student = @ID_ACCOUNT
   WHERE GETDATE() BETWEEN start_Date AND end_Date)
 
 GO
+
 CREATE FUNCTION sub_Passed (@ID_Course_B nvarchar(50), @ID_ACCOUNT nvarchar(50))
 RETURNS nvarchar(50)
 AS
@@ -508,6 +509,8 @@ WHERE (sc.Start_Slot IN (SELECT
 --and (select count(ID_Schedule) from Professor_Schedule where ID_Professor = @ID_Professor) <= 3
 GO
 -- tạo function semester_Result	
+
+
 
 CREATE FUNCTION get_Semester_Reuslt (@ID_Student nvarchar(50), @ID_Semester nvarchar(50))
 RETURNS TABLE
@@ -1084,3 +1087,5 @@ FROM Sub_Pass sp
 WHERE  sp.ID_Student = '18130005'
 select *
 from Student
+
+select * from get_Semester_Reuslt('18130005','2021_1')
