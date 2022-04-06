@@ -48,7 +48,7 @@
         </div>
         <div class="pass">Forgot Password?</div>
         <input type="submit" value="Login" style="margin-bottom: 10px;">
-        <p *ngIf="submitted && f.recaptcha.errors?.required" style="color: red;margin-bottom: 8px;">capcha is required</p>
+        <p *ngIf="submitted && f.recaptcha.errors?.required" style="color: red;margin-bottom: 10px;">capcha is required</p>
         <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" (reset)="handleReset()" (expire)="handleExpire()"
             (load)="handleLoad()" (success)="handleSuccess($event)" [useGlobalDomain]="false" [size]="size" [hl]="lang"
             [theme]="theme" [type]="type" formControlName="recaptcha">

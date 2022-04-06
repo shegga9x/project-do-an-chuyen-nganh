@@ -18,7 +18,7 @@ export class DialogLoginComponent implements OnInit {
   submitted = false;
 
   // capcha siteKey
-  public readonly siteKey = '6LcvoUgUAAAAAJJbhcXvLn3KgG-pyULLusaU4mL1';
+  public readonly siteKey = '6Lcayk0fAAAAAM9QpCgH3sQWCS8IdtupD2PyCszR';
 
   // capcha variable
   public theme: 'light' | 'dark' = 'light';

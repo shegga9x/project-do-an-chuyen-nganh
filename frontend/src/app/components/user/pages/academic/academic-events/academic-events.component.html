@@ -1,42 +1,162 @@
 <section class="aca-event text-center">
     <div class="container">
-        <table>
-            <tr>
-                <th></th>
-                <th>Mã MH</th>
-                <th>Tên môn học</th>
-                <th>NMH</th>
-                <th>TTH</th>
-                <th>STC</th>
-                <th>STCHP</th>
-                <th>Mã lớp</th>
-                <th>Sĩ số</th>
-                <th>CL</th>
-                <th>TH</th>
-                <th>Thứ</th>
-                <th>Tiết BD</th>
-                <th>ST</th>
-                <th>Phòng</th>
-                <th>Giảng viên</th>
-            </tr>
-            <tr *ngFor="let clazz of clazzs;index as i">
-                <td><input type="checkbox"></td>
-                <td>{{courses[i].idCourse}}</td>
-                <td>{{courses[i].nameCourse}}</td>
-                <td></td>
-                <td></td>
-                <td>{{courses[i].courseCertificate}}</td>
-                <td>{{courses[i].courseCertificate}}</td>
-                <td>{{courseOfferings[i].clazzCode}}</td>
-                <td>{{courseOfferings[i].maxSize}}</td>
-                <td>{{courseOfferings[i].maxSize - courseOfferings[i].currentSize}}</td>
-                <td>{{schedules[i].theoretical}}</td>
-                <td>{{schedules[i].teachingDay}}</td>
-                <td>{{schedules[i].startSlot}}</td>
-                <td></td>
-                <td>{{schedules[i].studyPlace}}</td>
-                <td>{{schedules[i].idProfeesor}}</td>
-            </tr>
-        </table>
+        <div class="search">
+            <span style="display:inline-block;width:110px;">Lọc mã môn học</span>
+            <input type="text" style="margin-left: 15px;">
+            <input type="button" value="Lọc >>" style="margin-left: 5px;">
+        </div>
+        <div style="overflow:hidden;overflow-y: scroll;height: 350px;">
+            <table>
+                <tr>
+                    <th></th>
+                    <th>Mã MH</th>
+                    <th>Tên môn học</th>
+                    <th>NMH</th>
+                    <th>TTH</th>
+                    <th>STC</th>
+                    <th>STCHP</th>
+                    <th>Mã lớp</th>
+                    <th>Sĩ số</th>
+                    <th>CL</th>
+                    <th>TH</th>
+                    <th>Thứ</th>
+                    <th>Tiết BD</th>
+                    <th>ST</th>
+                    <th>Phòng</th>
+                    <th>Giảng viên</th>
+                </tr>
+                <ng-container *ngFor="let clazz of clazzs;index as i">
+                    <ng-container *ngIf="i == 0">
+                        <ng-container *ngIf="courses[i].idCourse != courses[i+1].idCourse">
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td>{{courses[i].idCourse}}</td>
+                                <td>{{courses[i].nameCourse}}</td>
+                                <td></td>
+                                <td></td>
+                                <td>{{courses[i].courseCertificate}}</td>
+                                <td>{{courses[i].courseCertificate}}</td>
+                                <td>{{courseOfferings[i].clazzCode}}</td>
+                                <td>{{courseOfferings[i].maxSize}}</td>
+                                <td>{{courseOfferings[i].maxSize - courseOfferings[i].currentSize}}</td>
+                                <td>{{schedules[i].theoretical}}</td>
+                                <td>{{schedules[i].teachingDay}}</td>
+                                <td>{{schedules[i].startSlot}}</td>
+                                <td></td>
+                                <td>{{schedules[i].studyPlace}}</td>
+                                <td>{{schedules[i].idProfeesor}}</td>
+                            </tr>
+                        </ng-container>
+                        <ng-container *ngIf="courses[i].idCourse == courses[i+1].idCourse">
+                            <tr>
+                                <td rowspan="2"><input type="checkbox"></td>
+                                <td rowspan="2">{{courses[i].idCourse}}</td>
+                                <td rowspan="2">{{courses[i].nameCourse}}</td>
+                                <td rowspan="2"></td>
+                                <td rowspan="2"></td>
+                                <td rowspan="2">{{courses[i].courseCertificate}}</td>
+                                <td rowspan="2">{{courses[i].courseCertificate}}</td>
+                                <td rowspan="2">{{courseOfferings[i].clazzCode}}</td>
+                                <td>{{courseOfferings[i].maxSize}}</td>
+                                <td>{{courseOfferings[i].maxSize - courseOfferings[i].currentSize}}</td>
+                                <td>{{schedules[i].theoretical}}</td>
+                                <td>{{schedules[i].teachingDay}}</td>
+                                <td>{{schedules[i].startSlot}}</td>
+                                <td></td>
+                                <td>{{schedules[i].studyPlace}}</td>
+                                <td>{{schedules[i].idProfeesor}}</td>
+                            </tr>
+                        </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="i > 0 && i < clazzs.length - 1">
+                        <ng-container *ngIf="courses[i].idCourse == courses[i-1].idCourse">
+                            <tr>
+                                <td>{{courseOfferings[i].maxSize}}</td>
+                                <td>{{courseOfferings[i].maxSize - courseOfferings[i].currentSize}}</td>
+                                <td>{{schedules[i].theoretical}}</td>
+                                <td>{{schedules[i].teachingDay}}</td>
+                                <td>{{schedules[i].startSlot}}</td>
+                                <td></td>
+                                <td>{{schedules[i].studyPlace}}</td>
+                                <td>{{schedules[i].idProfeesor}}</td>
+                            </tr>
+                        </ng-container>
+                        <ng-container
+                            *ngIf="courses[i].idCourse != courses[i-1].idCourse && courses[i].idCourse == courses[i+1].idCourse">
+                            <td rowspan="2"><input type="checkbox"></td>
+                            <td rowspan="2">{{courses[i].idCourse}}</td>
+                            <td rowspan="2">{{courses[i].nameCourse}}</td>
+                            <td rowspan="2"></td>
+                            <td rowspan="2"></td>
+                            <td rowspan="2">{{courses[i].courseCertificate}}</td>
+                            <td rowspan="2">{{courses[i].courseCertificate}}</td>
+                            <td rowspan="2">{{courseOfferings[i].clazzCode}}</td>
+                            <td>{{courseOfferings[i].maxSize}}</td>
+                            <td>{{courseOfferings[i].maxSize - courseOfferings[i].currentSize}}</td>
+                            <td>{{schedules[i].theoretical}}</td>
+                            <td>{{schedules[i].teachingDay}}</td>
+                            <td>{{schedules[i].startSlot}}</td>
+                            <td></td>
+                            <td>{{schedules[i].studyPlace}}</td>
+                            <td>{{schedules[i].idProfeesor}}</td>
+                        </ng-container>
+                        <ng-container
+                            *ngIf="courses[i].idCourse != courses[i-1].idCourse && courses[i].idCourse != courses[i+1].idCourse">
+                            <td><input type="checkbox"></td>
+                            <td>{{courses[i].idCourse}}</td>
+                            <td>{{courses[i].nameCourse}}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{{courses[i].courseCertificate}}</td>
+                            <td>{{courses[i].courseCertificate}}</td>
+                            <td>{{courseOfferings[i].clazzCode}}</td>
+                            <td>{{courseOfferings[i].maxSize}}</td>
+                            <td>{{courseOfferings[i].maxSize - courseOfferings[i].currentSize}}</td>
+                            <td>{{schedules[i].theoretical}}</td>
+                            <td>{{schedules[i].teachingDay}}</td>
+                            <td>{{schedules[i].startSlot}}</td>
+                            <td></td>
+                            <td>{{schedules[i].studyPlace}}</td>
+                            <td>{{schedules[i].idProfeesor}}</td>
+                        </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="i == clazzs.length - 1">
+                        <ng-container *ngIf="courses[i].idCourse != courses[i-1].idCourse">
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td>{{courses[i].idCourse}}</td>
+                                <td>{{courses[i].nameCourse}}</td>
+                                <td></td>
+                                <td></td>
+                                <td>{{courses[i].courseCertificate}}</td>
+                                <td>{{courses[i].courseCertificate}}</td>
+                                <td>{{courseOfferings[i].clazzCode}}</td>
+                                <td>{{courseOfferings[i].maxSize}}</td>
+                                <td>{{courseOfferings[i].maxSize - courseOfferings[i].currentSize}}</td>
+                                <td>{{schedules[i].theoretical}}</td>
+                                <td>{{schedules[i].teachingDay}}</td>
+                                <td>{{schedules[i].startSlot}}</td>
+                                <td></td>
+                                <td>{{schedules[i].studyPlace}}</td>
+                                <td>{{schedules[i].idProfeesor}}</td>
+                            </tr>
+                        </ng-container>
+                        <ng-container *ngIf="courses[i].idCourse == courses[i-1].idCourse">
+                            <tr>
+                                <td>{{courseOfferings[i].maxSize}}</td>
+                                <td>{{courseOfferings[i].maxSize - courseOfferings[i].currentSize}}</td>
+                                <td>{{schedules[i].theoretical}}</td>
+                                <td>{{schedules[i].teachingDay}}</td>
+                                <td>{{schedules[i].startSlot}}</td>
+                                <td></td>
+                                <td>{{schedules[i].studyPlace}}</td>
+                                <td>{{schedules[i].idProfeesor}}</td>
+                            </tr>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+
+            </table>
+        </div>
     </div>
 </section>

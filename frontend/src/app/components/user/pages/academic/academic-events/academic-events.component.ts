@@ -29,7 +29,7 @@ export class AcademicEventsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSubAvailable();
-    this.getSemesterReuslt();
+    //this.getSemesterReuslt();
   }
 
   getSubAvailable() {
