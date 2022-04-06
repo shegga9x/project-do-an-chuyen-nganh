@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import code.backend.helpers.payload.dto.SemesterReusltDTO;
 import code.backend.persitence.entities.Schedule;
 import code.backend.persitence.repository.ScheduleRepository;
 import code.backend.service.subService.EntityService;
@@ -32,16 +33,22 @@ class BackendApplicationTests {
 
 		List<String[]> columns = entityService.getFunctionResult("get_Semester_Reuslt", listParam);
 
-		for (String[] strings : columns) {
-			System.out.println(strings);
+		List<SemesterReusltDTO> listResult = new ArrayList<>() {
+		};
+		for (String[] arr : columns) {
+			listResult.add(new SemesterReusltDTO(arr[0], arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]),
+					Double.parseDouble(arr[4])));
 		}
+		System.out.println(listResult);
+
 	}
 
 	@Test
 	@Transactional
 	void test2() {
 		List<String> ids = new ArrayList<>();
-		for (String[] strings : entityService.getFunctionResult("Sub_Available_ST", Arrays.asList("18130005"))) {
+		for (String[] strings : entityService.getFunctionResult("Sub_Available_ST",
+				Arrays.asList("18130005"))) {
 			ids.add(strings[0]);
 		}
 

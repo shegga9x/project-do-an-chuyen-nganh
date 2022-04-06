@@ -13,6 +13,7 @@ import code.backend.helpers.payload.dto.CourseOfferingDTO;
 import code.backend.helpers.payload.dto.FacultyDTO;
 import code.backend.helpers.payload.dto.ProfessorDTO;
 import code.backend.helpers.payload.dto.ScheduleDTO;
+import code.backend.helpers.payload.dto.SemesterReusltDTO;
 import code.backend.helpers.payload.response.SubAvailableRespone;
 import code.backend.helpers.utils.SubUtils;
 import code.backend.persitence.entities.Schedule;
@@ -46,4 +47,23 @@ public class CourseManageService {
         }
         return subAvailableRespones;
     }
+
+    public List<SemesterReusltDTO> get_Semester_Reuslt(String idStudent, String idSemester) {
+
+        List<String> listParam = Arrays.asList(idStudent, idSemester);
+
+        List<String[]> columns = entityService.getFunctionResult("get_Semester_Reuslt", listParam);
+
+        List<SemesterReusltDTO> listResult = new ArrayList<>() {
+        };
+        for (String[] arr : columns) {
+            listResult.add(new SemesterReusltDTO(arr[0], arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]),
+                    Double.parseDouble(arr[4])));
+        }
+        System.out.println(listResult);
+        System.out.println("adsfasdfsadff");
+        return listResult;
+        
+    }
+
 }

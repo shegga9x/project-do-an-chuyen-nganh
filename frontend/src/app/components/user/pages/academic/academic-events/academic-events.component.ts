@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Title } from "@angular/platform-browser";
+import { Title } from '@angular/platform-browser';
 import { Schedule } from 'src/app/models/schedule';
 import { Faculty } from 'src/app/models/faculty';
 import { CourseOffering } from 'src/app/models/courseOffering';
@@ -10,7 +10,7 @@ import { CourseManageService } from 'src/app/services/course-manage.service';
 @Component({
   selector: 'app-academic-events',
   templateUrl: './academic-events.component.html',
-  styleUrls: ['./academic-events.component.scss']
+  styleUrls: ['./academic-events.component.scss'],
 })
 export class AcademicEventsComponent implements OnInit {
   clazzs: Clazz[] = [];
@@ -20,20 +20,23 @@ export class AcademicEventsComponent implements OnInit {
   schedules: Schedule[] = [];
   finish: boolean = false;
 
-  constructor(private titleService: Title, private courseManageService: CourseManageService) {
-    this.titleService.setTitle("Academic Events");
+  constructor(
+    private titleService: Title,
+    private courseManageService: CourseManageService
+  ) {
+    this.titleService.setTitle('Academic Events');
   }
 
   ngOnInit(): void {
     this.getSubAvailable();
+    this.getSemesterReuslt();
   }
 
   getSubAvailable() {
-
     this.courseManageService.getSubAvailableRegist().subscribe({
       next: (x: any) => {
         x.forEach((element: any) => {
-          console.log(element)
+          console.log(element);
           let clazz: Clazz = element['clazzDTO'];
           let course: Course = element['courseDTO'];
           let courseOffering: CourseOffering = element['courseOfferingDTO'];
@@ -49,8 +52,13 @@ export class AcademicEventsComponent implements OnInit {
       },
       error: (error) => {
         console.log(error);
-      }
+      },
     });
   }
-
+  getSemesterReuslt() {
+    console.log("alo nghe ko")
+    this.courseManageService
+      .getSemesterReusltRegist()
+      .subscribe((x) => console.log(x));
+  }
 }
