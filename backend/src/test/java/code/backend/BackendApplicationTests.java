@@ -33,7 +33,10 @@ class BackendApplicationTests {
 		List<String[]> columns = entityService.getFunctionResult("get_Semester_Reuslt", listParam);
 
 		for (String[] strings : columns) {
-			System.out.println(strings);
+			for (int i = 0; i < strings.length; i++) {
+				System.out.print(strings[i] + " ");
+			}
+			System.out.println();
 		}
 	}
 
