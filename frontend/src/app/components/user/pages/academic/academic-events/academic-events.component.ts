@@ -19,7 +19,7 @@ export class AcademicEventsComponent implements OnInit {
   facultys: Faculty[] = [];
   schedules: Schedule[] = [];
   finish: boolean = false;
-
+  listCourseRegistRequests: Map<string, boolean> = new Map<string, boolean>();
   constructor(
     private titleService: Title,
     private courseManageService: CourseManageService
@@ -31,7 +31,13 @@ export class AcademicEventsComponent implements OnInit {
     this.getSubAvailable();
     //this.getSemesterReuslt();
   }
+  updateList(id: string, idSchedule : string,checked: HTMLInputElement): void {
+    this.listCourseRegistRequests.set(idSchedule, checked.checked);
+  }
 
+  submit() {
+    this.courseManageService.submitCourseRegist(this.listCourseRegistRequests)
+  }
   getSubAvailable() {
     this.courseManageService.getSubAvailableRegist().subscribe({
       next: (x: any) => {

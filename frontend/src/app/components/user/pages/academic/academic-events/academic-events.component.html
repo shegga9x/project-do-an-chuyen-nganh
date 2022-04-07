@@ -29,7 +29,7 @@
                     <ng-container *ngIf="i == 0">
                         <ng-container *ngIf="courses[i].idCourse != courses[i+1].idCourse">
                             <tr>
-                                <td><input type="checkbox"></td>
+                                <td><input type="checkbox"  #checked (change)="updateList(courses[i].idCourse,schedules[i].idCourseOffering,checked)" ></td>
                                 <td>{{courses[i].idCourse}}</td>
                                 <td>{{courses[i].nameCourse}}</td>
                                 <td></td>
@@ -49,7 +49,7 @@
                         </ng-container>
                         <ng-container *ngIf="courses[i].idCourse == courses[i+1].idCourse">
                             <tr>
-                                <td rowspan="2"><input type="checkbox"></td>
+                                <td rowspan="2"><input type="checkbox"  #checked (change)="updateList(courses[i].idCourse,schedules[i].idCourseOffering,checked)" ></td>
                                 <td rowspan="2">{{courses[i].idCourse}}</td>
                                 <td rowspan="2">{{courses[i].nameCourse}}</td>
                                 <td rowspan="2"></td>
@@ -83,7 +83,7 @@
                         </ng-container>
                         <ng-container
                             *ngIf="courses[i].idCourse != courses[i-1].idCourse && courses[i].idCourse == courses[i+1].idCourse">
-                            <td rowspan="2"><input type="checkbox"></td>
+                            <td rowspan="2"><input type="checkbox"  #checked (change)="updateList(courses[i].idCourse,schedules[i].idCourseOffering,checked)" ></td>
                             <td rowspan="2">{{courses[i].idCourse}}</td>
                             <td rowspan="2">{{courses[i].nameCourse}}</td>
                             <td rowspan="2"></td>
@@ -102,7 +102,7 @@
                         </ng-container>
                         <ng-container
                             *ngIf="courses[i].idCourse != courses[i-1].idCourse && courses[i].idCourse != courses[i+1].idCourse">
-                            <td><input type="checkbox"></td>
+                            <td><input type="checkbox"  #checked (change)="updateList(courses[i].idCourse,schedules[i].idCourseOffering,checked)" ></td>
                             <td>{{courses[i].idCourse}}</td>
                             <td>{{courses[i].nameCourse}}</td>
                             <td></td>
@@ -123,7 +123,7 @@
                     <ng-container *ngIf="i == clazzs.length - 1">
                         <ng-container *ngIf="courses[i].idCourse != courses[i-1].idCourse">
                             <tr>
-                                <td><input type="checkbox"></td>
+                                <td><input type="checkbox"  #checked (change)="updateList(courses[i].idCourse,schedules[i].idCourseOffering,checked)" ></td>
                                 <td>{{courses[i].idCourse}}</td>
                                 <td>{{courses[i].nameCourse}}</td>
                                 <td></td>
@@ -158,5 +158,6 @@
 
             </table>
         </div>
+        <button (click)="submit()"> Submit</button>
     </div>
 </section>

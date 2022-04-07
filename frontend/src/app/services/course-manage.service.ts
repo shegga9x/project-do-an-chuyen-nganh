@@ -10,7 +10,7 @@ const baseUrl = `${environment.apiUrl}/course-manage`;
   providedIn: 'root',
 })
 export class CourseManageService {
-  constructor(private http: HttpClient, private service: AccountService) {}
+  constructor(private http: HttpClient, private service: AccountService) { }
 
   getSubAvailableRegist() {
     let params = { id: '18130077' };
@@ -24,5 +24,13 @@ export class CourseManageService {
     return this.http.get(`${baseUrl}/get_semester_reuslt/`, {
       params: params,
     });
+  }
+  submitCourseRegist(listCourseRegistRequests: Map<string, boolean>) {
+    const convMap : any = {};
+    listCourseRegistRequests.forEach((val: boolean, key: string) => {
+      convMap[key] = val;
+    });
+    console.log(convMap);
+    return this.http.post(`${baseUrl}/submit_course_regist`, convMap).subscribe(x => console.log(x));
   }
 }

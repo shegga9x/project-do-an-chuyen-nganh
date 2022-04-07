@@ -281,8 +281,8 @@ AS
   SELECT sd.ID_Schedule,
   sd.ID_Course_Offering
 FROM Schedule sd JOIN
-  Course_Offering co ON sd.ID_Course_Offering = co.ID_Course_Offering JOIN
-  Student_Schedule stc ON stc.ID_Schedule = sd.ID_Schedule
+	  Course_Offering co ON sd.ID_Course_Offering = co.ID_Course_Offering JOIN
+	  Student_Schedule stc ON stc.ID_Schedule = sd.ID_Schedule
 WHERE stc.ID_Student = @ID_ACCOUNT
   AND stc.ID_Semester IN (SELECT
     ID_Semester

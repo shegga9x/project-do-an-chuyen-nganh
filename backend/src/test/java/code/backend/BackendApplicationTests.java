@@ -13,7 +13,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
+import code.backend.persitence.entities.CourseOffering;
 import code.backend.persitence.entities.Schedule;
+import code.backend.persitence.entities.Semester;
+import code.backend.persitence.entities.StudentSchedule;
 import code.backend.persitence.repository.ScheduleRepository;
 import code.backend.service.subService.EntityService;
 
@@ -25,6 +28,7 @@ class BackendApplicationTests {
 	private EntityService entityService;
 	@Autowired
 	ScheduleRepository scheduleRepository;
+
 
 	@Test
 	@Transactional
@@ -55,5 +59,20 @@ class BackendApplicationTests {
 		for (Schedule schedule : scheduleRepository.findAllByIds(ids)) {
 			System.out.println(schedule);
 		}
+	}
+	@Test
+	@Transactional
+	void test3() {
+		// courseOfferingRepository
+		// studentScheduleRepository
+		// semesterRepository
+		// Schedule schedule =  scheduleRepository.findById("find by semesterRepository");
+		// //Course_Offering
+		// CourseOffering courseOffering = courseOfferingRepository.findById(schedule.getIdCourseOffering());
+		// courseOffering.setCurrentSize(courseOffering.getCurrentSize() +1);
+		// courseOfferingRepository.save(courseOffering);
+		// //StudentSchedule
+		// StudentSchedule studentSchedule = new StudentSchedule("find by semesterRepository", schedule.getIdSchedule(), "from httpcontext");
+		// studentScheduleRepository.save(studentSchedule);
 	}
 }

@@ -3,6 +3,9 @@ package code.backend.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ import code.backend.helpers.payload.dto.ProfessorDTO;
 import code.backend.helpers.payload.dto.ScheduleDTO;
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
 import code.backend.helpers.payload.response.SubAvailableRespone;
+import code.backend.helpers.payload.subModel.SubmitCourseSubModel;
 import code.backend.helpers.utils.SubUtils;
 import code.backend.persitence.entities.Schedule;
 import code.backend.persitence.repository.ScheduleRepository;
@@ -61,9 +65,12 @@ public class CourseManageService {
                     Double.parseDouble(arr[4])));
         }
         System.out.println(listResult);
-        System.out.println("adsfasdfsadff");
         return listResult;
         
+    }
+
+    public List<SemesterReusltDTO> submit_Course_Regist(@Valid     Map<String, Boolean> model) {
+        return null;
     }
 
 }
