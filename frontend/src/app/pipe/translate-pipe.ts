@@ -7,9 +7,9 @@ export class TranslatePipe implements PipeTransform {
     constructor(private translation: L10nTranslationService, private translateService: TranslateService) {
         let lang = localStorage.getItem('lang');
         if (lang === null) {
-            translateService.setLocale('vn');
+            this.translateService.setLocale('vn');
         } else {
-            translateService.setLocale(lang);
+            this.translateService.setLocale(lang);
         }
     }
 

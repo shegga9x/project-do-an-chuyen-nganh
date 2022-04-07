@@ -35,17 +35,24 @@
     <h1>Login</h1>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="txt_field">
-            <input type="text" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" required>
+            <input type="text" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+                required>
             <span></span>
             <label>Email</label>
         </div>
         <div class="txt_field">
-            <input type="password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" required>
+            <input type="password" formControlName="password"
+                [ngClass]="{ 'is-invalid': submitted && f.password.errors }" required>
             <span></span>
             <label>Password</label>
         </div>
         <div class="pass">Forgot Password?</div>
-        <input type="submit" value="Login">
+        <input type="submit" value="Login" style="margin-bottom: 10px;">
+        <p *ngIf="submitted && f.recaptcha.errors?.required" style="color: red;margin-bottom: 10px;">capcha is required</p>
+        <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" (reset)="handleReset()" (expire)="handleExpire()"
+            (load)="handleLoad()" (success)="handleSuccess($event)" [useGlobalDomain]="false" [size]="size" [hl]="lang"
+            [theme]="theme" [type]="type" formControlName="recaptcha">
+        </ngx-recaptcha2>
         <div class="signup_link">
             Not a member? <a href="#">Signup</a>
         </div>

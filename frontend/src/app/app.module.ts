@@ -5,9 +5,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { appInitializer, ErrorInterceptor, JwtInterceptor } from 'src/app/helpers';
-import { AccountService, TranslateService } from 'src/app/services';
+import { AccountService } from 'src/app/services';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
+
+//capcha
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 //config l10n(include multi languages)
 import { L10nTranslationModule, L10nIntlModule } from 'angular-l10n';
@@ -37,6 +40,7 @@ import { TranslatePipe } from './pipe/translate-pipe';
     MatDialogModule,
     L10nTranslationModule.forRoot(l10nConfig),
     L10nIntlModule,
+    NgxCaptchaModule
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AccountService] },
