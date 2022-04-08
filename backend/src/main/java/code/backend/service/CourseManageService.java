@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import code.backend.helpers.advice.CustomException;
@@ -25,7 +24,6 @@ import code.backend.persitence.entities.CourseOffering;
 import code.backend.persitence.entities.Schedule;
 import code.backend.persitence.entities.StudentSchedule;
 import code.backend.persitence.entities.StudentScheduleId;
-import code.backend.persitence.model.UserDetailCustom;
 import code.backend.persitence.repository.CourseOfferingRepository;
 import code.backend.persitence.repository.ScheduleRepository;
 import code.backend.persitence.repository.SemesterRepository;
@@ -85,37 +83,44 @@ public class CourseManageService {
 
     public List<SemesterReusltDTO> submit_Course_Regist(@Valid Map<String, Boolean> model) {
 
-        for (var entry : model.entrySet()) {
-            // System.out.println(entry.getKey() + "/" + entry.getValue());
-            if (entry.getValue()) {
+        String semesterID = semesterRepository.getCurrentSemester().getIdSemester();
+        String userID = SubUtils.getCurrentUser().getId();
+        List<CourseOffering> listCourseOffering = new ArrayList<CourseOffering>();
+        List<StudentSchedule> listStudentSchedule = new ArrayList<StudentSchedule>();
+        String listCustomException = "";
 
+        for (var entry : model.entrySet()) {
+            if (entry.getValue()) {
                 Schedule schedule = scheduleRepository.getById(entry.getKey());
-                CourseOffering courseOffering = courseOfferingRepository.findById(schedule.getIdCourseOffering()).get();
-                if (courseOffering.getCurrentSize() >= courseOffering.getMaxSize()) {
-                    throw new CustomException("loi~ qua MaxSize");
-                }
+                CourseOffering courseOffering = schedule.getCourseOffering();
+
                 courseOffering.setCurrentSize((byte) (courseOffering.getCurrentSize() + 1));
-                String id = "";
-                try {
-                    UserDetailCustom currentAccount = (UserDetailCustom) SecurityContextHolder.getContext()
-                            .getAuthentication()
-                            .getPrincipal();
-                    id = currentAccount.getId();
-                } catch (Exception e) {
-                    id = "18130005";
-                }
                 StudentSchedule studentSchedule = new StudentSchedule(
-                        semesterRepository.getCurrentSemester().getIdSemester(),
-                        schedule.getIdSchedule(), id);
-                if (studentScheduleRepository
-                        .getById(new StudentScheduleId(semesterRepository.getCurrentSemester().getIdSemester(),
-                                schedule.getIdSchedule(), id)) != null) {
-                                    throw new CustomException("loi~ Schedule");
+                        semesterID,
+                        schedule.getIdSchedule(), userID);
+                try {
+                    studentScheduleRepository
+                            .getById(new StudentScheduleId(semesterID,
+                                    schedule.getIdSchedule(), userID));
+                    if (courseOffering.getCurrentSize() >= courseOffering.getMaxSize()) {
+                        listCustomException += courseOffering.getCourse().getNameCourse() + " đã hết chỗ";
+                    } else {
+                        listCourseOffering.add(courseOffering);
+                        listStudentSchedule.add(studentSchedule);
+                    }
+                } catch (Exception e) {
+                    listCustomException += "Môn học đã được đăng ký: " + courseOffering.getCourse().getNameCourse() +
+                            " " + courseOffering.getIdCourse();
                 }
-                courseOfferingRepository.save(courseOffering);
-                studentScheduleRepository.save(studentSchedule);
             }
         }
+        courseOfferingRepository.saveAll(listCourseOffering);
+        studentScheduleRepository.saveAll(listStudentSchedule);
+
+        if (!listCustomException.equals("")) {
+            throw new CustomException(listCustomException);
+        }
+
         return null;
     }
 

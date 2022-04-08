@@ -3,8 +3,10 @@ package code.backend.helpers.utils;
 import java.util.Arrays;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import code.backend.helpers.advice.CustomException;
+import code.backend.persitence.model.UserDetailCustom;
 
 public class SubUtils {
 
@@ -28,5 +30,12 @@ public class SubUtils {
     public static String removeBracketsFromArray(String[] array) {
         return Arrays.toString(array).replace(",", "").replace("[", "").replace("]", "").trim();
     }
+
+    public static UserDetailCustom getCurrentUser() {
+        return (UserDetailCustom) SecurityContextHolder.getContext()
+        .getAuthentication()
+        .getPrincipal();
+    }
+
 
 }
