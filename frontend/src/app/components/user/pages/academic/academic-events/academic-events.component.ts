@@ -29,7 +29,7 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
     this.courseManageService.listSubAvaliable = [];
   }
 
-  updateList(id: string, idSchedule: string, checked: HTMLInputElement): void {
+  updateList( idSchedule: string, checked: HTMLInputElement): void {
     this.listCourseRegistRequests.set(idSchedule, checked.checked);
   }
 

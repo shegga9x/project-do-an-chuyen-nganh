@@ -74,7 +74,7 @@ class BackendApplicationTests {
 	@Transactional
 	void test3() {
 
-		Schedule schedule = scheduleRepository.getById("48");
+		Schedule schedule = scheduleRepository.findById("48").get();
 
 		CourseOffering courseOffering = courseOfferingRepository.findById(schedule.getIdCourseOffering()).get();
 		courseOffering.setCurrentSize((byte) (courseOffering.getCurrentSize() + 1));

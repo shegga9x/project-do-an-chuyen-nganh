@@ -33,7 +33,7 @@
                                 *ngIf="listSubAvailable[i]['courseDTO'].idCourse != listSubAvailable[i+1]['courseDTO'].idCourse">
                                 <tr>
                                     <td><input type="checkbox" #checked
-                                            (change)="updateList(listSubAvailable[i]['courseDTO'].idCourse,listSubAvailable[i]['scheduleDTO'].idCourseOffering,checked)">
+                                            (change)="updateList(listSubAvailable[i]['scheduleDTO'].idSchedule,checked)">
                                     </td>
                                     <td>{{list['courseDTO'].idCourse}}</td>
                                     <td>{{list['courseDTO'].nameCourse}}</td>
@@ -57,7 +57,7 @@
                                 *ngIf="listSubAvailable[i]['courseDTO'].idCourse == listSubAvailable[i+1]['courseDTO'].idCourse">
                                 <tr>
                                     <td rowspan="2"><input type="checkbox" #checked
-                                            (change)="updateList(listSubAvailable[i]['courseDTO'].idCourse,listSubAvailable[i]['scheduleDTO'].idCourseOffering,checked)">
+                                            (change)="updateList(listSubAvailable[i]['scheduleDTO'].idSchedule,checked)">
                                     </td>
                                     <td rowspan="2">{{list['courseDTO'].idCourse}}</td>
                                     <td rowspan="2">{{list['courseDTO'].nameCourse}}</td>
@@ -96,7 +96,7 @@
                             <ng-container
                                 *ngIf="listSubAvailable[i]['courseDTO'].idCourse != listSubAvailable[i-1]['courseDTO'].idCourse && listSubAvailable[i]['courseDTO'].idCourse == listSubAvailable[i+1]['courseDTO'].idCourse">
                                 <td rowspan="2"><input type="checkbox" #checked
-                                        (change)="updateList(listSubAvailable[i]['courseDTO'].idCourse,listSubAvailable[i]['scheduleDTO'].idCourseOffering,checked)">
+                                        (change)="updateList(listSubAvailable[i]['scheduleDTO'].idSchedule,checked)">
                                 </td>
                                 <td rowspan="2">{{list['courseDTO'].idCourse}}</td>
                                 <td rowspan="2">{{list['courseDTO'].nameCourse}}</td>
@@ -118,7 +118,7 @@
                             <ng-container
                                 *ngIf="listSubAvailable[i]['courseDTO'].idCourse != listSubAvailable[i-1]['courseDTO'].idCourse && listSubAvailable[i]['courseDTO'].idCourse != listSubAvailable[i+1]['courseDTO'].idCourse">
                                 <td><input type="checkbox" #checked
-                                        (change)="updateList(listSubAvailable[i]['courseDTO'].idCourse,listSubAvailable[i]['scheduleDTO'].idCourseOffering,checked)">
+                                        (change)="updateList(listSubAvailable[i]['scheduleDTO'].idSchedule,checked)">
                                 </td>
                                 <td>{{list['courseDTO'].idCourse}}</td>
                                 <td>{{list['courseDTO'].nameCourse}}</td>
@@ -143,7 +143,7 @@
                                 *ngIf="listSubAvailable[i]['courseDTO'].idCourse != listSubAvailable[i-1]['courseDTO'].idCourse">
                                 <tr>
                                     <td><input type="checkbox" #checked
-                                            (change)="updateList(listSubAvailable[i]['courseDTO'].idCourse,listSubAvailable[i]['scheduleDTO'].idCourseOffering,checked)">
+                                            (change)="updateList(listSubAvailable[i]['scheduleDTO'].idSchedule,checked)">
                                     </td>
                                     <td>{{list['courseDTO'].idCourse}}</td>
                                     <td>{{list['courseDTO'].nameCourse}}</td>

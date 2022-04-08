@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
+import code.backend.helpers.payload.response.MessageResponse;
 import code.backend.helpers.payload.response.SubAvailableRespone;
 import code.backend.service.CourseManageService;
 
@@ -41,10 +42,7 @@ public class CourseManageController {
     }
 
     @PostMapping("/submit_course_regist")
-    public  List<SemesterReusltDTO> submit_Course_Regist(@Valid @RequestBody Map<String, Boolean>  model) {
-        model.entrySet().forEach(entry -> {
-            System.out.println(entry.getKey() + " " + entry.getValue());
-        });
+    public  MessageResponse submit_Course_Regist(@Valid @RequestBody Map<String, Boolean>  model) {
         return courseManageService.submit_Course_Regist(model);
     }
 }

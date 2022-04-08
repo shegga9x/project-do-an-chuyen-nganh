@@ -18,6 +18,7 @@ import code.backend.helpers.payload.dto.FacultyDTO;
 import code.backend.helpers.payload.dto.ProfessorDTO;
 import code.backend.helpers.payload.dto.ScheduleDTO;
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
+import code.backend.helpers.payload.response.MessageResponse;
 import code.backend.helpers.payload.response.SubAvailableRespone;
 import code.backend.helpers.utils.SubUtils;
 import code.backend.persitence.entities.CourseOffering;
@@ -81,47 +82,37 @@ public class CourseManageService {
 
     }
 
-    public List<SemesterReusltDTO> submit_Course_Regist(@Valid Map<String, Boolean> model) {
-
+    public MessageResponse submit_Course_Regist(@Valid Map<String, Boolean> model) {
         String semesterID = semesterRepository.getCurrentSemester().getIdSemester();
         String userID = SubUtils.getCurrentUser().getId();
         List<CourseOffering> listCourseOffering = new ArrayList<CourseOffering>();
         List<StudentSchedule> listStudentSchedule = new ArrayList<StudentSchedule>();
         String listCustomException = "";
-
         for (var entry : model.entrySet()) {
             if (entry.getValue()) {
-                Schedule schedule = scheduleRepository.getById(entry.getKey());
+                Schedule schedule = scheduleRepository.findById(entry.getKey()).get();
                 CourseOffering courseOffering = schedule.getCourseOffering();
-
-                courseOffering.setCurrentSize((byte) (courseOffering.getCurrentSize() + 1));
-                StudentSchedule studentSchedule = new StudentSchedule(
-                        semesterID,
-                        schedule.getIdSchedule(), userID);
                 try {
-                    studentScheduleRepository
-                            .getById(new StudentScheduleId(semesterID,
-                                    schedule.getIdSchedule(), userID));
-                    if (courseOffering.getCurrentSize() >= courseOffering.getMaxSize()) {
-                        listCustomException += courseOffering.getCourse().getNameCourse() + " đã hết chỗ";
-                    } else {
-                        listCourseOffering.add(courseOffering);
-                        listStudentSchedule.add(studentSchedule);
-                    }
+                    studentScheduleRepository.findById(new StudentScheduleId(semesterID, schedule.getIdSchedule(), userID)).get();
+                    listCustomException += "Môn học đã được đăng ký: " + courseOffering.getCourse().getNameCourse()
+                            + " " + courseOffering.getIdCourse() + System.lineSeparator();
                 } catch (Exception e) {
-                    listCustomException += "Môn học đã được đăng ký: " + courseOffering.getCourse().getNameCourse() +
-                            " " + courseOffering.getIdCourse();
+                    if (courseOffering.getCurrentSize() >= courseOffering.getMaxSize()) {
+                        listCustomException += courseOffering.getCourse().getNameCourse() + " đã hết chỗ"
+                                + System.lineSeparator();
+                    } else {
+                        courseOffering.setCurrentSize((byte) (courseOffering.getCurrentSize() + 1));
+                        listCourseOffering.add(courseOffering);
+                        listStudentSchedule.add(new StudentSchedule(semesterID, schedule.getIdSchedule(), userID));
+                    }
                 }
             }
         }
         courseOfferingRepository.saveAll(listCourseOffering);
         studentScheduleRepository.saveAll(listStudentSchedule);
-
         if (!listCustomException.equals("")) {
             throw new CustomException(listCustomException);
         }
-
-        return null;
+        return new  MessageResponse("Hoan thanh !!");
     }
-
 }
