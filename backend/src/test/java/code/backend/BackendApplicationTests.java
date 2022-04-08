@@ -10,14 +10,18 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
 import code.backend.persitence.entities.CourseOffering;
 import code.backend.persitence.entities.Schedule;
-import code.backend.persitence.entities.Semester;
 import code.backend.persitence.entities.StudentSchedule;
+import code.backend.persitence.model.UserDetailCustom;
+import code.backend.persitence.repository.CourseOfferingRepository;
 import code.backend.persitence.repository.ScheduleRepository;
+import code.backend.persitence.repository.SemesterRepository;
+import code.backend.persitence.repository.StudentScheduleRepository;
 import code.backend.service.subService.EntityService;
 
 @RunWith(SpringRunner.class)
@@ -28,7 +32,12 @@ class BackendApplicationTests {
 	private EntityService entityService;
 	@Autowired
 	ScheduleRepository scheduleRepository;
-
+	@Autowired
+	private CourseOfferingRepository courseOfferingRepository;
+	@Autowired
+	SemesterRepository semesterRepository;
+	@Autowired
+	StudentScheduleRepository studentScheduleRepository;
 
 	@Test
 	@Transactional
@@ -60,19 +69,29 @@ class BackendApplicationTests {
 			System.out.println(schedule);
 		}
 	}
+
 	@Test
 	@Transactional
 	void test3() {
-		// courseOfferingRepository
-		// studentScheduleRepository
-		// semesterRepository
-		// Schedule schedule =  scheduleRepository.findById("find by semesterRepository");
-		// //Course_Offering
-		// CourseOffering courseOffering = courseOfferingRepository.findById(schedule.getIdCourseOffering());
-		// courseOffering.setCurrentSize(courseOffering.getCurrentSize() +1);
-		// courseOfferingRepository.save(courseOffering);
-		// //StudentSchedule
-		// StudentSchedule studentSchedule = new StudentSchedule("find by semesterRepository", schedule.getIdSchedule(), "from httpcontext");
-		// studentScheduleRepository.save(studentSchedule);
+
+		Schedule schedule = scheduleRepository.getById("48");
+
+		CourseOffering courseOffering = courseOfferingRepository.findById(schedule.getIdCourseOffering()).get();
+		courseOffering.setCurrentSize((byte) (courseOffering.getCurrentSize() + 1));
+		courseOfferingRepository.save(courseOffering);
+		String id = "";
+		try {
+			UserDetailCustom currentAccount = (UserDetailCustom) SecurityContextHolder.getContext().getAuthentication()
+					.getPrincipal();
+			id = currentAccount.getId();
+		} catch (Exception e) {
+			id = "18130005";
+		}
+
+		StudentSchedule studentSchedule = new StudentSchedule(semesterRepository.getCurrentSemester().getIdSemester(),
+				schedule.getIdSchedule(), id);
+		studentScheduleRepository.save(studentSchedule);
+		System.out.println(studentScheduleRepository.save(studentSchedule));
+
 	}
 }

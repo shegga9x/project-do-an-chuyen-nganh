@@ -61,10 +61,12 @@ export class AcademicEventsComponent implements OnInit {
       },
     });
   }
-  getSemesterReuslt() {
-    console.log("alo nghe ko")
-    this.courseManageService
-      .getSemesterReusltRegist()
-      .subscribe((x) => console.log(x));
-  }
+  
+  // getSemesterReuslt() {
+  //   console.log("alo nghe ko")
+  //   this.courseManageService
+  //     .getSemesterReusltRegist()
+  //     .subscribe((x) => console.log(x));
+  // }
+
 }

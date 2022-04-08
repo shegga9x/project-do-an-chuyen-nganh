@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
 import code.backend.helpers.payload.response.SubAvailableRespone;
-import code.backend.helpers.payload.subModel.SubmitCourseSubModel;
 import code.backend.service.CourseManageService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
