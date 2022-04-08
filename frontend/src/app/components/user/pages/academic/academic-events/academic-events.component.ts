@@ -1,10 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Schedule } from 'src/app/models/schedule';
-import { Faculty } from 'src/app/models/faculty';
-import { CourseOffering } from 'src/app/models/courseOffering';
-import { Course } from 'src/app/models/course';
-import { Clazz } from 'src/app/models/clazz';
 import { CourseManageService } from 'src/app/services/course-manage.service';
 
 @Component({
@@ -12,13 +7,10 @@ import { CourseManageService } from 'src/app/services/course-manage.service';
   templateUrl: './academic-events.component.html',
   styleUrls: ['./academic-events.component.scss'],
 })
-export class AcademicEventsComponent implements OnInit {
-  clazzs: Clazz[] = [];
-  courses: Course[] = [];
-  courseOfferings: CourseOffering[] = [];
-  facultys: Faculty[] = [];
-  schedules: Schedule[] = [];
-  finish: boolean = false;
+export class AcademicEventsComponent implements OnInit, OnDestroy {
+  listSubAvailable: any[] = [];
+
+  loading: boolean = false;
   listCourseRegistRequests: Map<string, boolean> = new Map<string, boolean>();
   constructor(
     private titleService: Title,
@@ -31,42 +23,50 @@ export class AcademicEventsComponent implements OnInit {
     this.getSubAvailable();
     //this.getSemesterReuslt();
   }
-  updateList(id: string, idSchedule : string,checked: HTMLInputElement): void {
+
+  // change listSubAvailable in courseManagerServices to empty when redirect to other page
+  ngOnDestroy(): void {
+    this.courseManageService.listSubAvaliable = [];
+  }
+
+  updateList(id: string, idSchedule: string, checked: HTMLInputElement): void {
     this.listCourseRegistRequests.set(idSchedule, checked.checked);
   }
 
   submit() {
-    this.courseManageService.submitCourseRegist(this.listCourseRegistRequests)
+    this.courseManageService.submitCourseRegist(this.listCourseRegistRequests);
   }
   getSubAvailable() {
     this.courseManageService.getSubAvailableRegist().subscribe({
       next: (x: any) => {
+        //foreach
         x.forEach((element: any) => {
           console.log(element);
-          let clazz: Clazz = element['clazzDTO'];
-          let course: Course = element['courseDTO'];
-          let courseOffering: CourseOffering = element['courseOfferingDTO'];
-          let faculty: Faculty = element['facultyDTO'];
-          let schedule: Schedule = element['scheduleDTO'];
-          this.clazzs.push(clazz);
-          this.courses.push(course);
-          this.courseOfferings.push(courseOffering);
-          this.facultys.push(faculty);
-          this.schedules.push(schedule);
+          this.listSubAvailable.push(element);
         });
-        this.finish = true;
+        //add to course-manage services
+        this.courseManageService.listSubAvaliable = this.listSubAvailable;
+        this.loading = true;
       },
       error: (error) => {
         console.log(error);
       },
     });
   }
-  
-  // getSemesterReuslt() {
-  //   console.log("alo nghe ko")
-  //   this.courseManageService
-  //     .getSemesterReusltRegist()
-  //     .subscribe((x) => console.log(x));
-  // }
 
+  filterSubAvaiable(idMonHoc: string) {
+    if (idMonHoc == '') {
+      this.listSubAvailable = this.courseManageService.listSubAvaliable;
+      return;
+    }
+    this.listSubAvailable = this.listSubAvailable.filter(
+      (x) => x['courseDTO'].idCourse == idMonHoc
+    );
+  }
+
+  getSemesterReuslt() {
+    this.courseManageService
+      .getSemesterReusltRegist()
+      .subscribe((x) => console.log(x));
+  }
 }
