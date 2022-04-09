@@ -28,7 +28,7 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
 
   // change listSubAvailable in courseManagerServices to empty when redirect to other page
   ngOnDestroy(): void {
-    this.courseManageService.listSubAvailable = [];
+    this.courseManageService.listSubAvaliable = [];
   }
 
   updateListAndSaveToDB(idCourseOffering: string, checked: HTMLInputElement): void {
@@ -54,7 +54,7 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
           this.listSubAvailable.push(element);
         });
         //add to course-manage services
-        this.courseManageService.listSubAvailable = this.listSubAvailable;
+        this.courseManageService.listSubAvaliable = this.listSubAvailable;
         this.loading = true;
       },
       error: (error) => {
@@ -85,10 +85,10 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
 
   filterSubAvaiable(idMonHoc: string) {
     if (idMonHoc == '') {
-      this.listSubAvailable = this.courseManageService.listSubAvailable;
+      this.listSubAvailable = this.courseManageService.listSubAvaliable;
       return;
     }
-    this.listSubAvailable = this.courseManageService.listSubAvailable.filter(
+    this.listSubAvailable = this.courseManageService.listSubAvaliable.filter(
       (x) => x['courseDTO'].idCourse == idMonHoc
     );
   }

@@ -101,7 +101,8 @@ public class CourseManageService {
                 Schedule schedule = scheduleRepository.findById(entry.getKey()).get();
                 CourseOffering courseOffering = schedule.getCourseOffering();
                 try {
-                    studentScheduleRepository.findById(new StudentScheduleId(semesterID, schedule.getIdSchedule(), userID)).get();
+                    studentScheduleRepository
+                            .findById(new StudentScheduleId(semesterID, schedule.getIdSchedule(), userID)).get();
                     listCustomException += "Môn học đã được đăng ký: " + courseOffering.getCourse().getNameCourse()
                             + " " + courseOffering.getIdCourse() + System.lineSeparator();
                 } catch (Exception e) {
@@ -132,7 +133,8 @@ public class CourseManageService {
 
         //
         for (Schedule s : listSchedule) {
-            if (studentScheduleFRepository.findById(new StudentScheduleFId(semesterID, s.getIdSchedule(), userID)).isPresent()) {
+            if (studentScheduleFRepository.findById(new StudentScheduleFId(semesterID, s.getIdSchedule(), userID))
+                    .isPresent()) {
                 throw new CustomException("System Error");
             } else {
                 listStudentScheduleF.add(new StudentScheduleF(semesterID, s.getIdSchedule(), userID));
@@ -146,9 +148,11 @@ public class CourseManageService {
     public Set<CourseDTO> get_Course_Register_Fake(String idStudent) {
         String semesterID = semesterRepository.getCurrentSemester().getIdSemester();
         Set<CourseDTO> listCourseDTO = new HashSet<>();
-        List<StudentScheduleF> listStudentScheduleF = studentScheduleFRepository.findByIdSemesterAndIdStudent(semesterID, idStudent);
+        List<StudentScheduleF> listStudentScheduleF = studentScheduleFRepository
+                .findByIdSemesterAndIdStudent(semesterID, idStudent);
         for (StudentScheduleF s : listStudentScheduleF) {
-            listCourseDTO.add((CourseDTO) SubUtils.mapperObject(s.getSchedule().getCourseOffering().getCourse(), new CourseDTO()));
+            listCourseDTO.add((CourseDTO) SubUtils.mapperObject(s.getSchedule().getCourseOffering().getCourse(),
+                    new CourseDTO()));
         }
         return listCourseDTO;
     }
@@ -156,13 +160,13 @@ public class CourseManageService {
     public List<TimeTableDTO> get_Time_Table_ST(String idACCOUNT) {
 
         List<String> listParam = Arrays.asList(idACCOUNT);
-		List<String[]> columns = entityService.getFunctionResult("Time_Table_St", listParam);
-		List<TimeTableDTO> listResult = new ArrayList<>();
-		for (String[] arr : columns) {
-			listResult.add(new TimeTableDTO(arr[0], arr[1]));
-		}
+        List<String[]> columns = entityService.getFunctionResult("Time_Table_St", listParam);
+        List<TimeTableDTO> listResult = new ArrayList<>();
+        for (String[] arr : columns) {
+            listResult.add(new TimeTableDTO(arr[0], arr[1]));
+        }
         System.out.println("TimeTable_ST:");
-		listResult.forEach(System.out::println);
+        listResult.forEach(System.out::println);
         return listResult;
 
     }
