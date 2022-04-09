@@ -58,7 +58,7 @@ public class Schedule implements Serializable {
 
     // --- ENTITY LINKS ( RELATIONSHIP )
     @OneToMany(mappedBy = "schedule")
-    private List<StudentScheduleR> listOfStudentScheduleR;
+    private List<StudentScheduleF> listOfStudentScheduleF;
 
     @OneToMany(mappedBy = "schedule")
     private List<ProfessorSchedule> listOfProfessorSchedule;
@@ -163,8 +163,8 @@ public class Schedule implements Serializable {
     }
 
     // --- GETTERS FOR LINKS
-    public List<StudentScheduleR> getListOfStudentScheduleR() {
-        return this.listOfStudentScheduleR;
+    public List<StudentScheduleF> getListOfStudentScheduleR() {
+        return this.listOfStudentScheduleF;
     }
 
     public List<ProfessorSchedule> getListOfProfessorSchedule() {

@@ -52,7 +52,7 @@ public class Student implements Serializable {
     private FinalResult finalResult ; 
 
     @OneToMany(mappedBy="student")
-    private List<StudentScheduleR> listOfStudentScheduleR ; 
+    private List<StudentScheduleF> listOfStudentScheduleF ; 
 
     @ManyToOne
     @JoinColumn(name="Clazz_code", referencedColumnName="Clazz_code", insertable=false, updatable=false)
@@ -141,8 +141,8 @@ public class Student implements Serializable {
         return this.finalResult;
     } 
 
-    public List<StudentScheduleR> getListOfStudentScheduleR() {
-        return this.listOfStudentScheduleR;
+    public List<StudentScheduleF> getListOfStudentScheduleF() {
+        return this.listOfStudentScheduleF;
     } 
 
     public Clazz getClazz() {

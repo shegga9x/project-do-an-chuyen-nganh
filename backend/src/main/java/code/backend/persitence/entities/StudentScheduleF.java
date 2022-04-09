@@ -9,15 +9,15 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 /**
- * JPA entity class for "StudentScheduleR"
+ * JPA entity class for "StudentScheduleF"
  *
  * @author Telosys
  *
  */
 @Entity
-@Table(name="Student_Schedule_R", schema="dbo", catalog="Course_Registration" )
-@IdClass(StudentScheduleRId.class)
-public class StudentScheduleR implements Serializable {
+@Table(name="Student_Schedule_F", schema="dbo", catalog="Course_Registration" )
+@IdClass(StudentScheduleFId.class)
+public class StudentScheduleF implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -53,7 +53,7 @@ public class StudentScheduleR implements Serializable {
     /**
      * Constructor
      */
-    public StudentScheduleR() {
+    public StudentScheduleF() {
 		super();
     }
     

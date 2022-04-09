@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @author Telosys
  *
  */
-public class StudentScheduleRId implements Serializable {
+public class StudentScheduleFId implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -27,7 +27,7 @@ public class StudentScheduleRId implements Serializable {
     /**
      * Constructor
      */
-    public StudentScheduleRId() {
+    public StudentScheduleFId() {
         super();
     }
 
@@ -37,7 +37,7 @@ public class StudentScheduleRId implements Serializable {
      * @param idSchedule 
      * @param idStudent 
      */
-    public StudentScheduleRId( String idSemester, String idSchedule, String idStudent ) {
+    public StudentScheduleFId( String idSemester, String idSchedule, String idStudent ) {
         super();
         this.idSemester = idSemester ;
         this.idSchedule = idSchedule ;
@@ -73,7 +73,7 @@ public class StudentScheduleRId implements Serializable {
 		if ( this == obj ) return true ; 
 		if ( obj == null ) return false ;
 		if ( this.getClass() != obj.getClass() ) return false ; 
-		StudentScheduleRId other = (StudentScheduleRId) obj; 
+		StudentScheduleFId other = (StudentScheduleFId) obj; 
 		//--- Attribute idSemester
 		if ( idSemester == null ) { 
 			if ( other.idSemester != null ) 

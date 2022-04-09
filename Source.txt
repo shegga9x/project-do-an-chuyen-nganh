@@ -8,3 +8,13 @@ https://jasonwatmore.com/post/2022/02/26/net-6-boilerplate-api-tutorial-with-ema
 taikhoandangnhap
 18130005@st.hcmuaf.edu.vn
 123456
+
+đăng ký môn học - post 
+xem tkb - get 
+xem điểm - get
+xem ds lớp - get
+xem quy trình đào tạo - get
+nhập điểm by excel - post
+tạo user by excel - post
+xem giá tiền - get
+manage entity

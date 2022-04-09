@@ -209,7 +209,7 @@ CREATE TABLE Student_Schedule
   ID_Student nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Student (ID_Student) ON DELETE CASCADE,
   PRIMARY KEY (ID_Student, ID_Semester, ID_Schedule)
 )
-CREATE TABLE Student_Schedule_R
+CREATE TABLE Student_Schedule_F
 (
   ID_Semester nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Semester (ID_Semester),
   ID_Schedule nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Schedule (ID_Schedule) ON DELETE CASCADE,
@@ -917,23 +917,23 @@ insert into Student_Schedule values('2021_1',N'40',N'18130005')
 insert into Student_Schedule values('2021_1',N'41',N'18130005')
 
 -- insert into Student_ScheduleR
-insert into Student_Schedule_R values('2020_1',N'30',N'18130006')
-insert into Student_Schedule_R values('2020_1',N'31',N'18130006')
-insert into Student_Schedule_R values('2020_1',N'32',N'18130006')
-insert into Student_Schedule_R values('2020_1',N'33',N'18130006')
-insert into Student_Schedule_R values('2020_1',N'34',N'18130006')
-insert into Student_Schedule_R values('2020_1',N'35',N'18130006')
-insert into Student_Schedule_R values('2020_2',N'36',N'18130006')
-insert into Student_Schedule_R values('2020_2',N'37',N'18130006')
-insert into Student_Schedule_R values('2020_2',N'38',N'18130006')
-insert into Student_Schedule_R values('2020_2',N'39',N'18130006')
-insert into Student_Schedule_R values('2020_2',N'40',N'18130006')
-insert into Student_Schedule_R values('2020_2',N'36',N'18130005')
-insert into Student_Schedule_R values('2020_2',N'37',N'18130005')
-insert into Student_Schedule_R values('2020_2',N'38',N'18130005')
-insert into Student_Schedule_R values('2020_2',N'39',N'18130005')
-insert into Student_Schedule_R values('2020_2',N'41',N'18130005')
-insert into Student_Schedule_R values('2020_2',N'42',N'18130005')
+insert into Student_Schedule_F values('2020_1',N'30',N'18130006')
+insert into Student_Schedule_F values('2020_1',N'31',N'18130006')
+insert into Student_Schedule_F values('2020_1',N'32',N'18130006')
+insert into Student_Schedule_F values('2020_1',N'33',N'18130006')
+insert into Student_Schedule_F values('2020_1',N'34',N'18130006')
+insert into Student_Schedule_F values('2020_1',N'35',N'18130006')
+insert into Student_Schedule_F values('2020_2',N'36',N'18130006')
+insert into Student_Schedule_F values('2020_2',N'37',N'18130006')
+insert into Student_Schedule_F values('2020_2',N'38',N'18130006')
+insert into Student_Schedule_F values('2020_2',N'39',N'18130006')
+insert into Student_Schedule_F values('2020_2',N'40',N'18130006')
+insert into Student_Schedule_F values('2020_2',N'36',N'18130005')
+insert into Student_Schedule_F values('2020_2',N'37',N'18130005')
+insert into Student_Schedule_F values('2020_2',N'38',N'18130005')
+insert into Student_Schedule_F values('2020_2',N'39',N'18130005')
+insert into Student_Schedule_F values('2020_2',N'41',N'18130005')
+insert into Student_Schedule_F values('2020_2',N'42',N'18130005')
 
 -- insert into Professor_Schedule
 insert into Professor_Schedule values('2019_2',N'28',N'224')
@@ -1051,9 +1051,9 @@ select * from ACCOUNT
 -- AND sp.ID_Semester = '2020_2';
 
 -- ------ xét nó có trong cơ sỡ dữ liệu hay chưa
--- DELETE FROM Student_Schedule_R;
+-- DELETE FROM Student_Schedule_F;
 -- SELECT strr.*
--- FROM Student_Schedule_R strr
+-- FROM Student_Schedule_F strr
 -- WHERE strr.ID_Semester = '2020_2'
 -- AND strr.ID_Student = '18130005'
 -- AND strr.ID_Schedule = '36'

@@ -56,7 +56,7 @@ public class Semester implements Serializable {
     private List<StudentSchedule> listOfStudentSchedule ; 
 
     @OneToMany(mappedBy="semester")
-    private List<StudentScheduleR> listOfStudentScheduleR ; 
+    private List<StudentScheduleF> listOfStudentScheduleF ; 
 
     @OneToMany(mappedBy="semester")
     private List<BillingSystem> listOfBillingSystem ; 
@@ -125,8 +125,8 @@ public class Semester implements Serializable {
         return this.listOfStudentSchedule;
     } 
 
-    public List<StudentScheduleR> getListOfStudentScheduleR() {
-        return this.listOfStudentScheduleR;
+    public List<StudentScheduleF> getListOfStudentScheduleF() {
+        return this.listOfStudentScheduleF;
     } 
 
     public List<BillingSystem> getListOfBillingSystem() {
