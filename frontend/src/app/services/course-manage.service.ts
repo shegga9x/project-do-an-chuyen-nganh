@@ -1,4 +1,3 @@
-import { map } from 'rxjs/operators';
 import { AccountService } from './account.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -11,13 +10,13 @@ const baseUrl = `${environment.apiUrl}/course-manage`;
 })
 export class CourseManageService {
 
-  listSubAvaliable: any[] = [];
+  listSubAvailable: any[] = [];
 
 
-  constructor(private http: HttpClient, private service: AccountService) { }
+  constructor(private http: HttpClient, private accountService: AccountService) { }
 
   getSubAvailableRegist() {
-    let params = { id: '18130077' };
+    let params = { id: this.accountService.accountValue?.idAccount as string };
     return this.http.get(`${baseUrl}/get_sub_available_st/`, {
       params: params,
     });
@@ -30,13 +29,24 @@ export class CourseManageService {
     });
   }
 
+  submitCourseRegisterFake(idCourseOffering: string) {
+    return this.http.post(`${baseUrl}/submit_course_register_fake`, idCourseOffering);
+  }
+
+  getCourseRegisterFake() {
+    let params = { id: this.accountService.accountValue?.idAccount as string };
+    return this.http.get(`${baseUrl}/get_course_register_fake/`, {
+      params: params,
+    });
+  }
+
   submitCourseRegist(listCourseRegistRequests: Map<string, boolean>) {
     const convMap: any = {};
     listCourseRegistRequests.forEach((val: boolean, key: string) => {
       convMap[key] = val;
     });
     console.log(convMap);
-    return this.http.post(`${baseUrl}/submit_course_regist`, convMap).subscribe(x => console.log(x));
+    return this.http.post(`${baseUrl}/submit_course_regist`, convMap);
   }
 
 

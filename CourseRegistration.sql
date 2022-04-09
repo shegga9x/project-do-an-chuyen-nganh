@@ -1091,3 +1091,9 @@ from Student
 select * from get_Semester_Reuslt('18130005','2021_1')
 
 select * from student_schedule where ID_Student ='18130005'
+
+delete from Student_Schedule
+
+select * from Student_Schedule_F;
+
+delete from Student_Schedule_F;

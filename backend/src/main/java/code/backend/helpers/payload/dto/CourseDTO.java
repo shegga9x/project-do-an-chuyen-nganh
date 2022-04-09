@@ -1,5 +1,7 @@
 package code.backend.helpers.payload.dto;
 
+import java.util.Objects;
+
 public class CourseDTO {
     private String idCourse;
 
@@ -65,4 +67,16 @@ public class CourseDTO {
         this.numberS = numberS;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CourseDTO courseDTO = (CourseDTO) o;
+        return idCourse.equals(courseDTO.idCourse);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idCourse);
+    }
 }
