@@ -1,33 +1,44 @@
 package code.backend.helpers.payload.dto;
 
 public class TimeTableDTO {
-    private String ID_Schedule;
-    private String ID_Course_Offering;
+    private ScheduleDTO scheduleDTO;
+    private CourseOfferingDTO courseOfferingDTO;
+    private CourseDTO courseDTO;
 
-    public TimeTableDTO(String iD_Schedule, String iD_Course_Offering) {
-        ID_Schedule = iD_Schedule;
-        ID_Course_Offering = iD_Course_Offering;
+    public TimeTableDTO(ScheduleDTO scheduleDTO, CourseOfferingDTO courseOfferingDTO, CourseDTO courseDTO) {
+        this.scheduleDTO = scheduleDTO;
+        this.courseOfferingDTO = courseOfferingDTO;
+        this.courseDTO = courseDTO;
     }
 
-    public String getID_Schedule() {
-        return ID_Schedule;
+    public ScheduleDTO getScheduleDTO() {
+        return scheduleDTO;
     }
 
-    public void setID_Schedule(String iD_Schedule) {
-        ID_Schedule = iD_Schedule;
+    public void setScheduleDTO(ScheduleDTO scheduleDTO) {
+        this.scheduleDTO = scheduleDTO;
     }
 
-    public String getID_Course_Offering() {
-        return ID_Course_Offering;
+    public CourseOfferingDTO getCourseOfferingDTO() {
+        return courseOfferingDTO;
     }
 
-    public void setID_Course_Offering(String iD_Course_Offering) {
-        ID_Course_Offering = iD_Course_Offering;
+    public void setCourseOfferingDTO(CourseOfferingDTO courseOfferingDTO) {
+        this.courseOfferingDTO = courseOfferingDTO;
+    }
+
+    public CourseDTO getCourseDTO() {
+        return courseDTO;
+    }
+
+    public void setCourseDTO(CourseDTO courseDTO) {
+        this.courseDTO = courseDTO;
     }
 
     @Override
     public String toString() {
-        return "TimeTableDTO [ID_Course_Offering=" + ID_Course_Offering + ", ID_Schedule=" + ID_Schedule + "]";
+        return "TimeTableDTO [courseDTO=" + courseDTO + ", courseOfferingDTO=" + courseOfferingDTO + ", scheduleDTO="
+                + scheduleDTO + "]";
     }
 
 }

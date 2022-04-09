@@ -22,9 +22,9 @@ export class AcademicCalenderComponent implements OnInit {
     this.getTimeTableST();
   }
 
-  ngOnDestroy(): void {
-    this.courseManageService.listTimeTable_ST = [];
-  }
+  // ngOnDestroy(): void {
+  //   this.courseManageService.listTimeTable_ST = [];
+  // }
 
   getTimeTableST() {
     this.courseManageService.getTimeTableSTRegist().subscribe({
@@ -37,7 +37,7 @@ export class AcademicCalenderComponent implements OnInit {
         //add to course-manage services
         this.courseManageService.listTimeTable_ST = this.listTimeTableST;
         this.loading = true;
-        console.log("asdf");
+        console.log(x);
       },
       error: (error) => {
         console.log(error);

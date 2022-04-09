@@ -55,7 +55,7 @@ export class CourseManageService {
   }
 
   getTimeTableSTRegist() {
-    let params = { idACCOUNT: '18130005' };
+    let params = { idACCOUNT: this.accountService.accountValue?.idAccount as string };
     return this.http.get(`${baseUrl}/get_time_table_st/`, {
       params: params,
     });

@@ -101,7 +101,7 @@ class BackendApplicationTests {
 		List<String[]> columns = entityService.getFunctionResult("Time_Table_St", listParam);
 		List<TimeTableDTO> listResult = new ArrayList<>();
 		for (String[] arr : columns) {
-			listResult.add(new TimeTableDTO(arr[0], arr[1]));
+			// listResult.add(new TimeTableDTO(arr[0], arr[1]));
 		}
 		System.out.println("TimeTable_ST:");
 		listResult.forEach(System.out::println);

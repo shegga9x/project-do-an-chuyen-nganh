@@ -1,30 +1,41 @@
-.aca-calender {
-	margin-top: 20px;
-}
-.calender {
-	margin-bottom: 30px;
-}
-.aca-button {
-	border: none;
-	padding: 10px 20px 10px 20px;
-	background-color: #003A6A;
-	font-family: 'Nunito', sans-serif;
-	font-size: 12px;
-	font-weight: bold;
-	color: white;
-	border-radius: 50px;
-	transform: scale(1);
-	transition: .6s;
-	&:hover {
-		border: none;
-		padding: 10px 20px 10px 20px;
-		background-color: #003A6A;
-		font-family: 'Nunito', sans-serif;
-		font-size: 12px;
-		font-weight: bold;
-		color: white;
-		border-radius: 50px;
-		transform: scale(1.2);
-		transition: .6s;
+// .aca-calender {
+// 	margin-top: 20px;
+// }
+// .calender {
+// 	margin-bottom: 30px;
+// }
+// .aca-button {
+// 	border: none;
+// 	padding: 10px 20px 10px 20px;
+// 	background-color: #003A6A;
+// 	font-family: 'Nunito', sans-serif;
+// 	font-size: 12px;
+// 	font-weight: bold;
+// 	color: white;
+// 	border-radius: 50px;
+// 	transform: scale(1);
+// 	transition: .6s;
+// 	&:hover {
+// 		border: none;
+// 		padding: 10px 20px 10px 20px;
+// 		background-color: #003A6A;
+// 		font-family: 'Nunito', sans-serif;
+// 		font-size: 12px;
+// 		font-weight: bold;
+// 		color: white;
+// 		border-radius: 50px;
+// 		transform: scale(1.2);
+// 		transition: .6s;
+// 	}
+// }
+.fixTableHead {
+	overflow: auto; 
+	height: 350px;
+  
+	thead th {
+	  position: sticky; 
+	  top: 0; 
+	  z-index: 1;
+	  background: #ABDD93;
 	}
-}
+  }
