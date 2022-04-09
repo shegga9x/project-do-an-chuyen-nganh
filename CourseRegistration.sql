@@ -390,6 +390,7 @@ WHERE stc.ID_Student = @ID_ACCOUNT
   AND sc.Start_Slot = @Start_Slot
   AND sc.Teaching_Day = @Teaching_Day
 GO
+
 CREATE FUNCTION check_Sub_Exist (@ID_ACCOUNT varchar(50))
 RETURNS TABLE
 AS

@@ -3,6 +3,7 @@ package code.backend;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -17,6 +18,7 @@ import code.backend.helpers.payload.dto.SemesterReusltDTO;
 import code.backend.helpers.payload.dto.TimeTableDTO;
 import code.backend.persitence.entities.CourseOffering;
 import code.backend.persitence.entities.Schedule;
+import code.backend.persitence.entities.Student;
 import code.backend.persitence.entities.StudentSchedule;
 import code.backend.persitence.model.UserDetailCustom;
 import code.backend.persitence.repository.CourseOfferingRepository;
@@ -96,7 +98,7 @@ class BackendApplicationTests {
 
 	@Test
 	@Transactional
-	void test4() {
+	void test5() {
 		List<String> listParam = Arrays.asList("18130005");
 		List<String[]> columns = entityService.getFunctionResult("Time_Table_St", listParam);
 		List<TimeTableDTO> listResult = new ArrayList<>();
@@ -106,5 +108,15 @@ class BackendApplicationTests {
 		System.out.println("TimeTable_ST:");
 		listResult.forEach(System.out::println);
 	}
-	
+
+	@Test
+	@Transactional
+	void test4() {
+		String idSchedule = "40";
+		Schedule schedule = scheduleRepository.findById(idSchedule).get();
+		List<Student> students = schedule.getListOfStudentSchedule().stream().map(StudentSchedule::getStudent)
+				.collect(Collectors.toList());
+		System.out.println(Arrays.toString(students.toArray()));
+	}
+
 }

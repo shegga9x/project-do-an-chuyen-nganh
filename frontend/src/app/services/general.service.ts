@@ -29,7 +29,6 @@ export class GeneralService {
 
   }
   excelReader(file: File): Promise<any> {
-
     return new Promise((resolve) => {
       let reader: FileReader = new FileReader();
       reader.readAsBinaryString(file);
@@ -46,13 +45,11 @@ export class GeneralService {
         const result = JSON.parse(resultFromExcelToString.toString());
         var listFieldNameDefualt = ["studentID", "firstName", "lastName", "finalResult"];
         var listFieldNameObjectExcel = Object.keys(result[0]);
- 
         for (let i = 0; i < result.length; i++) {
           for (let i1 = 0; i1 < listFieldNameObjectExcel.length; i1++) {
             this.renameKey(result[i], listFieldNameObjectExcel[i1], listFieldNameDefualt[i1]);
           }
         }
-        console.log(result)
         this.pDTService.addAccountFromExcel(result).then(x => { resolve(x) });
       }
     });
