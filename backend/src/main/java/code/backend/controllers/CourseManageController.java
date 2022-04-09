@@ -6,8 +6,6 @@ import java.util.Set;
 
 import javax.validation.Valid;
 
-import code.backend.helpers.payload.dto.CourseDTO;
-import code.backend.helpers.payload.dto.StudentScheduleFDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import code.backend.helpers.payload.dto.CourseDTO;
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
 import code.backend.helpers.payload.response.MessageResponse;
 import code.backend.helpers.payload.response.SubAvailableRespone;

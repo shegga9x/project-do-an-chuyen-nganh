@@ -43,7 +43,7 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.courseManageService.submitCourseRegist(this.listCourseRegistRequests).subscribe(x => { console.log(x) });
+    this.courseManageService.submitCourseRegist(this.listCourseRegistRequests).subscribe(x => { (x) });
   }
 
   getSubAvailable() {
@@ -76,10 +76,8 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
 
   findIdCourse(idCourse: string) {
     const even = (element: any) => {
-      console.log(element);
       return element.idCourse == idCourse;
     };
-    console.log(this.listCourseRegisterFake.some(even));
     return this.listCourseRegisterFake.some(even);
   }
 
