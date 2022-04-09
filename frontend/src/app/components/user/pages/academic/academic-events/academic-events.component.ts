@@ -28,12 +28,11 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
 
   // change listSubAvailable in courseManagerServices to empty when redirect to other page
   ngOnDestroy(): void {
-    this.courseManageService.listSubAvaliable = [];
+    this.courseManageService.listSubAvailable = [];
   }
 
   updateListAndSaveToDB(idCourseOffering: string, checked: HTMLInputElement): void {
-
-    this.listCourseRegistRequests.set(idCourseOffering, checked.checked);
+    // this.listCourseRegistRequests.set(idCourseOffering, checked.checked);
     checked.disabled = true;
     this.courseManageService.submitCourseRegisterFake(idCourseOffering).subscribe(() => {
       this.courseManageService.getCourseRegisterFake().subscribe((x: any) => {
@@ -43,7 +42,7 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.courseManageService.submitCourseRegist(this.listCourseRegistRequests).subscribe(x => { (x) });
+    this.courseManageService.submitCourseRegist(this.listCourseRegistRequests).subscribe(x => { console.log(x) });
   }
 
   getSubAvailable() {
@@ -54,7 +53,7 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
           this.listSubAvailable.push(element);
         });
         //add to course-manage services
-        this.courseManageService.listSubAvaliable = this.listSubAvailable;
+        this.courseManageService.listSubAvailable = this.listSubAvailable;
         this.loading = true;
       },
       error: (error) => {
@@ -83,10 +82,10 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
 
   filterSubAvaiable(idMonHoc: string) {
     if (idMonHoc == '') {
-      this.listSubAvailable = this.courseManageService.listSubAvaliable;
+      this.listSubAvailable = this.courseManageService.listSubAvailable;
       return;
     }
-    this.listSubAvailable = this.courseManageService.listSubAvaliable.filter(
+    this.listSubAvailable = this.courseManageService.listSubAvailable.filter(
       (x) => x['courseDTO'].idCourse == idMonHoc
     );
   }

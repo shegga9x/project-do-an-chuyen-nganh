@@ -9,7 +9,7 @@ const baseUrl = `${environment.apiUrl}/course-manage`;
   providedIn: 'root',
 })
 export class CourseManageService {
-  listSubAvaliable: any[] = [];
+  listSubAvailable: any[] = [];
   listTimeTable_ST: any[] = [];
 
   constructor(

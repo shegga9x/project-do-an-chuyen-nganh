@@ -1,14 +1,12 @@
 package code.backend.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.validation.Valid;
 
+import code.backend.helpers.payload.dto.*;
+import code.backend.persitence.entities.*;
+import code.backend.persitence.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -134,8 +132,7 @@ public class CourseManageService {
 
         //
         for (Schedule s : listSchedule) {
-            if (studentScheduleFRepository.findById(new StudentScheduleFId(semesterID, s.getIdSchedule(), userID))
-                    .isPresent()) {
+            if (studentScheduleFRepository.findById(new StudentScheduleFId(semesterID, s.getIdSchedule(), userID)).isPresent()) {
                 throw new CustomException("System Error");
             } else {
                 listStudentScheduleF.add(new StudentScheduleF(semesterID, s.getIdSchedule(), userID));
