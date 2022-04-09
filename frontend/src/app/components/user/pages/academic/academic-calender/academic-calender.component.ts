@@ -22,10 +22,6 @@ export class AcademicCalenderComponent implements OnInit {
     this.getTimeTableST();
   }
 
-  // ngOnDestroy(): void {
-  //   this.courseManageService.listTimeTable_ST = [];
-  // }
-
   getTimeTableST() {
     this.courseManageService.getTimeTableSTRegist().subscribe({
       next: (x: any) => {
