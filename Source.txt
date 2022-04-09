@@ -9,12 +9,15 @@ taikhoandangnhap
 18130005@st.hcmuaf.edu.vn
 123456
 
-đăng ký môn học - post V
-xem tkb - get  V
-xem ds lớp - get V
+đăng ký môn học - post CN
+xem tkb - get  CN
+xem ds lớp - get CN
+xem giá tiền - get CN
+error modal - CN
+nhập điểm by excel - post - t2
+tạo user by excel - post - t2
+
+manage entity t2
+
 xem điểm - get 
 xem quy trình đào tạo - get
-nhập điểm by excel - post
-tạo user by excel - post
-xem giá tiền - get
-manage entity
