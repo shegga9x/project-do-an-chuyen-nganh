@@ -2,8 +2,10 @@ package code.backend.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -25,10 +27,13 @@ import code.backend.helpers.utils.SubUtils;
 import code.backend.persitence.entities.CourseOffering;
 import code.backend.persitence.entities.Schedule;
 import code.backend.persitence.entities.StudentSchedule;
+import code.backend.persitence.entities.StudentScheduleF;
+import code.backend.persitence.entities.StudentScheduleFId;
 import code.backend.persitence.entities.StudentScheduleId;
 import code.backend.persitence.repository.CourseOfferingRepository;
 import code.backend.persitence.repository.ScheduleRepository;
 import code.backend.persitence.repository.SemesterRepository;
+import code.backend.persitence.repository.StudentScheduleFRepository;
 import code.backend.persitence.repository.StudentScheduleRepository;
 import code.backend.service.subService.EntityService;
 
@@ -45,6 +50,8 @@ public class CourseManageService {
     SemesterRepository semesterRepository;
     @Autowired
     StudentScheduleRepository studentScheduleRepository;
+    @Autowired
+    StudentScheduleFRepository studentScheduleFRepository;
 
     public List<SubAvailableRespone> get_Sub_Available_ST(String id) {
         List<String> ids = new ArrayList<>();
@@ -86,8 +93,8 @@ public class CourseManageService {
     public MessageResponse submit_Course_Regist(@Valid Map<String, Boolean> model) {
         String semesterID = semesterRepository.getCurrentSemester().getIdSemester();
         String userID = SubUtils.getCurrentUser().getId();
-        List<CourseOffering> listCourseOffering = new ArrayList<CourseOffering>();
-        List<StudentSchedule> listStudentSchedule = new ArrayList<StudentSchedule>();
+        List<CourseOffering> listCourseOffering = new ArrayList<>();
+        List<StudentSchedule> listStudentSchedule = new ArrayList<>();
         String listCustomException = "";
         for (var entry : model.entrySet()) {
             if (entry.getValue()) {
@@ -114,7 +121,36 @@ public class CourseManageService {
         if (!listCustomException.equals("")) {
             throw new CustomException(listCustomException);
         }
-        return new  MessageResponse("Hoan thanh !!");
+        return new MessageResponse("Hoan thanh !!");
+    }
+
+    public MessageResponse submit_Course_Register_Fake(String idCourseOffering) {
+        String semesterID = semesterRepository.getCurrentSemester().getIdSemester();
+        String userID = SubUtils.getCurrentUser().getId();
+        List<StudentScheduleF> listStudentScheduleF = new ArrayList<>();
+        List<Schedule> listSchedule = scheduleRepository.findByIdCourseOffering(idCourseOffering);
+
+        //
+        for (Schedule s : listSchedule) {
+            if (studentScheduleFRepository.findById(new StudentScheduleFId(semesterID, s.getIdSchedule(), userID)).isPresent()) {
+                throw new CustomException("System Error");
+            } else {
+                listStudentScheduleF.add(new StudentScheduleF(semesterID, s.getIdSchedule(), userID));
+            }
+        }
+
+        studentScheduleFRepository.saveAll(listStudentScheduleF);
+        return new MessageResponse("Hoan thanh !!");
+    }
+
+    public Set<CourseDTO> get_Course_Register_Fake(String idStudent) {
+        String semesterID = semesterRepository.getCurrentSemester().getIdSemester();
+        Set<CourseDTO> listCourseDTO = new HashSet<>();
+        List<StudentScheduleF> listStudentScheduleF = studentScheduleFRepository.findByIdSemesterAndIdStudent(semesterID, idStudent);
+        for (StudentScheduleF s : listStudentScheduleF) {
+            listCourseDTO.add((CourseDTO) SubUtils.mapperObject(s.getSchedule().getCourseOffering().getCourse(), new CourseDTO()));
+        }
+        return listCourseDTO;
     }
 
     public List<TimeTableDTO> get_Time_Table_ST(String idACCOUNT) {

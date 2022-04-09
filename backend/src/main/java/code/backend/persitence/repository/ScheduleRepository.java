@@ -13,4 +13,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, String> {
     @Query("SELECT p FROM Schedule p WHERE p.idSchedule IN ?1")
     List<Schedule> findAllByIds(List<String> ids);
 
+    @Query("SELECT p FROM Schedule p WHERE p.idCourseOffering = ?1")
+    List<Schedule> findByIdCourseOffering(String idCourseOffering);
+
 }

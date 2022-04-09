@@ -47,8 +47,14 @@ public class StudentScheduleF implements Serializable {
 
     @ManyToOne
     @JoinColumn(name="ID_Schedule", referencedColumnName="ID_Schedule", insertable=false, updatable=false)
-    private Schedule   schedule ; 
+    private Schedule   schedule ;
 
+
+    public StudentScheduleF(String idSemester, String idSchedule, String idStudent) {
+        this.idSemester = idSemester;
+        this.idSchedule = idSchedule;
+        this.idStudent = idStudent;
+    }
 
     /**
      * Constructor
