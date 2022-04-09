@@ -56,7 +56,7 @@ public class CourseManageController {
         return courseManageService.submit_Course_Register_Fake(idCourseOffering);
     }
 
-    @GetMapping("get_course_register_fake")
+    @GetMapping("/get_course_register_fake")
     public @ResponseBody
     Set<CourseDTO> get_Course_Register_Fake(@RequestParam("id") String idStudent) {
         return courseManageService.get_Course_Register_Fake(idStudent);

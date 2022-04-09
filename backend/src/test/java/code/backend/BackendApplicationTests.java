@@ -3,6 +3,7 @@ package code.backend;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -16,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
 import code.backend.persitence.entities.CourseOffering;
 import code.backend.persitence.entities.Schedule;
+import code.backend.persitence.entities.Student;
 import code.backend.persitence.entities.StudentSchedule;
 import code.backend.persitence.model.UserDetailCustom;
 import code.backend.persitence.repository.CourseOfferingRepository;
@@ -93,5 +95,17 @@ class BackendApplicationTests {
 		studentScheduleRepository.save(studentSchedule);
 		System.out.println(studentScheduleRepository.save(studentSchedule));
 
+	}
+
+	@Test
+	@Transactional
+	void test4() {
+		String idSchedule = "40";
+		Schedule schedule = scheduleRepository.findById(idSchedule).get();
+		List<Student> students = schedule.getListOfStudentSchedule().stream().map(StudentSchedule::getStudent)
+				.collect(Collectors.toList());
+		System.out.println();
+		System.out.println(Arrays.toString(students.toArray()));
+		System.out.println();
 	}
 }
