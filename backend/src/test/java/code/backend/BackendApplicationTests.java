@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
+import code.backend.helpers.payload.dto.TimeTableDTO;
 import code.backend.persitence.entities.CourseOffering;
 import code.backend.persitence.entities.Schedule;
 import code.backend.persitence.entities.StudentSchedule;
@@ -46,8 +47,7 @@ class BackendApplicationTests {
 
 		List<String[]> columns = entityService.getFunctionResult("get_Semester_Reuslt", listParam);
 
-		List<SemesterReusltDTO> listResult = new ArrayList<>() {
-		};
+		List<SemesterReusltDTO> listResult = new ArrayList<>();
 		for (String[] arr : columns) {
 			listResult.add(new SemesterReusltDTO(arr[0], arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]),
 					Double.parseDouble(arr[4])));
@@ -92,6 +92,19 @@ class BackendApplicationTests {
 				schedule.getIdSchedule(), id);
 		studentScheduleRepository.save(studentSchedule);
 		System.out.println(studentScheduleRepository.save(studentSchedule));
-
 	}
+
+	@Test
+	@Transactional
+	void test4() {
+		List<String> listParam = Arrays.asList("18130005");
+		List<String[]> columns = entityService.getFunctionResult("Time_Table_St", listParam);
+		List<TimeTableDTO> listResult = new ArrayList<>();
+		for (String[] arr : columns) {
+			listResult.add(new TimeTableDTO(arr[0], arr[1]));
+		}
+		System.out.println("TimeTable_ST:");
+		listResult.forEach(System.out::println);
+	}
+	
 }

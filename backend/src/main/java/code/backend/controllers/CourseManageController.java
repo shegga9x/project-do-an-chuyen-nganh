@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
+import code.backend.helpers.payload.dto.TimeTableDTO;
 import code.backend.helpers.payload.response.MessageResponse;
 import code.backend.helpers.payload.response.SubAvailableRespone;
 import code.backend.service.CourseManageService;
@@ -42,7 +43,14 @@ public class CourseManageController {
     }
 
     @PostMapping("/submit_course_regist")
-    public  MessageResponse submit_Course_Regist(@Valid @RequestBody Map<String, Boolean>  model) {
+    public MessageResponse submit_Course_Regist(@Valid @RequestBody Map<String, Boolean> model) {
         return courseManageService.submit_Course_Regist(model);
     }
+
+    // @PreAuthorize("hasAnyRole('ROLE_Student','ROLE_Professor','ROLE_Admin')")
+    @GetMapping("/get_time_table_st")
+    public List<TimeTableDTO> get_Time_Table_ST(@RequestParam("idACCOUNT") String model) {
+        return courseManageService.get_Time_Table_ST(model);
+    }
+
 }

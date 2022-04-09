@@ -64,9 +64,10 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
     );
   }
 
-  getSemesterReuslt() {
-    this.courseManageService
-      .getSemesterReusltRegist()
-      .subscribe((x) => console.log(x));
-  }
+  // getSemesterReuslt() {
+  //   this.courseManageService
+  //     .getSemesterReusltRegist()
+  //     .subscribe((x) => console.log(x));
+  // }
+
 }

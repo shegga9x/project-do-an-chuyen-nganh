@@ -12,6 +12,7 @@ const baseUrl = `${environment.apiUrl}/course-manage`;
 export class CourseManageService {
 
   listSubAvaliable: any[] = [];
+  listTimeTable_ST: any[] = [];
 
 
   constructor(private http: HttpClient, private service: AccountService) { }
@@ -37,6 +38,13 @@ export class CourseManageService {
     });
     console.log(convMap);
     return this.http.post(`${baseUrl}/submit_course_regist`, convMap).subscribe(x => console.log(x));
+  }
+
+  getTimeTableSTRegist(){
+    let params = { idACCOUNT: '18130005'};
+    return this.http.get(`${baseUrl}/get_time_table_st/`, {
+      params: params,
+    });
   }
 
 

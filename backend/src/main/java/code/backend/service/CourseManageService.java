@@ -18,6 +18,7 @@ import code.backend.helpers.payload.dto.FacultyDTO;
 import code.backend.helpers.payload.dto.ProfessorDTO;
 import code.backend.helpers.payload.dto.ScheduleDTO;
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
+import code.backend.helpers.payload.dto.TimeTableDTO;
 import code.backend.helpers.payload.response.MessageResponse;
 import code.backend.helpers.payload.response.SubAvailableRespone;
 import code.backend.helpers.utils.SubUtils;
@@ -114,5 +115,19 @@ public class CourseManageService {
             throw new CustomException(listCustomException);
         }
         return new  MessageResponse("Hoan thanh !!");
+    }
+
+    public List<TimeTableDTO> get_Time_Table_ST(String idACCOUNT) {
+
+        List<String> listParam = Arrays.asList(idACCOUNT);
+		List<String[]> columns = entityService.getFunctionResult("Time_Table_St", listParam);
+		List<TimeTableDTO> listResult = new ArrayList<>();
+		for (String[] arr : columns) {
+			listResult.add(new TimeTableDTO(arr[0], arr[1]));
+		}
+        System.out.println("TimeTable_ST:");
+		listResult.forEach(System.out::println);
+        return listResult;
+
     }
 }
