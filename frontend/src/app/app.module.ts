@@ -23,12 +23,14 @@ import { UserDeclarations } from './components/user/user.declarations';
 
 //pipe
 import { TranslatePipe } from './pipe/translate-pipe';
+import { DialogErrorComponent } from './components/user/shared/dialog-error/dialog-error.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TranslatePipe,
-    ...UserDeclarations
+    ...UserDeclarations,
+    DialogErrorComponent
   ],
   imports: [
     BrowserModule,

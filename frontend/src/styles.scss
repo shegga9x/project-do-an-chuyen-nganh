@@ -6,3 +6,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .cdk-overlay-container {
     z-index: 9999 !important;
 }
+
+mat-dialog-container {
+    background-color: white !important;
+ }

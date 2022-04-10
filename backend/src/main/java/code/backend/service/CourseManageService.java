@@ -2,8 +2,6 @@ package code.backend.service;
 
 import java.util.*;
 
-import javax.validation.Valid;
-
 import code.backend.helpers.payload.dto.*;
 import code.backend.helpers.payload.response.CourseRegisterFakeRespone;
 import code.backend.helpers.payload.response.MessageResponse;

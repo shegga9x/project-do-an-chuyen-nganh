@@ -1,4 +1,5 @@
-import { DialogLoginComponent } from './../components/user/shared/dialog-login/dialog-login.component';
+import { DialogLoginComponent } from 'src/app/components/user/shared/dialog-login/dialog-login.component';
+import { DialogErrorComponent } from 'src/app/components/user/shared/dialog-error/dialog-error.component';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as XLSX from 'xlsx';
@@ -17,6 +18,15 @@ export class GeneralService {
       data: {},
     });
   }
+
+  openDialogError(err: string) {
+    this.dialog.open(DialogErrorComponent, {
+      data: {
+        message: err
+      },
+    })
+  }
+
   // use on refresh the special url
   onRefresh(uri: string) {
     this.router.navigateByUrl('/dummy', { skipLocationChange: true }).then(() => this.router.navigate([uri]));
