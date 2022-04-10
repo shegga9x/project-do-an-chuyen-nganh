@@ -11,8 +11,7 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
   listSubAvailable: any[] = [];
   listCourseRegisterFake: any[] = [];
 
-  loading: boolean = false;
-  listCourseRegistRequests: Map<string, boolean> = new Map<string, boolean>();
+  // listCourseRegistRequests: Map<string, boolean> = new Map<string, boolean>();
   constructor(
     private titleService: Title,
     private courseManageService: CourseManageService
@@ -32,29 +31,68 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
   }
 
   updateListAndSaveToDB(idCourseOffering: string, checked: HTMLInputElement): void {
-    // this.listCourseRegistRequests.set(idCourseOffering, checked.checked);
-    checked.disabled = true;
-    this.courseManageService.submitCourseRegisterFake(idCourseOffering).subscribe(() => {
-      this.courseManageService.getCourseRegisterFake().subscribe((x: any) => {
-        this.listCourseRegisterFake = x;
-      });
+    this.courseManageService.submitCourseRegisterFake(idCourseOffering).subscribe({
+      next: () => {
+        this.courseManageService.getCourseRegisterFake().subscribe({
+          next: (x: any) => {
+            this.listCourseRegisterFake = x;
+          }
+        })
+      },
+      error: (error) => {
+        checked.checked = false;
+        alert(error);
+      }
     });
   }
 
+  selectAllDeleteBox(check: HTMLInputElement) {
+    if (check.checked == true) {
+      let deletebox: any[] = Array.from(document.getElementsByClassName('deletebox'));
+      deletebox.forEach(e => e.checked = true);
+    } else {
+      let deletebox: any[] = Array.from(document.getElementsByClassName('deletebox'));
+      deletebox.forEach(e => e.checked = false);
+    }
+  }
+
   submit() {
-    this.courseManageService.submitCourseRegist(this.listCourseRegistRequests).subscribe(x => { console.log(x) });
+    this.courseManageService.submitCourseRegist().subscribe({
+      next: () => {
+        this.getSubAvailable();
+        this.getListCourseRegisterFake();
+      },
+      error: (error) => {
+        alert(error);
+      }
+    });
+  }
+
+  submitDelete() {
+    let deletebox: any[] = Array.from(document.getElementsByClassName('deletebox'));
+    let listIdCourse: string[] = [];
+    deletebox.forEach(x => {
+      if (x.checked == true) {
+        listIdCourse.push(x.value)
+      }
+    });
+    this.courseManageService.deleteCourseRegister(listIdCourse).subscribe({
+      next: (x: any) => {
+        this.getSubAvailable();
+        this.getListCourseRegisterFake();
+      },
+      error: (error) => {
+        alert(error);
+      }
+    })
   }
 
   getSubAvailable() {
     this.courseManageService.getSubAvailableRegist().subscribe({
       next: (x: any) => {
-        //foreach
-        x.forEach((element: any) => {
-          this.listSubAvailable.push(element);
-        });
+        this.listSubAvailable = x;
         //add to course-manage services
         this.courseManageService.listSubAvailable = this.listSubAvailable;
-        this.loading = true;
       },
       error: (error) => {
         console.log(error);
@@ -89,11 +127,4 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
       (x) => x['courseDTO'].idCourse == idMonHoc
     );
   }
-
-  // getSemesterReuslt() {
-  //   this.courseManageService
-  //     .getSemesterReusltRegist()
-  //     .subscribe((x) => console.log(x));
-  // }
-
 }

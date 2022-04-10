@@ -14,6 +14,9 @@ public interface StudentScheduleFRepository extends JpaRepository<StudentSchedul
 
     Optional<StudentScheduleF> findById(StudentScheduleFId id);
 
-    @Query("SELECT DISTINCT stF FROM StudentScheduleF stF WHERE stF.idSemester = ?1 and stF.idStudent =?2")
+    @Query("SELECT stF FROM StudentScheduleF stF WHERE stF.idSemester = ?1 and stF.idStudent =?2")
     List<StudentScheduleF> findByIdSemesterAndIdStudent(String idSemester,String idStudent);
+
+    @Query("SELECT stF.idSchedule FROM StudentScheduleF stF WHERE stF.idSemester = ?1 and stF.idStudent =?2")
+    List<String> findIdScheduleByIdSemesterAndIdStudent(String idSemester,String idStudent);
 }

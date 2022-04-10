@@ -406,6 +406,7 @@ WHERE stc.ID_Student = @ID_ACCOUNT
   FROM Semester
   WHERE GETDATE() BETWEEN start_Date AND end_Date)
 GO
+
 CREATE FUNCTION check_DayST (@ID_Schedule nvarchar(50), @ID_ACCOUNT varchar(50))
 RETURNS TABLE
 AS

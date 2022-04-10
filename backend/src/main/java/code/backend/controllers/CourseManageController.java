@@ -1,5 +1,6 @@
 package code.backend.controllers;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -8,6 +9,7 @@ import javax.validation.Valid;
 
 import code.backend.helpers.payload.dto.CourseDTO;
 import code.backend.helpers.payload.dto.StudentScheduleFDTO;
+import code.backend.helpers.payload.response.CourseRegisterFakeRespone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -48,9 +50,9 @@ public class CourseManageController {
         return courseManageService.get_Semester_Reuslt(idStudent, idSemester);
     }
 
-    @PostMapping("/submit_course_regist")
-    public MessageResponse submit_Course_Regist(@Valid @RequestBody Map<String, Boolean> model) {
-        return courseManageService.submit_Course_Regist(model);
+    @GetMapping("/submit_course_regist")
+    public @ResponseBody MessageResponse submit_Course_Regist() {
+        return courseManageService.submit_Course_Regist();
     }
 
     // @PreAuthorize("hasAnyRole('ROLE_Student','ROLE_Professor','ROLE_Admin')")
@@ -61,14 +63,17 @@ public class CourseManageController {
 
     @PostMapping("/submit_course_register_fake")
     public MessageResponse submit_Course_Register_Fake(@RequestBody String idCourseOffering) {
-        System.out.println(idCourseOffering);
         return courseManageService.submit_Course_Register_Fake(idCourseOffering);
     }
 
 
     @GetMapping("get_course_register_fake")
-    public @ResponseBody Set<CourseDTO> get_Course_Register_Fake(@RequestParam("id") String idStudent) {
+    public @ResponseBody Set<CourseRegisterFakeRespone> get_Course_Register_Fake(@RequestParam("id") String idStudent) {
         return courseManageService.get_Course_Register_Fake(idStudent);
     }
 
+    @PostMapping("delete_course_register")
+    public MessageResponse delete_Course_Register(@RequestBody List<String> listIdCourse) {
+        return courseManageService.delete_Course_Register(listIdCourse);
+    }
 }
