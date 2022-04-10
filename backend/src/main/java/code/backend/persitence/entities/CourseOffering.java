@@ -6,6 +6,7 @@ package code.backend.persitence.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.*;
 
 /**
@@ -106,7 +107,20 @@ public class CourseOffering implements Serializable {
 
     public Clazz getClazz() {
         return this.clazz;
-    } 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CourseOffering)) return false;
+        CourseOffering that = (CourseOffering) o;
+        return getIdCourseOffering().equals(that.getIdCourseOffering());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getIdCourseOffering());
+    }
 
     //--- toString specific method
 	@Override

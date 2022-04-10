@@ -9,13 +9,13 @@ const baseUrl = `${environment.apiUrl}/course-manage`;
   providedIn: 'root',
 })
 export class CourseManageService {
-  listSubAvaliable: any[] = [];
+  listSubAvailable: any[] = [];
   listTimeTable_ST: any[] = [];
 
   constructor(
     private http: HttpClient,
     private accountService: AccountService
-  ) {}
+  ) { }
 
   getSubAvailableRegist() {
     let params = { id: this.accountService.accountValue?.idAccount as string };
@@ -33,9 +33,12 @@ export class CourseManageService {
 
   submitCourseRegisterFake(idCourseOffering: string) {
     return this.http.post(
-      `${baseUrl}/submit_course_register_fake`,
-      idCourseOffering
+      `${baseUrl}/submit_course_register_fake`, idCourseOffering
     );
+  }
+
+  deleteCourseRegister(listIdCourse: string[]) {
+    return this.http.post(`${baseUrl}/delete_course_register`, listIdCourse);
   }
 
   getCourseRegisterFake() {
@@ -45,13 +48,8 @@ export class CourseManageService {
     });
   }
 
-  submitCourseRegist(listCourseRegistRequests: Map<string, boolean>) {
-    const convMap: any = {};
-    listCourseRegistRequests.forEach((val: boolean, key: string) => {
-      convMap[key] = val;
-    });
-    console.log(convMap);
-    return this.http.post(`${baseUrl}/submit_course_regist`, convMap);
+  submitCourseRegist() {
+    return this.http.get(`${baseUrl}/submit_course_regist`);
   }
 
   getTimeTableSTRegist() {

@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +21,7 @@ import code.backend.helpers.payload.dto.ScheduleDTO;
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
 import code.backend.helpers.payload.dto.StudentDTO;
 import code.backend.helpers.payload.dto.TimeTableDTO;
+import code.backend.helpers.payload.response.CourseRegisterFakeRespone;
 import code.backend.helpers.payload.response.MessageResponse;
 import code.backend.helpers.payload.response.SubAvailableRespone;
 import code.backend.helpers.utils.SubUtils;
@@ -94,38 +93,32 @@ public class CourseManageService {
 
     }
 
-    public MessageResponse submit_Course_Regist(@Valid Map<String, Boolean> model) {
+    public MessageResponse submit_Course_Regist() {
         String semesterID = semesterRepository.getCurrentSemester().getIdSemester();
         String userID = SubUtils.getCurrentUser().getId();
-        List<CourseOffering> listCourseOffering = new ArrayList<>();
+        List<String> listIdSchedule = studentScheduleFRepository.findIdScheduleByIdSemesterAndIdStudent(semesterID,
+                userID);
+        // tạo set vì có trường hợp có cả môn lý thuyết và thực hành
+        Set<CourseOffering> setCourseOffering = new HashSet<>();
         List<StudentSchedule> listStudentSchedule = new ArrayList<>();
-        String listCustomException = "";
-        for (var entry : model.entrySet()) {
-            if (entry.getValue()) {
-                Schedule schedule = scheduleRepository.findById(entry.getKey()).get();
-                CourseOffering courseOffering = schedule.getCourseOffering();
-                try {
-                    studentScheduleRepository
-                            .findById(new StudentScheduleId(semesterID, schedule.getIdSchedule(), userID)).get();
-                    listCustomException += "Môn học đã được đăng ký: " + courseOffering.getCourse().getNameCourse()
-                            + " " + courseOffering.getIdCourse() + System.lineSeparator();
-                } catch (Exception e) {
-                    if (courseOffering.getCurrentSize() >= courseOffering.getMaxSize()) {
-                        listCustomException += courseOffering.getCourse().getNameCourse() + " đã hết chỗ"
-                                + System.lineSeparator();
-                    } else {
-                        courseOffering.setCurrentSize((byte) (courseOffering.getCurrentSize() + 1));
-                        listCourseOffering.add(courseOffering);
-                        listStudentSchedule.add(new StudentSchedule(semesterID, schedule.getIdSchedule(), userID));
-                    }
-                }
+        for (String idSchedule : listIdSchedule) {
+            if (studentScheduleRepository.findById(new StudentScheduleId(semesterID, idSchedule, userID)).isEmpty()) {
+                Schedule schedule = scheduleRepository.findById(idSchedule).get();
+                setCourseOffering.add(schedule.getCourseOffering());
+                listStudentSchedule.add(new StudentSchedule(semesterID, idSchedule, userID));
             }
         }
-        courseOfferingRepository.saveAll(listCourseOffering);
-        studentScheduleRepository.saveAll(listStudentSchedule);
-        if (!listCustomException.equals("")) {
-            throw new CustomException(listCustomException);
+
+        // update course offering
+        for (CourseOffering courseOffering : setCourseOffering) {
+            if (courseOffering.getCurrentSize() >= courseOffering.getMaxSize()) {
+                throw new CustomException("môn học " + courseOffering.getCourse().getIdCourse() + " đã hết chỗ");
+            }
+            courseOffering.setCurrentSize((byte) (courseOffering.getCurrentSize() + 1));
         }
+        courseOfferingRepository.saveAll(setCourseOffering);
+        // update student schedule
+        studentScheduleRepository.saveAll(listStudentSchedule);
         return new MessageResponse("Hoan thanh !!");
     }
 
@@ -137,28 +130,81 @@ public class CourseManageService {
 
         //
         for (Schedule s : listSchedule) {
+            // lỗi này chỉ khi insert sàm zô database
             if (studentScheduleFRepository.findById(new StudentScheduleFId(semesterID, s.getIdSchedule(), userID))
                     .isPresent()) {
                 throw new CustomException("System Error");
-            } else {
-                listStudentScheduleF.add(new StudentScheduleF(semesterID, s.getIdSchedule(), userID));
             }
+
+            // lỗi trùng lịch
+            List<String> listParam = Arrays.asList(s.getIdSchedule(), userID);
+            List<String[]> columns = entityService.getFunctionResult("check_DayST", listParam);
+            if (columns.size() > 0) {
+                throw new CustomException("Môn này đã bị trùng lịch");
+            }
+
+            listStudentScheduleF.add(new StudentScheduleF(semesterID, s.getIdSchedule(), userID));
+
         }
 
         studentScheduleFRepository.saveAll(listStudentScheduleF);
         return new MessageResponse("Hoan thanh !!");
     }
 
-    public Set<CourseDTO> get_Course_Register_Fake(String idStudent) {
+    public Set<CourseRegisterFakeRespone> get_Course_Register_Fake(String idStudent) {
         String semesterID = semesterRepository.getCurrentSemester().getIdSemester();
-        Set<CourseDTO> listCourseDTO = new HashSet<>();
+        Set<CourseRegisterFakeRespone> listCourseRegisterFakeRespone = new HashSet<>();
         List<StudentScheduleF> listStudentScheduleF = studentScheduleFRepository
                 .findByIdSemesterAndIdStudent(semesterID, idStudent);
         for (StudentScheduleF s : listStudentScheduleF) {
-            listCourseDTO.add((CourseDTO) SubUtils.mapperObject(s.getSchedule().getCourseOffering().getCourse(),
-                    new CourseDTO()));
+            String status = "Chưa lưu vào CSDL";
+            CourseRegisterFakeRespone courseRegisterFakeRespone = (CourseRegisterFakeRespone) SubUtils.mapperObject(
+                    s.getSchedule().getCourseOffering().getCourse(),
+                    new CourseRegisterFakeRespone());
+
+            if (studentScheduleRepository.findById(new StudentScheduleId(semesterID, s.getIdSchedule(), idStudent))
+                    .isPresent()) {
+                status = "Đã lưu vào CSDL";
+            }
+            courseRegisterFakeRespone.setStatus(status);
+            listCourseRegisterFakeRespone.add(courseRegisterFakeRespone);
         }
-        return listCourseDTO;
+        return listCourseRegisterFakeRespone;
+    }
+
+    public MessageResponse delete_Course_Register(List<String> listIdCourse) {
+        String semesterID = semesterRepository.getCurrentSemester().getIdSemester();
+        String userID = SubUtils.getCurrentUser().getId();
+        List<StudentSchedule> listStudentSchedule = new ArrayList<>();
+        List<StudentScheduleF> listStudentScheduleF = new ArrayList<>();
+        List<CourseOffering> listCourseOfferings = new ArrayList<>();
+        for (String idCourse : listIdCourse) {
+            CourseOffering co = courseOfferingRepository.findByIdCourse(idCourse).get();
+            listCourseOfferings.add(co);
+            List<Schedule> listSchedule = co.getListOfSchedule();
+            for (Schedule schedule : listSchedule) {
+                Optional<StudentSchedule> studentSchedule = studentScheduleRepository
+                        .findById(new StudentScheduleId(semesterID, schedule.getIdSchedule(), userID));
+                if (studentSchedule.isPresent()) {
+                    listStudentSchedule.add(studentSchedule.get());
+                }
+                listStudentScheduleF.add(studentScheduleFRepository
+                        .findById(new StudentScheduleFId(semesterID, schedule.getIdSchedule(), userID)).get());
+            }
+        }
+
+        // update course offering
+        for (CourseOffering courseOffering : listCourseOfferings) {
+            if (courseOffering.getCurrentSize() <= 0) {
+                throw new CustomException("System Error");
+            }
+            courseOffering.setCurrentSize((byte) (courseOffering.getCurrentSize() - 1));
+        }
+
+        studentScheduleRepository.deleteAll(listStudentSchedule);
+        studentScheduleFRepository.deleteAll(listStudentScheduleF);
+        courseOfferingRepository.saveAll(listCourseOfferings);
+        return new MessageResponse("Hoan thanh !!");
     }
 
     public List<TimeTableDTO> get_Time_Table_ST(String idACCOUNT) {
@@ -176,7 +222,6 @@ public class CourseManageService {
             listResult.add(new TimeTableDTO(scheduleDTO, courseOfferingDTO, courseDTO));
         }
         return listResult;
-
     }
 
     public List<StudentDTO> get_List_Student_By_Subject(String idSchedule) {

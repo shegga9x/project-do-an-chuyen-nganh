@@ -381,7 +381,7 @@ AS
   RETURN
   SELECT sc.Start_Slot
 FROM Schedule sc JOIN
-  Student_Schedule stc ON sc.ID_Schedule = stc.ID_Schedule
+  Student_Schedule_F stc ON sc.ID_Schedule = stc.ID_Schedule
 WHERE stc.ID_Student = @ID_ACCOUNT
   AND stc.ID_Semester IN (SELECT
     ID_Semester
@@ -397,7 +397,7 @@ AS
   RETURN
   SELECT c.ID_Course
 FROM Schedule sc JOIN
-  Student_Schedule stc ON sc.ID_Schedule = stc.ID_Schedule JOIN
+  Student_Schedule_F stc ON sc.ID_Schedule = stc.ID_Schedule JOIN
   Course_Offering co ON co.ID_Course_Offering = sc.ID_Course_Offering JOIN
   Course c ON c.ID_Course = co.ID_Course
 WHERE stc.ID_Student = @ID_ACCOUNT
@@ -406,6 +406,7 @@ WHERE stc.ID_Student = @ID_ACCOUNT
   FROM Semester
   WHERE GETDATE() BETWEEN start_Date AND end_Date)
 GO
+
 CREATE FUNCTION check_DayST (@ID_Schedule nvarchar(50), @ID_ACCOUNT varchar(50))
 RETURNS TABLE
 AS

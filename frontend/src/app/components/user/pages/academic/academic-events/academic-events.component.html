@@ -4,7 +4,6 @@
             <span style="display:inline-block;width:110px;">Lọc mã môn học</span>
             <input type="text" style="margin-left: 15px;" #idMonHoc>
             <input type="button" value="Lọc >>" style="margin-left: 5px;" (click)="filterSubAvaiable(idMonHoc.value)">
-            <button id="submit" (click)="submit()">Lưu Đăng Ký</button>
         </div>
         <div class="fixTableHead">
             <table>
@@ -29,79 +28,37 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <ng-container *ngIf="loading == true">
-                        <ng-container *ngFor="let list of listSubAvailable;index as i">
-                            <ng-container *ngIf="i == 0">
-                                <ng-container
-                                    *ngIf="listSubAvailable[i]['courseDTO'].idCourse != listSubAvailable[i+1]['courseDTO'].idCourse">
-                                    <tr>
-                                        <td><input type="checkbox" #checked
-                                                [checked]="findIdCourse(listSubAvailable[i]['courseDTO'].idCourse)"
-                                                [disabled]="findIdCourse(listSubAvailable[i]['courseDTO'].idCourse)"
-                                                (change)="updateListAndSaveToDB(listSubAvailable[i]['scheduleDTO'].idCourseOffering,checked)">
-                                        </td>
-                                        <td>{{list['courseDTO'].idCourse}}</td>
-                                        <td>{{list['courseDTO'].nameCourse}}</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>{{list['courseDTO'].courseCertificate}}</td>
-                                        <td>{{list['courseDTO'].courseCertificate}}</td>
-                                        <td>{{list['courseOfferingDTO'].clazzCode}}</td>
-                                        <td>{{list['courseOfferingDTO'].maxSize}}</td>
-                                        <td>{{list['courseOfferingDTO'].maxSize -
-                                            list['courseOfferingDTO'].currentSize}}</td>
-                                        <td>{{list['scheduleDTO'].theoretical}}</td>
-                                        <td>{{list['scheduleDTO'].teachingDay}}</td>
-                                        <td>{{list['scheduleDTO'].startSlot}}</td>
-                                        <td></td>
-                                        <td>{{list['scheduleDTO'].studyPlace}}</td>
-                                        <td>{{list['scheduleDTO'].idProfeesor}}</td>
-                                    </tr>
-                                </ng-container>
-                                <ng-container
-                                    *ngIf="listSubAvailable[i]['courseDTO'].idCourse == listSubAvailable[i+1]['courseDTO'].idCourse">
-                                    <tr>
-                                        <td rowspan="2"><input type="checkbox" #checked
-                                                [checked]="findIdCourse(listSubAvailable[i]['courseDTO'].idCourse)"
-                                                [disabled]="findIdCourse(listSubAvailable[i]['courseDTO'].idCourse)"
-                                                (change)="updateListAndSaveToDB(listSubAvailable[i]['scheduleDTO'].idCourseOffering,checked)">
-                                        </td>
-                                        <td rowspan="2">{{list['courseDTO'].idCourse}}</td>
-                                        <td rowspan="2">{{list['courseDTO'].nameCourse}}</td>
-                                        <td rowspan="2"></td>
-                                        <td rowspan="2"></td>
-                                        <td rowspan="2">{{list['courseDTO'].courseCertificate}}</td>
-                                        <td rowspan="2">{{list['courseDTO'].courseCertificate}}</td>
-                                        <td rowspan="2">{{list['courseOfferingDTO'].clazzCode}}</td>
-                                        <td>{{list['courseOfferingDTO'].maxSize}}</td>
-                                        <td>{{list['courseOfferingDTO'].maxSize -
-                                            list['courseOfferingDTO'].currentSize}}</td>
-                                        <td>{{list['scheduleDTO'].theoretical}}</td>
-                                        <td>{{list['scheduleDTO'].teachingDay}}</td>
-                                        <td>{{list['scheduleDTO'].startSlot}}</td>
-                                        <td></td>
-                                        <td>{{list['scheduleDTO'].studyPlace}}</td>
-                                        <td>{{list['scheduleDTO'].idProfeesor}}</td>
-                                    </tr>
-                                </ng-container>
+                    <ng-container *ngFor="let list of listSubAvailable;index as i">
+                        <ng-container *ngIf="i == 0">
+                            <ng-container
+                                *ngIf="listSubAvailable[i]['courseDTO'].idCourse != listSubAvailable[i+1]['courseDTO'].idCourse">
+                                <tr>
+                                    <td><input type="checkbox" #checked
+                                            [checked]="findIdCourse(listSubAvailable[i]['courseDTO'].idCourse)"
+                                            [disabled]="findIdCourse(listSubAvailable[i]['courseDTO'].idCourse)"
+                                            (change)="updateListAndSaveToDB(listSubAvailable[i]['scheduleDTO'].idCourseOffering,checked)">
+                                    </td>
+                                    <td>{{list['courseDTO'].idCourse}}</td>
+                                    <td>{{list['courseDTO'].nameCourse}}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{list['courseDTO'].courseCertificate}}</td>
+                                    <td>{{list['courseDTO'].courseCertificate}}</td>
+                                    <td>{{list['courseOfferingDTO'].clazzCode}}</td>
+                                    <td>{{list['courseOfferingDTO'].maxSize}}</td>
+                                    <td>{{list['courseOfferingDTO'].maxSize -
+                                        list['courseOfferingDTO'].currentSize}}</td>
+                                    <td>{{list['scheduleDTO'].theoretical}}</td>
+                                    <td>{{list['scheduleDTO'].teachingDay}}</td>
+                                    <td>{{list['scheduleDTO'].startSlot}}</td>
+                                    <td></td>
+                                    <td>{{list['scheduleDTO'].studyPlace}}</td>
+                                    <td>{{list['scheduleDTO'].idProfeesor}}</td>
+                                </tr>
                             </ng-container>
-                            <ng-container *ngIf="i > 0 && i < listSubAvailable.length - 1">
-                                <ng-container
-                                    *ngIf="listSubAvailable[i]['courseDTO'].idCourse == listSubAvailable[i-1]['courseDTO'].idCourse">
-                                    <tr>
-                                        <td>{{list['courseOfferingDTO'].maxSize}}</td>
-                                        <td>{{list['courseOfferingDTO'].maxSize -
-                                            list['courseOfferingDTO'].currentSize}}</td>
-                                        <td>{{list['scheduleDTO'].theoretical}}</td>
-                                        <td>{{list['scheduleDTO'].teachingDay}}</td>
-                                        <td>{{list['scheduleDTO'].startSlot}}</td>
-                                        <td></td>
-                                        <td>{{list['scheduleDTO'].studyPlace}}</td>
-                                        <td>{{list['scheduleDTO'].idProfeesor}}</td>
-                                    </tr>
-                                </ng-container>
-                                <ng-container
-                                    *ngIf="listSubAvailable[i]['courseDTO'].idCourse != listSubAvailable[i-1]['courseDTO'].idCourse && listSubAvailable[i]['courseDTO'].idCourse == listSubAvailable[i+1]['courseDTO'].idCourse">
+                            <ng-container
+                                *ngIf="listSubAvailable[i]['courseDTO'].idCourse == listSubAvailable[i+1]['courseDTO'].idCourse">
+                                <tr>
                                     <td rowspan="2"><input type="checkbox" #checked
                                             [checked]="findIdCourse(listSubAvailable[i]['courseDTO'].idCourse)"
                                             [disabled]="findIdCourse(listSubAvailable[i]['courseDTO'].idCourse)"
@@ -123,13 +80,81 @@
                                     <td></td>
                                     <td>{{list['scheduleDTO'].studyPlace}}</td>
                                     <td>{{list['scheduleDTO'].idProfeesor}}</td>
-                                </ng-container>
-                                <ng-container
-                                    *ngIf="listSubAvailable[i]['courseDTO'].idCourse != listSubAvailable[i-1]['courseDTO'].idCourse && listSubAvailable[i]['courseDTO'].idCourse != listSubAvailable[i+1]['courseDTO'].idCourse">
+                                </tr>
+                            </ng-container>
+                        </ng-container>
+                        <ng-container *ngIf="i > 0 && i < listSubAvailable.length - 1">
+                            <ng-container
+                                *ngIf="listSubAvailable[i]['courseDTO'].idCourse == listSubAvailable[i-1]['courseDTO'].idCourse">
+                                <tr>
+                                    <td>{{list['courseOfferingDTO'].maxSize}}</td>
+                                    <td>{{list['courseOfferingDTO'].maxSize -
+                                        list['courseOfferingDTO'].currentSize}}</td>
+                                    <td>{{list['scheduleDTO'].theoretical}}</td>
+                                    <td>{{list['scheduleDTO'].teachingDay}}</td>
+                                    <td>{{list['scheduleDTO'].startSlot}}</td>
+                                    <td></td>
+                                    <td>{{list['scheduleDTO'].studyPlace}}</td>
+                                    <td>{{list['scheduleDTO'].idProfeesor}}</td>
+                                </tr>
+                            </ng-container>
+                            <ng-container
+                                *ngIf="listSubAvailable[i]['courseDTO'].idCourse != listSubAvailable[i-1]['courseDTO'].idCourse && listSubAvailable[i]['courseDTO'].idCourse == listSubAvailable[i+1]['courseDTO'].idCourse">
+                                <td rowspan="2"><input type="checkbox" #checked
+                                        [checked]="findIdCourse(listSubAvailable[i]['courseDTO'].idCourse)"
+                                        [disabled]="findIdCourse(listSubAvailable[i]['courseDTO'].idCourse)"
+                                        (change)="updateListAndSaveToDB(listSubAvailable[i]['scheduleDTO'].idCourseOffering,checked)">
+                                </td>
+                                <td rowspan="2">{{list['courseDTO'].idCourse}}</td>
+                                <td rowspan="2">{{list['courseDTO'].nameCourse}}</td>
+                                <td rowspan="2"></td>
+                                <td rowspan="2"></td>
+                                <td rowspan="2">{{list['courseDTO'].courseCertificate}}</td>
+                                <td rowspan="2">{{list['courseDTO'].courseCertificate}}</td>
+                                <td rowspan="2">{{list['courseOfferingDTO'].clazzCode}}</td>
+                                <td>{{list['courseOfferingDTO'].maxSize}}</td>
+                                <td>{{list['courseOfferingDTO'].maxSize -
+                                    list['courseOfferingDTO'].currentSize}}</td>
+                                <td>{{list['scheduleDTO'].theoretical}}</td>
+                                <td>{{list['scheduleDTO'].teachingDay}}</td>
+                                <td>{{list['scheduleDTO'].startSlot}}</td>
+                                <td></td>
+                                <td>{{list['scheduleDTO'].studyPlace}}</td>
+                                <td>{{list['scheduleDTO'].idProfeesor}}</td>
+                            </ng-container>
+                            <ng-container
+                                *ngIf="listSubAvailable[i]['courseDTO'].idCourse != listSubAvailable[i-1]['courseDTO'].idCourse && listSubAvailable[i]['courseDTO'].idCourse != listSubAvailable[i+1]['courseDTO'].idCourse">
+                                <td><input type="checkbox" #checked
+                                        [checked]="findIdCourse(listSubAvailable[i]['courseDTO'].idCourse)"
+                                        [disabled]="findIdCourse(listSubAvailable[i]['courseDTO'].idCourse)"
+                                        (change)="updateListAndSaveToDB(listSubAvailable[i]['scheduleDTO'].idSchedule,checked)">
+                                </td>
+                                <td>{{list['courseDTO'].idCourse}}</td>
+                                <td>{{list['courseDTO'].nameCourse}}</td>
+                                <td></td>
+                                <td></td>
+                                <td>{{list['courseDTO'].courseCertificate}}</td>
+                                <td>{{list['courseDTO'].courseCertificate}}</td>
+                                <td>{{list['courseOfferingDTO'].clazzCode}}</td>
+                                <td>{{list['courseOfferingDTO'].maxSize}}</td>
+                                <td>{{list['courseOfferingDTO'].maxSize -
+                                    list['courseOfferingDTO'].currentSize}}</td>
+                                <td>{{list['scheduleDTO'].theoretical}}</td>
+                                <td>{{list['scheduleDTO'].teachingDay}}</td>
+                                <td>{{list['scheduleDTO'].startSlot}}</td>
+                                <td></td>
+                                <td>{{list['scheduleDTO'].studyPlace}}</td>
+                                <td>{{list['scheduleDTO'].idProfeesor}}</td>
+                            </ng-container>
+                        </ng-container>
+                        <ng-container *ngIf="i == listSubAvailable.length - 1">
+                            <ng-container
+                                *ngIf="listSubAvailable[i]['courseDTO'].idCourse != listSubAvailable[i-1]['courseDTO'].idCourse">
+                                <tr>
                                     <td><input type="checkbox" #checked
                                             [checked]="findIdCourse(listSubAvailable[i]['courseDTO'].idCourse)"
                                             [disabled]="findIdCourse(listSubAvailable[i]['courseDTO'].idCourse)"
-                                            (change)="updateListAndSaveToDB(listSubAvailable[i]['scheduleDTO'].idSchedule,checked)">
+                                            (change)="updateListAndSaveToDB(listSubAvailable[i]['scheduleDTO'].idCourseOffering,checked)">
                                     </td>
                                     <td>{{list['courseDTO'].idCourse}}</td>
                                     <td>{{list['courseDTO'].nameCourse}}</td>
@@ -147,49 +172,21 @@
                                     <td></td>
                                     <td>{{list['scheduleDTO'].studyPlace}}</td>
                                     <td>{{list['scheduleDTO'].idProfeesor}}</td>
-                                </ng-container>
+                                </tr>
                             </ng-container>
-                            <ng-container *ngIf="i == listSubAvailable.length - 1">
-                                <ng-container
-                                    *ngIf="listSubAvailable[i]['courseDTO'].idCourse != listSubAvailable[i-1]['courseDTO'].idCourse">
-                                    <tr>
-                                        <td><input type="checkbox" #checked
-                                                [checked]="findIdCourse(listSubAvailable[i]['courseDTO'].idCourse)"
-                                                [disabled]="findIdCourse(listSubAvailable[i]['courseDTO'].idCourse)"
-                                                (change)="updateListAndSaveToDB(listSubAvailable[i]['scheduleDTO'].idCourseOffering,checked)">
-                                        </td>
-                                        <td>{{list['courseDTO'].idCourse}}</td>
-                                        <td>{{list['courseDTO'].nameCourse}}</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>{{list['courseDTO'].courseCertificate}}</td>
-                                        <td>{{list['courseDTO'].courseCertificate}}</td>
-                                        <td>{{list['courseOfferingDTO'].clazzCode}}</td>
-                                        <td>{{list['courseOfferingDTO'].maxSize}}</td>
-                                        <td>{{list['courseOfferingDTO'].maxSize -
-                                            list['courseOfferingDTO'].currentSize}}</td>
-                                        <td>{{list['scheduleDTO'].theoretical}}</td>
-                                        <td>{{list['scheduleDTO'].teachingDay}}</td>
-                                        <td>{{list['scheduleDTO'].startSlot}}</td>
-                                        <td></td>
-                                        <td>{{list['scheduleDTO'].studyPlace}}</td>
-                                        <td>{{list['scheduleDTO'].idProfeesor}}</td>
-                                    </tr>
-                                </ng-container>
-                                <ng-container
-                                    *ngIf="listSubAvailable[i]['courseDTO'].idCourse == listSubAvailable[i-1]['courseDTO'].idCourse">
-                                    <tr>
-                                        <td>{{list['courseOfferingDTO'].maxSize}}</td>
-                                        <td>{{list['courseOfferingDTO'].maxSize -
-                                            list['courseOfferingDTO'].currentSize}}</td>
-                                        <td>{{list['scheduleDTO'].theoretical}}</td>
-                                        <td>{{list['scheduleDTO'].teachingDay}}</td>
-                                        <td>{{list['scheduleDTO'].startSlot}}</td>
-                                        <td></td>
-                                        <td>{{list['scheduleDTO'].studyPlace}}</td>
-                                        <td>{{list['scheduleDTO'].idProfeesor}}</td>
-                                    </tr>
-                                </ng-container>
+                            <ng-container
+                                *ngIf="listSubAvailable[i]['courseDTO'].idCourse == listSubAvailable[i-1]['courseDTO'].idCourse">
+                                <tr>
+                                    <td>{{list['courseOfferingDTO'].maxSize}}</td>
+                                    <td>{{list['courseOfferingDTO'].maxSize -
+                                        list['courseOfferingDTO'].currentSize}}</td>
+                                    <td>{{list['scheduleDTO'].theoretical}}</td>
+                                    <td>{{list['scheduleDTO'].teachingDay}}</td>
+                                    <td>{{list['scheduleDTO'].startSlot}}</td>
+                                    <td></td>
+                                    <td>{{list['scheduleDTO'].studyPlace}}</td>
+                                    <td>{{list['scheduleDTO'].idProfeesor}}</td>
+                                </tr>
                             </ng-container>
                         </ng-container>
                     </ng-container>
@@ -200,6 +197,10 @@
 
         <div style="margin-top: 10px;height: 50px;display: flex;align-items: center;">
             <p style="font-weight: bold">DANH SÁCH MÔN HỌC ĐÃ CHỌN</p>
+        </div>
+        <div class="search">
+            <button id="submit" (click)="submit()">Lưu Đăng Ký</button>
+            <button style="margin-right: 4px;" (click)="submitDelete()">Xóa</button>
         </div>
         <div class="fixTableHead">
             <table>
@@ -216,7 +217,7 @@
                         <th>Miễn giảm</th>
                         <th>Phải Đóng</th>
                         <th>Trạng thái môn học</th>
-                        <th><input type="checkbox"></th>
+                        <th><input type="checkbox" #checkalldeletebox (change)="selectAllDeleteBox(checkalldeletebox)"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -231,8 +232,8 @@
                         <td>{{item.courseCertificate * 360}}</td>
                         <td></td>
                         <td>{{item.courseCertificate * 360}}</td>
-                        <td>Chưa biết</td>
-                        <td></td>
+                        <td>{{item.status}}</td>
+                        <td><input class="deletebox" type="checkbox" [value]="item.idCourse"></td>
                     </tr>
                 </tbody>
             </table>
