@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -20,12 +21,14 @@ import code.backend.helpers.payload.dto.FacultyDTO;
 import code.backend.helpers.payload.dto.ProfessorDTO;
 import code.backend.helpers.payload.dto.ScheduleDTO;
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
+import code.backend.helpers.payload.dto.StudentDTO;
 import code.backend.helpers.payload.dto.TimeTableDTO;
 import code.backend.helpers.payload.response.MessageResponse;
 import code.backend.helpers.payload.response.SubAvailableRespone;
 import code.backend.helpers.utils.SubUtils;
 import code.backend.persitence.entities.CourseOffering;
 import code.backend.persitence.entities.Schedule;
+import code.backend.persitence.entities.Student;
 import code.backend.persitence.entities.StudentSchedule;
 import code.backend.persitence.entities.StudentScheduleF;
 import code.backend.persitence.entities.StudentScheduleFId;
@@ -159,7 +162,6 @@ public class CourseManageService {
     }
 
     public List<TimeTableDTO> get_Time_Table_ST(String idACCOUNT) {
-
         List<String> listParam = Arrays.asList(idACCOUNT);
         List<String[]> columns = entityService.getFunctionResult("Time_Table_St", listParam);
         List<TimeTableDTO> listResult = new ArrayList<>();
@@ -175,5 +177,19 @@ public class CourseManageService {
         }
         return listResult;
 
+    }
+
+    public List<StudentDTO> get_List_Student_By_Subject(String idSchedule) {
+        Schedule schedule = scheduleRepository.findById(idSchedule).get();
+        List<Student> list = schedule.getListOfStudentSchedule().stream().map(StudentSchedule::getStudent)
+                .collect(Collectors.toList());
+        List<StudentDTO> listResult = new ArrayList<>();
+        for (Student students : list) {
+            StudentDTO studentDTO = (StudentDTO) SubUtils
+                    .mapperObject(students, new StudentDTO());
+            listResult.add(studentDTO);
+        }
+        listResult.forEach(System.out::println);
+        return listResult;
     }
 }

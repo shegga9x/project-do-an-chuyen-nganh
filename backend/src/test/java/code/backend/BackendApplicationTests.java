@@ -116,7 +116,7 @@ class BackendApplicationTests {
 		Schedule schedule = scheduleRepository.findById(idSchedule).get();
 		List<Student> students = schedule.getListOfStudentSchedule().stream().map(StudentSchedule::getStudent)
 				.collect(Collectors.toList());
-		System.out.println(Arrays.toString(students.toArray()));
+		students.forEach(System.out::println);
 	}
 
 }

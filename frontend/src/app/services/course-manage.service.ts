@@ -60,4 +60,12 @@ export class CourseManageService {
       params: params,
     });
   }
+
+  getListStudentBySubjectRegist() {
+    let params = { idSchedule: 40 };
+    return this.http.get(`${baseUrl}/get_list_student_by_subject/`, {
+      params: params,
+    });
+  }
+  
 }

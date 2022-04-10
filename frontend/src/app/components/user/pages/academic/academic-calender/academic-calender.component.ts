@@ -40,4 +40,15 @@ export class AcademicCalenderComponent implements OnInit {
       },
     });
   }
+
+  getListStudentBySubject() {
+    this.courseManageService
+      .getListStudentBySubjectRegist()
+      .subscribe((x) => console.log(x));
+  }
+
+  getScheduleBySuject(idSCHEDULE: any) {
+    console.log(idSCHEDULE);
+    this.getListStudentBySubject();
+  }
 }

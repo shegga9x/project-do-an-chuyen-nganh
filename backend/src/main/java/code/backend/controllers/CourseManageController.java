@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import code.backend.helpers.payload.dto.CourseDTO;
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
+import code.backend.helpers.payload.dto.StudentDTO;
 import code.backend.helpers.payload.dto.TimeTableDTO;
 import code.backend.helpers.payload.response.MessageResponse;
 import code.backend.helpers.payload.response.SubAvailableRespone;
@@ -67,4 +68,8 @@ public class CourseManageController {
         return courseManageService.get_Course_Register_Fake(idStudent);
     }
 
+    @GetMapping("/get_list_student_by_subject")
+    public List<StudentDTO> get_List_Student_By_Subject(@RequestParam("idSchedule") String id) {
+        return courseManageService.get_List_Student_By_Subject(id);
+    }
 }
