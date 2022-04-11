@@ -177,16 +177,16 @@ public class CourseManageService {
         String userID = SubUtils.getCurrentUser().getId();
         List<StudentSchedule> listStudentSchedule = new ArrayList<>();
         List<StudentScheduleF> listStudentScheduleF = new ArrayList<>();
-        List<CourseOffering> listCourseOfferings = new ArrayList<>();
+        Set<CourseOffering> setCourseOfferings = new HashSet<>();
         for (String idCourse : listIdCourse) {
             CourseOffering co = courseOfferingRepository.findByIdCourse(idCourse).get();
-            listCourseOfferings.add(co);
             List<Schedule> listSchedule = co.getListOfSchedule();
             for (Schedule schedule : listSchedule) {
                 Optional<StudentSchedule> studentSchedule = studentScheduleRepository
                         .findById(new StudentScheduleId(semesterID, schedule.getIdSchedule(), userID));
                 if (studentSchedule.isPresent()) {
                     listStudentSchedule.add(studentSchedule.get());
+                    setCourseOfferings.add(schedule.getCourseOffering());
                 }
                 listStudentScheduleF.add(studentScheduleFRepository
                         .findById(new StudentScheduleFId(semesterID, schedule.getIdSchedule(), userID)).get());
@@ -194,7 +194,7 @@ public class CourseManageService {
         }
 
         // update course offering
-        for (CourseOffering courseOffering : listCourseOfferings) {
+        for (CourseOffering courseOffering : setCourseOfferings) {
             if (courseOffering.getCurrentSize() <= 0) {
                 throw new CustomException("System Error");
             }
@@ -203,7 +203,7 @@ public class CourseManageService {
 
         studentScheduleRepository.deleteAll(listStudentSchedule);
         studentScheduleFRepository.deleteAll(listStudentScheduleF);
-        courseOfferingRepository.saveAll(listCourseOfferings);
+        courseOfferingRepository.saveAll(setCourseOfferings);
         return new MessageResponse("Hoan thanh !!");
     }
 

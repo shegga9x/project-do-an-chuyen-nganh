@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { CourseManageService } from 'src/app/services/course-manage.service';
+import { GeneralService, CourseManageService } from 'src/app/services';
 
 @Component({
   selector: 'app-academic-events',
@@ -14,7 +14,8 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
   // listCourseRegistRequests: Map<string, boolean> = new Map<string, boolean>();
   constructor(
     private titleService: Title,
-    private courseManageService: CourseManageService
+    private courseManageService: CourseManageService,
+    private generalService: GeneralService
   ) {
     this.titleService.setTitle('Academic Events');
   }
@@ -41,7 +42,7 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         checked.checked = false;
-        alert(error);
+        this.generalService.openDialogError(error);
       }
     });
   }
@@ -64,7 +65,7 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
         this.getListCourseRegisterFake();
       },
       error: (error) => {
-        alert(error);
+        this.generalService.openDialogError(error);
       }
     });
   }
@@ -84,7 +85,7 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
         this.getListCourseRegisterFake();
       },
       error: (error) => {
-        alert(error);
+        this.generalService.openDialogError(error);
       }
     })
   }
