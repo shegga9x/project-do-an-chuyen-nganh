@@ -73,7 +73,7 @@ public class CourseManageService {
                     (ScheduleDTO) SubUtils.mapperObject(schedule, new ScheduleDTO()));
             subAvailableRespones.add(subAvailableRespone);
         }
-        System.out.println(subAvailableRespones);
+        // System.out.println(subAvailableRespones);
         return subAvailableRespones;
     }
 
@@ -234,7 +234,6 @@ public class CourseManageService {
                     .mapperObject(students, new StudentDTO());
             listResult.add(studentDTO);
         }
-        listResult.forEach(System.out::println);
         return listResult;
     }
 }

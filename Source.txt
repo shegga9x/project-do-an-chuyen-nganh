@@ -14,10 +14,10 @@ xem tkb - get  CN
 xem ds lớp - get CN
 xem giá tiền - get CN
 error modal - CN
+xem điểm - get 
+
 nhập điểm by excel - post - t2
 tạo user by excel - post - t2
 
 manage entity t2
-
-xem điểm - get 
 xem quy trình đào tạo - get

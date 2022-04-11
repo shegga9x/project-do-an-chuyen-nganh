@@ -7,8 +7,6 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import code.backend.helpers.utils.SubUtils;
-import code.backend.persitence.repository.*;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +21,11 @@ import code.backend.persitence.entities.Schedule;
 import code.backend.persitence.entities.Student;
 import code.backend.persitence.entities.StudentSchedule;
 import code.backend.persitence.model.UserDetailCustom;
+import code.backend.persitence.repository.CourseOfferingRepository;
+import code.backend.persitence.repository.ScheduleRepository;
+import code.backend.persitence.repository.SemesterRepository;
+import code.backend.persitence.repository.StudentScheduleFRepository;
+import code.backend.persitence.repository.StudentScheduleRepository;
 import code.backend.service.subService.EntityService;
 
 @RunWith(SpringRunner.class)
@@ -112,10 +115,11 @@ class BackendApplicationTests {
 	@Test
 	@Transactional
 	void test4() {
-		String idSchedule = "40";
+		String idSchedule = "57";
 		Schedule schedule = scheduleRepository.findById(idSchedule).get();
 		List<Student> students = schedule.getListOfStudentSchedule().stream().map(StudentSchedule::getStudent)
 				.collect(Collectors.toList());
+		System.out.println("Schedule:");
 		students.forEach(System.out::println);
 	}
 
@@ -123,8 +127,9 @@ class BackendApplicationTests {
 	@Transactional
 	void test6() {
 		String semesterID = semesterRepository.getCurrentSemester().getIdSemester();
-		List<String> listIdSchedule = studentScheduleFRepository.findIdScheduleByIdSemesterAndIdStudent(semesterID, "18130077");
-		for (String s: listIdSchedule) {
+		List<String> listIdSchedule = studentScheduleFRepository.findIdScheduleByIdSemesterAndIdStudent(semesterID,
+				"18130077");
+		for (String s : listIdSchedule) {
 			System.out.println(s);
 		}
 	}

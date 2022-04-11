@@ -27,13 +27,11 @@ export class AcademicCalenderComponent implements OnInit {
       next: (x: any) => {
         //foreach
         x.forEach((element: any) => {
-          console.log(element);
           this.listTimeTableST.push(element);
         });
         //add to course-manage services
         this.courseManageService.listTimeTable_ST = this.listTimeTableST;
         this.loading = true;
-        console.log(x);
       },
       error: (error) => {
         console.log(error);
@@ -41,14 +39,20 @@ export class AcademicCalenderComponent implements OnInit {
     });
   }
 
-  getListStudentBySubject() {
-    this.courseManageService
-      .getListStudentBySubjectRegist()
-      .subscribe((x) => console.log(x));
-  }
-
-  getScheduleBySuject(idSCHEDULE: any) {
+  getListStudentBySubject(idSCHEDULE: any) {
     console.log(idSCHEDULE);
-    this.getListStudentBySubject();
+    this.courseManageService
+      .getListStudentBySubjectRegist(idSCHEDULE)
+      .subscribe({
+        next: (x: any) => {
+          //foreach
+          x.forEach((element: any) => {
+            console.log(element);
+          });
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
   }
 }

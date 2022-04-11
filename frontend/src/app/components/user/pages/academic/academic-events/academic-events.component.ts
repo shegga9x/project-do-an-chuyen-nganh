@@ -56,9 +56,10 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
     }
   }
 
-  submit() {
+  submit(element: HTMLInputElement) {
     this.courseManageService.submitCourseRegist().subscribe({
       next: () => {
+        element.checked=false;
         this.getSubAvailable();
         this.getListCourseRegisterFake();
       },
@@ -68,7 +69,7 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
     });
   }
 
-  submitDelete() {
+  submitDelete(element: HTMLInputElement) {
     let deletebox: any[] = Array.from(document.getElementsByClassName('deletebox'));
     let listIdCourse: string[] = [];
     deletebox.forEach(x => {
@@ -78,6 +79,7 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
     });
     this.courseManageService.deleteCourseRegister(listIdCourse).subscribe({
       next: (x: any) => {
+        element.checked=false;
         this.getSubAvailable();
         this.getListCourseRegisterFake();
       },

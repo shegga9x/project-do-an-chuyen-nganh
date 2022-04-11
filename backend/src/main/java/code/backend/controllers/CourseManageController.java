@@ -1,15 +1,8 @@
 package code.backend.controllers;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import javax.validation.Valid;
-
-import code.backend.helpers.payload.dto.CourseDTO;
-import code.backend.helpers.payload.dto.StudentScheduleFDTO;
-import code.backend.helpers.payload.response.CourseRegisterFakeRespone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import code.backend.helpers.payload.dto.CourseDTO;
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
 import code.backend.helpers.payload.dto.StudentDTO;
 import code.backend.helpers.payload.dto.TimeTableDTO;
+import code.backend.helpers.payload.response.CourseRegisterFakeRespone;
 import code.backend.helpers.payload.response.MessageResponse;
 import code.backend.helpers.payload.response.SubAvailableRespone;
 import code.backend.service.CourseManageService;
