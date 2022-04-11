@@ -19,10 +19,10 @@ import code.backend.helpers.payload.dto.FacultyDTO;
 import code.backend.helpers.payload.dto.ProfessorDTO;
 import code.backend.helpers.payload.dto.ScheduleDTO;
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
-import code.backend.helpers.payload.dto.StudentDTO;
 import code.backend.helpers.payload.dto.TimeTableDTO;
 import code.backend.helpers.payload.response.CourseRegisterFakeRespone;
 import code.backend.helpers.payload.response.MessageResponse;
+import code.backend.helpers.payload.response.StudentBySubjectResponse;
 import code.backend.helpers.payload.response.SubAvailableRespone;
 import code.backend.helpers.utils.SubUtils;
 import code.backend.persitence.entities.CourseOffering;
@@ -224,16 +224,19 @@ public class CourseManageService {
         return listResult;
     }
 
-    public List<StudentDTO> get_List_Student_By_Subject(String idSchedule) {
+    public List<StudentBySubjectResponse> get_List_Student_By_Subject(String idSchedule) {
+
         Schedule schedule = scheduleRepository.findById(idSchedule).get();
-        List<Student> list = schedule.getListOfStudentSchedule().stream().map(StudentSchedule::getStudent)
+        List<Student> students = schedule.getListOfStudentSchedule().stream().map(StudentSchedule::getStudent)
                 .collect(Collectors.toList());
-        List<StudentDTO> listResult = new ArrayList<>();
-        for (Student students : list) {
-            StudentDTO studentDTO = (StudentDTO) SubUtils
-                    .mapperObject(students, new StudentDTO());
-            listResult.add(studentDTO);
+        List<StudentBySubjectResponse> listStudentResponse = new ArrayList<>();
+
+        for (Student student : students) {
+            StudentBySubjectResponse stResponse = (StudentBySubjectResponse) SubUtils
+                    .mapperObject(student, new StudentBySubjectResponse());
+            stResponse.setNameFaculty(student.getFaculty().getNameFaculty());
+            listStudentResponse.add(stResponse);
         }
-        return listResult;
+        return listStudentResponse;
     }
 }

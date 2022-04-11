@@ -27,6 +27,7 @@ export class AcademicCalenderComponent implements OnInit {
       next: (x: any) => {
         //foreach
         x.forEach((element: any) => {
+          console.log(element);
           this.listTimeTableST.push(element);
         });
         //add to course-manage services
