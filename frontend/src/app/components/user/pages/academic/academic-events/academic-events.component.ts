@@ -57,14 +57,16 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
     }
   }
 
-  submit(element: HTMLInputElement) {
+  submit() {
+    this.generalService.openLoadingModal();
     this.courseManageService.submitCourseRegist().subscribe({
       next: () => {
-        element.checked=false;
+        this.generalService.closeLoadingModal();
         this.getSubAvailable();
         this.getListCourseRegisterFake();
       },
       error: (error) => {
+        this.generalService.closeLoadingModal();
         this.generalService.openDialogError(error);
       }
     });
