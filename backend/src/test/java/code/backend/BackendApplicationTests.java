@@ -15,7 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
-import code.backend.helpers.payload.dto.TimeTableDTO;
+import code.backend.helpers.payload.response.TimeTableResponse;
 import code.backend.persitence.entities.CourseOffering;
 import code.backend.persitence.entities.Schedule;
 import code.backend.persitence.entities.Student;
@@ -104,7 +104,7 @@ class BackendApplicationTests {
 	void test5() {
 		List<String> listParam = Arrays.asList("18130005");
 		List<String[]> columns = entityService.getFunctionResult("Time_Table_St", listParam);
-		List<TimeTableDTO> listResult = new ArrayList<>();
+		List<TimeTableResponse> listResult = new ArrayList<>();
 		// for (String[] arr : columns) {
 		// 	// listResult.add(new TimeTableDTO(arr[0], arr[1]));
 		// }

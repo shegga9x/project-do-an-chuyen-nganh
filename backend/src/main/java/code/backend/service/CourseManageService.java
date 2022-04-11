@@ -19,11 +19,11 @@ import code.backend.helpers.payload.dto.FacultyDTO;
 import code.backend.helpers.payload.dto.ProfessorDTO;
 import code.backend.helpers.payload.dto.ScheduleDTO;
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
-import code.backend.helpers.payload.dto.TimeTableDTO;
 import code.backend.helpers.payload.response.CourseRegisterFakeRespone;
 import code.backend.helpers.payload.response.MessageResponse;
 import code.backend.helpers.payload.response.StudentBySubjectResponse;
 import code.backend.helpers.payload.response.SubAvailableRespone;
+import code.backend.helpers.payload.response.TimeTableResponse;
 import code.backend.helpers.utils.SubUtils;
 import code.backend.persitence.entities.CourseOffering;
 import code.backend.persitence.entities.Schedule;
@@ -207,10 +207,10 @@ public class CourseManageService {
         return new MessageResponse("Hoan thanh !!");
     }
 
-    public List<TimeTableDTO> get_Time_Table_ST(String idACCOUNT) {
+    public List<TimeTableResponse> get_Time_Table_ST(String idACCOUNT) {
         List<String> listParam = Arrays.asList(idACCOUNT);
         List<String[]> columns = entityService.getFunctionResult("Time_Table_St", listParam);
-        List<TimeTableDTO> listResult = new ArrayList<>();
+        List<TimeTableResponse> listResult = new ArrayList<>();
         for (String[] arr : columns) {
             ScheduleDTO scheduleDTO = (ScheduleDTO) SubUtils.mapperObject(scheduleRepository.findById(arr[0]).get(),
                     new ScheduleDTO());
@@ -219,7 +219,7 @@ public class CourseManageService {
             CourseDTO courseDTO = (CourseDTO) SubUtils.mapperObject(
                     courseOfferingRepository.findByIdCourse(courseOfferingDTO.getIdCourse()).get().getCourse(),
                     new CourseDTO());
-            listResult.add(new TimeTableDTO(scheduleDTO, courseOfferingDTO, courseDTO));
+            listResult.add(new TimeTableResponse(scheduleDTO, courseOfferingDTO, courseDTO));
         }
         return listResult;
     }
