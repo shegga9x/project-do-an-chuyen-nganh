@@ -15,9 +15,16 @@ xem ds lớp - get CN
 xem giá tiền - get CN
 error modal - CN
 xem điểm - get 
-
-nhập điểm by excel - post - t2
-tạo user by excel - post - t2
-
 manage entity t2
+
+nhập điểm by excel - post - t3
+tạo user by excel - post - t3
+
+pdt  ???
+
+loading spinner
+modal err
+
+
+-- 1 thang truoc khi thi hoac ko lam
 xem quy trình đào tạo - get
