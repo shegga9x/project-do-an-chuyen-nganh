@@ -46,7 +46,7 @@ public class Account implements Serializable {
     private String passwordHash;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created", nullable = false)
+    @Column(name = "created", nullable = true)
     private Date created;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -54,7 +54,7 @@ public class Account implements Serializable {
     private Date updated;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "last_expires", nullable = false)
+    @Column(name = "last_expires", nullable = true)
     private Date lastExpires;
 
     @Column(name = "accept_terms", nullable = false)
