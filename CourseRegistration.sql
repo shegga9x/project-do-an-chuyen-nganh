@@ -1090,6 +1090,8 @@ WHERE  sp.ID_Student = '18130005'
 select *
 from Student
 
+select * from ACCOUNT
+
 select * from get_Semester_Reuslt('18130005','2021_1')
 
 select * from student_schedule where ID_Student ='18130005'
