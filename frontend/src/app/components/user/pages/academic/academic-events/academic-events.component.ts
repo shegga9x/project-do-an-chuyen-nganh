@@ -58,18 +58,21 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
   }
 
   submit() {
+    this.generalService.openLoadingModal();
     this.courseManageService.submitCourseRegist().subscribe({
       next: () => {
+        this.generalService.closeLoadingModal();
         this.getSubAvailable();
         this.getListCourseRegisterFake();
       },
       error: (error) => {
+        this.generalService.closeLoadingModal();
         this.generalService.openDialogError(error);
       }
     });
   }
 
-  submitDelete() {
+  submitDelete(element: HTMLInputElement) {
     let deletebox: any[] = Array.from(document.getElementsByClassName('deletebox'));
     let listIdCourse: string[] = [];
     deletebox.forEach(x => {
@@ -79,6 +82,7 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
     });
     this.courseManageService.deleteCourseRegister(listIdCourse).subscribe({
       next: (x: any) => {
+        element.checked=false;
         this.getSubAvailable();
         this.getListCourseRegisterFake();
       },

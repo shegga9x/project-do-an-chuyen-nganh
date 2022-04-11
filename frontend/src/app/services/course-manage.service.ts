@@ -15,7 +15,7 @@ export class CourseManageService {
   constructor(
     private http: HttpClient,
     private accountService: AccountService
-  ) { }
+  ) {}
 
   getSubAvailableRegist() {
     let params = { id: this.accountService.accountValue?.idAccount as string };
@@ -33,7 +33,8 @@ export class CourseManageService {
 
   submitCourseRegisterFake(idCourseOffering: string) {
     return this.http.post(
-      `${baseUrl}/submit_course_register_fake`, idCourseOffering
+      `${baseUrl}/submit_course_register_fake`,
+      idCourseOffering
     );
   }
 
@@ -53,8 +54,17 @@ export class CourseManageService {
   }
 
   getTimeTableSTRegist() {
-    let params = { idACCOUNT: this.accountService.accountValue?.idAccount as string };
+    let params = {
+      idACCOUNT: this.accountService.accountValue?.idAccount as string,
+    };
     return this.http.get(`${baseUrl}/get_time_table_st/`, {
+      params: params,
+    });
+  }
+
+  getListStudentBySubjectRegist(id: any) {
+    let params = { idSchedule: id };
+    return this.http.get(`${baseUrl}/get_list_student_by_subject/`, {
       params: params,
     });
   }

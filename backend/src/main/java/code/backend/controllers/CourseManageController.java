@@ -18,6 +18,7 @@ import code.backend.helpers.payload.dto.SemesterReusltDTO;
 import code.backend.helpers.payload.dto.TimeTableDTO;
 import code.backend.helpers.payload.response.CourseRegisterFakeRespone;
 import code.backend.helpers.payload.response.MessageResponse;
+import code.backend.helpers.payload.response.StudentBySubjectResponse;
 import code.backend.helpers.payload.response.SubAvailableRespone;
 import code.backend.service.CourseManageService;
 
@@ -30,16 +31,14 @@ public class CourseManageController {
     CourseManageService courseManageService;
 
     @GetMapping("/get_sub_available_st")
-    public @ResponseBody
-    List<SubAvailableRespone> get_Sub_Available_ST(@RequestParam("id") String model) {
+    public @ResponseBody List<SubAvailableRespone> get_Sub_Available_ST(@RequestParam("id") String model) {
         return courseManageService.get_Sub_Available_ST(model);
     }
 
     // @PreAuthorize("hasAnyRole('ROLE_Student','ROLE_Professor','ROLE_Admin')")
     @GetMapping("/get_semester_reuslt")
-    public @ResponseBody
-    List<SemesterReusltDTO> get_Semester_Reuslt(@RequestParam("idStudent") String idStudent,
-                                                @RequestParam("idSemester") String idSemester) {
+    public @ResponseBody List<SemesterReusltDTO> get_Semester_Reuslt(@RequestParam("idStudent") String idStudent,
+            @RequestParam("idSemester") String idSemester) {
         return courseManageService.get_Semester_Reuslt(idStudent, idSemester);
     }
 
@@ -59,13 +58,17 @@ public class CourseManageController {
         return courseManageService.submit_Course_Register_Fake(idCourseOffering);
     }
 
-
-    @GetMapping("/get_course_register_fake")
+    @GetMapping("get_course_register_fake")
     public @ResponseBody Set<CourseRegisterFakeRespone> get_Course_Register_Fake(@RequestParam("id") String idStudent) {
         return courseManageService.get_Course_Register_Fake(idStudent);
     }
 
-    @PostMapping("/delete_course_register")
+    @GetMapping("/get_list_student_by_subject")
+    public List<StudentBySubjectResponse> get_List_Student_By_Subject(@RequestParam("idSchedule") String id) {
+        return courseManageService.get_List_Student_By_Subject(id);
+    }
+
+    @PostMapping("delete_course_register")
     public MessageResponse delete_Course_Register(@RequestBody List<String> listIdCourse) {
         return courseManageService.delete_Course_Register(listIdCourse);
     }

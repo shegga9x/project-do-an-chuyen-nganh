@@ -1,5 +1,6 @@
 <section class="aca-event text-center">
     <div class="container">
+
         <div class="fixTableHead">
             <table>
                 <thead>
@@ -19,11 +20,15 @@
                         <th>ST</th>
                         <th>Phòng</th>
                         <th>Giảng viên</th>
+                        <th>DSSV</th>
                     </tr>
                 </thead>
                 <tbody>
                     <ng-container *ngIf="loading == true">
-                        <ng-container *ngFor="let list of listTimeTableST;index as i"> 
+                        <ng-container *ngFor="let list of listTimeTableST;index as i">
+                            <ng-container *ngIf="i == 0">
+                                <ng-container
+                                    *ngIf="listTimeTableST[i]['courseDTO'].idCourse != listTimeTableST[i+1]['courseDTO'].idCourse">
                                     <tr>
                                         <td>{{list['courseDTO'].idCourse}}</td>
                                         <td>{{list['courseDTO'].nameCourse}}</td>
@@ -41,7 +46,132 @@
                                         <td></td>
                                         <td>{{list['scheduleDTO'].studyPlace}}</td>
                                         <td>{{list['scheduleDTO'].idProfeesor}}</td>
+                                        <td><a (click)="getListStudentBySubject(list['scheduleDTO'].idSchedule)">DSSV</a></td>
                                     </tr>
+                                </ng-container>
+                                <ng-container
+                                    *ngIf="listTimeTableST[i]['courseDTO'].idCourse == listTimeTableST[i+1]['courseDTO'].idCourse">
+                                    <tr>
+                                        <td rowspan="2">{{list['courseDTO'].idCourse}}</td>
+                                        <td rowspan="2">{{list['courseDTO'].nameCourse}}</td>
+                                        <td rowspan="2"></td>
+                                        <td rowspan="2"></td>
+                                        <td rowspan="2">{{list['courseDTO'].courseCertificate}}</td>
+                                        <td rowspan="2">{{list['courseDTO'].courseCertificate}}</td>
+                                        <td rowspan="2">{{list['courseOfferingDTO'].clazzCode}}</td>
+                                        <td>{{list['courseOfferingDTO'].maxSize}}</td>
+                                        <td>{{list['courseOfferingDTO'].maxSize -
+                                            list['courseOfferingDTO'].currentSize}}</td>
+                                        <td>{{list['scheduleDTO'].theoretical}}</td>
+                                        <td>{{list['scheduleDTO'].teachingDay}}</td>
+                                        <td>{{list['scheduleDTO'].startSlot}}</td>
+                                        <td></td>
+                                        <td>{{list['scheduleDTO'].studyPlace}}</td>
+                                        <td>{{list['scheduleDTO'].idProfeesor}}</td>
+                                        <td><a (click)="getListStudentBySubject(list['scheduleDTO'].idSchedule)">DSSV</a></td>
+                                    </tr>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="i > 0 && i < listTimeTableST.length - 1">
+                                <ng-container
+                                    *ngIf="listTimeTableST[i]['courseDTO'].idCourse == listTimeTableST[i-1]['courseDTO'].idCourse">
+                                    <tr>
+                                        <td>{{list['courseOfferingDTO'].maxSize}}</td>
+                                        <td>{{list['courseOfferingDTO'].maxSize -
+                                            list['courseOfferingDTO'].currentSize}}</td>
+                                        <td>{{list['scheduleDTO'].theoretical}}</td>
+                                        <td>{{list['scheduleDTO'].teachingDay}}</td>
+                                        <td>{{list['scheduleDTO'].startSlot}}</td>
+                                        <td></td>
+                                        <td>{{list['scheduleDTO'].studyPlace}}</td>
+                                        <td>{{list['scheduleDTO'].idProfeesor}}</td>
+                                        <td><a (click)="getListStudentBySubject(list['scheduleDTO'].idSchedule)">DSSV</a></td>
+                                    </tr>
+                                </ng-container>
+                                <ng-container
+                                    *ngIf="listTimeTableST[i]['courseDTO'].idCourse != listTimeTableST[i-1]['courseDTO'].idCourse && listTimeTableST[i]['courseDTO'].idCourse == listTimeTableST[i+1]['courseDTO'].idCourse">
+
+                                    <td rowspan="2">{{list['courseDTO'].idCourse}}</td>
+                                    <td rowspan="2">{{list['courseDTO'].nameCourse}}</td>
+                                    <td rowspan="2"></td>
+                                    <td rowspan="2"></td>
+                                    <td rowspan="2">{{list['courseDTO'].courseCertificate}}</td>
+                                    <td rowspan="2">{{list['courseDTO'].courseCertificate}}</td>
+                                    <td rowspan="2">{{list['courseOfferingDTO'].clazzCode}}</td>
+                                    <td>{{list['courseOfferingDTO'].maxSize}}</td>
+                                    <td>{{list['courseOfferingDTO'].maxSize -
+                                        list['courseOfferingDTO'].currentSize}}</td>
+                                    <td>{{list['scheduleDTO'].theoretical}}</td>
+                                    <td>{{list['scheduleDTO'].teachingDay}}</td>
+                                    <td>{{list['scheduleDTO'].startSlot}}</td>
+                                    <td></td>
+                                    <td>{{list['scheduleDTO'].studyPlace}}</td>
+                                    <td>{{list['scheduleDTO'].idProfeesor}}</td>
+                                    <td><a (click)="getListStudentBySubject(list['scheduleDTO'].idSchedule)">DSSV</a></td>
+
+                                </ng-container>
+                                <ng-container
+                                    *ngIf="listTimeTableST[i]['courseDTO'].idCourse != listTimeTableST[i-1]['courseDTO'].idCourse && listTimeTableST[i]['courseDTO'].idCourse != listTimeTableST[i+1]['courseDTO'].idCourse">
+                                    <tr>
+                                        <td>{{list['courseDTO'].idCourse}}</td>
+                                        <td>{{list['courseDTO'].nameCourse}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{list['courseDTO'].courseCertificate}}</td>
+                                        <td>{{list['courseDTO'].courseCertificate}}</td>
+                                        <td>{{list['courseOfferingDTO'].clazzCode}}</td>
+                                        <td>{{list['courseOfferingDTO'].maxSize}}</td>
+                                        <td>{{list['courseOfferingDTO'].maxSize -
+                                            list['courseOfferingDTO'].currentSize}}</td>
+                                        <td>{{list['scheduleDTO'].theoretical}}</td>
+                                        <td>{{list['scheduleDTO'].teachingDay}}</td>
+                                        <td>{{list['scheduleDTO'].startSlot}}</td>
+                                        <td></td>
+                                        <td>{{list['scheduleDTO'].studyPlace}}</td>
+                                        <td>{{list['scheduleDTO'].idProfeesor}}</td>
+                                        <td><a (click)="getListStudentBySubject(list['scheduleDTO'].idSchedule)">DSSV</a></td>
+                                    </tr>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="i == listTimeTableST.length - 1">
+                                <ng-container
+                                    *ngIf="listTimeTableST[i]['courseDTO'].idCourse != listTimeTableST[i-1]['courseDTO'].idCourse">
+                                    <tr>
+                                        <td>{{list['courseDTO'].idCourse}}</td>
+                                        <td>{{list['courseDTO'].nameCourse}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{list['courseDTO'].courseCertificate}}</td>
+                                        <td>{{list['courseDTO'].courseCertificate}}</td>
+                                        <td>{{list['courseOfferingDTO'].clazzCode}}</td>
+                                        <td>{{list['courseOfferingDTO'].maxSize}}</td>
+                                        <td>{{list['courseOfferingDTO'].maxSize -
+                                            list['courseOfferingDTO'].currentSize}}</td>
+                                        <td>{{list['scheduleDTO'].theoretical}}</td>
+                                        <td>{{list['scheduleDTO'].teachingDay}}</td>
+                                        <td>{{list['scheduleDTO'].startSlot}}</td>
+                                        <td></td>
+                                        <td>{{list['scheduleDTO'].studyPlace}}</td>
+                                        <td>{{list['scheduleDTO'].idProfeesor}}</td>
+                                        <td><a (click)="getListStudentBySubject(list['scheduleDTO'].idSchedule)">DSSV</a></td>
+                                    </tr>
+                                </ng-container>
+                                <ng-container
+                                    *ngIf="listTimeTableST[i]['courseDTO'].idCourse == listTimeTableST[i-1]['courseDTO'].idCourse">
+                                    <tr>
+                                        <td>{{list['courseOfferingDTO'].maxSize}}</td>
+                                        <td>{{list['courseOfferingDTO'].maxSize -
+                                            list['courseOfferingDTO'].currentSize}}</td>
+                                        <td>{{list['scheduleDTO'].theoretical}}</td>
+                                        <td>{{list['scheduleDTO'].teachingDay}}</td>
+                                        <td>{{list['scheduleDTO'].startSlot}}</td>
+                                        <td></td>
+                                        <td>{{list['scheduleDTO'].studyPlace}}</td>
+                                        <td>{{list['scheduleDTO'].idProfeesor}}</td>
+                                        <td><a (click)="getListStudentBySubject(list['scheduleDTO'].idSchedule)">DSSV</a></td>
+                                    </tr>
+                                </ng-container>
+                            </ng-container>
                         </ng-container>
                     </ng-container>
                 </tbody>

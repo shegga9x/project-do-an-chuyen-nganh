@@ -115,11 +115,12 @@ class BackendApplicationTests {
 	@Test
 	@Transactional
 	void test4() {
-		String idSchedule = "40";
+		String idSchedule = "57";
 		Schedule schedule = scheduleRepository.findById(idSchedule).get();
 		List<Student> students = schedule.getListOfStudentSchedule().stream().map(StudentSchedule::getStudent)
 				.collect(Collectors.toList());
-		System.out.println(Arrays.toString(students.toArray()));
+		System.out.println("Schedule:");
+		students.forEach(System.out::println);
 	}
 
 	@Test

@@ -1,16 +1,20 @@
-import { DialogLoginComponent } from 'src/app/components/user/shared/dialog-login/dialog-login.component';
-import { DialogErrorComponent } from 'src/app/components/user/shared/dialog-error/dialog-error.component';
-import { Injectable } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as XLSX from 'xlsx';
 import { Router } from '@angular/router';
+import { DialogLoginComponent } from 'src/app/components/user/shared/dialog-login/dialog-login.component';
+import { DialogErrorComponent } from 'src/app/components/user/shared/dialog-error/dialog-error.component';
 import { PDTService } from './pdt.service';
 @Injectable({
   providedIn: 'root'
 })
 export class GeneralService {
 
-  constructor(public dialog: MatDialog, private router: Router, private pDTService: PDTService) { }
+  private renderer: Renderer2;
+
+  constructor(public dialog: MatDialog, private router: Router, private pDTService: PDTService, rendererFactory: RendererFactory2) {
+    this.renderer = rendererFactory.createRenderer(null, null);
+  }
 
   openDialogLogin() {
     this.dialog.open(DialogLoginComponent, {
@@ -27,10 +31,24 @@ export class GeneralService {
     })
   }
 
+  openLoadingModal() {
+    this.renderer.setStyle(document.getElementsByClassName("loading-modal")[0], "display", "block", 2);
+    this.renderer.addClass(document.body, 'modal-loading');
+    this.renderer.setStyle(document.body, "cursor", "wait", 2);
+  }
+
+  closeLoadingModal() {
+    this.renderer.setStyle(document.getElementsByClassName("loading-modal")[0], "display", "none", 2);
+    this.renderer.removeClass(document.body, 'modal-loading');
+    this.renderer.setStyle(document.body, "cursor", "default", 2);
+  }
+
   // use on refresh the special url
   onRefresh(uri: string) {
     this.router.navigateByUrl('/dummy', { skipLocationChange: true }).then(() => this.router.navigate([uri]));
   }
+
+
   renameKey(obj: any, oldKey: any, newKey: string) {
     if (oldKey != newKey) {
       obj[newKey] = obj[oldKey];

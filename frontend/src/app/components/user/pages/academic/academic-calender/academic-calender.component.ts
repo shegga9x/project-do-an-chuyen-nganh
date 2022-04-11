@@ -33,11 +33,27 @@ export class AcademicCalenderComponent implements OnInit {
         //add to course-manage services
         this.courseManageService.listTimeTable_ST = this.listTimeTableST;
         this.loading = true;
-        console.log(x);
       },
       error: (error) => {
         console.log(error);
       },
     });
+  }
+
+  getListStudentBySubject(idSCHEDULE: any) {
+    console.log(idSCHEDULE);
+    this.courseManageService
+      .getListStudentBySubjectRegist(idSCHEDULE)
+      .subscribe({
+        next: (x: any) => {
+          //foreach
+          x.forEach((element: any) => {
+            console.log(element);
+          });
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
   }
 }
