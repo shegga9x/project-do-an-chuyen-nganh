@@ -6,21 +6,22 @@ import java.util.List;
 import code.backend.helpers.payload.subModel.SubScoreModel;
 
 public class ScoreFromExcelRequest {
-    public String idProfessor;
-    public String idCourseOffering;
-    public String idSemester;
-    public List<SubScoreModel> list = new ArrayList<>();
+    String idProfessor;
+    String idCourseOffering;
+    String idSemester;
+    boolean is4Max;
+    List<SubScoreModel> subScoreModels = new ArrayList<>();
 
     public ScoreFromExcelRequest() {
-
     }
 
-    public ScoreFromExcelRequest(String idProfessor, String idCourseOffering, String idSemester,
-            List<SubScoreModel> list) {
+    public ScoreFromExcelRequest(String idProfessor, String idCourseOffering, String idSemester, boolean is4Max,
+            List<SubScoreModel> subScoreModels) {
         this.idProfessor = idProfessor;
         this.idCourseOffering = idCourseOffering;
         this.idSemester = idSemester;
-        this.list = list;
+        this.is4Max = is4Max;
+        this.subScoreModels = subScoreModels;
     }
 
     public String getIdProfessor() {
@@ -47,12 +48,24 @@ public class ScoreFromExcelRequest {
         this.idSemester = idSemester;
     }
 
-    public List<SubScoreModel> getList() {
-        return this.list;
+    public boolean isIs4Max() {
+        return this.is4Max;
     }
 
-    public void setList(List<SubScoreModel> list) {
-        this.list = list;
+    public boolean getIs4Max() {
+        return this.is4Max;
+    }
+
+    public void setIs4Max(boolean is4Max) {
+        this.is4Max = is4Max;
+    }
+
+    public List<SubScoreModel> getSubScoreModels() {
+        return this.subScoreModels;
+    }
+
+    public void setSubScoreModels(List<SubScoreModel> subScoreModels) {
+        this.subScoreModels = subScoreModels;
     }
 
 }
