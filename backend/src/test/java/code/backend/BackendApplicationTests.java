@@ -3,7 +3,9 @@ package code.backend;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -186,6 +188,7 @@ class BackendApplicationTests {
 					int currentCourseCertificate = currentCourse.getCourseCertificate();
 					finalCourseCertificate += currentCourseCertificate;
 					if (subPass.getIdCourse().equals(currentCourse.getIdCourse())) {
+						System.out.println("okoko");
 						studyAgain = true;
 						finalScore += currentScore > subPass.getScore() ? currentScore
 								: subPass.getScore() * currentCourseCertificate;
@@ -220,10 +223,22 @@ class BackendApplicationTests {
 				student.setListOfSubPass(subPasses);
 				student.setFinalResult(finalResult);
 				student.setListOfSemesterResult(semesterResults);
+				System.out.println(Arrays.toString(subPasses.toArray()));
 				students.add(student);
 			}
 		}
 		studentRepository.saveAll(students);
+	}
+
+	@Test
+	void test8() {
+		List<String> idsError = new ArrayList<>();
+		Map<String, String> map = new HashMap<String, String>();
+		for (String i : idsError)
+			map.put(i, "Bị trùng ID trong excel");
+		for (Map.Entry<String, String> entry : map.entrySet()) {
+			System.out.println(entry.getKey() + ":" + entry.getValue().toString());
+		}
 	}
 
 }

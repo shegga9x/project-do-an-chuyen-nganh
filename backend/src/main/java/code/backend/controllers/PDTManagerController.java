@@ -3,6 +3,7 @@ package code.backend.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ import code.backend.helpers.payload.response.EntityResponse;
 import code.backend.helpers.payload.response.MessageResponse;
 import code.backend.service.PDTManagerService;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/ptd_manager")
 public class PDTManagerController {
@@ -30,9 +32,9 @@ public class PDTManagerController {
         return pdtManagerService.addAccountFromExcel(accountFromExcelRequests);
     }
 
-    @PostMapping(value = "add_Score_From_Excel")
-    public MessageResponse addScoreFromExcel(@RequestBody List<ScoreFromExcelRequest> scoreFromExcelRequests) {
-        return pdtManagerService.addScoreFromExcel(scoreFromExcelRequests);
+    @GetMapping(value = "add_Score_From_Excel")
+    public MessageResponse addScoreFromExcel(@RequestBody ScoreFromExcelRequest scoreFromExcelRequest) {
+        return pdtManagerService.addScoreFromExcel(scoreFromExcelRequest);
     }
 
     @GetMapping(value = "load_entity")
