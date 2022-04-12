@@ -4,7 +4,6 @@
  */
 package code.backend.persitence.entities;
 
-
 import java.io.Serializable;
 import javax.persistence.*;
 
@@ -15,98 +14,110 @@ import javax.persistence.*;
  *
  */
 @Entity
-@Table(name="semester_Result", schema="dbo", catalog="Course_Registration" )
+@Table(name = "semester_Result", schema = "dbo", catalog = "Course_Registration")
 @IdClass(SemesterResultId.class)
 public class SemesterResult implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    //--- ENTITY PRIMARY KEY 
+    // --- ENTITY PRIMARY KEY
     @Id
-    @Column(name="ID_Semester", nullable=false, length=50)
-    private String     idSemester ;
+    @Column(name = "ID_Semester", nullable = false, length = 50)
+    private String idSemester;
 
     @Id
-    @Column(name="ID_Student", nullable=false, length=50)
-    private String     idStudent ;
+    @Column(name = "ID_Student", nullable = false, length = 50)
+    private String idStudent;
 
-    //--- ENTITY DATA FIELDS 
-    @Column(name="grade_Av")
-    private Double     gradeAv ;
+    // --- ENTITY DATA FIELDS
+    @Column(name = "grade_Av")
+    private Double gradeAv;
 
-    @Column(name="grade_Av_4")
-    private Double     gradeAv4 ;
+    @Column(name = "grade_Av_4")
+    private Double gradeAv4;
 
-    @Column(name="credit_Get")
-    private Short      creditGet ;
+    @Column(name = "credit_Get")
+    private int creditGet;
 
-
-    //--- ENTITY LINKS ( RELATIONSHIP )
+    // --- ENTITY LINKS ( RELATIONSHIP )
     @ManyToOne
-    @JoinColumn(name="ID_Student", referencedColumnName="ID_Student", insertable=false, updatable=false)
-    private Student    student ; 
+    @JoinColumn(name = "ID_Student", referencedColumnName = "ID_Student", insertable = false, updatable = false)
+    private Student student;
 
     @ManyToOne
-    @JoinColumn(name="ID_Semester", referencedColumnName="ID_Semester", insertable=false, updatable=false)
-    private Semester   semester ; 
-
+    @JoinColumn(name = "ID_Semester", referencedColumnName = "ID_Semester", insertable = false, updatable = false)
+    private Semester semester;
 
     /**
      * Constructor
      */
     public SemesterResult() {
-		super();
+        super();
     }
-    
-    //--- GETTERS & SETTERS FOR FIELDS
-    public void setIdSemester( String idSemester ) {
-        this.idSemester = idSemester ;
+
+    public SemesterResult(String idSemester, String idStudent, Double gradeAv, int creditGet) {
+        this.idSemester = idSemester;
+        this.idStudent = idStudent;
+        this.gradeAv = gradeAv;
+        this.gradeAv4 = gradeAv * 0.4;
+        this.creditGet = creditGet;
+
     }
+
+    // --- GETTERS & SETTERS FOR FIELDS
+    public void setIdSemester(String idSemester) {
+        this.idSemester = idSemester;
+    }
+
     public String getIdSemester() {
         return this.idSemester;
     }
 
-    public void setIdStudent( String idStudent ) {
-        this.idStudent = idStudent ;
+    public void setIdStudent(String idStudent) {
+        this.idStudent = idStudent;
     }
+
     public String getIdStudent() {
         return this.idStudent;
     }
 
-    public void setGradeAv( Double gradeAv ) {
-        this.gradeAv = gradeAv ;
+    public void setGradeAv(Double gradeAv) {
+        this.gradeAv = gradeAv;
     }
+
     public Double getGradeAv() {
         return this.gradeAv;
     }
 
-    public void setGradeAv4( Double gradeAv4 ) {
-        this.gradeAv4 = gradeAv4 ;
+    public void setGradeAv4(Double gradeAv4) {
+        this.gradeAv4 = gradeAv4;
     }
+
     public Double getGradeAv4() {
         return this.gradeAv4;
     }
 
-    public void setCreditGet( Short creditGet ) {
-        this.creditGet = creditGet ;
+    public void setCreditGet(int creditGet) {
+        this.creditGet = creditGet;
     }
-    public Short getCreditGet() {
+
+    public int getCreditGet() {
         return this.creditGet;
     }
 
-    //--- GETTERS FOR LINKS
+    // --- GETTERS FOR LINKS
     public Student getStudent() {
         return this.student;
-    } 
+    }
 
     public Semester getSemester() {
         return this.semester;
-    } 
+    }
 
-    //--- toString specific method
-	@Override
-    public String toString() { 
-        StringBuilder sb = new StringBuilder(); 
+    // --- toString specific method
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
         sb.append(idSemester);
         sb.append("|");
         sb.append(idStudent);
@@ -116,7 +127,7 @@ public class SemesterResult implements Serializable {
         sb.append(gradeAv4);
         sb.append("|");
         sb.append(creditGet);
-        return sb.toString(); 
-    } 
+        return sb.toString();
+    }
 
 }

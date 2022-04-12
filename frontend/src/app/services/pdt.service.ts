@@ -27,6 +27,11 @@ export class PDTService {
             this.http.post(`${baseUrl}/update_entity`, updateEntityRequest).subscribe(x => resolve(x));
         });
     }
+    addEntity(addEntityRequest: any) : Promise<any>{
+        return new Promise((resolve) => {
+            this.http.post(`${baseUrl}/add_entity`, addEntityRequest).subscribe(x => resolve(x));
+        });
+    }
     deleteEntity(deleteEntityRequest: any) : Promise<any>{
         return new Promise((resolve) => {
             this.http.post(`${baseUrl}/delete_entity`, deleteEntityRequest).subscribe(x => resolve(x));

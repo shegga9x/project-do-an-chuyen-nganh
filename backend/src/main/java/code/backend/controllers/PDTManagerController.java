@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import code.backend.helpers.payload.request.AccountFromExcelRequest;
 import code.backend.helpers.payload.request.DeleteEntityRequest;
+import code.backend.helpers.payload.request.ScoreFromExcelRequest;
 import code.backend.helpers.payload.request.UpdateEntityRequest;
 import code.backend.helpers.payload.response.EntityResponse;
 import code.backend.helpers.payload.response.MessageResponse;
@@ -29,6 +30,11 @@ public class PDTManagerController {
         return pdtManagerService.addAccountFromExcel(accountFromExcelRequests);
     }
 
+    @PostMapping(value = "add_Score_From_Excel")
+    public MessageResponse addScoreFromExcel(@RequestBody List<ScoreFromExcelRequest> scoreFromExcelRequests) {
+        return pdtManagerService.addScoreFromExcel(scoreFromExcelRequests);
+    }
+
     @GetMapping(value = "load_entity")
     public EntityResponse loadEntity(@RequestParam("entityClass") String entityClass) {
         return pdtManagerService.loadEntity(entityClass);
@@ -43,4 +49,10 @@ public class PDTManagerController {
     public MessageResponse deleteEntityList(@RequestBody DeleteEntityRequest deleteEntityRequest) {
         return pdtManagerService.deleteEntityList(deleteEntityRequest);
     }
+
+    @PostMapping(value = "add_entity")
+    public MessageResponse addEntity(@RequestBody UpdateEntityRequest addEntityRequest) {
+        return pdtManagerService.addEntity(addEntityRequest);
+    }
+
 }

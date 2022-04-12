@@ -73,7 +73,9 @@ export class FinalExamResultComponent implements OnInit {
     const obj = Object.fromEntries(map1);
     const objJSON = JSON.stringify(obj);
     const request = { entityClass: this.entityClass, jsonObject: objJSON };
-    this.pDTService.updateEntity(request).then(x => console.log(x));
+    if (id < 0)
+      this.pDTService.addEntity(request).then(x => console.log(x));
+    else this.pDTService.updateEntity(request).then(x => console.log(x));
   }
   deleteSubmit() {
     const listObject: any[] = [];

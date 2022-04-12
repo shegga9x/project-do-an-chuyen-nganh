@@ -2,6 +2,7 @@ package code.backend;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,14 +17,20 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
 import code.backend.helpers.payload.response.TimeTableResponse;
+import code.backend.helpers.payload.subModel.SubScoreModel;
+import code.backend.persitence.entities.Course;
 import code.backend.persitence.entities.CourseOffering;
+import code.backend.persitence.entities.FinalResult;
 import code.backend.persitence.entities.Schedule;
+import code.backend.persitence.entities.SemesterResult;
 import code.backend.persitence.entities.Student;
 import code.backend.persitence.entities.StudentSchedule;
+import code.backend.persitence.entities.SubPass;
 import code.backend.persitence.model.UserDetailCustom;
 import code.backend.persitence.repository.CourseOfferingRepository;
 import code.backend.persitence.repository.ScheduleRepository;
 import code.backend.persitence.repository.SemesterRepository;
+import code.backend.persitence.repository.StudentRepository;
 import code.backend.persitence.repository.StudentScheduleFRepository;
 import code.backend.persitence.repository.StudentScheduleRepository;
 import code.backend.service.subService.EntityService;
@@ -44,6 +51,8 @@ class BackendApplicationTests {
 	StudentScheduleRepository studentScheduleRepository;
 	@Autowired
 	StudentScheduleFRepository studentScheduleFRepository;
+	@Autowired
+	StudentRepository studentRepository;
 
 	@Test
 	@Transactional
@@ -106,7 +115,7 @@ class BackendApplicationTests {
 		List<String[]> columns = entityService.getFunctionResult("Time_Table_St", listParam);
 		List<TimeTableResponse> listResult = new ArrayList<>();
 		// for (String[] arr : columns) {
-		// 	// listResult.add(new TimeTableDTO(arr[0], arr[1]));
+		// // listResult.add(new TimeTableDTO(arr[0], arr[1]));
 		// }
 		System.out.println("TimeTable_ST:");
 		listResult.forEach(System.out::println);
@@ -132,6 +141,89 @@ class BackendApplicationTests {
 		for (String s : listIdSchedule) {
 			System.out.println(s);
 		}
+	}
+
+	@Test
+	@Transactional
+	void test7() {
+		List<SubScoreModel> subScoreModels = new ArrayList<>();
+		String idSemester = "2021_2";
+		String idCourseOffering = "52";
+		boolean is4Max = false;
+		subScoreModels.add(new SubScoreModel("18130005", "", "", 8.0));
+		subScoreModels.add(new SubScoreModel("18130006", "", "", 7.0));
+		subScoreModels.add(new SubScoreModel("18130007", "", "", 8.0));
+		subScoreModels.add(new SubScoreModel("18130007", "", "", 9.0));
+
+		List<String> ids = subScoreModels.stream().map(SubScoreModel::getStudentID)
+				.collect(Collectors.toList());
+		List<String> idsAfter = ids.stream()
+				.filter(e -> Collections.frequency(ids, e) == 1)
+				.collect(Collectors.toList());
+
+		List<Student> students = new ArrayList<>();
+		for (Student student : studentRepository.findAllById(idsAfter)) {
+
+			List<StudentSchedule> studentSchedules = student.getListOfStudentSchedule().stream()
+					.filter(x -> x.getSchedule().getIdCourseOffering().equals(idCourseOffering)
+							&& x.getIdSemester().equals(idSemester))
+					.collect(Collectors.toList());
+
+			if (studentSchedules.size() != 0) {
+
+				double currentScore = subScoreModels.stream()
+						.filter(x -> x.getStudentID().equals(student.getIdStudent())).map(SubScoreModel::getFinalResult)
+						.collect(Collectors.toList()).get(0);
+				int finalCourseCertificate = 0;
+				double finalScore = 0;
+				int semesterCourseCertificate = 0;
+				double semesterScore = 0;
+				boolean studyAgain = false;
+				Course currentCourse = studentSchedules.get(0).getSchedule().getCourseOffering().getCourse();
+
+				List<SubPass> subPasses = student.getListOfSubPass();
+				for (SubPass subPass : subPasses) {
+					int currentCourseCertificate = currentCourse.getCourseCertificate();
+					finalCourseCertificate += currentCourseCertificate;
+					if (subPass.getIdCourse().equals(currentCourse.getIdCourse())) {
+						studyAgain = true;
+						finalScore += currentScore > subPass.getScore() ? currentScore
+								: subPass.getScore() * currentCourseCertificate;
+						if (subPass.getIdSemester().equals(idSemester)) {
+							semesterScore += currentScore > subPass.getScore() ? currentScore
+									: subPass.getScore() * currentCourseCertificate;
+						}
+					} else {
+						finalScore += subPass.getScore() * currentCourseCertificate;
+						if (subPass.getIdSemester().equals(idSemester)) {
+							semesterScore += subPass.getScore() * currentCourseCertificate;
+						}
+					}
+				}
+				if (!studyAgain) {
+					subPasses.add(
+							new SubPass(idSemester, currentCourse.getIdCourse(), student.getIdStudent(),
+									is4Max ? currentScore * 2.5 : currentScore));
+					finalScore += currentScore;
+					semesterScore += currentScore;
+					finalCourseCertificate += currentCourse.getCourseCertificate();
+					semesterCourseCertificate += currentCourse.getCourseCertificate();
+				}
+				semesterScore = semesterScore / semesterCourseCertificate;
+				SemesterResult semesterResult = new SemesterResult(idSemester, student.getIdStudent(), semesterScore,
+						semesterCourseCertificate);
+				List<SemesterResult> semesterResults = student.getListOfSemesterResult();
+				semesterResults.removeIf(x -> x.getIdSemester().equals(idSemester));
+				semesterResults.add(semesterResult);
+				finalScore = finalScore / finalCourseCertificate;
+				FinalResult finalResult = new FinalResult(student.getIdStudent(), finalScore);
+				student.setListOfSubPass(subPasses);
+				student.setFinalResult(finalResult);
+				student.setListOfSemesterResult(semesterResults);
+				students.add(student);
+			}
+		}
+		studentRepository.saveAll(students);
 	}
 
 }

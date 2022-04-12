@@ -14,6 +14,14 @@
                     <th></th>
                     <th *ngFor="let entitiesVariableAfter of entityLoadReponse.listEntitiesVariableAfter">{{ entitiesVariableAfter }}</th>
                 </tr>
+                <tr>
+                    <td><button (click)="onChangeValue(-1)">save</button></td>
+                    <td *ngFor="let entitiesVariableAfter of entityLoadReponse.listEntitiesVariableAfter;let i = index">
+                        <input #checked [id]="entitiesVariableAfter+-1" *ngIf="entityLoadReponse.listEntityJavaType[entitiesVariableAfter] == 'checkbox'" [type]="entityLoadReponse.listEntityJavaType[entitiesVariableAfter]" [value]="!checked.checked">
+                        <input [id]=" entitiesVariableAfter+-1" *ngIf="entityLoadReponse.listEntityJavaType[entitiesVariableAfter] != 'date' && entityLoadReponse.listEntityJavaType[entitiesVariableAfter] != 'checkbox'" [type]="entityLoadReponse.listEntityJavaType[entitiesVariableAfter]">
+                        <input [id]="entitiesVariableAfter+-1" *ngIf="entityLoadReponse.listEntityJavaType[entitiesVariableAfter] == 'date' && entityLoadReponse.listEntityJavaType[entitiesVariableAfter] != 'checkbox'" [type]="entityLoadReponse.listEntityJavaType[entitiesVariableAfter]">
+                    </td>
+                </tr>
                 <tr *ngFor="let item of [].constructor(entityLoadReponse.record[firstFieldName].length);let i2 = index ">
                     <td><input type="checkbox" #checked (change)="listCheckAdd(i2)" [checked]="this.listRequest.get(i2) != null"></td>
                     <td *ngFor="let entitiesVariableAfter of entityLoadReponse.listEntitiesVariableAfter;let i = index">

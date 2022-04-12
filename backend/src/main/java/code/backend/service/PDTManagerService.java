@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import code.backend.helpers.payload.request.AccountFromExcelRequest;
 import code.backend.helpers.payload.request.DeleteEntityRequest;
+import code.backend.helpers.payload.request.ScoreFromExcelRequest;
 import code.backend.helpers.payload.request.UpdateEntityRequest;
 import code.backend.helpers.payload.response.EntityResponse;
 import code.backend.helpers.payload.response.MessageResponse;
@@ -31,8 +32,12 @@ public class PDTManagerService {
     private EntityManager entityManager;
 
     public MessageResponse addAccountFromExcel(List<AccountFromExcelRequest> accountFromExcelRequests) {
-
         return new MessageResponse(accountFromExcelRequests.toString());
+    }
+
+    public MessageResponse addScoreFromExcel(List<ScoreFromExcelRequest> scoreFromExcelRequests) {
+        
+        return null;
     }
 
     public EntityResponse loadEntity(String entityClass) {
@@ -126,6 +131,19 @@ public class PDTManagerService {
             Object target = gson.fromJson(updateEntityRequest.getJsonObject(),
                     Class.forName("code.backend.persitence.entities." + updateEntityRequest.getEntityClass()));
             entityManager.merge(target);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new MessageResponse("Thay doi thanh cong !!!");
+    }
+
+    @Transactional
+    public MessageResponse addEntity(UpdateEntityRequest addEntityRequest) {
+        Gson gson = new Gson();
+        try {
+            Object target = gson.fromJson(addEntityRequest.getJsonObject(),
+                    Class.forName("code.backend.persitence.entities." + addEntityRequest.getEntityClass()));
+            entityManager.persist(target);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -4,7 +4,6 @@
  */
 package code.backend.persitence.entities;
 
-
 import java.io.Serializable;
 import javax.persistence.*;
 
@@ -15,117 +14,143 @@ import javax.persistence.*;
  *
  */
 @Entity
-@Table(name="Sub_Pass", schema="dbo", catalog="Course_Registration" )
+@Table(name = "Sub_Pass", schema = "dbo", catalog = "Course_Registration")
 @IdClass(SubPassId.class)
 public class SubPass implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    //--- ENTITY PRIMARY KEY 
+    // --- ENTITY PRIMARY KEY
     @Id
-    @Column(name="ID_Semester", nullable=false, length=50)
-    private String     idSemester ;
-
-    @Id
-    @Column(name="ID_Course", nullable=false, length=50)
-    private String     idCourse ;
+    @Column(name = "ID_Semester", nullable = false, length = 50)
+    private String idSemester;
 
     @Id
-    @Column(name="ID_Student", nullable=false, length=50)
-    private String     idStudent ;
+    @Column(name = "ID_Course", nullable = false, length = 50)
+    private String idCourse;
 
-    //--- ENTITY DATA FIELDS 
-    @Column(name="Score", nullable=false)
-    private Double     score ;
+    @Id
+    @Column(name = "ID_Student", nullable = false, length = 50)
+    private String idStudent;
 
-    @Column(name="Score_System_4", nullable=false)
-    private Double     scoreSystem4 ;
+    // --- ENTITY DATA FIELDS
+    @Column(name = "Score", nullable = false)
+    private Double score;
 
-    @Column(name="Rated", nullable=false, length=10)
-    private String     rated ;
+    @Column(name = "Score_System_4", nullable = false)
+    private Double scoreSystem4;
 
+    @Column(name = "Rated", nullable = false, length = 10)
+    private String rated;
 
-    //--- ENTITY LINKS ( RELATIONSHIP )
+    // --- ENTITY LINKS ( RELATIONSHIP )
     @ManyToOne
-    @JoinColumn(name="ID_Student", referencedColumnName="ID_Student", insertable=false, updatable=false)
-    private Student    student ; 
+    @JoinColumn(name = "ID_Student", referencedColumnName = "ID_Student", insertable = false, updatable = false)
+    private Student student;
 
     @ManyToOne
-    @JoinColumn(name="ID_Course", referencedColumnName="ID_Course", insertable=false, updatable=false)
-    private Course     course ; 
+    @JoinColumn(name = "ID_Course", referencedColumnName = "ID_Course", insertable = false, updatable = false)
+    private Course course;
 
     @ManyToOne
-    @JoinColumn(name="ID_Semester", referencedColumnName="ID_Semester", insertable=false, updatable=false)
-    private Semester   semester ; 
-
+    @JoinColumn(name = "ID_Semester", referencedColumnName = "ID_Semester", insertable = false, updatable = false)
+    private Semester semester;
 
     /**
      * Constructor
      */
     public SubPass() {
-		super();
+        super();
     }
-    
-    //--- GETTERS & SETTERS FOR FIELDS
-    public void setIdSemester( String idSemester ) {
-        this.idSemester = idSemester ;
+
+    public SubPass(String idSemester, String idCourse, String idStudent, Double score) {
+        this.idSemester = idSemester;
+        this.idCourse = idCourse;
+        this.idStudent = idStudent;
+        this.score = score >= 4 ? score : 0;
+        this.scoreSystem4 = score * 0.4;
+        this.rated = getRatedResult(score);
+
     }
+
+    // --- GETTERS & SETTERS FOR FIELDS
+    public void setIdSemester(String idSemester) {
+        this.idSemester = idSemester;
+    }
+
     public String getIdSemester() {
         return this.idSemester;
     }
 
-    public void setIdCourse( String idCourse ) {
-        this.idCourse = idCourse ;
+    public void setIdCourse(String idCourse) {
+        this.idCourse = idCourse;
     }
+
     public String getIdCourse() {
         return this.idCourse;
     }
 
-    public void setIdStudent( String idStudent ) {
-        this.idStudent = idStudent ;
+    public void setIdStudent(String idStudent) {
+        this.idStudent = idStudent;
     }
+
     public String getIdStudent() {
         return this.idStudent;
     }
 
-    public void setScore( Double score ) {
-        this.score = score ;
+    public void setScore(Double score) {
+        this.score = score;
     }
+
     public Double getScore() {
         return this.score;
     }
 
-    public void setScoreSystem4( Double scoreSystem4 ) {
-        this.scoreSystem4 = scoreSystem4 ;
+    public void setScoreSystem4(Double scoreSystem4) {
+        this.scoreSystem4 = scoreSystem4;
     }
+
     public Double getScoreSystem4() {
         return this.scoreSystem4;
     }
 
-    public void setRated( String rated ) {
-        this.rated = rated ;
+    public void setRated(String rated) {
+        this.rated = rated;
     }
+
     public String getRated() {
         return this.rated;
     }
 
-    //--- GETTERS FOR LINKS
+    // --- GETTERS FOR LINKS
     public Student getStudent() {
         return this.student;
-    } 
+    }
 
     public Course getCourse() {
         return this.course;
-    } 
+    }
 
     public Semester getSemester() {
         return this.semester;
-    } 
+    }
 
-    //--- toString specific method
-	@Override
-    public String toString() { 
-        StringBuilder sb = new StringBuilder(); 
+    public String getRatedResult(double score) {
+        if (score <= 4) {
+            return "F";
+        } else if (score <= 6) {
+            return "C";
+        } else if (score <= 8) {
+            return "B";
+        } else {
+            return "A";
+        }
+    }
+
+    // --- toString specific method
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
         sb.append(idSemester);
         sb.append("|");
         sb.append(idCourse);
@@ -137,7 +162,7 @@ public class SubPass implements Serializable {
         sb.append(scoreSystem4);
         sb.append("|");
         sb.append(rated);
-        return sb.toString(); 
-    } 
+        return sb.toString();
+    }
 
 }
