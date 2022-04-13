@@ -91,7 +91,6 @@ class BackendApplicationTests {
 	void test3() {
 
 		Schedule schedule = scheduleRepository.findById("48").get();
-
 		CourseOffering courseOffering = courseOfferingRepository.findById(schedule.getIdCourseOffering()).get();
 		courseOffering.setCurrentSize((byte) (courseOffering.getCurrentSize() + 1));
 		courseOfferingRepository.save(courseOffering);
@@ -103,7 +102,6 @@ class BackendApplicationTests {
 		} catch (Exception e) {
 			id = "18130005";
 		}
-
 		StudentSchedule studentSchedule = new StudentSchedule(semesterRepository.getCurrentSemester().getIdSemester(),
 				schedule.getIdSchedule(), id);
 		studentScheduleRepository.save(studentSchedule);
@@ -241,4 +239,17 @@ class BackendApplicationTests {
 		}
 	}
 
+	@Test
+	@Transactional
+	void test9() {
+		System.out.println("For_Professor");
+		List<String> idf = new ArrayList<>();
+		for (String[] strings : entityService.getFunctionResult("check_Subject_For_Professor",
+				Arrays.asList("N'224'"))) {
+			idf.add(strings[0]);
+		}
+		for (Schedule schedule : scheduleRepository.findAllByIds(idf)) {
+			System.out.println(schedule);
+		}
+	}
 }

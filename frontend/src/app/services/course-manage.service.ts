@@ -68,4 +68,11 @@ export class CourseManageService {
       params: params,
     });
   }
+
+  getListSubjectForProfressorRegist() {
+    let params = { idProfessor: "N'224'" };
+    return this.http.get(`${baseUrl}/get_list_subject_for_professor/`, {
+      params: params,
+    });
+  }
 }

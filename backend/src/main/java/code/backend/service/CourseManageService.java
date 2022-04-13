@@ -239,4 +239,26 @@ public class CourseManageService {
         }
         return listStudentResponse;
     }
+
+    // in ra danh sach GiaoVien co the dang ky mon hoc
+    public List<SubAvailableRespone> get_List_Subject_For_Professor(String idProfessor) {
+        List<String> ids = new ArrayList<>();
+        for (String[] strings : entityService.getFunctionResult("check_Subject_For_Professor", Arrays.asList(idProfessor))) {
+            ids.add(strings[0]);
+        }
+        List<Schedule> schedules = scheduleRepository.findAllByIds(ids);
+        List<SubAvailableRespone> listSubject = new ArrayList<>();
+        for (Schedule schedule : schedules) {
+            SubAvailableRespone subAvailableRespone = new SubAvailableRespone(
+                    (ClazzDTO) SubUtils.mapperObject(schedule.getCourseOffering().getClazz(), new ClazzDTO()),
+                    (CourseDTO) SubUtils.mapperObject(schedule.getCourseOffering().getCourse(), new CourseDTO()),
+                    (CourseOfferingDTO) SubUtils.mapperObject(schedule.getCourseOffering(), new CourseOfferingDTO()),
+                    (FacultyDTO) SubUtils.mapperObject(schedule.getCourseOffering().getCourse().getFaculty(),
+                            new FacultyDTO()),
+                    (ProfessorDTO) SubUtils.mapperObject(schedule.getProfessor(), new ProfessorDTO()),
+                    (ScheduleDTO) SubUtils.mapperObject(schedule, new ScheduleDTO()));
+            listSubject.add(subAvailableRespone);
+        }
+        return listSubject;
+    }
 }

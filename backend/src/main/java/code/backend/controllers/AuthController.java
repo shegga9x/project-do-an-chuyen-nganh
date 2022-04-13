@@ -52,7 +52,6 @@ public class AuthController {
         accountService.verifyEmail(model.getToken());
         return ResponseEntity.ok(
                 new MessageResponse("Verification successful, you can now login"));
-
     }
 
     @PostMapping("/authenticate")

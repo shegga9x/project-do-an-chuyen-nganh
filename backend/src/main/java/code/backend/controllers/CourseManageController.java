@@ -72,4 +72,11 @@ public class CourseManageController {
     public MessageResponse delete_Course_Register(@RequestBody List<String> listIdCourse) {
         return courseManageService.delete_Course_Register(listIdCourse);
     }
+
+    // in ra danh sach mon GV co the dang ky
+    @GetMapping("/get_list_subject_for_professor")
+    public @ResponseBody List<SubAvailableRespone> get_List_Subject_For_Professor(@RequestParam("idProfessor") String model) {
+        return courseManageService.get_List_Subject_For_Professor(model);
+    }
+    
 }
