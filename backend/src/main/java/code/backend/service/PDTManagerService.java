@@ -17,6 +17,7 @@ import javax.persistence.metamodel.EntityType;
 
 import code.backend.persitence.entities.*;
 import code.backend.persitence.enumModel.RoleEnum;
+import code.backend.persitence.repository.AccountRepository;
 import code.backend.persitence.repository.ClazzRepository;
 import code.backend.persitence.repository.FacultyRepository;
 import com.google.gson.Gson;
@@ -42,6 +43,8 @@ public class PDTManagerService {
     private EntityManager entityManager;
     @Autowired
     StudentRepository studentRepository;
+    @Autowired
+    AccountRepository accountRepository;
     @Autowired
     ClazzRepository clazzRepository;
     @Autowired
@@ -88,7 +91,8 @@ public class PDTManagerService {
             List<Clazz> listClazz = clazzRepository.findByClazzCodeLike("%" + khoa + maNganh + "%");
             Clazz clazz = listClazz.get(map1.get(maNganh));
             int Id_Faculty_N = facultyRepository.findByIdFaculty(maNganh).get().getIdFacultyN();
-            String idAccount = khoa + Id_Faculty_N + numberToString(map2.get(maNganh));
+            String idAccount = "" + khoa + Id_Faculty_N + numberToString(map2.get(maNganh));
+            System.out.println(idAccount);
             String email = idAccount + "@st.hcmuaf.edu.vn";
             String password = "$2a$10$g/AIRfhpFhGPjAnUw5m8qu974.uI71HwrBpjXeYQu4khl8KI.4VgS";
             //account
@@ -110,6 +114,10 @@ public class PDTManagerService {
                 map1.put(maNganh, 0);
             }
         }
+        accountRepository.saveAll(listAccount);
+        studentRepository.saveAll(listStudent);
+        clazzRepository.saveAll(clazzList);
+
         return new MessageResponse(listAccountFromExcelRequests.toString());
     }
 

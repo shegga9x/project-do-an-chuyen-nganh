@@ -27,6 +27,9 @@ public class ClazzService {
     public void createClazzByIdFaculty(String idFaculty, int count) {
         List<Clazz> listClazz = new ArrayList<>();
         int countClazz = (int) Math.round((double) count / 100);
+        if (countClazz == 0) {
+            countClazz = 1;
+        }
         for (int i = 0; i < countClazz; i++) {
             char c = (char) (65 + i);
             Clazz clazz = new Clazz();

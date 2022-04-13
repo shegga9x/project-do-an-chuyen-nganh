@@ -1092,7 +1092,11 @@ from Student
 
 select * from ACCOUNT
 
+select * from Clazz;
+
 select * from ACCOUNT_Detail
+
+select * from Verification_Token
 
 select * from Student
 

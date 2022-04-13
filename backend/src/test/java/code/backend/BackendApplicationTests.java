@@ -236,4 +236,9 @@ class BackendApplicationTests {
 		}
 	}
 
+	@Test
+	void test9() {
+		int khoa = Calendar.getInstance().get(Calendar.YEAR) % 100;
+		System.out.println(khoa);
+	}
 }

@@ -31,7 +31,8 @@ export class HomeComponent implements OnInit {
     if (target.files.length !== 1) {
       throw new Error('Cannot use multiple files');
     }
-    this.generalService.excelReader(target.files[0]).then(x => console.log(x))
+    let listFieldNameDefualt = ["studentID", "firstName", "lastName", "finalResult"];
+    this.generalService.excelReader(target.files[0], listFieldNameDefualt).then(x => console.log(x))
   }
 }
 

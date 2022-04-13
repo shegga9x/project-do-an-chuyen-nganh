@@ -32,4 +32,13 @@ public class AccountFromExcelRequest {
     public void setFaculty(String faculty) {
         this.faculty = faculty;
     }
+
+    @Override
+    public String toString() {
+        return "AccountFromExcelRequest{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", faculty='" + faculty + '\'' +
+                '}';
+    }
 }

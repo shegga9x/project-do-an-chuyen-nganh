@@ -12,9 +12,7 @@ export class PDTService {
     constructor(private http: HttpClient) { }
 
     addAccountFromExcel(listAccount: any) {
-        return new Promise((resolve) => {
-            this.http.post(`${baseUrl}/add_Account_From_Excel`, listAccount).subscribe(x => resolve(x));
-        });
+        return this.http.post(`${baseUrl}/add_Account_From_Excel`, listAccount);
     }
     addScoreFromExcel(listScoreRequest: any) {
         return new Promise((resolve,rejects) => {
