@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { CourseManageService } from 'src/app/services/course-manage.service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-academic-calender',
   templateUrl: './academic-calender.component.html',
@@ -13,7 +13,9 @@ export class AcademicCalenderComponent implements OnInit {
 
   constructor(
     private titleService: Title,
-    private courseManageService: CourseManageService
+    private courseManageService: CourseManageService,
+    private router: Router
+    
   ) {
     this.titleService.setTitle('Academic Calender');
   }
@@ -42,18 +44,21 @@ export class AcademicCalenderComponent implements OnInit {
 
   getListStudentBySubject(idSCHEDULE: any) {
     console.log(idSCHEDULE);
-    this.courseManageService
-      .getListStudentBySubjectRegist(idSCHEDULE)
-      .subscribe({
-        next: (x: any) => {
-          //foreach
-          x.forEach((element: any) => {
-            console.log(element);
-          });
-        },
-        error: (error) => {
-          console.log(error);
-        },
-      });
+    // this.router.navigate(["user/exam-routine/half-early-exam", { queryParams: {idSCHEDULE: idSCHEDULE}}]);
+
+    this.router.navigate(["user/exam-routine/half-early-exam"], { queryParams: {idSCHEDULE: idSCHEDULE}});
+    // this.courseManageService
+    //   .getListStudentBySubjectRegist(idSCHEDULE)
+    //   .subscribe({
+    //     next: (x: any) => {
+    //       //foreach
+    //       x.forEach((element: any) => {
+    //         console.log(element);
+    //       });
+    //     },
+    //     error: (error) => {
+    //       console.log(error);
+    //     },
+    //   });
   }
 }

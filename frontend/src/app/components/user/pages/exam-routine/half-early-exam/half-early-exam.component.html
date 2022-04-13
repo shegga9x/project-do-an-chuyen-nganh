@@ -1,57 +1,38 @@
 <section class="half-early-routine">
     <div class="container">
-        <h3>Thi giữa kỳ</h3>
         <div class="h-early-routine">
+            <div style="text-align: left;">
+                <span style="padding-right: 10px">Sắp xếp khi xuất danh sách </span>
+                <input type="radio" name="arrangement" (change)="handleChange($event,'idStudent')"><label style="font-weight: 400;padding-right: 5px;">Theo mã sinh
+                    viên</label>
+                <input type="radio" name="arrangement" (change)="handleChange($event,'studentName')"><label style="font-weight: 400;padding-right: 5px;">Theo tên sinh
+                    viên</label>
+                <input type="radio" name="arrangement" (change)="handleChange($event,'clazzCode')"><label style="font-weight: 400;">Theo mã lớp</label>
+            </div>
             <table>
+                <thead>
                 <tr>
-                    <th>Ngày thi</th>
-                    <th>Thứ</th>
-                    <th>Môn học</th>
-                    <th>Thời gian</th>
-                    <th>Phòng thi</th>
+                    <th>STT</th>
+                    <th>Mã sinh viên</th>
+                    <th>Họ Tên</th>
+                    <th>Mã lớp</th>
+                    <th>Tên lớp</th>
+                    <th>ĐT liên lạc</th>
+                    <th>Email</th>
+                    <th>Ghi chú</th>
                 </tr>
-                <tr>
-                    <td>1/09/17</td>
-                    <td>Saturday</td>
-                    <td>English First Paper</td>
-                    <td>10:00Am</td>
-                    <td>10</td>
+                </thead>
+                <tr *ngFor="let item of listStudentAfterSort;index as i">
+                    <td>{{i+1}}</td>
+                    <td>{{item.idStudent}}</td>
+                    <td>{{item.studentName}}</td>
+                    <td>{{item.clazzCode}}</td>
+                    <td>{{item.nameFaculty}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
-                <tr>
-                    <td>3/09/17</td>
-                    <td>Monday</td>
-                    <td>English 2nd Paper</td>
-                    <td>10:00Am</td>
-                    <td>12</td>
-                </tr>
-                <tr>
-                    <td>6/09/17</td>
-                    <td>Thrusday</td>
-                    <td>Bangla First Paper</td>
-                    <td>10:00Am</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>9/09/17</td>
-                    <td>Monday</td>
-                    <td>Physic</td>
-                    <td>3:00pm</td>
-                    <td>15</td>
-                </tr>
-                <tr>
-                    <td>11/07/12</td>
-                    <td>Thrusday</td>
-                    <td>Biology</td>
-                    <td>12:00pm</td>
-                    <td>12</td>
-                </tr>
-                <tr>
-                    <td>11/07/12</td>
-                    <td>Thrusday</td>
-                    <td>Chemesrty</td>
-                    <td>10:00pm</td>
-                    <td>12</td>
-                </tr>
+            
             </table>
         </div>
         <a href="assets/image/haly-eaxm-routine.PNG" download>
