@@ -28,7 +28,6 @@ public class PDTManagerController {
 
     @PostMapping("/add_Account_From_Excel")
     public MessageResponse addAccountFromExcel(@RequestBody List<AccountFromExcelRequest> accountFromExcelRequests) {
-
         return pdtManagerService.addAccountFromExcel(accountFromExcelRequests);
     }
 

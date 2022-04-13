@@ -1,13 +1,13 @@
 package code.backend.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -15,6 +15,10 @@ import javax.persistence.metamodel.Attribute;
 import javax.persistence.metamodel.Attribute.PersistentAttributeType;
 import javax.persistence.metamodel.EntityType;
 
+import code.backend.persitence.entities.*;
+import code.backend.persitence.enumModel.RoleEnum;
+import code.backend.persitence.repository.ClazzRepository;
+import code.backend.persitence.repository.FacultyRepository;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -30,12 +34,6 @@ import code.backend.helpers.payload.request.UpdateEntityRequest;
 import code.backend.helpers.payload.response.EntityResponse;
 import code.backend.helpers.payload.response.MessageResponse;
 import code.backend.helpers.payload.subModel.SubScoreModel;
-import code.backend.persitence.entities.Course;
-import code.backend.persitence.entities.FinalResult;
-import code.backend.persitence.entities.SemesterResult;
-import code.backend.persitence.entities.Student;
-import code.backend.persitence.entities.StudentSchedule;
-import code.backend.persitence.entities.SubPass;
 import code.backend.persitence.repository.StudentRepository;
 
 @Service
@@ -44,9 +42,114 @@ public class PDTManagerService {
     private EntityManager entityManager;
     @Autowired
     StudentRepository studentRepository;
+    @Autowired
+    ClazzRepository clazzRepository;
+    @Autowired
+    FacultyRepository facultyRepository;
+    @Autowired
+    ClazzService clazzService;
 
-    public MessageResponse addAccountFromExcel(List<AccountFromExcelRequest> accountFromExcelRequests) {
-        return new MessageResponse(accountFromExcelRequests.toString());
+    public Map<String, Integer> studentCount(List<AccountFromExcelRequest> listAccountFromExcelRequests) {
+        Map<String, Integer> map = new HashMap<>();
+        for (AccountFromExcelRequest accountFromExcelRequest : listAccountFromExcelRequests) {
+            if (map.get(accountFromExcelRequest.getFaculty()) == null) {
+                map.put(accountFromExcelRequest.getFaculty(), 1);
+            } else {
+                map.put(accountFromExcelRequest.getFaculty(), map.get(accountFromExcelRequest.getFaculty()) + 1);
+            }
+        }
+        return map;
+    }
+
+    public MessageResponse addAccountFromExcel(List<AccountFromExcelRequest> listAccountFromExcelRequests) {
+        //tao clazz
+        Map<String, Integer> map = studentCount(listAccountFromExcelRequests);
+        clazzService.createClazz(map);
+        //
+        Map<String, Integer> map1 = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            map1.put(entry.getKey(), 0);
+        }
+        //
+        Map<String, Integer> map2 = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            map2.put(entry.getKey(), 1);
+        }
+
+        List<Account> listAccount = new ArrayList<>();
+        List<Student> listStudent = new ArrayList<>();
+        List<Clazz> clazzList = new ArrayList<>();
+
+        for (AccountFromExcelRequest accountFromExcelRequest : listAccountFromExcelRequests) {
+            String firstName = accountFromExcelRequest.getFirstName();
+            String lastName = accountFromExcelRequest.getLastName();
+            String maNganh = accountFromExcelRequest.getFaculty();
+            int khoa = Calendar.getInstance().get(Calendar.YEAR) % 100;
+            List<Clazz> listClazz = clazzRepository.findByClazzCodeLike("%" + khoa + maNganh + "%");
+            Clazz clazz = listClazz.get(map1.get(maNganh));
+            int Id_Faculty_N = facultyRepository.findByIdFaculty(maNganh).get().getIdFacultyN();
+            String idAccount = khoa + Id_Faculty_N + numberToString(map2.get(maNganh));
+            String email = idAccount + "@st.hcmuaf.edu.vn";
+            String password = "$2a$10$g/AIRfhpFhGPjAnUw5m8qu974.uI71HwrBpjXeYQu4khl8KI.4VgS";
+            //account
+            Account account = createNewAccount(idAccount, firstName, lastName, email, password);
+            listAccount.add(account);
+
+            //student
+            Student student = new Student(idAccount, firstName + lastName, maNganh, new Date(), clazz.getClazzCode(), (short) 136, (short) 0);
+            listStudent.add(student);
+
+            //
+            clazz.setCurrentSize((byte) (clazz.getCurrentSize() + 1));
+            clazzList.add(clazz);
+            if (map1.get(maNganh) < (listClazz.size() - 1)) {
+                map2.put(maNganh, map2.get(maNganh) + 1);
+                map1.put(maNganh, map1.get(maNganh) + 1);
+            } else {
+                map2.put(maNganh, map2.get(maNganh) + 1);
+                map1.put(maNganh, 0);
+            }
+        }
+        return new MessageResponse(listAccountFromExcelRequests.toString());
+    }
+
+    public Account createNewAccount(String idAccount, String firstName, String lastName, String email, String password) {
+        //account detail
+        AccountDetail accountDetail = new AccountDetail();
+        accountDetail.setIdAccount(idAccount);
+        accountDetail.setFirstName(firstName);
+        accountDetail.setLastName(lastName);
+        accountDetail.setBirthday(new Date());
+        //account
+        Account account = new Account();
+        account.setIdAccount(idAccount);
+        account.setEmail(email);
+        account.setPasswordHash(password);
+        account.setCreated(new Date());
+        account.setAcceptTerms(true);
+        account.setLastExpires(new Date());
+        List<Role> roles = new ArrayList<>(List.of(new Role(RoleEnum.Student)));
+        account.setListOfRole(roles);
+        //verification token
+        VerificationToken verificationToken = new VerificationToken(account.getIdAccount(), null);
+        verificationToken.setVerified(new Date());
+        //add all to account
+        account.setVerificationToken(verificationToken);
+        account.setResetToken(new ResetToken(account.getIdAccount()));
+        account.setAccountDetail(accountDetail);
+
+        return account;
+    }
+
+    public String numberToString(int number) {
+        if (number >= 0 && number < 10) {
+            return "00" + number;
+        } else if (number >= 10 && number < 100) {
+            return "0" + number;
+        } else if (number >= 100 && number < 1000) {
+            return "" + number;
+        }
+        return "";
     }
 
     public MessageResponse addScoreFromExcel(ScoreFromExcelRequest scoreFromExcelRequest) {
@@ -68,6 +171,7 @@ public class PDTManagerService {
             errorMap.put(i, "Bị trùng ID trong excel");
         List<Student> students = new ArrayList<>();
         for (Student student : studentRepository.findAllById(idsAfter)) {
+
             List<StudentSchedule> studentSchedules = student.getListOfStudentSchedule().stream()
                     .filter(x -> x.getSchedule().getIdCourseOffering().equals(idCourseOffering)
                             && x.getIdSemester().equals(idSemester))
@@ -80,56 +184,56 @@ public class PDTManagerService {
                 double currentScore = subScoreModels.stream()
                         .filter(x -> x.getStudentID().equals(student.getIdStudent())).map(SubScoreModel::getFinalResult)
                         .collect(Collectors.toList()).get(0);
-                int finalCourseCertificate = 0;
-                double finalScore = 0;
-                int semesterCourseCertificate = 0;
-                double semesterScore = 0;
-                boolean studyAgain = false;
+                currentScore = is4Max ? currentScore * 2.5 : currentScore;
                 Course currentCourse = studentSchedules.get(0).getSchedule().getCourseOffering().getCourse();
-
+                int semesterCourseCertificate = 0;
+                int finalCourseCertificate = 0;
+                double semesterScore = 0;
+                double finalScore = 0;
+                boolean isAgain = false;
                 List<SubPass> subPasses = student.getListOfSubPass();
-                for (SubPass subPass : subPasses) {
-                    int currentCourseCertificate = currentCourse.getCourseCertificate();
-                    finalCourseCertificate += currentCourseCertificate;
-                    if (subPass.getIdCourse().equals(currentCourse.getIdCourse())) {
-                        studyAgain = true;
-                        finalScore += currentScore > subPass.getScore() ? currentScore
-                                : subPass.getScore() * currentCourseCertificate;
-                    } else {
-                        finalScore += subPass.getScore() * currentCourseCertificate;
+                for (SubPass subPass : student.getListOfSubPass()) {
+                    int subPassCourseCertificate = subPass.getCourse().getCourseCertificate();
+                    if (subPass.getScore() >= 4) {
                         if (subPass.getIdSemester().equals(idSemester)) {
-                            semesterScore += subPass.getScore() * currentCourseCertificate;
+                            semesterCourseCertificate += subPassCourseCertificate;
+                            semesterScore += subPass.getScore() * subPassCourseCertificate;
                         }
+                        finalCourseCertificate += subPassCourseCertificate;
+                        finalScore += subPass.getScore() * subPassCourseCertificate;
+                    }
+                    if (subPass.getCourse().equals(currentCourse)) {
+                        if (currentScore > subPass.getScore() || subPass.getIdSemester().equals(idSemester)) {
+                            subPasses.removeIf(x -> x.getCourse().equals(currentCourse));
+                            subPasses.add(new SubPass(idSemester, currentCourse.getIdCourse(), student.getIdStudent(),
+                                    currentScore));
+                        }
+                        isAgain = true;
                     }
                 }
-                if (!studyAgain) {
+                if (!isAgain)
                     subPasses.add(
-                            new SubPass(idSemester, currentCourse.getIdCourse(), student.getIdStudent(),
-                                    is4Max ? currentScore * 2.5 : currentScore));
-                    finalScore += currentScore;
-                    finalCourseCertificate += currentCourse.getCourseCertificate();
-                }
-                semesterScore = semesterScore / semesterCourseCertificate;
-                SemesterResult semesterResult = new SemesterResult(idSemester, student.getIdStudent(), semesterScore,
-                        semesterCourseCertificate);
+                            new SubPass(idSemester, currentCourse.getIdCourse(), student.getIdStudent(), currentScore));
                 List<SemesterResult> semesterResults = student.getListOfSemesterResult();
+                SemesterResult semesterResult = new SemesterResult(idSemester, student.getIdStudent(),
+                        semesterCourseCertificate == 0 ? 0 : semesterScore / semesterCourseCertificate,
+                        semesterCourseCertificate);
                 semesterResults.removeIf(x -> x.getIdSemester().equals(idSemester));
                 semesterResults.add(semesterResult);
-                finalScore = finalScore / finalCourseCertificate;
-                FinalResult finalResult = new FinalResult(student.getIdStudent(), finalScore);
+                student.setFinalResult(new FinalResult(student.getIdStudent(),
+                        finalCourseCertificate == 0 ? 0 : finalScore / finalCourseCertificate));
                 student.setListOfSubPass(subPasses);
-                student.setFinalResult(finalResult);
-                student.setListOfSemesterResult(semesterResults);
-                System.out.println(Arrays.toString(subPasses.toArray()));
                 students.add(student);
             } else {
                 errorMap.put(student.getIdStudent(), "Sinh viên " + student.getIdStudent() + " chưa đăng ký môn này");
             }
+
         }
-        // studentRepository.saveAll(students);
+        studentRepository.saveAll(students);
         if (errorMap.size() != 0)
             throw new CustomException(new Gson().toJson(errorMap));
         return new MessageResponse("Thanh Cong !!!");
+
     }
 
     public EntityResponse loadEntity(String entityClass) {

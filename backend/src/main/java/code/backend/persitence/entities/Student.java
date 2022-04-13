@@ -77,9 +77,22 @@ public class Student implements Serializable {
     @JoinColumn(name = "ID_Student", referencedColumnName = "ID_ACCOUNT", insertable = false, updatable = false)
     private Account account;
 
+    public Student(String idStudent, String studentName, String idFaculty, Date createDate, String clazzCode, Short certNumberRequired, Short certNumberAccumulated) {
+        this.idStudent = idStudent;
+        this.studentName = studentName;
+        this.idFaculty = idFaculty;
+        this.createDate = createDate;
+        this.clazzCode = clazzCode;
+        this.certNumberRequired = certNumberRequired;
+        this.certNumberAccumulated = certNumberAccumulated;
+    }
+
     /**
      * Constructor
      */
+
+
+
     public Student() {
         super();
     }
