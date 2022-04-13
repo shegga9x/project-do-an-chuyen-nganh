@@ -2,7 +2,7 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import {MatTabsModule} from '@angular/material/tabs';
 import { AppRoutingModule } from './app-routing.module';
 import { appInitializer, ErrorInterceptor, JwtInterceptor } from 'src/app/helpers';
 import { AccountService } from 'src/app/services';
@@ -42,7 +42,8 @@ import { DialogErrorComponent } from './components/user/shared/dialog-error/dial
     MatDialogModule,
     L10nTranslationModule.forRoot(l10nConfig),
     L10nIntlModule,
-    NgxCaptchaModule
+    NgxCaptchaModule,
+    MatTabsModule
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AccountService] },

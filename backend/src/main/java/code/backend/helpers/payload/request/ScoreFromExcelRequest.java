@@ -6,7 +6,6 @@ import java.util.List;
 import code.backend.helpers.payload.subModel.SubScoreModel;
 
 public class ScoreFromExcelRequest {
-    String idProfessor;
     String idCourseOffering;
     String idSemester;
     boolean is4Max;
@@ -15,21 +14,12 @@ public class ScoreFromExcelRequest {
     public ScoreFromExcelRequest() {
     }
 
-    public ScoreFromExcelRequest(String idProfessor, String idCourseOffering, String idSemester, boolean is4Max,
+    public ScoreFromExcelRequest(String idCourseOffering, String idSemester, boolean is4Max,
             List<SubScoreModel> subScoreModels) {
-        this.idProfessor = idProfessor;
         this.idCourseOffering = idCourseOffering;
         this.idSemester = idSemester;
         this.is4Max = is4Max;
         this.subScoreModels = subScoreModels;
-    }
-
-    public String getIdProfessor() {
-        return this.idProfessor;
-    }
-
-    public void setIdProfessor(String idProfessor) {
-        this.idProfessor = idProfessor;
     }
 
     public String getIdCourseOffering() {

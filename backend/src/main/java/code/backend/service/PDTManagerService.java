@@ -54,7 +54,6 @@ public class PDTManagerService {
         String idSemester = scoreFromExcelRequest.getIdSemester();
         String idCourseOffering = scoreFromExcelRequest.getIdCourseOffering();
         boolean is4Max = scoreFromExcelRequest.getIs4Max();
-
         List<String> ids = subScoreModels.stream().map(SubScoreModel::getStudentID)
                 .collect(Collectors.toList());
         List<String> idsAfter = ids.stream()
@@ -64,7 +63,6 @@ public class PDTManagerService {
                 .filter(e -> Collections.frequency(ids, e) > 1)
                 .distinct()
                 .collect(Collectors.toList());
-
         Map<String, String> errorMap = new HashMap<String, String>();
         for (String i : idsError)
             errorMap.put(i, "Bị trùng ID trong excel");
@@ -75,7 +73,7 @@ public class PDTManagerService {
                             && x.getIdSemester().equals(idSemester))
                     .collect(Collectors.toList());
             // if
-            // (studentSchedules.get(0).getSchedule().getIdProfeesor().equals(scoreFromExcelRequest.getIdProfessor()))
+            // (studentSchedules.get(0).getSchedule().getIdProfeesor().equals(SubUtils.getCurrentUser().getId()))
             // throw new CustomException("Giáo viên không chịu trách nhiệm cho môn học
             // này");
             if (studentSchedules.size() != 0) {
@@ -94,14 +92,9 @@ public class PDTManagerService {
                     int currentCourseCertificate = currentCourse.getCourseCertificate();
                     finalCourseCertificate += currentCourseCertificate;
                     if (subPass.getIdCourse().equals(currentCourse.getIdCourse())) {
-                        System.out.println("okoko");
                         studyAgain = true;
                         finalScore += currentScore > subPass.getScore() ? currentScore
                                 : subPass.getScore() * currentCourseCertificate;
-                        if (subPass.getIdSemester().equals(idSemester)) {
-                            semesterScore += currentScore > subPass.getScore() ? currentScore
-                                    : subPass.getScore() * currentCourseCertificate;
-                        }
                     } else {
                         finalScore += subPass.getScore() * currentCourseCertificate;
                         if (subPass.getIdSemester().equals(idSemester)) {
@@ -114,9 +107,7 @@ public class PDTManagerService {
                             new SubPass(idSemester, currentCourse.getIdCourse(), student.getIdStudent(),
                                     is4Max ? currentScore * 2.5 : currentScore));
                     finalScore += currentScore;
-                    semesterScore += currentScore;
                     finalCourseCertificate += currentCourse.getCourseCertificate();
-                    semesterCourseCertificate += currentCourse.getCourseCertificate();
                 }
                 semesterScore = semesterScore / semesterCourseCertificate;
                 SemesterResult semesterResult = new SemesterResult(idSemester, student.getIdStudent(), semesterScore,
@@ -135,7 +126,7 @@ public class PDTManagerService {
                 errorMap.put(student.getIdStudent(), "Sinh viên " + student.getIdStudent() + " chưa đăng ký môn này");
             }
         }
-        studentRepository.saveAll(students);
+        // studentRepository.saveAll(students);
         if (errorMap.size() != 0)
             throw new CustomException(new Gson().toJson(errorMap));
         return new MessageResponse("Thanh Cong !!!");

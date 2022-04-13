@@ -1,67 +1,71 @@
 <section class="ssc-early-result">
+
     <div class="container">
-        <h3>SSC Exam Result Sheet</h3>
+
+        <h1>SSC Exam Result Sheet</h1>
+
+        <input type="file" style="display: inline-block;" (change)="onFileChange($event)" placeholder="Upload file" accept=".xlsx">
+
+
+
         <div class="ssc-result">
-            <table>
-                <tr>
-                    <th>STT</th>
-                    <th>Tên</th>
-                    <th>Xếp hạng</th>
-                    <th>Lớp</th>
-                    <th>Môn thi</th>
-                    <th>Điểm</th>
-                </tr>
-                <tr>
-
-                    <td>1 </td>
-                    <td>Alfreds Futterkiste</td>
-                    <td>01</td>
-                    <td>nine</td>
-                    <td>Science</td>
-                    <td>A+</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Alfreds Futterkiste</td>
-                    <td>02</td>
-                    <td>nine</td>
-                    <td>Commerce</td>
-                    <td>A+</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Alfreds Futterkiste</td>
-                    <td>01</td>
-                    <td>nine</td>
-                    <td>Science</td>
-                    <td>A+</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Alfreds Futterkiste</td>
-                    <td>04</td>
-                    <td>nine</td>
-                    <td>Commerce</td>
-                    <td>A</td>
-                </tr>
-                <tr>
-                    <td>15</td>
-                    <td>Alfreds Futterkiste</td>
-                    <td>15</td>
-                    <td>nine</td>
-                    <td>Science</td>
-                    <td>B+</td>
-                </tr>
-                <tr>
-                    <td>111</td>
-                    <td>Alfreds Futterkiste</td>
-                    <td>111</td>
-                    <td>nine</td>
-                    <td>Humanities</td>
-                    <td>D</td>
-
-                </tr>
-            </table>
+            <h3>Kết quả</h3>
+            <mat-tab-group *ngIf="finish">
+                <mat-tab label="Tất cả">
+                    <table>
+                        <tr>
+                            <th>MSSV</th>
+                            <th>Họ và Tên Đệm</th>
+                            <th>Tên</th>
+                            <th>Điểm</th>
+                            <th>Tình Trạng</th>
+                        </tr>
+                        <tr *ngFor="let item of listFull" [ngStyle]="{'color': item.mess == 'ok' ? '#fff' : '#D8000C','background-color': item.mess == 'ok' ? '#88B04B' : '#FFBABA'}">
+                            <td>{{ item.studentID }} </td>
+                            <td>{{ item.firstName }}</td>
+                            <td>{{ item.lastName }}</td>
+                            <td>{{ item.finalResult }}</td>
+                            <td>{{ item.mess }}</td>
+                        </tr>
+                    </table>
+                </mat-tab>
+                <mat-tab label="Thành Công">
+                    <table>
+                        <tr>
+                            <th>MSSV</th>
+                            <th>Họ và Tên Đệm</th>
+                            <th>Tên</th>
+                            <th>Điểm</th>
+                            <th>Tình Trạng</th>
+                        </tr>
+                        <tr *ngFor="let item of listOk" style="color: #fff;background-color: #88B04B;">
+                            <td>{{ item.studentID }} </td>
+                            <td>{{ item.firstName }}</td>
+                            <td>{{ item.lastName }}</td>
+                            <td>{{ item.finalResult }}</td>
+                            <td>OK</td>
+                        </tr>
+                    </table>
+                </mat-tab>
+                <mat-tab label="Lỗi">
+                    <table>
+                        <tr>
+                            <th>MSSV</th>
+                            <th>Họ và Tên Đệm</th>
+                            <th>Tên</th>
+                            <th>Điểm</th>
+                            <th>Tình Trạng</th>
+                        </tr>
+                        <tr *ngFor="let item of listError" style="color: #D8000C;background-color: #FFBABA;">
+                            <td>{{ item.studentID }} </td>
+                            <td>{{ item.firstName }}</td>
+                            <td>{{ item.lastName }}</td>
+                            <td>{{ item.finalResult }}</td>
+                            <td>{{ item.mess }}</td>
+                        </tr>
+                    </table>
+                </mat-tab>
+            </mat-tab-group>
 
 
         </div>

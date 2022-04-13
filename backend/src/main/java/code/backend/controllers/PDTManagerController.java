@@ -32,7 +32,7 @@ public class PDTManagerController {
         return pdtManagerService.addAccountFromExcel(accountFromExcelRequests);
     }
 
-    @GetMapping(value = "add_Score_From_Excel")
+    @PostMapping(value = "add_Score_From_Excel")
     public MessageResponse addScoreFromExcel(@RequestBody ScoreFromExcelRequest scoreFromExcelRequest) {
         return pdtManagerService.addScoreFromExcel(scoreFromExcelRequest);
     }

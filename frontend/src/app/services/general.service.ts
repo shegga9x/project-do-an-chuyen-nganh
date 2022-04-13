@@ -78,7 +78,8 @@ export class GeneralService {
             this.renameKey(result[i], listFieldNameObjectExcel[i1], listFieldNameDefualt[i1]);
           }
         }
-        this.pDTService.addAccountFromExcel(result).then(x => { resolve(x) });
+        resolve(result);
+        
       }
     });
   }
