@@ -30,11 +30,12 @@ export class SscExamResultComponent implements OnInit {
     this.generalService.excelReader(target.files[0]).then(x => {
       this.listFull = x;
       let request = {
-        idCourseOffering: "214374", idSemester: "2021_2", is4Max: false, subScoreModels: this.listFull
+        idCourseOffering: "52", idSemester: "2021_2", is4Max: false, subScoreModels: this.listFull
       }
       this.pDTService.addScoreFromExcel(request).then(x2 => {
         this.finish = true;
       }).catch((err) => {
+        console.log(err)
         let objectError = JSON.parse(err)
         this.listError = this.listFull.filter(obj => {
           return objectError[obj['studentID']] != undefined

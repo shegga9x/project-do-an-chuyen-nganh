@@ -1,7 +1,6 @@
 package code.backend.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -68,6 +67,7 @@ public class PDTManagerService {
             errorMap.put(i, "Bị trùng ID trong excel");
         List<Student> students = new ArrayList<>();
         for (Student student : studentRepository.findAllById(idsAfter)) {
+
             List<StudentSchedule> studentSchedules = student.getListOfStudentSchedule().stream()
                     .filter(x -> x.getSchedule().getIdCourseOffering().equals(idCourseOffering)
                             && x.getIdSemester().equals(idSemester))
@@ -80,56 +80,56 @@ public class PDTManagerService {
                 double currentScore = subScoreModels.stream()
                         .filter(x -> x.getStudentID().equals(student.getIdStudent())).map(SubScoreModel::getFinalResult)
                         .collect(Collectors.toList()).get(0);
-                int finalCourseCertificate = 0;
-                double finalScore = 0;
-                int semesterCourseCertificate = 0;
-                double semesterScore = 0;
-                boolean studyAgain = false;
+                currentScore = is4Max ? currentScore * 2.5 : currentScore;
                 Course currentCourse = studentSchedules.get(0).getSchedule().getCourseOffering().getCourse();
-
+                int semesterCourseCertificate = 0;
+                int finalCourseCertificate = 0;
+                double semesterScore = 0;
+                double finalScore = 0;
+                boolean isAgain = false;
                 List<SubPass> subPasses = student.getListOfSubPass();
-                for (SubPass subPass : subPasses) {
-                    int currentCourseCertificate = currentCourse.getCourseCertificate();
-                    finalCourseCertificate += currentCourseCertificate;
-                    if (subPass.getIdCourse().equals(currentCourse.getIdCourse())) {
-                        studyAgain = true;
-                        finalScore += currentScore > subPass.getScore() ? currentScore
-                                : subPass.getScore() * currentCourseCertificate;
-                    } else {
-                        finalScore += subPass.getScore() * currentCourseCertificate;
+                for (SubPass subPass : student.getListOfSubPass()) {
+                    int subPassCourseCertificate = subPass.getCourse().getCourseCertificate();
+                    if (subPass.getScore() >= 4) {
                         if (subPass.getIdSemester().equals(idSemester)) {
-                            semesterScore += subPass.getScore() * currentCourseCertificate;
+                            semesterCourseCertificate += subPassCourseCertificate;
+                            semesterScore += subPass.getScore() * subPassCourseCertificate;
                         }
+                        finalCourseCertificate += subPassCourseCertificate;
+                        finalScore += subPass.getScore() * subPassCourseCertificate;
+                    }
+                    if (subPass.getCourse().equals(currentCourse)) {
+                        if (currentScore > subPass.getScore() || subPass.getIdSemester().equals(idSemester)) {
+                            subPasses.removeIf(x -> x.getCourse().equals(currentCourse));
+                            subPasses.add(new SubPass(idSemester, currentCourse.getIdCourse(), student.getIdStudent(),
+                                    currentScore));
+                        }
+                        isAgain = true;
                     }
                 }
-                if (!studyAgain) {
+                if (!isAgain)
                     subPasses.add(
-                            new SubPass(idSemester, currentCourse.getIdCourse(), student.getIdStudent(),
-                                    is4Max ? currentScore * 2.5 : currentScore));
-                    finalScore += currentScore;
-                    finalCourseCertificate += currentCourse.getCourseCertificate();
-                }
-                semesterScore = semesterScore / semesterCourseCertificate;
-                SemesterResult semesterResult = new SemesterResult(idSemester, student.getIdStudent(), semesterScore,
-                        semesterCourseCertificate);
+                            new SubPass(idSemester, currentCourse.getIdCourse(), student.getIdStudent(), currentScore));
                 List<SemesterResult> semesterResults = student.getListOfSemesterResult();
+                SemesterResult semesterResult = new SemesterResult(idSemester, student.getIdStudent(),
+                        semesterCourseCertificate == 0 ? 0 : semesterScore / semesterCourseCertificate,
+                        semesterCourseCertificate);
                 semesterResults.removeIf(x -> x.getIdSemester().equals(idSemester));
                 semesterResults.add(semesterResult);
-                finalScore = finalScore / finalCourseCertificate;
-                FinalResult finalResult = new FinalResult(student.getIdStudent(), finalScore);
+                student.setFinalResult(new FinalResult(student.getIdStudent(),
+                        finalCourseCertificate == 0 ? 0 : finalScore / finalCourseCertificate));
                 student.setListOfSubPass(subPasses);
-                student.setFinalResult(finalResult);
-                student.setListOfSemesterResult(semesterResults);
-                System.out.println(Arrays.toString(subPasses.toArray()));
                 students.add(student);
             } else {
                 errorMap.put(student.getIdStudent(), "Sinh viên " + student.getIdStudent() + " chưa đăng ký môn này");
             }
+
         }
-        // studentRepository.saveAll(students);
+        studentRepository.saveAll(students);
         if (errorMap.size() != 0)
             throw new CustomException(new Gson().toJson(errorMap));
         return new MessageResponse("Thanh Cong !!!");
+
     }
 
     public EntityResponse loadEntity(String entityClass) {

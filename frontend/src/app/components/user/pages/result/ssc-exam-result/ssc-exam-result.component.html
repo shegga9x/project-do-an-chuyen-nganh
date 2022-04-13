@@ -20,12 +20,12 @@
                             <th>Điểm</th>
                             <th>Tình Trạng</th>
                         </tr>
-                        <tr *ngFor="let item of listFull" [ngStyle]="{'color': item.mess == 'ok' ? '#fff' : '#D8000C','background-color': item.mess == 'ok' ? '#88B04B' : '#FFBABA'}">
+                        <tr *ngFor="let item of listFull" [ngStyle]="{'color': item.mess == null ? '#fff' : '#D8000C','background-color': item.mess == null ? '#88B04B' : '#FFBABA'}">
                             <td>{{ item.studentID }} </td>
                             <td>{{ item.firstName }}</td>
                             <td>{{ item.lastName }}</td>
                             <td>{{ item.finalResult }}</td>
-                            <td>{{ item.mess }}</td>
+                            <td>{{ item.mess == null ? "Ok" : item.mess }}</td>
                         </tr>
                     </table>
                 </mat-tab>

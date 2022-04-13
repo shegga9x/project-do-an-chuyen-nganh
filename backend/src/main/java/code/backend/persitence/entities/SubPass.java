@@ -68,8 +68,8 @@ public class SubPass implements Serializable {
         this.idCourse = idCourse;
         this.idStudent = idStudent;
         this.score = score >= 4 ? score : 0;
-        this.scoreSystem4 = score * 0.4;
-        this.rated = getRatedResult(score);
+        this.scoreSystem4 = (score >= 4 ? score : 0) * 0.4;
+        this.rated = getRatedResult(score >= 4 ? score : 0);
 
     }
 
