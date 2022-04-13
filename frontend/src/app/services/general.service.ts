@@ -79,7 +79,6 @@ export class GeneralService {
           }
         }
         resolve(result);
-        
       }
     });
   }
