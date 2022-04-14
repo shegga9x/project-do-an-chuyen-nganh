@@ -1,5 +1,6 @@
 package code.backend.persitence.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,6 +10,5 @@ import code.backend.persitence.entities.Student;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, String> {
-   
-
+    List<Student> findByClazzCodeLike(String Clazz_code);
 }

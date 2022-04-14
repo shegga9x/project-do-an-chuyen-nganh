@@ -52,21 +52,45 @@ public class PDTManagerService {
     @Autowired
     ClazzService clazzService;
 
-    public Map<String, Integer> studentCount(List<AccountFromExcelRequest> listAccountFromExcelRequests) {
+    public Map<String, Integer> studentCount(List<AccountFromExcelRequest> listAccountFromExcelRequests, Set<AccountFromExcelRequest> listError) {
         Map<String, Integer> map = new HashMap<>();
         for (AccountFromExcelRequest accountFromExcelRequest : listAccountFromExcelRequests) {
-            if (map.get(accountFromExcelRequest.getFaculty()) == null) {
-                map.put(accountFromExcelRequest.getFaculty(), 1);
+            if (facultyRepository.findByIdFaculty(accountFromExcelRequest.getFaculty()).isPresent()) {
+                if (map.get(accountFromExcelRequest.getFaculty()) == null) {
+                    map.put(accountFromExcelRequest.getFaculty(), 1);
+                } else {
+                    map.put(accountFromExcelRequest.getFaculty(), map.get(accountFromExcelRequest.getFaculty()) + 1);
+                }
             } else {
-                map.put(accountFromExcelRequest.getFaculty(), map.get(accountFromExcelRequest.getFaculty()) + 1);
+                listError.add(accountFromExcelRequest);
             }
         }
         return map;
     }
 
-    public MessageResponse addAccountFromExcel(List<AccountFromExcelRequest> listAccountFromExcelRequests) {
-        //tao clazz
-        Map<String, Integer> map = studentCount(listAccountFromExcelRequests);
+    public Set<AccountFromExcelRequest> addAccountFromExcel(List<AccountFromExcelRequest> listAccountFromExcelRequests) {
+        int khoa = Calendar.getInstance().get(Calendar.YEAR) % 100;
+        // tìm kím tên student có tên có class ở khóa 22
+        List<Student> studentList = studentRepository.findByClazzCodeLike("%" + khoa + "%");
+        List<AccountFromExcelRequest> listAccountExisted = new ArrayList<>();
+        if (studentList.size() > 0) {
+            for (Student s : studentList) {
+                AccountFromExcelRequest account = new AccountFromExcelRequest();
+                account.setFirstName(s.getAccount().getFirstName());
+                account.setLastName(s.getAccount().getLastName());
+                account.setFaculty(s.getFaculty().getIdFaculty());
+                listAccountExisted.add(account);
+            }
+        }
+        // gộp 2 list lại với nhau
+        listAccountFromExcelRequests.addAll(listAccountExisted);
+        // xoa clazz neu ton tai (khoa la 22)
+        List<Clazz> listClazzToDelete = clazzRepository.findByClazzCodeLike("%" + khoa + "%");
+        clazzRepository.deleteAll(listClazzToDelete);
+        ///////làm lại từ đầu izi
+        Set<AccountFromExcelRequest> listError = new HashSet<>();
+        // tao clazz
+        Map<String, Integer> map = studentCount(listAccountFromExcelRequests, listError);
         clazzService.createClazz(map);
         //
         Map<String, Integer> map1 = new HashMap<>();
@@ -83,42 +107,48 @@ public class PDTManagerService {
         List<Student> listStudent = new ArrayList<>();
         List<Clazz> clazzList = new ArrayList<>();
 
+
+        // check nếu ... thì hợp lại thêm nữa
         for (AccountFromExcelRequest accountFromExcelRequest : listAccountFromExcelRequests) {
             String firstName = accountFromExcelRequest.getFirstName();
             String lastName = accountFromExcelRequest.getLastName();
             String maNganh = accountFromExcelRequest.getFaculty();
-            int khoa = Calendar.getInstance().get(Calendar.YEAR) % 100;
-            List<Clazz> listClazz = clazzRepository.findByClazzCodeLike("%" + khoa + maNganh + "%");
-            Clazz clazz = listClazz.get(map1.get(maNganh));
-            int Id_Faculty_N = facultyRepository.findByIdFaculty(maNganh).get().getIdFacultyN();
-            String idAccount = "" + khoa + Id_Faculty_N + numberToString(map2.get(maNganh));
-            System.out.println(idAccount);
-            String email = idAccount + "@st.hcmuaf.edu.vn";
-            String password = "$2a$10$g/AIRfhpFhGPjAnUw5m8qu974.uI71HwrBpjXeYQu4khl8KI.4VgS";
-            //account
-            Account account = createNewAccount(idAccount, firstName, lastName, email, password);
-            listAccount.add(account);
+            if (facultyRepository.findByIdFaculty(maNganh).isPresent()) {
+                List<Clazz> listClazz = clazzRepository.findByClazzCodeLike("%" + khoa + maNganh + "%");
+                Clazz clazz = listClazz.get(map1.get(maNganh));
+                int Id_Faculty_N = facultyRepository.findByIdFaculty(maNganh).get().getIdFacultyN();
+                String idAccount = "" + khoa + Id_Faculty_N + numberToString(map2.get(maNganh));
+                String email = idAccount + "@st.hcmuaf.edu.vn";
+                String password = "$2a$10$g/AIRfhpFhGPjAnUw5m8qu974.uI71HwrBpjXeYQu4khl8KI.4VgS";
+                //account
+                //check exist
+                Account account = createNewAccount(idAccount, firstName, lastName, email, password);
+                listAccount.add(account);
 
-            //student
-            Student student = new Student(idAccount, firstName + lastName, maNganh, new Date(), clazz.getClazzCode(), (short) 136, (short) 0);
-            listStudent.add(student);
+                //student
+                //check exist
+                Student student = new Student(idAccount, firstName + lastName, maNganh, new Date(), clazz.getClazzCode(), (short) 136, (short) 0);
+                listStudent.add(student);
 
-            //
-            clazz.setCurrentSize((byte) (clazz.getCurrentSize() + 1));
-            clazzList.add(clazz);
-            if (map1.get(maNganh) < (listClazz.size() - 1)) {
-                map2.put(maNganh, map2.get(maNganh) + 1);
-                map1.put(maNganh, map1.get(maNganh) + 1);
+                //
+                clazz.setCurrentSize((byte) (clazz.getCurrentSize() + 1));
+                clazzList.add(clazz);
+                if (map1.get(maNganh) < (listClazz.size() - 1)) {
+                    map2.put(maNganh, map2.get(maNganh) + 1);
+                    map1.put(maNganh, map1.get(maNganh) + 1);
+                } else {
+                    map2.put(maNganh, map2.get(maNganh) + 1);
+                    map1.put(maNganh, 0);
+                }
             } else {
-                map2.put(maNganh, map2.get(maNganh) + 1);
-                map1.put(maNganh, 0);
+                listError.add(accountFromExcelRequest);
             }
         }
-        accountRepository.saveAll(listAccount);
-        studentRepository.saveAll(listStudent);
-        clazzRepository.saveAll(clazzList);
+//        accountRepository.saveAll(listAccount);
+//        studentRepository.saveAll(listStudent);
+//        clazzRepository.saveAll(clazzList);
 
-        return new MessageResponse(listAccountFromExcelRequests.toString());
+        return listError;
     }
 
     public Account createNewAccount(String idAccount, String firstName, String lastName, String email, String password) {

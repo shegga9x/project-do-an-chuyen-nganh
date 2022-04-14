@@ -52,8 +52,4 @@ export class SscExamResultComponent implements OnInit {
       });
     })
   }
-
-
-
-
 }
