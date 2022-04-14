@@ -9,6 +9,7 @@ import { AccountService } from 'src/app/services';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 
+
 //capcha
 import { NgxCaptchaModule } from 'ngx-captcha';
 
@@ -22,12 +23,14 @@ import { AppComponent } from './app.component';
 import { UserDeclarations } from './components/user/user.declarations';
 
 //pipe
+import { ListFilterPipe } from './pipe/listFilter-pipe';
 import { TranslatePipe } from './pipe/translate-pipe';
 import { DialogErrorComponent } from './components/user/shared/dialog-error/dialog-error.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    ListFilterPipe,
     TranslatePipe,
     ...UserDeclarations,
     DialogErrorComponent
@@ -43,7 +46,8 @@ import { DialogErrorComponent } from './components/user/shared/dialog-error/dial
     L10nTranslationModule.forRoot(l10nConfig),
     L10nIntlModule,
     NgxCaptchaModule,
-    MatTabsModule
+    MatTabsModule,
+
   ],
   providers: [
     { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AccountService] },

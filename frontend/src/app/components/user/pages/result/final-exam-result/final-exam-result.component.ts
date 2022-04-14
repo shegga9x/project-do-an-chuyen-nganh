@@ -19,6 +19,9 @@ export class FinalExamResultComponent implements OnInit {
   fieldNameOfEntity: string[] = [];
   listRequest = new Map();
   searchTextChanged = new Subject<any>();
+  listRecord: any[] = [];
+  searchTerm: string;
+  error: '';
 
   constructor(private titleService: Title, private pDTService: PDTService) {
     this.titleService.setTitle("Final Exam Result");
@@ -30,12 +33,13 @@ export class FinalExamResultComponent implements OnInit {
         })
       )
       .subscribe(res => {
-        this.onChangeValue(res.param)
+        this.onChangeValue(res.param, res.evt.target.id)
       });
   }
 
   ngOnInit(): void {
     this.entityClass = "Account"
+
     this.loadEntity();
   }
   loadEntity() {
@@ -44,8 +48,15 @@ export class FinalExamResultComponent implements OnInit {
       this.firstFieldName = Object.keys(this.entityLoadReponse.record)[0]
       this.linkEntityFieldName = Object.keys(this.entityLoadReponse.listLinkedEntity);
       this.fieldNameOfEntity = this.entityLoadReponse.listEntitiesVariableAfter;
+      this.listRecord = [];
+      for (let index = 0; index < this.entityLoadReponse.record[this.firstFieldName].length; index++) {
+        let record: any = {};
+        this.fieldNameOfEntity.forEach(element => {
+          Object.assign(record, { [element]: this.entityLoadReponse.record[element][index] });
+        })
+        this.listRecord.push(record);
+      }
       this.finish = true;
-
     });
   }
   onSelectEntityClass(): void {
@@ -64,7 +75,7 @@ export class FinalExamResultComponent implements OnInit {
       this.listRequest.set(id, obj);
     }
   }
-  onChangeValue(id: any) {
+  onChangeValue(id: any, position: any) {
     const map1 = new Map();
     this.fieldNameOfEntity.forEach(element => {
       const value = (<HTMLInputElement>document.getElementById(element + id)).value
@@ -75,7 +86,7 @@ export class FinalExamResultComponent implements OnInit {
     const request = { entityClass: this.entityClass, jsonObject: objJSON };
     if (id < 0)
       this.pDTService.addEntity(request).then(x => console.log(x));
-    else this.pDTService.updateEntity(request).then(x => console.log(x));
+    else this.pDTService.updateEntity(request).then(x => { this.colorChange(position, 1, "ok"); }).catch(err => { this.colorChange(position, 0, err) });
   }
   deleteSubmit() {
     const listObject: any[] = [];
@@ -98,6 +109,30 @@ export class FinalExamResultComponent implements OnInit {
   inputFn(evt: any, param: any) {
     this.searchTextChanged.next({ evt, param, value: evt.target.value });
   }
+  search(value: string): void {
+    this.listRecord = this.listRecord.filter((val) => val[this.firstFieldName].toLowerCase().includes(value));
+  }
+  colorChange(position: any, type: number, mess: any) {
+    if (position != 0) {
+      console.log(position)
+      const doc = document.getElementById(position);
+      const backgroundColor = ["#FFBABA", "#88B04B"];
+      const color = ["#D8000C", "#fff"];
+      doc!.style.backgroundColor = backgroundColor[type];
+      doc!.style.color = color[type];
+      this.error = mess == "ok" ? '' : mess;
+      if (type != 0) {
+        setTimeout(() => {
+          this.error = '';
+          doc!.style.backgroundColor = 'white';
+          doc!.style.color = 'black';
+        }, 2000);
+      }
+
+    }
+
+  }
+
 }
 
 
