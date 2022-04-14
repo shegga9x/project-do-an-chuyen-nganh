@@ -86,7 +86,9 @@ public class PDTManagerService {
         listAccountFromExcelRequests.addAll(listAccountExisted);
         // xoa clazz neu ton tai (khoa la 22)
         List<Clazz> listClazzToDelete = clazzRepository.findByClazzCodeLike("%" + khoa + "%");
-        clazzRepository.deleteAll(listClazzToDelete);
+        if (listClazzToDelete.size() > 0) {
+            clazzRepository.deleteAll(listClazzToDelete);
+        }
         ///////làm lại từ đầu izi
         Set<AccountFromExcelRequest> listError = new HashSet<>();
         // tao clazz
