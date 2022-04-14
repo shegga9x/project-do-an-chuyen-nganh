@@ -1,21 +1,16 @@
 package code.backend.helpers.payload.request;
 
 public class AccountFromExcelRequest {
-    public String studentID;
-    public String firstName;
-    public String lastName;
-    public Double finalResult;
+    private String firstName;
+    private String lastName;
+    private String faculty;
 
-    public String getStudentID() {
-        return this.studentID;
-    }
+    public AccountFromExcelRequest() {
 
-    public void setStudentID(String studentID) {
-        this.studentID = studentID;
     }
 
     public String getFirstName() {
-        return this.firstName;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
@@ -23,29 +18,27 @@ public class AccountFromExcelRequest {
     }
 
     public String getLastName() {
-        return this.lastName;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public Double getFinalResult() {
-        return this.finalResult;
+    public String getFaculty() {
+        return faculty;
     }
 
-    public void setFinalResult(Double finalResult) {
-        this.finalResult = finalResult;
+    public void setFaculty(String faculty) {
+        this.faculty = faculty;
     }
 
     @Override
     public String toString() {
-        return "{" +
-                " studentID='" + getStudentID() + "'" +
-                ", firstName='" + getFirstName() + "'" +
-                ", lastName='" + getLastName() + "'" +
-                ", finalResult='" + getFinalResult() + "'" +
-                "}" + System.lineSeparator();
+        return "AccountFromExcelRequest{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", faculty='" + faculty + '\'' +
+                '}';
     }
-
 }

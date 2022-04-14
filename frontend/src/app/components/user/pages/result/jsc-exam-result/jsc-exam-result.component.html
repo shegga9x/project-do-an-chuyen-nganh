@@ -1,7 +1,10 @@
 <section class="jse-early-result">
     <div class="container">
         <h3>JSC Exam Result Sheet</h3>
-        <div class="jsc-result">
+        <input type="file" #file style="display: inline-block;" placeholder="Upload file" accept=".xlsx">
+        <button (click)="onFileSubmit(file)">submit</button>
+
+        <!-- <div class="jsc-result">
             <table>
                 <tr>
                     <th>STT</th>
@@ -60,7 +63,7 @@
                     <td>D</td>
                 </tr>
             </table>
-        </div>
+        </div> -->
         <a href="assets/image/half-exam-result.PNG" download>
             <button type="button" class="result-buttion">Download PDF</button>
         </a>

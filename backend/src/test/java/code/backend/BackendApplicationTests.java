@@ -1,11 +1,6 @@
 package code.backend;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -241,4 +236,9 @@ class BackendApplicationTests {
 		}
 	}
 
+	@Test
+	void test9() {
+		int khoa = Calendar.getInstance().get(Calendar.YEAR) % 100;
+		System.out.println(khoa);
+	}
 }
