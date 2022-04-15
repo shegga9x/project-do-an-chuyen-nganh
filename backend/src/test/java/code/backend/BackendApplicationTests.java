@@ -2,6 +2,7 @@ package code.backend;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -258,7 +259,6 @@ class BackendApplicationTests {
 		}
 	}
 
-	@Test
 	@Transactional
 	void test9() {
 		List<String> ids = new ArrayList<>();
@@ -295,6 +295,12 @@ class BackendApplicationTests {
 		}
 		System.out.println("listCourseRegisterFakeRespone");
 		listCourseRegisterFakeRespone.forEach(System.out::println);
+	}
+
+
+	void test11() {
+		int khoa = Calendar.getInstance().get(Calendar.YEAR) % 100;
+		System.out.println(khoa);
 	}
 
 }

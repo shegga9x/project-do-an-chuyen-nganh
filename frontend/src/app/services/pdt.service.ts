@@ -12,12 +12,10 @@ export class PDTService {
     constructor(private http: HttpClient) { }
 
     addAccountFromExcel(listAccount: any) {
-        return new Promise((resolve) => {
-            this.http.post(`${baseUrl}/add_Account_From_Excel`, listAccount).subscribe(x => resolve(x));
-        });
+        return this.http.post(`${baseUrl}/add_Account_From_Excel`, listAccount);
     }
     addScoreFromExcel(listScoreRequest: any) {
-        return new Promise((resolve,rejects) => {
+        return new Promise((resolve, rejects) => {
             this.http.post(`${baseUrl}/add_Score_From_Excel`, listScoreRequest).subscribe({
                 next: (v) => resolve(v),
                 error: (e) => rejects(e),
@@ -32,8 +30,12 @@ export class PDTService {
         });
     }
     updateEntity(updateEntityRequest: any): Promise<any> {
-        return new Promise((resolve) => {
-            this.http.post(`${baseUrl}/update_entity`, updateEntityRequest).subscribe(x => resolve(x));
+        return new Promise((resolve, rejects) => {
+            this.http.post(`${baseUrl}/update_entity`, updateEntityRequest).subscribe({
+                next: (v) => resolve(v),
+                error: (e) => rejects(e),
+                complete: () => console.info('complete')
+            })
         });
     }
     addEntity(addEntityRequest: any): Promise<any> {

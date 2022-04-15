@@ -40,13 +40,13 @@ CREATE TABLE ACCOUNT
 )
 CREATE TABLE ACCOUNT_Has_Role
 (
-  ID_ACCOUNT nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT),
+  ID_ACCOUNT nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT) ON DELETE CASCADE,
   [id] int NOT NULL FOREIGN KEY REFERENCES Role ([id]),
   PRIMARY KEY (ID_ACCOUNT,[id])
 )
 CREATE TABLE ACCOUNT_Detail
 (
-  ID_ACCOUNT nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT),
+  ID_ACCOUNT nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT) ON DELETE CASCADE,
   first_name nvarchar(max) ,
   last_name nvarchar(max) ,
   address nvarchar(50)  ,
@@ -65,19 +65,19 @@ CREATE TABLE Refresh_Token
   [revoked_by_ip] [nvarchar](max) NULL,
   [replaced_by_token] [nvarchar](max) NULL,
   [reason_revoked] [nvarchar](max) NULL,
-  [account_id] nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT),
+  [account_id] nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT) ON DELETE CASCADE,
   PRIMARY KEY ([id])
 )
 CREATE TABLE Verification_Token
 (
-  ID_ACCOUNT nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT),
+  ID_ACCOUNT nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT) ON DELETE CASCADE,
   [verification_token_content] [nvarchar](max) NULL,
   [verified] [datetime2](7) NULL,
   PRIMARY KEY (ID_ACCOUNT)
 )
 CREATE TABLE Reset_Token
 (
-  ID_ACCOUNT nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT),
+  ID_ACCOUNT nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT) ON DELETE CASCADE,
   [reset_token_content] [nvarchar](max) NULL,
   [reset_token_expires] [datetime2](7) NULL,
   [password_reset] [datetime2](7) NULL,
@@ -106,12 +106,12 @@ CREATE TABLE Student
   ID_Student nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT) ON DELETE CASCADE,
   Student_Name nvarchar(50) NOT NULL,
   -- mã khoa
-  ID_Faculty nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Faculty (ID_Faculty),
+  ID_Faculty nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Faculty (ID_Faculty) ON DELETE CASCADE,
   -- Khóa học của trường (VD DH18DTA thì khóa của trường là 18 vì mình nộp hồ sơ năm 2018)
   -- Cách tính khóa học lấy năm nộp hồ sơ (trong đây là năm tạo tài khoản) trừ cho năm mốc (năm 2000)
   Create_date smalldatetime NOT NULL,
   -- Clazz code là mã lớp (VD DH18DTA)
-  Clazz_code nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Clazz (Clazz_code),
+  Clazz_code nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Clazz (Clazz_code) ON DELETE CASCADE,
   -- Thêm vào số chứng chỉ bắt buộc ra trường
   -- Ngành CNTT thì tao nhớ ko nhầm tích lũy 145 chỉ là dc ra trường
   Cert_number_required smallint NOT NULL,
@@ -1090,9 +1090,15 @@ WHERE  sp.ID_Student = '18130005'
 select *
 from Student
 
+select * from Course_Offering
+
 select * from ACCOUNT
 
+select * from Clazz;
+
 select * from ACCOUNT_Detail
+
+select * from Verification_Token
 
 select * from Student
 
@@ -1109,3 +1115,5 @@ select * from Student_Schedule_F;
 delete from Student_Schedule_F;
 
 select * from Faculty
+
+--delete from Clazz

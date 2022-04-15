@@ -56,7 +56,7 @@ export class GeneralService {
     }
 
   }
-  excelReader(file: File): Promise<any> {
+  excelReader(file: File,listFieldNameDefualt:string[]): Promise<any> {
     return new Promise((resolve) => {
       let reader: FileReader = new FileReader();
       reader.readAsBinaryString(file);
@@ -71,7 +71,7 @@ export class GeneralService {
         const resultFromExcel = XLSX.utils.sheet_to_json(ws); // to get 2d array pass 2nd parameter as object {header: 1}
         const resultFromExcelToString = JSON.stringify(resultFromExcel);
         const result = JSON.parse(resultFromExcelToString.toString());
-        var listFieldNameDefualt = ["studentID", "firstName", "lastName", "finalResult"];
+        // var listFieldNameDefualt = ["studentID", "firstName", "lastName", "finalResult"];
         var listFieldNameObjectExcel = Object.keys(result[0]);
         for (let i = 0; i < result.length; i++) {
           for (let i1 = 0; i1 < listFieldNameObjectExcel.length; i1++) {

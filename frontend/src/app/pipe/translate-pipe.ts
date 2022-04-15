@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { L10nTranslationService } from 'angular-l10n';
 import { TranslateService } from 'src/app/services';
+
 @Pipe({ name: 'translate' })
 export class TranslatePipe implements PipeTransform {
 
