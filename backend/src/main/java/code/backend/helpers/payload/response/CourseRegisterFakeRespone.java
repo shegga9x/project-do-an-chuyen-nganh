@@ -89,4 +89,12 @@ public class CourseRegisterFakeRespone {
     public int hashCode() {
         return Objects.hash(getIdCourse());
     }
+
+    @Override
+    public String toString() {
+        return "CourseRegisterFakeRespone [courseCertificate=" + courseCertificate + ", idCourse=" + idCourse
+                + ", idFaculty=" + idFaculty + ", nameCourse=" + nameCourse + ", numberS=" + numberS + ", status="
+                + status + ", years=" + years + "]";
+    }
+    
 }

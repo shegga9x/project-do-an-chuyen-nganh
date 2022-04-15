@@ -57,6 +57,12 @@ public class ProfessorSchedule implements Serializable {
 		super();
     }
     
+    public ProfessorSchedule(String idSemester, String idSchedule, String idProfessor) {
+        this.idSemester = idSemester;
+        this.idSchedule = idSchedule;
+        this.idProfessor = idProfessor;
+    }
+
     //--- GETTERS & SETTERS FOR FIELDS
     public void setIdSemester( String idSemester ) {
         this.idSemester = idSemester ;

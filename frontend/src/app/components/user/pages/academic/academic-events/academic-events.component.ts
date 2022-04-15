@@ -23,7 +23,6 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getSubAvailable();
     this.getListCourseRegisterFake();
-    //this.getSemesterReuslt();
   }
 
   // change listSubAvailable in courseManagerServices to empty when redirect to other page
@@ -92,6 +91,7 @@ export class AcademicEventsComponent implements OnInit, OnDestroy {
         listIdCourse.push(x.value);
       }
     });
+
     this.courseManageService.deleteCourseRegister(listIdCourse).subscribe({
       next: (x: any) => {
         element.checked = false;

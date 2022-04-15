@@ -15,7 +15,7 @@ export class AcademicCalenderComponent implements OnInit {
     private titleService: Title,
     private courseManageService: CourseManageService,
     private router: Router
-    
+
   ) {
     this.titleService.setTitle('Academic Calender');
   }
@@ -44,9 +44,7 @@ export class AcademicCalenderComponent implements OnInit {
 
   getListStudentBySubject(idSCHEDULE: any) {
     console.log(idSCHEDULE);
-    // this.router.navigate(["user/exam-routine/half-early-exam", { queryParams: {idSCHEDULE: idSCHEDULE}}]);
-
-    this.router.navigate(["user/exam-routine/half-early-exam"], { queryParams: {idSCHEDULE: idSCHEDULE}});
+    this.router.navigate(["user/exam-routine/half-early-exam"], { queryParams: { idSCHEDULE: idSCHEDULE } });
     // this.courseManageService
     //   .getListStudentBySubjectRegist(idSCHEDULE)
     //   .subscribe({

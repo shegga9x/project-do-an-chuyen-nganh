@@ -15,7 +15,7 @@ export class CourseManageService {
   constructor(
     private http: HttpClient,
     private accountService: AccountService
-  ) {}
+  ) { }
 
   getSubAvailableRegist() {
     let params = { id: this.accountService.accountValue?.idAccount as string };
@@ -32,8 +32,7 @@ export class CourseManageService {
   }
 
   submitCourseRegisterFake(idCourseOffering: string) {
-    return this.http.post(
-      `${baseUrl}/submit_course_register_fake`,
+    return this.http.post(`${baseUrl}/submit_course_register_fake`,
       idCourseOffering
     );
   }
@@ -54,9 +53,7 @@ export class CourseManageService {
   }
 
   getTimeTableSTRegist() {
-    let params = {
-      idACCOUNT: this.accountService.accountValue?.idAccount as string,
-    };
+    let params = { idACCOUNT: this.accountService.accountValue?.idAccount as string };
     return this.http.get(`${baseUrl}/get_time_table_st/`, {
       params: params,
     });
@@ -69,9 +66,32 @@ export class CourseManageService {
     });
   }
 
+  // Profressor
   getListSubjectForProfressorRegist() {
-    let params = { idProfessor: "N'224'" };
+    let params = { idProfessor: this.accountService.accountValue?.idAccount as string };
     return this.http.get(`${baseUrl}/get_list_subject_for_professor/`, {
+      params: params,
+    });
+  }
+
+  submitCourseForProfessor(idCourseOffering: string) {
+    return this.http.post(`${baseUrl}/submit_course_for_professor`, idCourseOffering);
+  }
+
+  getCourseRegisterFakeForProfessor() {
+    let params = { idProfessor: this.accountService.accountValue?.idAccount as string };
+    return this.http.get(`${baseUrl}/get_course_register_fake_for_professor/`, {
+      params: params,
+    });
+  }
+
+  deleteCourseRegisterForProfessor(listIdCourse: string[]) {
+    return this.http.post(`${baseUrl}/delete_course_register_for_professor`, listIdCourse);
+  }
+
+  getTimeTablePRRegist() {
+    let params = { idACCOUNT: this.accountService.accountValue?.idAccount as string };
+    return this.http.get(`${baseUrl}/get_time_table_professor/`, {
       params: params,
     });
   }

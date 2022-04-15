@@ -73,10 +73,30 @@ public class CourseManageController {
         return courseManageService.delete_Course_Register(listIdCourse);
     }
 
-    // in ra danh sach mon GV co the dang ky
     @GetMapping("/get_list_subject_for_professor")
-    public @ResponseBody List<SubAvailableRespone> get_List_Subject_For_Professor(@RequestParam("idProfessor") String model) {
+    public @ResponseBody List<SubAvailableRespone> get_List_Subject_For_Professor(
+            @RequestParam("idProfessor") String model) {
         return courseManageService.get_List_Subject_For_Professor(model);
     }
-    
+
+    @PostMapping("/submit_course_for_professor") // ("/submit_course_register_fake")
+    public MessageResponse submit_Course_For_Professor(@RequestBody String idCourseOffering) {
+        return courseManageService.submit_Course_For_Professor(idCourseOffering);
+    }
+
+    @GetMapping("get_course_register_fake_for_professor") // ("get_course_register_fake")
+    public @ResponseBody Set<CourseRegisterFakeRespone> get_Course_Registe_Fake_Professor(
+            @RequestParam("idProfessor") String idProfessor) {
+        return courseManageService.get_Course_Registe_Fake_Professor(idProfessor);
+    }
+
+    @PostMapping("delete_course_register_for_professor") // ("delete_course_register")
+    public MessageResponse delete_Course_Register_For_Professor(@RequestBody List<String> listIdCourse) {
+        return courseManageService.delete_Course_Register_For_Professor(listIdCourse);
+    }
+
+    @GetMapping("/get_time_table_professor")
+    public List<TimeTableResponse> get_Time_Table_Professor(@RequestParam("idACCOUNT") String model) {
+        return courseManageService.get_Time_Table_Professor(model);
+    }
 }

@@ -1,6 +1,13 @@
 package code.backend;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -12,12 +19,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import code.backend.helpers.payload.dto.CourseDTO;
+import code.backend.helpers.payload.dto.CourseOfferingDTO;
+import code.backend.helpers.payload.dto.ScheduleDTO;
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
+import code.backend.helpers.payload.response.CourseRegisterFakeRespone;
 import code.backend.helpers.payload.response.TimeTableResponse;
 import code.backend.helpers.payload.subModel.SubScoreModel;
+import code.backend.helpers.utils.SubUtils;
 import code.backend.persitence.entities.Course;
 import code.backend.persitence.entities.CourseOffering;
 import code.backend.persitence.entities.FinalResult;
+import code.backend.persitence.entities.ProfessorSchedule;
+import code.backend.persitence.entities.ProfessorScheduleId;
 import code.backend.persitence.entities.Schedule;
 import code.backend.persitence.entities.SemesterResult;
 import code.backend.persitence.entities.Student;
@@ -25,6 +39,7 @@ import code.backend.persitence.entities.StudentSchedule;
 import code.backend.persitence.entities.SubPass;
 import code.backend.persitence.model.UserDetailCustom;
 import code.backend.persitence.repository.CourseOfferingRepository;
+import code.backend.persitence.repository.ProfessorScheduleRepository;
 import code.backend.persitence.repository.ScheduleRepository;
 import code.backend.persitence.repository.SemesterRepository;
 import code.backend.persitence.repository.StudentRepository;
@@ -50,6 +65,8 @@ class BackendApplicationTests {
 	StudentScheduleFRepository studentScheduleFRepository;
 	@Autowired
 	StudentRepository studentRepository;
+	@Autowired
+	ProfessorScheduleRepository professorScheduleRepository;
 
 	@Test
 	@Transactional
@@ -105,19 +122,6 @@ class BackendApplicationTests {
 
 	@Test
 	@Transactional
-	void test5() {
-		List<String> listParam = Arrays.asList("18130005");
-		List<String[]> columns = entityService.getFunctionResult("Time_Table_St", listParam);
-		List<TimeTableResponse> listResult = new ArrayList<>();
-		// for (String[] arr : columns) {
-		// // listResult.add(new TimeTableDTO(arr[0], arr[1]));
-		// }
-		System.out.println("TimeTable_ST:");
-		listResult.forEach(System.out::println);
-	}
-
-	@Test
-	@Transactional
 	void test4() {
 		String idSchedule = "57";
 		Schedule schedule = scheduleRepository.findById(idSchedule).get();
@@ -125,6 +129,26 @@ class BackendApplicationTests {
 				.collect(Collectors.toList());
 		System.out.println("Schedule:");
 		students.forEach(System.out::println);
+	}
+
+	@Test
+	@Transactional
+	void test5() { //.orElseGet(null)
+		String idACCOUNT = "224";
+		List<String> listParam = Arrays.asList(idACCOUNT);
+		List<String[]> columns = entityService.getFunctionResult("Time_Table_Pr", listParam);
+		List<TimeTableResponse> listResult = new ArrayList<>();
+		for (String[] arr : columns) {
+			ScheduleDTO scheduleDTO = (ScheduleDTO) SubUtils.mapperObject(scheduleRepository.findById(arr[0]).get(),
+					new ScheduleDTO());
+			CourseOfferingDTO courseOfferingDTO = (CourseOfferingDTO) SubUtils
+					.mapperObject(courseOfferingRepository.findById(arr[1]).get(), new CourseOfferingDTO());
+			CourseDTO courseDTO = (CourseDTO) SubUtils.mapperObject(
+					courseOfferingRepository.findByIdCourse(courseOfferingDTO.getIdCourse()).get().getCourse(),
+					new CourseDTO());
+			listResult.add(new TimeTableResponse(scheduleDTO, courseOfferingDTO, courseDTO));
+		}
+		listResult.forEach(System.out::println);
 	}
 
 	@Test
@@ -237,14 +261,40 @@ class BackendApplicationTests {
 	@Test
 	@Transactional
 	void test9() {
-		System.out.println("For_Professor");
-		List<String> idf = new ArrayList<>();
+		List<String> ids = new ArrayList<>();
 		for (String[] strings : entityService.getFunctionResult("check_Subject_For_Professor",
-				Arrays.asList("N'224'"))) {
-			idf.add(strings[0]);
+				Arrays.asList("224"))) {
+			ids.add(strings[0]);
 		}
-		for (Schedule schedule : scheduleRepository.findAllByIds(idf)) {
+		for (Schedule schedule : scheduleRepository.findAllByIds(ids)) {
 			System.out.println(schedule);
 		}
 	}
+
+	@Test
+	@Transactional
+	void test10() {
+		String idProfessor = "224";
+		String semesterID = semesterRepository.getCurrentSemester().getIdSemester();
+		Set<CourseRegisterFakeRespone> listCourseRegisterFakeRespone = new HashSet<>();
+		List<ProfessorSchedule> listSchedule = professorScheduleRepository
+				.findByIdSemesterAndIdProfessor(semesterID, idProfessor);
+		for (ProfessorSchedule s : listSchedule) {
+			String status = "Chưa lưu vào CSDL";
+			CourseRegisterFakeRespone courseRegisterFakeRespone = (CourseRegisterFakeRespone) SubUtils.mapperObject(
+					s.getSchedule().getCourseOffering().getCourse(),
+					new CourseRegisterFakeRespone());
+
+			if (professorScheduleRepository
+					.findById(new ProfessorScheduleId(semesterID, s.getIdSchedule(), idProfessor))
+					.isPresent()) {
+				status = "Đã lưu vào CSDL";
+			}
+			courseRegisterFakeRespone.setStatus(status);
+			listCourseRegisterFakeRespone.add(courseRegisterFakeRespone);
+		}
+		System.out.println("listCourseRegisterFakeRespone");
+		listCourseRegisterFakeRespone.forEach(System.out::println);
+	}
+
 }

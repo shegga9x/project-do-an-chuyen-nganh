@@ -26,6 +26,8 @@ import code.backend.helpers.payload.response.SubAvailableRespone;
 import code.backend.helpers.payload.response.TimeTableResponse;
 import code.backend.helpers.utils.SubUtils;
 import code.backend.persitence.entities.CourseOffering;
+import code.backend.persitence.entities.ProfessorSchedule;
+import code.backend.persitence.entities.ProfessorScheduleId;
 import code.backend.persitence.entities.Schedule;
 import code.backend.persitence.entities.Student;
 import code.backend.persitence.entities.StudentSchedule;
@@ -33,6 +35,7 @@ import code.backend.persitence.entities.StudentScheduleF;
 import code.backend.persitence.entities.StudentScheduleFId;
 import code.backend.persitence.entities.StudentScheduleId;
 import code.backend.persitence.repository.CourseOfferingRepository;
+import code.backend.persitence.repository.ProfessorScheduleRepository;
 import code.backend.persitence.repository.ScheduleRepository;
 import code.backend.persitence.repository.SemesterRepository;
 import code.backend.persitence.repository.StudentScheduleFRepository;
@@ -54,6 +57,8 @@ public class CourseManageService {
     StudentScheduleRepository studentScheduleRepository;
     @Autowired
     StudentScheduleFRepository studentScheduleFRepository;
+    @Autowired
+    ProfessorScheduleRepository professorScheduleRepository;
 
     public List<SubAvailableRespone> get_Sub_Available_ST(String id) {
         List<String> ids = new ArrayList<>();
@@ -192,7 +197,6 @@ public class CourseManageService {
                         .findById(new StudentScheduleFId(semesterID, schedule.getIdSchedule(), userID)).get());
             }
         }
-
         // update course offering
         for (CourseOffering courseOffering : setCourseOfferings) {
             if (courseOffering.getCurrentSize() <= 0) {
@@ -200,7 +204,6 @@ public class CourseManageService {
             }
             courseOffering.setCurrentSize((byte) (courseOffering.getCurrentSize() - 1));
         }
-
         studentScheduleRepository.deleteAll(listStudentSchedule);
         studentScheduleFRepository.deleteAll(listStudentScheduleF);
         courseOfferingRepository.saveAll(setCourseOfferings);
@@ -243,7 +246,8 @@ public class CourseManageService {
     // in ra danh sach GiaoVien co the dang ky mon hoc
     public List<SubAvailableRespone> get_List_Subject_For_Professor(String idProfessor) {
         List<String> ids = new ArrayList<>();
-        for (String[] strings : entityService.getFunctionResult("check_Subject_For_Professor", Arrays.asList(idProfessor))) {
+        for (String[] strings : entityService.getFunctionResult("check_Subject_For_Professor",
+                Arrays.asList(idProfessor))) {
             ids.add(strings[0]);
         }
         List<Schedule> schedules = scheduleRepository.findAllByIds(ids);
@@ -260,5 +264,104 @@ public class CourseManageService {
             listSubject.add(subAvailableRespone);
         }
         return listSubject;
+    }
+
+    // lưu những môn GV đã đăng ký
+    public MessageResponse submit_Course_For_Professor(String idCourseOffering) {
+        String semesterID = semesterRepository.getCurrentSemester().getIdSemester();
+        String userID = SubUtils.getCurrentUser().getId();
+        List<ProfessorSchedule> lisSubject = new ArrayList<>();
+        List<Schedule> listSchedule = scheduleRepository.findByIdCourseOffering(idCourseOffering);
+        for (Schedule s : listSchedule) {
+            // lỗi này chỉ khi insert sàm zô database hoặc là trùng database
+            if (professorScheduleRepository.findById(new ProfessorScheduleId(semesterID, s.getIdSchedule(), userID))
+                    .isPresent()) {
+                throw new CustomException("System Error");
+            }
+            // lỗi trùng lịch
+            List<String> listParam = Arrays.asList(s.getIdSchedule(), userID);
+            List<String[]> columns = entityService.getFunctionResult("check_Day_Pr", listParam);
+            if (columns.size() > 0) {
+                throw new CustomException("Môn này đã bị trùng lịch");
+            }
+            lisSubject.add(new ProfessorSchedule(semesterID, s.getIdSchedule(), userID));
+        }
+        professorScheduleRepository.saveAll(lisSubject);
+        return new MessageResponse("Hoan thanh !!");
+    }
+
+    // lấy danh sách môn GV đã dk
+    public Set<CourseRegisterFakeRespone> get_Course_Registe_Fake_Professor(String idProfessor) {
+        String semesterID = semesterRepository.getCurrentSemester().getIdSemester();
+        Set<CourseRegisterFakeRespone> listCourseRegisterFakeRespone = new HashSet<>();
+        List<ProfessorSchedule> listSchedule = professorScheduleRepository
+                .findByIdSemesterAndIdProfessor(semesterID, idProfessor);
+        for (ProfessorSchedule s : listSchedule) {
+            String status = "Chưa lưu vào CSDL";
+            CourseRegisterFakeRespone courseRegisterFakeRespone = (CourseRegisterFakeRespone) SubUtils.mapperObject(
+                    s.getSchedule().getCourseOffering().getCourse(),
+                    new CourseRegisterFakeRespone());
+
+            if (professorScheduleRepository
+                    .findById(new ProfessorScheduleId(semesterID, s.getIdSchedule(), idProfessor))
+                    .isPresent()) {
+                status = "Đã lưu vào CSDL";
+            }
+            courseRegisterFakeRespone.setStatus(status);
+            listCourseRegisterFakeRespone.add(courseRegisterFakeRespone);
+        }
+        return listCourseRegisterFakeRespone;
+    }
+
+    // xóa những môn GV đã đăng ký
+    public MessageResponse delete_Course_Register_For_Professor(List<String> listIdCourse) {
+        String semesterID = semesterRepository.getCurrentSemester().getIdSemester();
+        String userID = SubUtils.getCurrentUser().getId();
+        List<ProfessorSchedule> listSubject = new ArrayList<>();
+        Set<CourseOffering> setCourseOfferings = new HashSet<>();
+        for (String idCourse : listIdCourse) {
+            CourseOffering co = courseOfferingRepository.findByIdCourse(idCourse).get();
+            List<Schedule> listSchedule = co.getListOfSchedule();
+            for (Schedule schedule : listSchedule) {
+                Optional<ProfessorSchedule> professorSchedule = professorScheduleRepository
+                        .findById(new ProfessorScheduleId(semesterID, schedule.getIdSchedule(),
+                                userID));
+                // kt môn này có tồn tại ko
+                if (professorSchedule.isPresent()) {
+                    setCourseOfferings.add(schedule.getCourseOffering());
+                }
+                listSubject.add(professorScheduleRepository
+                        .findById(new ProfessorScheduleId(semesterID, schedule.getIdSchedule(), userID)).get());
+            }
+        }
+        // update course offering
+        // for (CourseOffering courseOffering : setCourseOfferings) {
+        // if (courseOffering.getCurrentSize() <= 0) {
+        // throw new CustomException("System Error");
+        // }
+        // courseOffering.setCurrentSize((byte) (courseOffering.getCurrentSize() - 1));
+        // }
+        courseOfferingRepository.saveAll(setCourseOfferings);
+        professorScheduleRepository.deleteAll(listSubject);
+        return new MessageResponse("Hoan thanh !!");
+    }
+
+    // lấy thời khóa biểu của GV - chưa xong
+    public List<TimeTableResponse> get_Time_Table_Professor(String idACCOUNT) {
+        List<String> listParam = Arrays.asList(idACCOUNT);
+        List<String[]> columns = entityService.getFunctionResult("Time_Table_Pr", listParam);
+        List<TimeTableResponse> listResult = new ArrayList<>();
+        for (String[] arr : columns) {
+            ScheduleDTO scheduleDTO = (ScheduleDTO) SubUtils.mapperObject(scheduleRepository.findById(arr[0]).get(),
+                    new ScheduleDTO());
+            CourseOfferingDTO courseOfferingDTO = (CourseOfferingDTO) SubUtils
+                    .mapperObject(courseOfferingRepository.findById(arr[1]).get(), new CourseOfferingDTO());
+            CourseDTO courseDTO = (CourseDTO) SubUtils.mapperObject(
+                    courseOfferingRepository.findByIdCourse(courseOfferingDTO.getIdCourse()).get().getCourse(),
+                    new CourseDTO());
+            listResult.add(new TimeTableResponse(scheduleDTO, courseOfferingDTO, courseDTO));
+        }
+        System.out.println(listResult);
+        return listResult;
     }
 }
