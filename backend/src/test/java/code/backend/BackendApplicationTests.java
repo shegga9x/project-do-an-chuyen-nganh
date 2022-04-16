@@ -134,12 +134,13 @@ class BackendApplicationTests {
 
 	@Test
 	@Transactional
-	void test5() { //.orElseGet(null)
+	void test5() { // .orElseGet(null)
 		String idACCOUNT = "224";
 		List<String> listParam = Arrays.asList(idACCOUNT);
 		List<String[]> columns = entityService.getFunctionResult("Time_Table_Pr", listParam);
 		List<TimeTableResponse> listResult = new ArrayList<>();
 		for (String[] arr : columns) {
+
 			ScheduleDTO scheduleDTO = (ScheduleDTO) SubUtils.mapperObject(scheduleRepository.findById(arr[0]).get(),
 					new ScheduleDTO());
 			CourseOfferingDTO courseOfferingDTO = (CourseOfferingDTO) SubUtils
@@ -147,7 +148,11 @@ class BackendApplicationTests {
 			CourseDTO courseDTO = (CourseDTO) SubUtils.mapperObject(
 					courseOfferingRepository.findByIdCourse(courseOfferingDTO.getIdCourse()).get().getCourse(),
 					new CourseDTO());
-			listResult.add(new TimeTableResponse(scheduleDTO, courseOfferingDTO, courseDTO));
+			listResult.add(new TimeTableResponse(scheduleDTO, courseOfferingDTO,
+					courseDTO));
+
+			// System.out.println(Arrays.toString(arr));
+			// System.out.println(Arrays.deepToString(arr));
 		}
 		listResult.forEach(System.out::println);
 	}
@@ -296,7 +301,6 @@ class BackendApplicationTests {
 		System.out.println("listCourseRegisterFakeRespone");
 		listCourseRegisterFakeRespone.forEach(System.out::println);
 	}
-
 
 	void test11() {
 		int khoa = Calendar.getInstance().get(Calendar.YEAR) % 100;

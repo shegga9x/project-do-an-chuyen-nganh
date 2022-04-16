@@ -224,6 +224,7 @@ public class CourseManageService {
                     new CourseDTO());
             listResult.add(new TimeTableResponse(scheduleDTO, courseOfferingDTO, courseDTO));
         }
+        // System.out.println(listResult);
         return listResult;
     }
 
@@ -346,7 +347,7 @@ public class CourseManageService {
         return new MessageResponse("Hoan thanh !!");
     }
 
-    // lấy thời khóa biểu của GV - chưa xong
+    // lấy thời khóa biểu của GV
     public List<TimeTableResponse> get_Time_Table_Professor(String idACCOUNT) {
         List<String> listParam = Arrays.asList(idACCOUNT);
         List<String[]> columns = entityService.getFunctionResult("Time_Table_Pr", listParam);
@@ -361,7 +362,7 @@ public class CourseManageService {
                     new CourseDTO());
             listResult.add(new TimeTableResponse(scheduleDTO, courseOfferingDTO, courseDTO));
         }
-        System.out.println(listResult);
+        // System.out.println(listResult);
         return listResult;
     }
 }
