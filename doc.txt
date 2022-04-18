@@ -1,11 +1,12 @@
 function
-Đăng Nhập
-Đăng Ký học phần sinh viên
-Đăng Ký lớp giáo viên
-Kết Thúc Đăng Ký
-Thêm điểm 
-Xem điểm
-Quản Lý Thông Tin giáo viên + sinh viên
+1 Đăng Nhập - Khánh
+2 Đăng Ký học phần sinh viên - Hiển
+3 Đăng Ký lớp giáo viên - Tường
+4 Thêm điểm - Phùng
+5 Kết Thúc Đăng Ký - Tường
+6 Xem điểm - Duy
+7 Thêm Học Viên Tự Động - Hiển
+8 Quản Lý Thông Tin giáo viên + sinh viên - Phùng
 
 
 
@@ -15,4 +16,4 @@ Quản Lý Thông Tin giáo viên + sinh viên
 4 Class diagram
 5 Database design
 6 thiết kế giao diện
-Đặc tả bổ sung
+7 Đặc tả bổ sung
