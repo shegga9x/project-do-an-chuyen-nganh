@@ -1,0 +1,18 @@
+function
+Đăng Nhập
+Đăng Ký học phần sinh viên
+Đăng Ký lớp giáo viên
+Kết Thúc Đăng Ký
+Thêm điểm 
+Xem điểm
+Quản Lý Thông Tin giáo viên + sinh viên
+
+
+
+1 Use Case
+2 Activity diagrams
+3 Sequence diagrams
+4 Class diagram
+5 Database design
+6 thiết kế giao diện
+Đặc tả bổ sung
