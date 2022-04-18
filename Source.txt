@@ -29,3 +29,4 @@ modal err
 
 -- 1 thang truoc khi thi hoac ko lam
 xem quy trình đào tạo - get
+

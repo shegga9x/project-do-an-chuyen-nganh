@@ -4,7 +4,6 @@ USE Course_Registration
 SET DATEFORMAT DMY
 GO
 
---dữ liệu bảng Privilege
 CREATE SEQUENCE [dbo].[hibernate_sequence] 
  AS [bigint]
  START WITH 10000000
