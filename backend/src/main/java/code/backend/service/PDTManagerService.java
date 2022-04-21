@@ -260,6 +260,7 @@ public class PDTManagerService {
                         semesterCourseCertificate);
                 semesterResults.removeIf(x -> x.getIdSemester().equals(idSemester));
                 semesterResults.add(semesterResult);
+                student.setListOfSemesterResult(semesterResults);
                 student.setFinalResult(new FinalResult(student.getIdStudent(),
                         finalCourseCertificate == 0 ? 0 : finalScore / finalCourseCertificate));
                 student.setListOfSubPass(subPasses);

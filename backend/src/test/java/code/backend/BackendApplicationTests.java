@@ -140,17 +140,17 @@ class BackendApplicationTests {
 		List<String[]> columns = entityService.getFunctionResult("Time_Table_Pr", listParam);
 		List<TimeTableResponse> listResult = new ArrayList<>();
 		for (String[] arr : columns) {
-
-			ScheduleDTO scheduleDTO = (ScheduleDTO) SubUtils.mapperObject(scheduleRepository.findById(arr[0]).get(),
-					new ScheduleDTO());
-			CourseOfferingDTO courseOfferingDTO = (CourseOfferingDTO) SubUtils
-					.mapperObject(courseOfferingRepository.findById(arr[1]).get(), new CourseOfferingDTO());
-			CourseDTO courseDTO = (CourseDTO) SubUtils.mapperObject(
-					courseOfferingRepository.findByIdCourse(courseOfferingDTO.getIdCourse()).get().getCourse(),
-					new CourseDTO());
-			listResult.add(new TimeTableResponse(scheduleDTO, courseOfferingDTO,
-					courseDTO));
-
+			// ScheduleDTO scheduleDTO = (ScheduleDTO)
+			// SubUtils.mapperObject(scheduleRepository.findById(arr[0]).get(),
+			// new ScheduleDTO());
+			// CourseOfferingDTO courseOfferingDTO = (CourseOfferingDTO) SubUtils
+			// .mapperObject(courseOfferingRepository.findById(arr[1]).get(), new
+			// CourseOfferingDTO());
+			// CourseDTO courseDTO = (CourseDTO) SubUtils.mapperObject(
+			// courseOfferingRepository.findByIdCourse(courseOfferingDTO.getIdCourse()).get().getCourse(),
+			// new CourseDTO());
+			// listResult.add(new TimeTableResponse(scheduleDTO, courseOfferingDTO,
+			// courseDTO));
 			// System.out.println(Arrays.toString(arr));
 			// System.out.println(Arrays.deepToString(arr));
 		}

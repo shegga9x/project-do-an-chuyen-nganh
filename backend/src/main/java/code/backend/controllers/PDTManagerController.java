@@ -28,10 +28,10 @@ public class PDTManagerController {
     PDTManagerService pdtManagerService;
 
     @PostMapping("/add_Account_From_Excel")
-    public Set<AccountFromExcelRequest> addAccountFromExcel(@RequestBody List<AccountFromExcelRequest> accountFromExcelRequests) {
+    public Set<AccountFromExcelRequest> addAccountFromExcel(
+            @RequestBody List<AccountFromExcelRequest> accountFromExcelRequests) {
         return pdtManagerService.addAccountFromExcel(accountFromExcelRequests);
     }
-
 
     @PostMapping(value = "add_Score_From_Excel")
     public MessageResponse addScoreFromExcel(@RequestBody ScoreFromExcelRequest scoreFromExcelRequest) {

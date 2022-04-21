@@ -24,6 +24,10 @@ export class ClassRoutineComponent implements OnInit {
     this.getListFake();
   }
 
+  // change listSubAvailable in courseManagerServices to empty when redirect to other page
+  ngOnDestroy(): void {
+    this.courseManageService.listSubAvailable = [];
+  }
 
   // lấy ds GV có thể dk
   getListSubjectForProfressor() {
@@ -32,6 +36,7 @@ export class ClassRoutineComponent implements OnInit {
         this.listSubAvailable = x;
         //add to course-manage services
         this.courseManageService.listSubAvailable = this.listSubAvailable;
+        console.log(this.courseManageService.listSubAvailable);
       },
       error: (error) => {
         console.log(error);
