@@ -33,23 +33,42 @@ export class SscExamResultComponent implements OnInit {
       let request = {
         idCourseOffering: "52", idSemester: "2021_2", is4Max: false, subScoreModels: this.listFull
       }
-      this.pDTService.addScoreFromExcel(request).then(x2 => {
-        this.finish = true;
-      }).catch((err) => {
-        console.log(err)
-        let objectError = JSON.parse(err)
-        this.listError = this.listFull.filter(obj => {
-          return objectError[obj['studentID']] != undefined
-        })
-        this.listError.forEach(element => {
-          element.mess = objectError[element['studentID']]
-        });
-        this.listOk = this.listFull.filter(obj => {
-          return objectError[obj['studentID']] == undefined
-        })
-        this.finish = true;
-        console.log(this.listFull)
-      });
+      //   this.pDTService.addScoreFromExcel(request).subscribe(x2 => {
+      //     this.finish = true;
+      //   }).catch((err) => {
+      //     console.log(err)
+      //     let objectError = JSON.parse(err)
+      //     this.listError = this.listFull.filter(obj => {
+      //       return objectError[obj['studentID']] != undefined
+      //     })
+      //     this.listError.forEach(element => {
+      //       element.mess = objectError[element['studentID']]
+      //     });
+      //     this.listOk = this.listFull.filter(obj => {
+      //       return objectError[obj['studentID']] == undefined
+      //     })
+      //     this.finish = true;
+      //     console.log(this.listFull)
+      //   });
+      // })
+      this.pDTService.addAccountFromExcel(request).subscribe({
+        next: (x2) => {},
+        error: (err) => {
+          console.log(err)
+          let objectError = JSON.parse(err)
+          this.listError = this.listFull.filter(obj => {
+            return objectError[obj['studentID']] != undefined
+          })
+          this.listError.forEach(element => {
+            element.mess = objectError[element['studentID']]
+          });
+          this.listOk = this.listFull.filter(obj => {
+            return objectError[obj['studentID']] == undefined
+          })
+          this.finish = true;
+          console.log(this.listFull)
+        }
+      })
     })
   }
 }
