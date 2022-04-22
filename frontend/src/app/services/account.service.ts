@@ -37,6 +37,15 @@ export class AccountService {
         return account;
       }));
   }
+  loginWithJWT(token : string) {
+    return this.http.post<any>(`${baseUrl}/authenticate-with-jwt`, token, { withCredentials: true })
+      .pipe(map(account => {
+        this.accountSubject.next(account);
+        this.startRefreshTokenTimer();
+     
+        return account;
+      }));
+  }
 
   logout() {
     this.http.post<any>(`${baseUrl}/revoke-token`, {}, { withCredentials: true }).subscribe();
@@ -112,7 +121,7 @@ export class AccountService {
 
   private refreshTokenTimeout: any;
 
-  private startRefreshTokenTimer() {
+  public startRefreshTokenTimer() {
     // parse json object from base64 encoded jwt token
     const jwtToken = JSON.parse(atob(this.accountValue!.jwtToken!.split('.')[1]));
 

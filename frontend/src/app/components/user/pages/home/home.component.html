@@ -1,7 +1,8 @@
 <app-header></app-header>
 <app-header-bar></app-header-bar>
 <input type="file" style="display: inline-block;" (change)="onFileChange($event)" placeholder="Upload file" accept=".xlsx">
-
+<div> <a className="btn btn-block social-btn google" href="http://localhost:4000/oauth2/authorize/google?redirect_uri=http://localhost:4200/oauth2/redirect">
+        Log in with Google</a></div>
 
 <div class="container">
     <section class="slider">
@@ -13,7 +14,7 @@
                 <li data-target="#bootstrap-touch-slider" data-slide-to="2"></li>
             </ol>
             <!-- Wrapper For Slides -->
-            <div class="carousel-inner" role="listbox"> 
+            <div class="carousel-inner" role="listbox">
                 <!-- Third Slide -->
                 <div class="item active">
                     <!-- Slide Background --><img src="assets/image/slide-5.jpg" alt="Bootstrap Touch Slider" class="slide-image" />
