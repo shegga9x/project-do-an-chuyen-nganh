@@ -292,9 +292,9 @@ public class CourseManageService {
     }
 
     // lấy danh sách môn GV đã dk
-    public Set<CourseRegisterFakeRespone> get_Course_Registe_Fake_Professor(String idProfessor) {
+    public Set<CourseRegisterFakeRespone> get_Course_Registe_Professor(String idProfessor) {
         String semesterID = semesterRepository.getCurrentSemester().getIdSemester();
-        Set<CourseRegisterFakeRespone> listCourseRegisterFakeRespone = new HashSet<>();
+        Set<CourseRegisterFakeRespone> listCourse = new HashSet<>();
         List<ProfessorSchedule> listSchedule = professorScheduleRepository
                 .findByIdSemesterAndIdProfessor(semesterID, idProfessor);
         for (ProfessorSchedule s : listSchedule) {
@@ -309,13 +309,13 @@ public class CourseManageService {
                 status = "Đã lưu vào CSDL";
             }
             courseRegisterFakeRespone.setStatus(status);
-            listCourseRegisterFakeRespone.add(courseRegisterFakeRespone);
+            listCourse.add(courseRegisterFakeRespone);
         }
-        return listCourseRegisterFakeRespone;
+        return listCourse;
     }
 
     // xóa những môn GV đã đăng ký
-    public MessageResponse delete_Course_Register_For_Professor(List<String> listIdCourse) {
+    public MessageResponse delete_Course_Register_Professor(List<String> listIdCourse) {
         String semesterID = semesterRepository.getCurrentSemester().getIdSemester();
         String userID = SubUtils.getCurrentUser().getId();
         List<ProfessorSchedule> listSubject = new ArrayList<>();

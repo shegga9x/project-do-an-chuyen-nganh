@@ -85,14 +85,14 @@ public class CourseManageController {
     }
 
     @GetMapping("get_course_register_fake_for_professor") // ("get_course_register_fake")
-    public @ResponseBody Set<CourseRegisterFakeRespone> get_Course_Registe_Fake_Professor(
+    public @ResponseBody Set<CourseRegisterFakeRespone> get_Course_Registe_Professor(
             @RequestParam("idProfessor") String idProfessor) {
-        return courseManageService.get_Course_Registe_Fake_Professor(idProfessor);
+        return courseManageService.get_Course_Registe_Professor(idProfessor);
     }
 
     @PostMapping("delete_course_register_for_professor") // ("delete_course_register")
-    public MessageResponse delete_Course_Register_For_Professor(@RequestBody List<String> listIdCourse) {
-        return courseManageService.delete_Course_Register_For_Professor(listIdCourse);
+    public MessageResponse delete_Course_Register_Professor(@RequestBody List<String> listIdCourse) {
+        return courseManageService.delete_Course_Register_Professor(listIdCourse);
     }
 
     @GetMapping("/get_time_table_professor")
