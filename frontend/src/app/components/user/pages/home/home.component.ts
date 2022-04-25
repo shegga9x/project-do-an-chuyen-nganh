@@ -28,7 +28,6 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       let token = params['token'];
-     
      this.accountService.loginWithJWT(token).subscribe(x=>this.generalService.onRefresh("/"));
     }); 
 
