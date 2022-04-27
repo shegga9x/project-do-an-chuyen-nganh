@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
 import code.backend.helpers.payload.response.CourseRegisterFakeRespone;
+import code.backend.helpers.payload.response.DateExamResponse;
 import code.backend.helpers.payload.response.MessageResponse;
 import code.backend.helpers.payload.response.StudentBySubjectResponse;
 import code.backend.helpers.payload.response.SubAvailableRespone;
@@ -98,5 +99,11 @@ public class CourseManageController {
     @GetMapping("/get_time_table_professor")
     public List<TimeTableResponse> get_Time_Table_Professor(@RequestParam("idACCOUNT") String model) {
         return courseManageService.get_Time_Table_Professor(model);
+    }
+
+    @GetMapping("/get_Date_Exam_ST")
+    public DateExamResponse get_Date_Exam_ST(@RequestParam("idACCOUNT") String idACCOUNT,
+            @RequestParam("ID_Semester") String iDSemester) {
+        return courseManageService.get_Date_Exam_ST(idACCOUNT, iDSemester);
     }
 }

@@ -1,14 +1,19 @@
 function
-1 Đăng Nhập - Khánh
-2 Đăng Ký học phần sinh viên - Hiển
-3 Đăng Ký lớp giáo viên - Tường
-4 Thêm điểm - Phùng
-
-5 Kết Thúc Đăng Ký - Tường
-6 Xem điểm - Duy
-
-7 Thêm Học Viên Tự Động - Hiển
-8 Quản Lý Thông Tin giáo viên + sinh viên - Phùng
+1 Đăng Nhập 
+2 Đăng Ký học phần sinh viên 
+3 Đăng Ký lớp giáo viên 
+4 Thêm điểm 
+5 Xem điểm 
+6 Xem thời khóa biểu 
+7 Xem Lịch Thi 
+8 Xem Học Phí 
+9 Xem Thông Tin Giáo viên 
+10 Kết Thúc Đăng Ký 
+11 Thêm Học Viên Tự Động 
+12 Thông báo
+13 Quên Mật Khẩu
+14 Tra cứu thông tin tốt nghiệp
+15 Quản Lý entities
 
 
 

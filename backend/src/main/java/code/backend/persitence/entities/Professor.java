@@ -30,6 +30,9 @@ public class Professor implements Serializable {
     @Column(name = "Professor_Name", nullable = false, length = 50)
     private String professorName;
 
+    @Column(name = "img_url", nullable = false)
+    private String imgUrl;
+
     @Column(name = "ID_Faculty", nullable = false, length = 50)
     private String idFaculty;
 
@@ -119,6 +122,15 @@ public class Professor implements Serializable {
     public List<ProfessorSchedule> getListOfProfessorSchedule() {
         return this.listOfProfessorSchedule;
     }
+
+    public String getImgUrl() {
+        return this.imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
 
     // --- toString specific method
     @Override

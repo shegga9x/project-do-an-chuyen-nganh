@@ -9,10 +9,18 @@
                             navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
+            
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav"> </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a [routerLink]="['/user/home']"> {{ 'header_bar.home' | translate }} </a></li>
+                        <li><a [routerLink]="['/user/student/course-regist']"> Đăng Ký Môn Học </a></li>
+                        <li><a [routerLink]="['/user/student/time-table']"> Thời Khóa Biểu </a></li>
+                        <li><a [routerLink]="['/user/student/report-grade']"> Xem Điểm </a></li>
+                        <li><a [routerLink]="['/user/student/report-date-exam']"> Xem Lịch Thi </a></li>
+                        <li><a [routerLink]="['/user/student/report-school-fees']"  *ngIf="account === null || account.idAccount.length >= 4 "> Xem Học Phí </a></li>
+
+
                         <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ 'header_bar.about' | translate }}<span class="caret"></span></a>
                             <ul class="dropdown-menu animated zoomIn">
                                 <li><a [routerLink]="['/user/about/about-us']">{{ 'header_bar.aboutUs' | translate }}</a></li>
@@ -21,54 +29,16 @@
                                 <li><a [routerLink]="['/user/about/faculty-member']">{{ 'header_bar.facultyMember' | translate }}</a></li>
                             </ul>
                         </li>
-                        <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ 'header_bar.academic' | translate }}<span class="caret"></span></a>
+                        <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Thông Báo<span class="caret"></span></a>
                             <ul class="dropdown-menu animated zoomIn">
-                                <li><a [routerLink]="['/user/academic/class-routine']">{{ 'header_bar.classRoutine' | translate }}</a></li>
-                                <li><a [routerLink]="['/user/academic/academic-event']">{{ 'header_bar.events' | translate }}</a></li>
-                                <li><a [routerLink]="['/user/academic/academic-calender']">{{ 'header_bar.calender' | translate }}</a></li>
-                                <li><a [routerLink]="['/user/academic/rules-and-regulations']">{{ 'header_bar.rulesRegulations' | translate }}</a></li>
-                                <li><a [routerLink]="['/user/academic/faculty-information']">{{ 'header_bar.facultyInformations' | translate }}</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ 'header_bar.examRoutine' | translate }}<span class="caret"></span></a>
-                            <ul class="dropdown-menu animated zoomIn">
-                                <li><a [routerLink]="['/user/exam-routine/half-early-exam']">{{ 'header_bar.halfExam' | translate }}</a></li>
-                                <li><a [routerLink]="['/user/exam-routine/tutorial-exam']">{{ 'header_bar.tutorialExam' | translate }}</a></li>
-                                <li><a [routerLink]="['/user/exam-routine/final-exam']">{{ 'header_bar.finalExam' | translate }}</a></li>
-                                <li><a [routerLink]="['/user/exam-routine/ssc-exam']">{{ 'header_bar.scc' | translate }}</a></li>
-                                <li><a [routerLink]="['/user/exam-routine/jsc-exam']">{{ 'header_bar.jsc' | translate }}</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ 'header_bar.classEBook' | translate }}<span class="caret"></span></a>
-                            <ul class="dropdown-menu animated zoomIn">
-                                <li><a href="http://www.ebook.gov.bd/page.php?section=general&class=6"> Lớp 6 </a></li>
-                                <li><a href="http://www.ebook.gov.bd/page.php?section=general&class=7"> Lớp 7 </a></li>
-                                <li><a href="http://www.ebook.gov.bd/page.php?section=general&class=8"> Lớp 8 </a></li>
-                                <li><a href="https://tanbircox.blogspot.com/2012/12/2013-text-pdf-books.html"> Lớp 9 </a></li>
-                                <li><a href="http://www.ebook.gov.bd/page.php?section=general&class=9"> Lớp 10 </a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ 'header_bar.result' | translate }}<span class="caret"></span></a>
-                            <ul class="dropdown-menu animated zoomIn">
-                                <li><a [routerLink]="['/user/result/half-early-exam']">{{ 'header_bar.halfExam' | translate }}</a></li>
-                                <li><a [routerLink]="['/user/result/tutorial-exam']">{{ 'header_bar.tutorialExam' | translate }}</a></li>
-                                <li><a [routerLink]="['/user/result/final-exam']">{{ 'header_bar.finalExam' | translate }}</a></li>
-                                <li><a [routerLink]="['/user/result/ssc-exam']">{{ 'header_bar.scc' | translate }}</a></li>
-                                <li><a [routerLink]="['/user/result/jsc-exam']">{{ 'header_bar.jsc' | translate }}</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="gallery.html">{{ 'header_bar.gallery' | translate }}</a></li>
-                        <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ 'header_bar.tutionFee' | translate }}<span class="caret"></span></a>
-                            <ul class="dropdown-menu animated zoomIn">
-                                <li><a href="tution-fee.html"> Lớp 6 </a></li>
-                                <li><a href="tution-fee.html"> Lớp 7 </a></li>
-                                <li><a href="tution-fee.html"> Lớp 8 </a></li>
-                                <li><a href="tution-fee.html"> Lớp 9 </a></li>
-                                <li><a href="tution-fee.html"> Lớp 10 </a></li>
+                                <li><a [routerLink]="['/user/about/about-us']">{{ 'header_bar.aboutUs' | translate }}</a></li>
+                                <li><a [routerLink]="['/user/about/our-principal']">{{ 'header_bar.ourPrincipal' | translate }}</a></li>
+                                <li><a [routerLink]="['/user/about/mission-and-vission']">{{ 'header_bar.missionVision' | translate }}</a></li>
+                                <li><a [routerLink]="['/user/about/faculty-member']">{{ 'header_bar.facultyMember' | translate }}</a></li>
                             </ul>
                         </li>
                         <li><a [routerLink]="['/user/contact']">{{ 'header_bar.contact' | translate }}</a></li>
-                        <li><a [routerLink]="['/user/library']">{{ 'header_bar.library' | translate }}</a></li>
+
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->
