@@ -55,6 +55,9 @@ public class Course implements Serializable {
     @OneToMany(mappedBy = "course")
     private List<CourseOffering> listOfCourseOffering;
 
+    @OneToMany(mappedBy = "course")
+    private List<CourseProgress> listOfCourseProgress;
+
     /**
      * Constructor
      */
@@ -126,6 +129,17 @@ public class Course implements Serializable {
 
     public List<CourseOffering> getListOfCourseOffering() {
         return this.listOfCourseOffering;
+    }
+
+
+
+
+    public List<CourseProgress> getListOfCourseProgress() {
+        return this.listOfCourseProgress;
+    }
+
+    public void setListOfCourseProgress(List<CourseProgress> listOfCourseProgress) {
+        this.listOfCourseProgress = listOfCourseProgress;
     }
 
     // --- toString specific method

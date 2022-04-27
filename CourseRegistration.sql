@@ -279,8 +279,28 @@ CREATE TABLE Date_Exam
 	seats smallint  not null,
 )
 
+
+CREATE TABLE Course_Progress
+(
+	id int IDENTITY(1,1) PRIMARY KEY,
+	ID_Faculty nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Faculty (ID_Faculty),
+	ID_Course nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Course (ID_Course),
+	-- nam hoc bat dau
+	number_year int,
+	optional BIT
+)
+
 -- function
 go
+-- lay ra ctdt va check da hoc qua chua
+create FUNCTION get_Course_Progress_Table_ST (@ID_ACCOUNT varchar(50))
+RETURNS TABLE
+AS
+  RETURN
+  SELECT cp.*, 
+  CASE WHEN cp.ID_Course in (select sp.ID_Course from Sub_Pass sp where sp.ID_Student = @ID_ACCOUNT and sp.Score >= 4) THEN 1 ELSE 0 END AS Pass
+  from Course_Progress cp
+GO
 
 -- Thời khóa biểu cho giáo viên
 CREATE FUNCTION Time_Table_Pr (@ID_Professor varchar(50),@ID_Semester varchar(50))
