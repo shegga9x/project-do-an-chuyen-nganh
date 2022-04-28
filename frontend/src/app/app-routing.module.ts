@@ -5,6 +5,8 @@ import { PageNotFoundComponent } from './components/user/pages/commons/page-not-
 
 const userModule = () => import('src/app/components/user/user.model').then(x => x.userModule)
 
+const adminModule = () => import('src/app/components/admin/admin.model').then(x => x.adminModule)
+
 const routes: Routes = [
   {
     path: '', redirectTo: 'user', pathMatch: 'full'
@@ -13,7 +15,10 @@ const routes: Routes = [
     path: 'oauth2/redirect', redirectTo: 'user', pathMatch: 'full'
   },
   {
-    path: 'user', loadChildren:userModule
+    path: 'user', loadChildren: userModule
+  },
+  {
+    path: 'admin', loadChildren: adminModule
   },
   {
     path: '**', pathMatch: 'full',

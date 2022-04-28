@@ -68,9 +68,5 @@ export class AutoImportGradeComponent implements OnInit {
       })
     })
   }
-<<<<<<< HEAD:frontend/src/app/components/user/pages/result/ssc-exam-result/ssc-exam-result.component.ts
 }
-=======
 
-}
->>>>>>> 4fafcbe61fe7c9d48e61ce363e3b00db8a6359b7:frontend/src/app/components/admin/pages/auto-import-grade/auto-import-grade.component.ts

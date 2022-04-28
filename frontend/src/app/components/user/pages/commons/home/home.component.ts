@@ -29,14 +29,8 @@ export class HomeComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       console.log(params)
       let token = params['token'];
-<<<<<<< HEAD:frontend/src/app/components/user/pages/home/home.component.ts
-
       this.accountService.loginWithJWT(token).subscribe(x => this.generalService.onRefresh("/"));
     });
-=======
-     this.accountService.loginWithJWT(token).subscribe(x=>this.generalService.onRefresh("/"));
-    }); 
->>>>>>> 4fafcbe61fe7c9d48e61ce363e3b00db8a6359b7:frontend/src/app/components/user/pages/commons/home/home.component.ts
 
   }
 

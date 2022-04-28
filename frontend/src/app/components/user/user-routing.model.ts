@@ -15,7 +15,7 @@ import { ReportDateExamComponent } from './pages/student/report-date-exam/report
 import { ReportGradeComponent } from './pages/student/report-grade/report-grade.component';
 import { ReportSchoolFeesComponent } from './pages/student/report-school-fees/report-school-fees.component';
 import { TimeTableComponent } from './pages/student/time-table/time-table.component';
-import { HomeComponent } from '../admin/pages/home/home.component';
+import { HomeComponent } from 'src/app/components/user/pages/commons/home/home.component';
 import { AboutUsComponent } from './pages/commons/about/about-us/about-us.component';
 import { AboutComponent } from './pages/commons/about/about.component';
 import { FacultyMemberComponent } from './pages/commons/about/faculty-member/faculty-member.component';

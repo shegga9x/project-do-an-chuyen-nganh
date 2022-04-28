@@ -36,13 +36,21 @@
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/styles.scss",
-              "src/static/css/bootstrap.css",
-              "src/static/css/animate.css",
-              "src/static/css/font-awesome.min.css"
+              "src/static/user/css/bootstrap.css",
+              "src/static/user/css/animate.css",
+              "src/static/user/css/font-awesome.min.css",
+
+
+              "src/static/admin/vendor/fontawesome-free/css/all.min.css",
+              "src/static/admin/vendor/datatables/dataTables.bootstrap4.min.css"
             ],
             "scripts": [
-              "./node_modules/jquery/dist/jquery.min.js",
-              "src/static/js/bootstrap.min.js"
+              "src/static/admin/vendor/jquery/jquery.min.js",
+              "src/static/admin/vendor/bootstrap/js/bootstrap.bundle.min.js",
+              "src/static/admin/vendor/jquery-easing/jquery.easing.min.js",
+              "src/static/admin/js/sb-admin-2.min.js",
+              "src/static/admin/vendor/datatables/jquery.dataTables.min.js",
+              "src/static/admin/vendor/datatables/dataTables.bootstrap4.min.js"
             ]
           },
           "configurations": {

@@ -21,6 +21,7 @@ import { l10nConfig } from './l10n-config';
 //component
 import { AppComponent } from './app.component';
 import { UserDeclarations } from './components/user/user.declarations';
+import { AdminDeclarations } from './components/admin/admin.declarations';
 
 //pipe
 import { ListFilterPipe } from './pipe/listFilter-pipe';
@@ -28,13 +29,13 @@ import { TranslatePipe } from './pipe/translate-pipe';
 import { DialogErrorComponent } from './components/user/shared/dialog-error/dialog-error.component';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
+    ...UserDeclarations,
+    ...AdminDeclarations,
     ListFilterPipe,
     TranslatePipe,
-    ...UserDeclarations,
     DialogErrorComponent
   ],
   imports: [
@@ -52,7 +53,7 @@ import { DialogErrorComponent } from './components/user/shared/dialog-error/dial
 
   ],
   providers: [
-    { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AccountService] },
+    // { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AccountService] },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],

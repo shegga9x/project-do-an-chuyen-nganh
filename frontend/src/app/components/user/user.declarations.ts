@@ -1,4 +1,4 @@
-import * as homeComponent from './../admin/pages/home/home.component';
+//  import * as homeComponent from './../admin/pages/home/home.component';
 import { ProfessorComponent } from './pages/professor/professor.component';
 import { HeaderComponent } from 'src/app/components/user/commons/header/header.component';
 import { FooterComponent } from 'src/app/components/user/commons/footer/footer.component';
@@ -14,7 +14,7 @@ import { ReportGradeComponent } from './pages/student/report-grade/report-grade.
 import { ReportSchoolFeesComponent } from './pages/student/report-school-fees/report-school-fees.component';
 import { TimeTableComponent } from './pages/student/time-table/time-table.component';
 import { StudentComponent } from './pages/student/student.component';
-import { CommonsComponent } from '../admin/commons/commons.component';
+// import { CommonsComponent } from '../admin/commons/commons.component';
 import { AutoImportAccountComponent } from '../admin/pages/auto-import-account/auto-import-account.component';
 import { AutoImportGradeComponent } from '../admin/pages/auto-import-grade/auto-import-grade.component';
 import { CloseCourseRegistComponent } from '../admin/pages/close-course-regist/close-course-regist.component';
@@ -30,18 +30,17 @@ import { ContactComponent } from './pages/commons/contact/contact.component';
 import { DeclareComponent } from './pages/commons/declare/declare.component';
 import { ListStudentTTBComponent } from './pages/commons/list-student-ttb/list-student-ttb.component';
 import { PageNotFoundComponent } from './pages/commons/page-not-found/page-not-found.component';
+import { HomeComponent } from './pages/commons/home/home.component';
 
 export const UserDeclarations = [
     ListStudentTTBComponent,
     ManageEntitesComponent,
-    CommonsComponent,
     PagesComponent,
-    CommonsComponent,
+    // CommonsComponent,
     SharedComponent,
     CloseCourseRegistComponent,
     AutoImportGradeComponent,
     AutoImportAccountComponent,
-    homeComponent.HomeComponent,
     StudentComponent,
     ProfessorComponent,
     CourseRegistComponent,
@@ -53,7 +52,7 @@ export const UserDeclarations = [
     HeaderComponent,
     FooterComponent,
     HeaderBarComponent,
-    homeComponent.HomeComponent,
+    // homeComponent.HomeComponent,
     ContactComponent,
     AboutUsComponent,
     AboutComponent,
@@ -63,5 +62,6 @@ export const UserDeclarations = [
     UserComponent,
     AdminComponent,
     DialogLoginComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    HomeComponent
 ]
