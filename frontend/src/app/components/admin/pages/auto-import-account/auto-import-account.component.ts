@@ -55,6 +55,4 @@ export class AutoImportAccountComponent implements OnInit {
       });
     }
   }
-
-
 }

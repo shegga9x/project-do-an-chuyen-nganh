@@ -122,6 +122,7 @@ public class AccountService {
             response.setRole(roles);
             response.jwtToken = jwtToken;
             response.refreshToken = refreshToken.getToken();
+            response.expireToken = refreshToken.getExpires();
             response = (AuthenticateResponse) SubUtils.mapperObject(account, response);
             return response;
         }
@@ -162,6 +163,7 @@ public class AccountService {
         response.role = roles;
         response.jwtToken = jwtToken;
         response.refreshToken = newRefreshToken.getToken();
+        response.expireToken = refreshToken.getExpires();
         response = (AuthenticateResponse) SubUtils.mapperObject(account, response);
         accountRepository.save(account);
         return response;

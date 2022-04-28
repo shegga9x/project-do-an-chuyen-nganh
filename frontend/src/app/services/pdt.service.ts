@@ -14,15 +14,21 @@ export class PDTService {
     addAccountFromExcel(listAccount: any) {
         return this.http.post(`${baseUrl}/add_Account_From_Excel`, listAccount);
     }
+
+    // addScoreFromExcel(listScoreRequest: any) {
+    //     return new Promise((resolve, rejects) => {
+    //         this.http.post(`${baseUrl}/add_Score_From_Excel`, listScoreRequest).subscribe({
+    //             next: (v) => resolve(v),
+    //             error: (e) => rejects(e),
+    //             complete: () => console.info('complete')
+    //         })
+    //     });
+    // }
+
     addScoreFromExcel(listScoreRequest: any) {
-        return new Promise((resolve, rejects) => {
-            this.http.post(`${baseUrl}/add_Score_From_Excel`, listScoreRequest).subscribe({
-                next: (v) => resolve(v),
-                error: (e) => rejects(e),
-                complete: () => console.info('complete')
-            })
-        });
+        return this.http.post(`${baseUrl}/add_Score_From_Excel`, listScoreRequest);
     }
+
     loadEntity(entityClass: string): Promise<any> {
         return new Promise((resolve) => {
             let params = { entityClass: entityClass };

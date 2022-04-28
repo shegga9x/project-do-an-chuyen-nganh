@@ -56,7 +56,7 @@ export class GeneralService {
     }
 
   }
-  excelReader(file: File,listFieldNameDefualt:string[]): Promise<any> {
+  excelReader(file: File, listFieldNameDefualt: string[]): Promise<any> {
     return new Promise((resolve) => {
       let reader: FileReader = new FileReader();
       reader.readAsBinaryString(file);
