@@ -1089,6 +1089,8 @@ WHERE  sp.ID_Student = '18130005'
 select *
 from Student
 
+select * from Refresh_Token
+
 select * from Course_Offering
 
 select * from ACCOUNT

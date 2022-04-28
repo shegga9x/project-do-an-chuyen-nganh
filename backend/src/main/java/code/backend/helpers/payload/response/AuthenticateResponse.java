@@ -15,6 +15,8 @@ public class AuthenticateResponse {
     public boolean isVerified;
     public String jwtToken;
 
+    public Date expireToken;
+
     public String refreshToken;
 
 

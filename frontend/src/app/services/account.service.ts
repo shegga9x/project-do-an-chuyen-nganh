@@ -37,6 +37,7 @@ export class AccountService {
         return account;
       }));
   }
+  
   loginWithJWT(token : string) {
     return this.http.post<any>(`${baseUrl}/authenticate-with-jwt`, token, { withCredentials: true })
       .pipe(map(account => {

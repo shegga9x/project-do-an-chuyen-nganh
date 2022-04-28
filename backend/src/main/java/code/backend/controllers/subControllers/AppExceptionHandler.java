@@ -11,7 +11,6 @@ import code.backend.helpers.advice.CustomException;
 import code.backend.helpers.payload.response.MessageResponse;
 
 /**
-<<<<<<< HEAD
  * AppExceptionHandler
  */
 @ControllerAdvice
