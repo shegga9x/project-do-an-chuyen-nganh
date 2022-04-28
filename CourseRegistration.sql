@@ -533,7 +533,7 @@ GO
 -- tạo function semester_Result	
 
 
-
+-- Semester + Sub_Pass
 CREATE FUNCTION get_Semester_Reuslt (@ID_Student nvarchar(50), @ID_Semester nvarchar(50))
 RETURNS TABLE
 AS
@@ -979,6 +979,9 @@ insert into front_Sub values(N'214331',N'214321')
 insert into front_Sub values(N'214441',N'214331')
 
 insert into Sub_Pass values('2021_1',N'214492',N'18130005',6.5,2.5,N'C')
+insert into Sub_Pass values('2021_1',N'208453',N'18130005',7.5,3,N'B')
+insert into Sub_Pass values('2021_2',N'214471',N'18130005',8,3.2,N'A')
+insert into Sub_Pass values('2021_2',N'214273',N'18130005',3.9,1.5,N'D')
 
 insert into semester_Result values('2020_2',N'18130005',6.37,2.23,4)
 insert into semester_Result values('2021_1',N'18130005',6.0,2.0,4)
@@ -1104,20 +1107,18 @@ select * from ACCOUNT
 -- WHERE st.ID_Semester = '2020_2'
 -- AND st.ID_Student = '18130005'
 
-
-select *
-from Sub_Pass
-where ID_Semester = '2018_1'
-ORDER BY ID_Student
 select *
 from Final_Result
+
 select *
 from semester_Result
-where ID_Semester = '2018_1'
 ORDER BY ID_Student
+
 SELECT *
 FROM Sub_Pass sp
 WHERE  sp.ID_Student = '18130005'
+ORDER BY ID_Semester
+
 select *
 from Student
 
@@ -1136,6 +1137,7 @@ select * from Student
 select * from Role;
 
 select * from get_Semester_Reuslt('18130005','2021_1')
+select * from get_Semester_Reuslt('18130005','2021_2')
 
 select * from student_schedule where ID_Student ='18130005'
 
