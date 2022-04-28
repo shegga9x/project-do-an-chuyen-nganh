@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AccountService } from 'src/app/services';
 
 @Component({
   selector: 'app-header-bar',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header-bar.component.scss']
 })
 export class HeaderBarComponent implements OnInit {
-
-  constructor() { }
+  account: any;
+  constructor(private accountService: AccountService) { }
 
   ngOnInit(): void {
+    this.account = this.accountService.accountValue;
   }
 
 }

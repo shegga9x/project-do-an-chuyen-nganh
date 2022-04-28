@@ -1,0 +1,59 @@
+<section class="final-early-result">
+    <div class="container">
+        <h3>Bảng điểm thi cuối kỳ</h3>
+
+        <div class="final-result" *ngIf="finish">
+            <label for="cars">Chọn 1 entity : </label>
+            <br>
+            <select [(ngModel)]="entityClass" (change)="onSelectEntityClass()">
+                <option *ngFor="let entitiesName of entityLoadReponse.listEntitiesName" [value]="entitiesName" [selected]="entityClass == entitiesName">{{ entitiesName }}</option>
+            </select>
+            <label for="errorLabel" *ngIf="error != ''" style="color: #D8000C">{{ error }} </label>
+            <input class="form-control ml-2" type="text" name="searchTerm" [(ngModel)]="searchTerm" />
+            <table>
+                <tr>
+                    <th></th>
+                    <th *ngFor="let entitiesVariableAfter of entityLoadReponse.listEntitiesVariableAfter">{{ entitiesVariableAfter }}</th>
+                </tr>
+                <tr>
+                    <td><button (click)="onChangeValue(-1,0)">save</button></td>
+
+                    <td *ngFor="let entitiesVariableAfter of entityLoadReponse.listEntitiesVariableAfter;let i = index">
+                        <input [id]="entitiesVariableAfter+-1" *ngIf="i < entityLoadReponse.keyCount;else else1TemplateName " [attr.readonly]="'readonly'" [type]="entityLoadReponse.listEntityJavaType[entitiesVariableAfter]" >
+                        <ng-template #else1TemplateName>
+                            <select [id]="entitiesVariableAfter+-1" *ngIf="linkEntityFieldName.includes(entitiesVariableAfter) && entityLoadReponse.listLinkedEntity[entitiesVariableAfter].length >0 ;else elseTemplateName ">
+                                <option *ngFor="let linkedEntity of entityLoadReponse.listLinkedEntity[entitiesVariableAfter]" [value]="linkedEntity">{{ linkedEntity }}</option>
+                            </select>
+                        </ng-template>
+                        <ng-template #elseTemplateName>
+                            <input #checked [id]="entitiesVariableAfter+-1" *ngIf="entityLoadReponse.listEntityJavaType[entitiesVariableAfter] == 'checkbox'" [type]="entityLoadReponse.listEntityJavaType[entitiesVariableAfter]" [value]="!checked.checked">
+                            <input [id]=" entitiesVariableAfter+-1" *ngIf="entityLoadReponse.listEntityJavaType[entitiesVariableAfter] != 'date' && entityLoadReponse.listEntityJavaType[entitiesVariableAfter] != 'checkbox'" [type]="entityLoadReponse.listEntityJavaType[entitiesVariableAfter]">
+                            <input [id]="entitiesVariableAfter+-1" *ngIf="entityLoadReponse.listEntityJavaType[entitiesVariableAfter] == 'date' && entityLoadReponse.listEntityJavaType[entitiesVariableAfter] != 'checkbox'" [type]="entityLoadReponse.listEntityJavaType[entitiesVariableAfter]">
+                        </ng-template>
+
+                    </td>
+                </tr>
+                <tr *ngFor="let item of listRecord| listFilter: searchTerm : entityLoadReponse.listEntitiesVariableAfter;let i2 = index ">
+                    <td><input type="checkbox" #checked (change)="listCheckAdd(i2)" [checked]="this.listRequest.get(i2) != null"></td>
+                    <td *ngFor="let entitiesVariableAfter of entityLoadReponse.listEntitiesVariableAfter;let i = index">
+                        <input [id]="entitiesVariableAfter+i2" *ngIf="i < entityLoadReponse.keyCount;else else1TemplateName " [attr.readonly]="'readonly'" [type]="entityLoadReponse.listEntityJavaType[entitiesVariableAfter]" [value]=" item[entitiesVariableAfter] ">
+                        <ng-template #else1TemplateName>
+                            <select (change)="onChangeValue(i2,entitiesVariableAfter+i2)" [id]="entitiesVariableAfter+i2" *ngIf="linkEntityFieldName.includes(entitiesVariableAfter) && entityLoadReponse.listLinkedEntity[entitiesVariableAfter].length >0 ;else elseTemplateName ">
+                                <option *ngFor="let linkedEntity of entityLoadReponse.listLinkedEntity[entitiesVariableAfter]" [value]="linkedEntity" [selected]="entityLoadReponse.record[entitiesVariableAfter][i2]==linkedEntity ">{{ linkedEntity }}</option>
+                            </select>
+                        </ng-template>
+                        <ng-template #elseTemplateName>
+                            <input [id]="entitiesVariableAfter+i2" #checked (change)="onChangeValue(i2,entitiesVariableAfter+i2)" *ngIf="entityLoadReponse.listEntityJavaType[entitiesVariableAfter] == 'checkbox'" [type]="entityLoadReponse.listEntityJavaType[entitiesVariableAfter]" [checked]="entityLoadReponse.record[entitiesVariableAfter][i2] " [value]="!checked.checked">
+                            <input [id]=" entitiesVariableAfter+i2" (input)="inputFn($event, i2)" #myInput *ngIf="entityLoadReponse.listEntityJavaType[entitiesVariableAfter] != 'date' && entityLoadReponse.listEntityJavaType[entitiesVariableAfter] != 'checkbox'" [type]="entityLoadReponse.listEntityJavaType[entitiesVariableAfter]" [value]=" item[entitiesVariableAfter]">
+                            <input [id]="entitiesVariableAfter+i2" (input)="inputFn($event, i2)" #myInput *ngIf="entityLoadReponse.listEntityJavaType[entitiesVariableAfter] == 'date' && entityLoadReponse.listEntityJavaType[entitiesVariableAfter] != 'checkbox'" [type]="entityLoadReponse.listEntityJavaType[entitiesVariableAfter]" [value]=" item[entitiesVariableAfter]  | date:'yyyy-MM-dd'">
+                        </ng-template>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+
+        <button type="button" class="result-buttion" (click)="deleteSubmit()">Delete</button>
+
+    </div>
+</section>

@@ -1,0 +1,26 @@
+function
+1 Đăng Nhập 
+2 Đăng Ký học phần sinh viên 
+3 Đăng Ký lớp giáo viên 
+4 Thêm điểm 
+5 Xem điểm 
+6 Xem thời khóa biểu 
+7 Xem Lịch Thi 
+8 Xem Học Phí 
+9 Xem Thông Tin Giáo viên 
+10 Kết Thúc Đăng Ký 
+11 Thêm Học Viên Tự Động 
+12 Thông báo
+13 Quên Mật Khẩu
+14 Tra cứu thông tin tốt nghiệp
+15 Quản Lý entities
+
+
+
+1 Use Case
+2 Activity diagrams
+3 Sequence diagrams
+4 Class diagram
+5 Database design
+6 thiết kế giao diện
+7 Đặc tả bổ sung

@@ -66,6 +66,9 @@ public class Schedule implements Serializable {
     @OneToMany(mappedBy = "schedule")
     private List<StudentSchedule> listOfStudentSchedule;
 
+    @OneToMany(mappedBy = "schedule")
+    private List<DateExam> listOfDateExam;
+
     @ManyToOne
     @JoinColumn(name = "ID_Course_Offering", referencedColumnName = "ID_Course_Offering", insertable = false, updatable = false)
     private CourseOffering courseOffering;
@@ -181,6 +184,14 @@ public class Schedule implements Serializable {
 
     public Professor getProfessor() {
         return this.professor;
+    }
+
+    public List<DateExam> getListOfDateExam() {
+        return this.listOfDateExam;
+    }
+
+    public void setListOfDateExam(List<DateExam> listOfDateExam) {
+        this.listOfDateExam = listOfDateExam;
     }
 
     // --- toString specific method

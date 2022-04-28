@@ -16,131 +16,146 @@ import javax.persistence.*;
  *
  */
 @Entity
-@Table(name="Semester", schema="dbo", catalog="Course_Registration" )
+@Table(name = "Semester", schema = "dbo", catalog = "Course_Registration")
 public class Semester implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    //--- ENTITY PRIMARY KEY 
+    // --- ENTITY PRIMARY KEY
     @Id
-    @Column(name="ID_Semester", nullable=false, length=50)
-    private String     idSemester ;
+    @Column(name = "ID_Semester", nullable = false, length = 50)
+    private String idSemester;
 
-    //--- ENTITY DATA FIELDS 
+    // --- ENTITY DATA FIELDS
     @Temporal(TemporalType.DATE)
-    @Column(name="start_Date", nullable=false)
-    private Date       startDate ;
+    @Column(name = "start_Date", nullable = false)
+    private Date startDate;
 
     @Temporal(TemporalType.DATE)
-    @Column(name="end_Date", nullable=false)
-    private Date       endDate ;
+    @Column(name = "end_Date", nullable = false)
+    private Date endDate;
 
-    @Column(name="years")
-    private Short      years ;
+    @Column(name = "years")
+    private Short years;
 
-    @Column(name="number_S", nullable=false)
-    private Short      numberS ;
+    @Column(name = "number_S", nullable = false)
+    private Short numberS;
 
+    // --- ENTITY LINKS ( RELATIONSHIP )
 
-    //--- ENTITY LINKS ( RELATIONSHIP )
-    @OneToMany(mappedBy="semester")
-    private List<SemesterResult> listOfSemesterResult ; 
+    @OneToMany(mappedBy = "semester")
+    private List<DateExam> listOfDateExam;
 
-    @OneToMany(mappedBy="semester")
-    private List<SubPass> listOfSubPass ; 
+    @OneToMany(mappedBy = "semester")
+    private List<SemesterResult> listOfSemesterResult;
 
-    @OneToMany(mappedBy="semester")
-    private List<ProfessorSchedule> listOfProfessorSchedule ; 
+    @OneToMany(mappedBy = "semester")
+    private List<SubPass> listOfSubPass;
 
-    @OneToMany(mappedBy="semester")
-    private List<StudentSchedule> listOfStudentSchedule ; 
+    @OneToMany(mappedBy = "semester")
+    private List<ProfessorSchedule> listOfProfessorSchedule;
 
-    @OneToMany(mappedBy="semester")
-    private List<StudentScheduleF> listOfStudentScheduleF ; 
+    @OneToMany(mappedBy = "semester")
+    private List<StudentSchedule> listOfStudentSchedule;
 
-    @OneToMany(mappedBy="semester")
-    private List<BillingSystem> listOfBillingSystem ; 
+    @OneToMany(mappedBy = "semester")
+    private List<StudentScheduleF> listOfStudentScheduleF;
 
-    @OneToOne(mappedBy="semester")
-    private TimeForCourseRegister timeForCourseRegister ; 
+    @OneToMany(mappedBy = "semester")
+    private List<BillingSystem> listOfBillingSystem;
 
+    @OneToOne(mappedBy = "semester")
+    private TimeForCourseRegister timeForCourseRegister;
 
     /**
      * Constructor
      */
     public Semester() {
-		super();
+        super();
     }
-    
-    //--- GETTERS & SETTERS FOR FIELDS
-    public void setIdSemester( String idSemester ) {
-        this.idSemester = idSemester ;
+
+    // --- GETTERS & SETTERS FOR FIELDS
+    public void setIdSemester(String idSemester) {
+        this.idSemester = idSemester;
     }
+
     public String getIdSemester() {
         return this.idSemester;
     }
 
-    public void setStartDate( Date startDate ) {
-        this.startDate = startDate ;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
+
     public Date getStartDate() {
         return this.startDate;
     }
 
-    public void setEndDate( Date endDate ) {
-        this.endDate = endDate ;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
+
     public Date getEndDate() {
         return this.endDate;
     }
 
-    public void setYears( Short years ) {
-        this.years = years ;
+    public void setYears(Short years) {
+        this.years = years;
     }
+
     public Short getYears() {
         return this.years;
     }
 
-    public void setNumberS( Short numberS ) {
-        this.numberS = numberS ;
+    public void setNumberS(Short numberS) {
+        this.numberS = numberS;
     }
+
     public Short getNumberS() {
         return this.numberS;
     }
 
-    //--- GETTERS FOR LINKS
+    // --- GETTERS FOR LINKS
     public List<SemesterResult> getListOfSemesterResult() {
         return this.listOfSemesterResult;
-    } 
+    }
 
     public List<SubPass> getListOfSubPass() {
         return this.listOfSubPass;
-    } 
+    }
 
     public List<ProfessorSchedule> getListOfProfessorSchedule() {
         return this.listOfProfessorSchedule;
-    } 
+    }
 
     public List<StudentSchedule> getListOfStudentSchedule() {
         return this.listOfStudentSchedule;
-    } 
+    }
 
     public List<StudentScheduleF> getListOfStudentScheduleF() {
         return this.listOfStudentScheduleF;
-    } 
+    }
 
     public List<BillingSystem> getListOfBillingSystem() {
         return this.listOfBillingSystem;
-    } 
+    }
 
     public TimeForCourseRegister getTimeForCourseRegister() {
         return this.timeForCourseRegister;
-    } 
+    }
 
-    //--- toString specific method
-	@Override
-    public String toString() { 
-        StringBuilder sb = new StringBuilder(); 
+    public List<DateExam> getListOfDateExam() {
+        return this.listOfDateExam;
+    }
+
+    public void setListOfDateExam(List<DateExam> listOfDateExam) {
+        this.listOfDateExam = listOfDateExam;
+    }
+
+    // --- toString specific method
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
         sb.append(idSemester);
         sb.append("|");
         sb.append(startDate);
@@ -150,7 +165,7 @@ public class Semester implements Serializable {
         sb.append(years);
         sb.append("|");
         sb.append(numberS);
-        return sb.toString(); 
-    } 
+        return sb.toString();
+    }
 
 }

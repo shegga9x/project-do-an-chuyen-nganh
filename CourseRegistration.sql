@@ -124,6 +124,7 @@ CREATE TABLE Professor
 (
   ID_Professor nvarchar(50) NOT NULL FOREIGN KEY REFERENCES ACCOUNT (ID_ACCOUNT) ON DELETE CASCADE,
   Professor_Name nvarchar(50) NOT NULL,
+  img_url VARCHAR  NOT NULL,
   -- mã khoa
   ID_Faculty nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Faculty (ID_Faculty),
   -- Khóa học của trường (VD DH18DTA thì khóa của trường là 18 vì mình nộp hồ sơ năm 2018)
@@ -269,11 +270,56 @@ CREATE TABLE Billing_System
   PRIMARY KEY (ID_Semester, ID_Student)
 )
 
+CREATE TABLE Date_Exam
+(
+	id int IDENTITY(1,1) PRIMARY KEY,
+	ID_Semester nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Semester (ID_Semester),
+	ID_Schedule nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Schedule (ID_Schedule),
+	group_Exam nvarchar(50) ,
+	seats smallint  not null,
+)
+
+
+CREATE TABLE Course_Progress
+(
+	id int IDENTITY(1,1) PRIMARY KEY,
+	ID_Faculty nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Faculty (ID_Faculty),
+	ID_Course nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Course (ID_Course),
+	-- nam hoc bat dau
+	number_year int,
+	optional BIT
+)
+
 -- function
+go
+-- lay ra ctdt va check da hoc qua chua
+create FUNCTION get_Course_Progress_Table_ST (@ID_ACCOUNT varchar(50))
+RETURNS TABLE
+AS
+  RETURN
+  SELECT cp.*, 
+  CASE WHEN cp.ID_Course in (select sp.ID_Course from Sub_Pass sp where sp.ID_Student = @ID_ACCOUNT and sp.Score >= 4) THEN 1 ELSE 0 END AS Pass
+  from Course_Progress cp
+GO
+
+-- Thời khóa biểu cho giáo viên
+CREATE FUNCTION Time_Table_Pr (@ID_Professor varchar(50),@ID_Semester varchar(50))
+RETURNS TABLE
+AS
+  RETURN
+  SELECT sd.*
+FROM Schedule sd JOIN
+  Course_Offering co ON sd.ID_Course_Offering = co.ID_Course_Offering JOIN
+  Professor_Schedule prc ON prc.ID_Schedule = sd.ID_Schedule
+WHERE prc.ID_Professor = @ID_Professor
+  AND sd.ID_Schedule >= 0
+  AND prc.ID_Semester = @ID_Semester
+
+
 
 GO
 -- thời khóa biểu có học sinh , thời khóa biểu của giáo viên chỉ cần gọi schdule
-CREATE FUNCTION Time_Table_St (@ID_ACCOUNT varchar(50))
+CREATE FUNCTION Time_Table_St (@ID_ACCOUNT varchar(50),@ID_Semester varchar(50))
 RETURNS TABLE
 AS
   RETURN
@@ -283,12 +329,23 @@ FROM Schedule sd JOIN
 	  Course_Offering co ON sd.ID_Course_Offering = co.ID_Course_Offering JOIN
 	  Student_Schedule stc ON stc.ID_Schedule = sd.ID_Schedule
 WHERE stc.ID_Student = @ID_ACCOUNT
-  AND stc.ID_Semester IN (SELECT
-    ID_Semester
-  FROM Semester
-  WHERE GETDATE() BETWEEN start_Date AND end_Date)
+  AND sd.ID_Schedule >= 0
+  AND stc.ID_Semester = @ID_Semester
 
 GO
+
+-- Xem lich thi cua hoc sinh
+CREATE FUNCTION Date_Exam_ST (@ID_ACCOUNT varchar(50),@ID_Semester varchar(50))
+RETURNS TABLE
+AS
+  RETURN
+  SELECT de.* FROM Date_Exam de 
+  where de.ID_Schedule in (select ID_Schedule from Schedule where ID_Course_Offering in  (select tts.ID_Course_Offering FROM Time_Table_St (@ID_ACCOUNT,@ID_Semester ) tts) )
+  and de.ID_Semester = @ID_Semester
+GO
+
+
+go
 
 CREATE FUNCTION sub_Passed (@ID_Course_B nvarchar(50), @ID_ACCOUNT nvarchar(50))
 RETURNS nvarchar(50)
@@ -325,51 +382,31 @@ FROM Course_Offering co JOIN
   Course c ON c.ID_Course = co.ID_Course JOIN
   Schedule sc ON sc.ID_Course_Offering = co.ID_Course_Offering
 
-WHERE c.ID_Faculty =
-                      CASE
-                        WHEN c.ID_Faculty IS NULL THEN c.ID_Faculty
-                        ELSE (SELECT
-    ID_Faculty
-  FROM Student
-  WHERE ID_Student = @ID_ACCOUNT)
-                      END
-  AND c.years =
-               CASE
-                 WHEN c.years IS NULL THEN c.years
-                 ELSE (SELECT
-    (YEAR(GETDATE()) - YEAR(Create_date))
-  FROM Student
-  WHERE ID_Student = @ID_ACCOUNT)
-               END
-  AND c.number_S =
-                  CASE
-                    WHEN c.number_S = 0 THEN c.number_S
-                    ELSE (SELECT
-    number_S
-  FROM Semester
-  WHERE ID_Semester IN (SELECT
-    ID_Semester
-  FROM Semester
-  WHERE GETDATE() BETWEEN start_Date AND end_Date))
-                  END
-  AND c.ID_Course =
-                   CASE
-                     WHEN (SELECT
-    ID_Course_B
-  FROM front_Sub
-  WHERE ID_Course_B = c.ID_Course)
-                       IS NULL THEN c.ID_Course
-                     WHEN [dbo].sub_Passed(c.ID_Course, @ID_ACCOUNT) IS NULL THEN NULL
-                     ELSE [dbo].sub_Passed(c.ID_Course, @ID_ACCOUNT)
-                   END
-  AND CAST(SUBSTRING(co.Clazz_code,3,2) AS int) = (( YEAR( GETDATE() ) % 100 )) + 1 - (c.number_S - 1) - c.years
-
-
-  
+WHERE c.ID_Faculty =CASE WHEN c.ID_Faculty IS NULL THEN c.ID_Faculty 
+			ELSE (SELECT ID_Faculty
+					FROM Student
+					WHERE ID_Student = @ID_ACCOUNT) END
+		AND sc.ID_Schedule >=0 
+		AND c.years = CASE WHEN c.years IS NULL THEN c.years 
+			ELSE (SELECT (YEAR(GETDATE()) - YEAR(Create_date))
+				FROM Student
+				WHERE ID_Student = @ID_ACCOUNT) END
+		AND c.number_S = CASE WHEN c.number_S = 0 THEN c.number_S
+			ELSE (SELECT number_S
+				FROM Semester
+				WHERE ID_Semester IN (SELECT ID_Semester
+										FROM Semester
+										WHERE GETDATE() BETWEEN start_Date AND end_Date)) END
+		AND c.ID_Course =CASE WHEN (SELECT ID_Course_B
+									FROM front_Sub
+									WHERE ID_Course_B = c.ID_Course) IS NULL THEN c.ID_Course
+									WHEN [dbo].sub_Passed(c.ID_Course, @ID_ACCOUNT) IS NULL THEN NULL
+									ELSE [dbo].sub_Passed(c.ID_Course, @ID_ACCOUNT) END
+		AND CAST(SUBSTRING(co.Clazz_code,3,2) AS int) = (( YEAR( GETDATE() ) % 100 )) + 1 - (c.number_S - 1) - c.years
 GO
 
 select * from ACCOUNT
-select * from Sub_Available_ST('18130077');
+select * from Sub_Available_ST('18130005');
 
 -- bảng này là bảng check khi nhấn vào ô chọn môn học nếu trùng giờ trùng ngày , trùng môn nếu rỗng thì ko đk được
 GO
@@ -433,22 +470,6 @@ FROM Schedule sc JOIN
   Course_Offering co ON co.ID_Course_Offering = sc.ID_Course_Offering JOIN
   Course c ON c.ID_Course = co.ID_Course
 WHERE prc.ID_Professor = @ID_ACCOUNT
-  AND prc.ID_Semester IN (SELECT
-    ID_Semester
-  FROM Semester
-  WHERE GETDATE() BETWEEN start_Date AND end_Date)
-GO
-
--- Thời khóa biểu cho giáo viên
-CREATE FUNCTION Time_Table_Pr (@ID_Professor varchar(50))
-RETURNS TABLE
-AS
-  RETURN
-  SELECT sd.*
-FROM Schedule sd JOIN
-  Course_Offering co ON sd.ID_Course_Offering = co.ID_Course_Offering JOIN
-  Professor_Schedule prc ON prc.ID_Schedule = sd.ID_Schedule
-WHERE prc.ID_Professor = @ID_Professor
   AND prc.ID_Semester IN (SELECT
     ID_Semester
   FROM Semester
@@ -683,14 +704,14 @@ insert into Student Values(N'20130006',N'Nguyễn Văn S','DT','20/10/2020',N'DH
 insert into Student Values(N'20130007',N'Nguyễn Văn S','DT','20/10/2020',N'DH20DTA',136,0)
 
 -- insert into Professor
-insert into Professor Values(N'224',N'A','DT','20/10/2000',N'Tiến Sĩ')
-insert into Professor Values(N'225',N'B','DT','20/10/2000',N'Thạc Sĩ')
-insert into Professor Values(N'226',N'C','DT','20/10/2000',N'thạc Sĩ')
-insert into Professor Values(N'227',N'D','DT','20/10/2000',N'Phó Giáo sư')
-insert into Professor Values(N'228',N'E','DT','20/10/2000',N'Tiến Sĩ')
-insert into Professor Values(N'229',N'F','DT','20/10/2000',N'Tiến Sĩ')
-insert into Professor Values(N'220',N'G','DT','20/10/2000',N'Tiến Sĩ')
-insert into Professor Values(N'300',N'Van ANh','NH','20/10/2000',N'Tiến Sĩ');
+insert into Professor Values(N'224',N'A','','DT','20/10/2000',N'Tiến Sĩ')
+insert into Professor Values(N'225',N'B','','DT','20/10/2000',N'Thạc Sĩ')
+insert into Professor Values(N'226',N'C','','DT','20/10/2000',N'thạc Sĩ')
+insert into Professor Values(N'227',N'D','','DT','20/10/2000',N'Phó Giáo sư')
+insert into Professor Values(N'228',N'E','','DT','20/10/2000',N'Tiến Sĩ')
+insert into Professor Values(N'229',N'F','','DT','20/10/2000',N'Tiến Sĩ')
+insert into Professor Values(N'220',N'G','','DT','20/10/2000',N'Tiến Sĩ')
+insert into Professor Values(N'300',N'Van ANh','','NH','20/10/2000',N'Tiến Sĩ');
 
 -- insert into Semester
 insert into Semester Values(N'2018_1','1/9/2018','31/1/2019',2018,1)
@@ -963,6 +984,17 @@ insert into semester_Result values('2020_2',N'18130005',6.37,2.23,4)
 insert into semester_Result values('2021_1',N'18130005',6.0,2.0,4)
 insert into semester_Result values('2021_2',N'18130005',7.6,2.5,16)
 
+-- insert into date_exam
+
+insert into Schedule values(N'-1',N'52',null,'TH',2,'20/10/2021','10/12/2021',N'Máy 1',4,10)
+insert into Schedule values(N'-2',N'52',null,'LT',2,'20/10/2021','10/12/2021',N'Rạng Đông',3,10)
+
+insert into Date_Exam values (N'2021_2',N'-1','nhom1',40);
+insert into Date_Exam values (N'2021_2',N'-2','nhom1',40);
+
+
+
+
 --test 
 
 select * from ACCOUNT
@@ -1116,5 +1148,6 @@ select * from Student_Schedule_F;
 delete from Student_Schedule_F;
 
 select * from Faculty
+select * from  Date_Exam_ST ('18130005','2021_2')
 
 --delete from Clazz

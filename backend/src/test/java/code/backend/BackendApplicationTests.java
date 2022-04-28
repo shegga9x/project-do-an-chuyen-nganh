@@ -20,9 +20,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import code.backend.helpers.payload.dto.CourseDTO;
-import code.backend.helpers.payload.dto.CourseOfferingDTO;
-import code.backend.helpers.payload.dto.ScheduleDTO;
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
 import code.backend.helpers.payload.response.CourseRegisterFakeRespone;
 import code.backend.helpers.payload.response.TimeTableResponse;
@@ -151,8 +148,8 @@ class BackendApplicationTests {
 			// new CourseDTO());
 			// listResult.add(new TimeTableResponse(scheduleDTO, courseOfferingDTO,
 			// courseDTO));
-			// System.out.println(Arrays.toString(arr));
-			// System.out.println(Arrays.deepToString(arr));
+			System.out.println(Arrays.toString(arr));
+			System.out.println(Arrays.deepToString(arr));
 		}
 		listResult.forEach(System.out::println);
 	}

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PageNotFoundComponent } from './components/user/pages/commons/page-not-found/page-not-found.component';
 //component
-import { PageNotFoundComponent } from './components/user/pages/page-not-found/page-not-found.component';
 
 const userModule = () => import('src/app/components/user/user.model').then(x => x.userModule)
 

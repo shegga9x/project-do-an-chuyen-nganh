@@ -2,7 +2,7 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatTabsModule } from '@angular/material/tabs';
 import { AppRoutingModule } from './app-routing.module';
 import { appInitializer, ErrorInterceptor, JwtInterceptor } from 'src/app/helpers';
 import { AccountService } from 'src/app/services';
@@ -26,6 +26,8 @@ import { UserDeclarations } from './components/user/user.declarations';
 import { ListFilterPipe } from './pipe/listFilter-pipe';
 import { TranslatePipe } from './pipe/translate-pipe';
 import { DialogErrorComponent } from './components/user/shared/dialog-error/dialog-error.component';
+
+
 
 @NgModule({
   declarations: [

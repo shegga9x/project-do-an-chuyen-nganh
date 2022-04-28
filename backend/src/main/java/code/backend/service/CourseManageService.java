@@ -15,11 +15,14 @@ import code.backend.helpers.advice.CustomException;
 import code.backend.helpers.payload.dto.ClazzDTO;
 import code.backend.helpers.payload.dto.CourseDTO;
 import code.backend.helpers.payload.dto.CourseOfferingDTO;
+import code.backend.helpers.payload.dto.DateExamDTO;
 import code.backend.helpers.payload.dto.FacultyDTO;
 import code.backend.helpers.payload.dto.ProfessorDTO;
 import code.backend.helpers.payload.dto.ScheduleDTO;
+import code.backend.helpers.payload.dto.SemesterDTO;
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
 import code.backend.helpers.payload.response.CourseRegisterFakeRespone;
+import code.backend.helpers.payload.response.DateExamResponse;
 import code.backend.helpers.payload.response.MessageResponse;
 import code.backend.helpers.payload.response.StudentBySubjectResponse;
 import code.backend.helpers.payload.response.SubAvailableRespone;
@@ -29,6 +32,7 @@ import code.backend.persitence.entities.CourseOffering;
 import code.backend.persitence.entities.ProfessorSchedule;
 import code.backend.persitence.entities.ProfessorScheduleId;
 import code.backend.persitence.entities.Schedule;
+import code.backend.persitence.entities.Semester;
 import code.backend.persitence.entities.Student;
 import code.backend.persitence.entities.StudentSchedule;
 import code.backend.persitence.entities.StudentScheduleF;
@@ -211,7 +215,8 @@ public class CourseManageService {
     }
 
     public List<TimeTableResponse> get_Time_Table_ST(String idACCOUNT) {
-        List<String> listParam = Arrays.asList(idACCOUNT);
+        List<String> listParam = Arrays.asList(idACCOUNT, semesterRepository.getCurrentSemester().getIdSemester());
+        System.out.println(listParam);
         List<String[]> columns = entityService.getFunctionResult("Time_Table_St", listParam);
         List<TimeTableResponse> listResult = new ArrayList<>();
         for (String[] arr : columns) {
@@ -292,9 +297,9 @@ public class CourseManageService {
     }
 
     // lấy danh sách môn GV đã dk
-    public Set<CourseRegisterFakeRespone> get_Course_Registe_Fake_Professor(String idProfessor) {
+    public Set<CourseRegisterFakeRespone> get_Course_Registe_Professor(String idProfessor) {
         String semesterID = semesterRepository.getCurrentSemester().getIdSemester();
-        Set<CourseRegisterFakeRespone> listCourseRegisterFakeRespone = new HashSet<>();
+        Set<CourseRegisterFakeRespone> listCourse = new HashSet<>();
         List<ProfessorSchedule> listSchedule = professorScheduleRepository
                 .findByIdSemesterAndIdProfessor(semesterID, idProfessor);
         for (ProfessorSchedule s : listSchedule) {
@@ -309,13 +314,13 @@ public class CourseManageService {
                 status = "Đã lưu vào CSDL";
             }
             courseRegisterFakeRespone.setStatus(status);
-            listCourseRegisterFakeRespone.add(courseRegisterFakeRespone);
+            listCourse.add(courseRegisterFakeRespone);
         }
-        return listCourseRegisterFakeRespone;
+        return listCourse;
     }
 
     // xóa những môn GV đã đăng ký
-    public MessageResponse delete_Course_Register_For_Professor(List<String> listIdCourse) {
+    public MessageResponse delete_Course_Register_Professor(List<String> listIdCourse) {
         String semesterID = semesterRepository.getCurrentSemester().getIdSemester();
         String userID = SubUtils.getCurrentUser().getId();
         List<ProfessorSchedule> listSubject = new ArrayList<>();
@@ -349,7 +354,7 @@ public class CourseManageService {
 
     // lấy thời khóa biểu của GV
     public List<TimeTableResponse> get_Time_Table_Professor(String idACCOUNT) {
-        List<String> listParam = Arrays.asList(idACCOUNT);
+        List<String> listParam = Arrays.asList(idACCOUNT, semesterRepository.getCurrentSemester().getIdSemester());
         List<String[]> columns = entityService.getFunctionResult("Time_Table_Pr", listParam);
         List<TimeTableResponse> listResult = new ArrayList<>();
         for (String[] arr : columns) {
@@ -364,5 +369,29 @@ public class CourseManageService {
         }
         // System.out.println(listResult);
         return listResult;
+    }
+
+    public DateExamResponse get_Date_Exam_ST(String idACCOUNT, String iDSemester) {
+        List<String> listParam = Arrays.asList(idACCOUNT,
+                iDSemester.equals("") ? semesterRepository.getCurrentSemester().getIdSemester() : iDSemester);
+        List<DateExamDTO> dateExamDTOs = new ArrayList<>();
+        List<SemesterDTO> semesterDTOs = new ArrayList<>();
+        List<String[]> columns = entityService.getFunctionResult("Date_Exam_ST", listParam);
+        for (String[] arr : columns) {
+            Schedule schedule = scheduleRepository.findById(arr[2]).get();
+            ScheduleDTO scheduleDTO = (ScheduleDTO) SubUtils.mapperObject(schedule, new ScheduleDTO());
+            CourseOfferingDTO courseOfferingDTO = (CourseOfferingDTO) SubUtils
+                    .mapperObject(schedule.getCourseOffering(), new CourseOfferingDTO());
+            CourseDTO courseDTO = (CourseDTO) SubUtils.mapperObject(schedule.getCourseOffering().getCourse(),
+                    new CourseDTO());
+            DateExamDTO dateExamDTO = new DateExamDTO(Integer.parseInt(arr[0]), arr[1], arr[2], arr[3],
+                    Short.valueOf(arr[4]),
+                    scheduleDTO, courseOfferingDTO, courseDTO);
+            dateExamDTOs.add(dateExamDTO);
+        }
+        for (Semester semester : semesterRepository.findAll()) {
+            semesterDTOs.add((SemesterDTO) SubUtils.mapperObject(semester, new SemesterDTO()));
+        }
+        return new DateExamResponse(semesterDTOs, dateExamDTOs);
     }
 }
