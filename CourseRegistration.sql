@@ -158,7 +158,7 @@ CREATE TABLE Course
   -- số chứng chỉ học phần (cao nhất là 4 nên để tinyint)	
   Course_certificate tinyint NOT NULL,
   -- học viên năm bao nhiêu có thể học
-  years int ,
+  years int,
   -- học kì cố định có môn này sẽ mở nếu/ hk sẽ là 1, 2  / nếu ko thì sẽ là null
   number_S smallint
     PRIMARY KEY (ID_Course)
