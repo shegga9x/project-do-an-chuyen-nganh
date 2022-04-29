@@ -66,21 +66,21 @@ class BackendApplicationTests {
 	@Autowired
 	ProfessorScheduleRepository professorScheduleRepository;
 
-	@Test
-	@Transactional
-	void test1() {
-		List<String> listParam = Arrays.asList("18130005", "2021_1");
+	// @Test
+	// @Transactional
+	// void test1() {
+	// 	List<String> listParam = Arrays.asList("18130005", "2021_1");
 
-		List<String[]> columns = entityService.getFunctionResult("get_Semester_Reuslt", listParam);
+	// 	List<String[]> columns = entityService.getFunctionResult("get_Semester_Reuslt", listParam);
 
-		List<SemesterReusltDTO> listResult = new ArrayList<>();
-		for (String[] arr : columns) {
-			listResult.add(new SemesterReusltDTO(arr[0], arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]),
-					Double.parseDouble(arr[4])));
-		}
-		System.out.println(listResult);
+	// 	List<SemesterReusltDTO> listResult = new ArrayList<>();
+	// 	for (String[] arr : columns) {
+	// 		listResult.add(new SemesterReusltDTO(arr[0], arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]),
+	// 				Double.parseDouble(arr[4])));
+	// 	}
+	// 	System.out.println(listResult);
 
-	}
+	// }
 
 	@Test
 	@Transactional
@@ -302,6 +302,38 @@ class BackendApplicationTests {
 	void test11() {
 		int khoa = Calendar.getInstance().get(Calendar.YEAR) % 100;
 		System.out.println(khoa);
+	}
+
+	@Transactional
+	@Test
+	void test12() {
+
+		List<String> listParam = Arrays.asList("18130005");
+
+		List<String[]> columns = entityService.getFunctionResult("get_ID_Semester", listParam);
+
+		for (String[] arr : columns) {
+			// listResult.add(new SemesterReusltDTO(arr[0], arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]),
+			// 		Double.parseDouble(arr[4])));
+			System.out.println(arr[0]);
+		}
+
+	}
+
+	@Transactional
+	@Test
+	void test13() {
+
+		List<String> listParam = Arrays.asList("18130005");
+
+		List<String[]> columns = entityService.getFunctionResult("get_ID_Semester", listParam);
+
+		for (String[] arr : columns) {
+			// listResult.add(new SemesterReusltDTO(arr[0], arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]),
+			// 		Double.parseDouble(arr[4])));
+			System.out.println(arr[0]);
+		}
+
 	}
 
 }

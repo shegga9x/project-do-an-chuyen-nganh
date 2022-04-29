@@ -24,13 +24,6 @@ export class CourseManageService {
     });
   }
 
-  getSemesterReusltRegist() {
-    let params = { idStudent: '18130005', idSemester: '2021_1' };
-    return this.http.get(`${baseUrl}/get_semester_reuslt/`, {
-      params: params,
-    });
-  }
-
   submitCourseRegisterFake(idCourseOffering: string) {
     return this.http.post(`${baseUrl}/submit_course_register_fake`,
       idCourseOffering
@@ -92,6 +85,21 @@ export class CourseManageService {
   getTimeTablePRRegist() {
     let params = { idACCOUNT: this.accountService.accountValue?.idAccount as string };
     return this.http.get(`${baseUrl}/get_time_table_professor/`, {
+      params: params,
+    });
+  }
+
+  // Xem điểm cuối kì của ST
+  getIDSemesterST() {
+    let params = { idACCOUNT: this.accountService.accountValue?.idAccount as string };
+    return this.http.get(`${baseUrl}/get_id_semester/`, {
+      params: params,
+    });
+  }
+
+  getSemesterReusltRegist() {
+    let params = { idStudent: this.accountService.accountValue?.idAccount as string };
+    return this.http.get(`${baseUrl}/get_semester_reuslt/`, {
       params: params,
     });
   }

@@ -1,1 +1,68 @@
-<p>report-grade works!</p>
+<section class="aca-event text-center">
+    <div class="container">
+        <div class="fixTableHead">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width:50px">STT</th>
+                        <th style="width:150px">Mã MH</th>
+                        <th style="width:300px">Tên môn học</th>
+                        <th style="width:50px">STC</th>
+                        <th style="width:50px">% KT</th>
+                        <th style="width:50px">% Thi</th>
+                        <th style="width:50px">Thi L1</th>
+                        <th style="width:50px">Thi L2</th>
+                        <th style="width:50px">TK(10)</th>
+                        <th style="width:50px">TK(CH)</th>
+                    </tr>
+                    
+                </thead>
+            </table>
+
+            <ng-container *ngFor="let idSemester of listIDSemester;index as i">
+                <div style="background-color: #dbdbdb;width: 100% ;text-align: left; padding-left: 5px;">
+                    <a style="font-size: 14px;font-weight: bold;;">{{idSemester}}</a>
+                </div>
+                <table>
+                    <tbody>
+                        <tr *ngFor="let item of getSemesterResultsByID(idSemester);index as i2">
+                            <td style="width:45px">{{i2+1}}</td>
+                            <td style="width:140px">{{item.id_Course}}</td>
+                            <td style="width:280px">{{item.name_Course}}</td>
+                            <td style="width:50px">{{item.course_certificate}}</td>
+                            <td style="width:50px"></td>
+                            <td style="width:50px"></td>
+                            <td style="width:50px">{{item.score}}</td>
+                            <td style="width:50px"></td>
+                            <td style="width:50px">{{item.score}}</td>
+                            <td style="width:50px">{{item.rate}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Điểm trung bình học kỳ hệ 10/100:</td>
+                        </tr>
+                        <tr>
+                            <td>Điểm trung bình học kỳ hệ 4:</td>
+                        </tr>
+                        <tr>
+                            <td>Điểm trung bình tích lũy:</td>
+                        </tr>
+                        <tr>
+                            <td>Điểm trung bình tích lũy (hệ 4):</td>
+                        </tr>
+                        <tr>
+                            <td>Số tín chỉ đạt:</td>
+                        </tr>
+                        <tr>
+                            <td>Số tín chỉ tích lũy"</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ng-container>
+
+        </div>
+    </div>
+</section>

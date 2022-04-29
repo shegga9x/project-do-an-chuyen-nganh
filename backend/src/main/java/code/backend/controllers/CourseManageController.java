@@ -36,13 +36,6 @@ public class CourseManageController {
         return courseManageService.get_Sub_Available_ST(model);
     }
 
-    // @PreAuthorize("hasAnyRole('ROLE_Student','ROLE_Professor','ROLE_Admin')")
-    @GetMapping("/get_semester_reuslt")
-    public @ResponseBody List<SemesterReusltDTO> get_Semester_Reuslt(@RequestParam("idStudent") String idStudent,
-            @RequestParam("idSemester") String idSemester) {
-        return courseManageService.get_Semester_Reuslt(idStudent, idSemester);
-    }
-
     @GetMapping("/submit_course_regist")
     public @ResponseBody MessageResponse submit_Course_Regist() {
         return courseManageService.submit_Course_Regist();
@@ -96,8 +89,9 @@ public class CourseManageController {
         return courseManageService.delete_Course_Register_Professor(listIdCourse);
     }
 
+    // có cần @ResponseBod ko? get_time_table_st thì ko có?
     @GetMapping("/get_time_table_professor")
-    public List<TimeTableResponse> get_Time_Table_Professor(@RequestParam("idACCOUNT") String model) {
+    public @ResponseBody List<TimeTableResponse> get_Time_Table_Professor(@RequestParam("idACCOUNT") String model) {
         return courseManageService.get_Time_Table_Professor(model);
     }
 
@@ -105,5 +99,18 @@ public class CourseManageController {
     public DateExamResponse get_Date_Exam_ST(@RequestParam("idACCOUNT") String idACCOUNT,
             @RequestParam("ID_Semester") String iDSemester) {
         return courseManageService.get_Date_Exam_ST(idACCOUNT, iDSemester);
+    }
+
+    // xem điểm của ST
+    @GetMapping("/get_id_semester")
+    public @ResponseBody List<String> get_ID_Semester(@RequestParam("idACCOUNT") String model) {
+        return courseManageService.get_ID_Semester(model);
+    }
+
+    // xem điểm của ST
+    // @PreAuthorize("hasAnyRole('ROLE_Student','ROLE_Professor','ROLE_Admin')")
+    @GetMapping("/get_semester_reuslt")
+    public @ResponseBody List<SemesterReusltDTO> get_Semester_Reuslt(@RequestParam("idStudent") String idStudent) {
+        return courseManageService.get_Semester_Reuslt(idStudent);
     }
 }

@@ -1111,7 +1111,7 @@ select *
 from Final_Result
 
 select *
-from semester_Result
+from Semester_Result
 ORDER BY ID_Student
 
 SELECT *
@@ -1153,3 +1153,44 @@ select * from Faculty
 select * from  Date_Exam_ST ('18130005','2021_2')
 
 --delete from Clazz
+
+SELECT c.ID_Course,
+  c.Name_Course,
+  c.Course_certificate,
+  sp.Score,
+  sp.Score_System_4,
+  sp.Rated
+FROM Sub_Pass sp JOIN
+  Course c ON sp.ID_Course = c.ID_Course
+WHERE  sp.ID_Student = '18130005'
+ORDER BY ID_Semester
+
+GO
+-- Dùng để in ra ds điểm của hs theo từng ID_Semester
+CREATE FUNCTION get_ID_Semester (@ID_Student nvarchar(50))
+RETURNS TABLE
+AS
+  RETURN
+  SELECT DISTINCT sp.ID_Semester
+	FROM Sub_Pass sp
+	WHERE sp.ID_Student = @ID_Student
+GO
+SELECT * from get_ID_Semester('18130005')
+
+GO
+CREATE FUNCTION get_Semester_Result_ST (@ID_Student nvarchar(50))
+RETURNS TABLE
+AS
+RETURN
+  SELECT c.ID_Course,
+  c.Name_Course,
+  c.Course_certificate,
+  sp.Score,
+  sp.Score_System_4,
+  sp.ID_Semester,
+  sp.Rated
+FROM Sub_Pass sp JOIN
+  Course c ON sp.ID_Course = c.ID_Course
+WHERE  sp.ID_Student = @ID_Student
+GO
+SELECT * from get_Semester_Result_ST('18130005')

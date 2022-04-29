@@ -86,22 +86,6 @@ public class CourseManageService {
         return subAvailableRespones;
     }
 
-    public List<SemesterReusltDTO> get_Semester_Reuslt(String idStudent, String idSemester) {
-
-        List<String> listParam = Arrays.asList(idStudent, idSemester);
-
-        List<String[]> columns = entityService.getFunctionResult("get_Semester_Reuslt", listParam);
-
-        List<SemesterReusltDTO> listResult = new ArrayList<>() {
-        };
-        for (String[] arr : columns) {
-            listResult.add(new SemesterReusltDTO(arr[0], arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]),
-                    Double.parseDouble(arr[4])));
-        }
-        return listResult;
-
-    }
-
     public MessageResponse submit_Course_Regist() {
         String semesterID = semesterRepository.getCurrentSemester().getIdSemester();
         String userID = SubUtils.getCurrentUser().getId();
@@ -393,5 +377,31 @@ public class CourseManageService {
             semesterDTOs.add((SemesterDTO) SubUtils.mapperObject(semester, new SemesterDTO()));
         }
         return new DateExamResponse(semesterDTOs, dateExamDTOs);
+    }
+
+    // xem điểm của ST
+    public List<String> get_ID_Semester(String model) {
+
+        List<String> listParam = Arrays.asList(model);
+        List<String[]> columns = entityService.getFunctionResult("get_ID_Semester", listParam);
+        List<String> listResult = new ArrayList<>();
+        for (String[] arr : columns) {
+            listResult.add(arr[0]);
+        }
+        // System.out.println(listResult);
+        return listResult;
+    }
+
+    public List<SemesterReusltDTO> get_Semester_Reuslt(String idStudent) {
+
+        List<String> listParam = Arrays.asList(idStudent);
+        List<String[]> columns = entityService.getFunctionResult("get_Semester_Result_ST", listParam);
+        List<SemesterReusltDTO> listResult = new ArrayList<>();
+        for (String[] arr : columns) {
+            listResult.add(new SemesterReusltDTO(arr[0], arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]),
+                    Double.parseDouble(arr[4]), arr[5], arr[6]));
+        }
+        // System.out.println(listResult);
+        return listResult;
     }
 }
