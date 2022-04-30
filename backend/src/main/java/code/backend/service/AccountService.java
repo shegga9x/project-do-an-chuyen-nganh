@@ -92,7 +92,6 @@ public class AccountService {
         try {
             verificationToken = verificationTokenRepository.findByVerificationTokenContent(token).get();
         } catch (Exception e) {
-            System.out.println(e);
             throw new CustomException("Can't find token !!!");
         }
         verificationToken.setVerified(new Date());

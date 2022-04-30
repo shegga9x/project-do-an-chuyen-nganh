@@ -93,7 +93,7 @@ export class HomeComponent implements OnInit {
         if (Course_certificate == 4) {
           commandSchedule += "\n" + `insert into Schedule values(N'${++count1}',N'${count}',null,'TH',${Teaching_Day[Math.floor(Math.random() * period.length)]},'20/10/2021','20/11/2021',N'${randteaching_place1}',${randPeriod2},${randPeriod2 + 3})`;
         }
-        resultString += commandSchedule + "\n";
+        resultString += commandCourse + "\n";
         count++;
       });
 

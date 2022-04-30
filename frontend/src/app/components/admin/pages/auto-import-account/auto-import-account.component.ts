@@ -48,7 +48,6 @@ export class AutoImportAccountComponent implements OnInit {
             this.finish = true;
           },
           error: (error) => {
-            console.log(error);
             this.finish = true;
           }
         });
