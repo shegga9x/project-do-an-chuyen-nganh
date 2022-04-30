@@ -54,9 +54,14 @@ export class HomeComponent implements OnInit {
       const resultFromExcel = XLSX.utils.sheet_to_json(ws);
       const resultFromExcelToString = JSON.stringify(resultFromExcel);
       const result = JSON.parse(resultFromExcelToString.toString());
-      console.log(result);
+      // console.log(result);
       let resultString = "";
       let count = 0;
+      let currentSemester = "";
+      let totalGradeWithCertificate: number = 0;
+      let totalCertificate: number = 0;
+      let totalGrade: number = 0;
+      let totalCertificateAll: number = 0;
       result.forEach((element: any) => {
         // let id = element[Object.keys(element)[1]];
         // let firstName = element[Object.keys(element)[2]];
@@ -72,34 +77,58 @@ export class HomeComponent implements OnInit {
         let ID_Course = element[Object.keys(element)[1]];
         let ID_Course_Offering = count;
         let coureName = element[Object.keys(element)[2]];
-        let Course_certificate = element[Object.keys(element)[3]];
-        let years = element[Object.keys(element)[5]];
+        let Course_certificate: number = element[Object.keys(element)[3]];
+        let years = element[Object.keys(element)[5]] - 2017;
         let number_S = element[Object.keys(element)[6]];
         let optional = element[Object.keys(element)[7]];
+
         // ${id}
 
         var Teaching_Day = [2, 3, 4, 5, 6, 7];
         var period = [1, 4, 7, 10];
         var randPeriod = period[Math.floor(Math.random() * period.length)];
         var randPeriod2 = period[Math.floor(Math.random() * period.length)];
-        let commandCourse: string = `insert into Course Values(N'${ID_Course}',null,N'${coureName}',${Course_certificate},${years},${number_S})`;
-        let commandCourse_Offering: string = `insert into Course_Offering Values(N'${ID_Course_Offering}',N'${ID_Course}','DH18DTA',80,0)`;
-        let commandSchedule = `insert into Schedule values(N'${count}',N''${ID_Course_Offering}',null,'LT',${Teaching_Day[Math.floor(Math.random() * Teaching_Day.length)]},'20/10/2021','20/11/2021',N'Rạng Đông',${randPeriod},${randPeriod + 3})` + "\n";
-        if (Course_certificate == 4) {
-          commandSchedule += `insert into Schedule values(N'${++count}',N''${ID_Course_Offering}',null,'TH',${Teaching_Day[Math.floor(Math.random() * Teaching_Day.length)]},'20/10/2021','20/11/2021',N'Rạng Đông',${randPeriod2},${randPeriod2 + 3})`;
+        let commandCourse: string = `insert into Course Values(N'${ID_Course}','DT',N'${coureName}',${Course_certificate},${years},${number_S});`;
+        let commandCourse_Progress: string = `insert into Course_Progress Values('DT',N'${ID_Course}',${years},${optional != "0301" ? 1 : 0});`;
+
+        let grade: number = Number((Math.random() * (10 - 3) + 3).toFixed(2));
+        let grade4: number = Number((grade * 0.4).toFixed(2));
+        let rate: string = "A"
+        if (grade < 4) { rate = "F" }
+        else if (grade < 5) { rate = "D" }
+        else if (grade < 6.5) { rate = "C" }
+        else if (grade < 8) { rate = "B" }
+        if (currentSemester != `'${(years + 2017)}_${(number_S)}'`) {
+          currentSemester = `'${(years + 2017)}_${(number_S)}'`;
+          let gradeAVofS: number = (Number((totalGradeWithCertificate / totalCertificate).toFixed(2)));
+
+          let commandSemester_Result: string = ` insert into Semester_Result values(${currentSemester}, N'18130005', ${gradeAVofS}, ${(Number((gradeAVofS * 0.4).toFixed(2)))}, ${totalCertificate});`;
+          totalGradeWithCertificate = 0;
+          totalCertificate = 0;
+          resultString += commandSemester_Result + "\n";
         }
+        let commandSub_Pass: string = ` insert into Sub_Pass values(${currentSemester}, N'${ID_Course}', N'18130005', ${grade}, ${grade4}, N'${rate}');`;
+        totalGradeWithCertificate += (grade < 4 ? 0 : grade) * Course_certificate;
+        totalGrade += (grade < 4 ? 0 : grade) * Course_certificate;
+        totalCertificateAll += Number(Course_certificate)
+        totalCertificate += Number(Course_certificate);
+        resultString += commandSub_Pass + "\n";
 
         count++
-        // let ID_CourseA = element[Object.keys(element)[1]];
-        // let ID_CourseB = element[Object.keys(element)[3]];
-        // let commandFront_Sub: string = `insert into front_Sub values(N'${ID_CourseB}',N'${ID_CourseA}')`;
-
-
+        let ID_CourseA = element[Object.keys(element)[1]];
+        let ID_CourseB = element[Object.keys(element)[3]];
+        let commandFront_Sub: string = `insert into front_Sub values(N'${ID_CourseB}',N'${ID_CourseA}')`;
       });
-      console.log(resultString)
+      let gradeAVofS: number = (Number((totalGradeWithCertificate / totalCertificate).toFixed(2)));
+      let gradeAVofTotal: number = (Number((totalGrade / totalCertificateAll).toFixed(2)));
+      let commandSemester_Result: string = ` insert into Semester_Result values(${currentSemester}, N'18130005', ${gradeAVofS}, ${(Number((gradeAVofS * 0.4).toFixed(2)))}, ${totalCertificate});`;
+      let commandFinal_Result: string = ` insert into Final_Result values( N'18130005', ${gradeAVofTotal}, ${(Number((gradeAVofTotal * 0.4).toFixed(2)))});`;
+
+      console.log(resultString += commandSemester_Result + "\n" + commandFinal_Result + "\n");
 
 
     }
   }
 }
+
 
