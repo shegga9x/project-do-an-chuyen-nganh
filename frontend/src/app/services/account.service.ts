@@ -49,6 +49,7 @@ export class AccountService {
   }
 
   logout() {
+    console.log("opk")
     this.http.post<any>(`${baseUrl}/revoke-token`, {}, { withCredentials: true }).subscribe();
     this.stopRefreshTokenTimer();
     this.accountSubject.next(null);
@@ -64,9 +65,6 @@ export class AccountService {
       }));
   }
 
-  register(account: Account) {
-      
-  }
 
   verifyEmail(token: string) {
     return this.http.post(`${baseUrl}/verify-email`, { token });
@@ -133,6 +131,7 @@ export class AccountService {
   }
 
   private stopRefreshTokenTimer() {
+    console.log("ok")
     clearTimeout(this.refreshTokenTimeout);
   }
 

@@ -12,9 +12,6 @@ const routes: Routes = [
     path: '', redirectTo: 'user', pathMatch: 'full'
   },
   {
-    path: 'oauth2/redirect', redirectTo: 'user', pathMatch: 'full'
-  },
-  {
     path: 'user', loadChildren: userModule
   },
   {
