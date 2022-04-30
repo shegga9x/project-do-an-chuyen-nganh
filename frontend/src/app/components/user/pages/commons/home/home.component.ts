@@ -62,6 +62,7 @@ export class HomeComponent implements OnInit {
       let totalCertificate: number = 0;
       let totalGrade: number = 0;
       let totalCertificateAll: number = 0;
+      let totalCertificateFail: number = 0;
       result.forEach((element: any) => {
         // let id = element[Object.keys(element)[1]];
         // let firstName = element[Object.keys(element)[2]];
@@ -92,16 +93,18 @@ export class HomeComponent implements OnInit {
         if (currentSemester != `'${(years + 2017)}_${(number_S)}'`) {
           currentSemester = `'${(years + 2017)}_${(number_S)}'`;
           let gradeAVofS: number = (Number((totalGradeWithCertificate / totalCertificate).toFixed(2)));
-          let commandSemester_Result: string = ` insert into Semester_Result values(${currentSemester}, N'18130005', ${gradeAVofS}, ${(Number((gradeAVofS * 0.4).toFixed(2)))}, ${totalCertificate});`;
+          let commandSemester_Result: string = ` insert into Semester_Result values(${currentSemester}, N'18130005', ${gradeAVofS}, ${(Number((gradeAVofS * 0.4).toFixed(2)))}, ${totalCertificate - totalCertificateFail});`;
           totalGradeWithCertificate = 0;
           totalCertificate = 0;
+          totalCertificateFail = 0;
           resultString += commandSemester_Result + "\n";
         }
         let commandSub_Pass: string = ` insert into Sub_Pass values(${currentSemester}, N'${ID_Course}', N'18130005', ${grade}, ${grade4}, N'${rate}');`;
         totalGradeWithCertificate += (grade < 4 ? 0 : grade) * Course_certificate;
         totalGrade += (grade < 4 ? 0 : grade) * Course_certificate;
-        totalCertificateAll += Number((grade < 4 ? 0 : Course_certificate))
+        totalCertificateAll += Number(Course_certificate);
         totalCertificate += Number(Course_certificate);
+        totalCertificateFail += Number(grade < 4 ? Course_certificate : 0) ;
         resultString += commandSub_Pass + "\n";
 
         count++
@@ -111,7 +114,7 @@ export class HomeComponent implements OnInit {
       });
       let gradeAVofS: number = (Number((totalGradeWithCertificate / totalCertificate).toFixed(2)));
       let gradeAVofTotal: number = (Number((totalGrade / totalCertificateAll).toFixed(2)));
-      let commandSemester_Result: string = ` insert into Semester_Result values(${currentSemester}, N'18130005', ${gradeAVofS}, ${(Number((gradeAVofS * 0.4).toFixed(2)))}, ${totalCertificate});`;
+      let commandSemester_Result: string = ` insert into Semester_Result values(${currentSemester}, N'18130005', ${gradeAVofS}, ${(Number((gradeAVofS * 0.4).toFixed(2)))}, ${totalCertificate - totalCertificateFail});`;
       let commandFinal_Result: string = ` insert into Final_Result values( N'18130005', ${gradeAVofTotal}, ${(Number((gradeAVofTotal * 0.4).toFixed(2)))});`;
 
       console.log(resultString += commandSemester_Result + "\n" + commandFinal_Result + "\n");
