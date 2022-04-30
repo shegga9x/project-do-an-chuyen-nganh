@@ -1085,87 +1085,84 @@ insert into Course_Progress Values('DT',N'214984',18,1);
 insert into Course_Progress Values('DT',N'214374',18,1);
 
 -- insert into Sub_Pass
-insert into Sub_Pass values('2018_1', N'202501', N'18130005', 7.57, 3.03, N'B');
- insert into Sub_Pass values('2018_1', N'214201', N'18130005', 4.95, 1.98, N'D');
- insert into Sub_Pass values('2018_1', N'202109', N'18130005', 7.82, 3.13, N'B');
- insert into Sub_Pass values('2018_1', N'202108', N'18130005', 5.21, 2.08, N'C');
- insert into Sub_Pass values('2018_1', N'200101', N'18130005', 4.14, 1.66, N'D');
- insert into Sub_Pass values('2018_1', N'200102', N'18130005', 4.1, 1.64, N'D');
- insert into Sub_Pass values('2018_1', N'214321', N'18130005', 5.99, 2.4, N'C');
- insert into Sub_Pass values('2018_1', N'213603', N'18130005', 9.77, 3.91, N'A');
- insert into Sub_Pass values('2018_1', N'202206', N'18130005', 7.51, 3, N'B');
- 
- insert into Sub_Pass values('2018_2', N'200202', N'18130005', 6.97, 2.79, N'B');
- insert into Sub_Pass values('2018_2', N'202502', N'18130005', 9.53, 3.81, N'A');
- insert into Sub_Pass values('2018_2', N'200103', N'18130005', 3.91, 1.56, N'F');
- insert into Sub_Pass values('2018_2', N'213604', N'18130005', 6.88, 2.75, N'B');
- insert into Sub_Pass values('2018_2', N'200201', N'18130005', 8.18, 3.27, N'A');
- insert into Sub_Pass values('2018_2', N'214331', N'18130005', 7.15, 2.86, N'B');
- insert into Sub_Pass values('2018_2', N'202110', N'18130005', 3.7, 1.48, N'F');
- insert into Sub_Pass values('2018_2', N'214242', N'18130005', 6.72, 2.69, N'B');
- insert into Sub_Pass values('2018_2', N'214231', N'18130005', 8.62, 3.45, N'A');
- 
- insert into Sub_Pass values('2019_1', N'202622', N'18130005', 6.82, 2.73, N'B');
- insert into Sub_Pass values('2019_1', N'208453', N'18130005', 9.74, 3.9, N'A');
- insert into Sub_Pass values('2019_1', N'214441', N'18130005', 7.17, 2.87, N'B');
- insert into Sub_Pass values('2019_1', N'214241', N'18130005', 9.77, 3.91, N'A');
- insert into Sub_Pass values('2019_1', N'202620', N'18130005', 6.83, 2.73, N'B');
- insert into Sub_Pass values('2019_1', N'214251', N'18130005', 8.48, 3.39, N'A');
- insert into Sub_Pass values('2019_1', N'202121', N'18130005', 8.73, 3.49, N'A');
- 
- insert into Sub_Pass values('2019_2', N'200105', N'18130005', 3.59, 1.44, N'F');
- insert into Sub_Pass values('2019_2', N'214352', N'18130005', 8.61, 3.44, N'A');
- insert into Sub_Pass values('2019_2', N'214442', N'18130005', 9.97, 3.99, N'A');
- insert into Sub_Pass values('2019_2', N'214351', N'18130005', 7.22, 2.89, N'B');
- insert into Sub_Pass values('2019_2', N'214361', N'18130005', 9.96, 3.98, N'A');
- 
- insert into Sub_Pass values('2020_1', N'214463', N'18130005', 4.44, 1.78, N'D');
- insert into Sub_Pass values('2020_1', N'214252', N'18130005', 5.49, 2.2, N'C');
- insert into Sub_Pass values('2020_1', N'200107', N'18130005', 6.09, 2.44, N'C');
- insert into Sub_Pass values('2020_1', N'214462', N'18130005', 8.36, 3.34, N'A');
- insert into Sub_Pass values('2020_1', N'214353', N'18130005', 3.27, 1.31, N'F');
- insert into Sub_Pass values('2020_1', N'214372', N'18130005', 8.18, 3.27, N'A');
- insert into Sub_Pass values('2020_1', N'214451', N'18130005', 9.52, 3.81, N'A');
- insert into Sub_Pass values('2020_1', N'214386', N'18130005', 3.92, 1.57, N'F');
- 
- insert into Sub_Pass values('2020_2', N'214282', N'18130005', 4.77, 1.91, N'D');
- insert into Sub_Pass values('2020_2', N'214492', N'18130005', 8.41, 3.36, N'A');
- insert into Sub_Pass values('2020_2', N'214471', N'18130005', 6.65, 2.66, N'B');
- insert into Sub_Pass values('2020_2', N'214461', N'18130005', 3.12, 1.25, N'F');
- insert into Sub_Pass values('2020_2', N'214370', N'18130005', 5.77, 2.31, N'C');
- insert into Sub_Pass values('2020_2', N'214274', N'18130005', 6.62, 2.65, N'B');
- insert into Sub_Pass values('2020_2', N'214388', N'18130005', 3.6, 1.44, N'F');
- insert into Sub_Pass values('2020_2', N'214273', N'18130005', 4.74, 1.9, N'D');
- 
- insert into Sub_Pass values('2021_1', N'214387', N'18130005', 7.95, 3.18, N'B');
- insert into Sub_Pass values('2021_1', N'214485', N'18130005', 8.97, 3.59, N'A');
- insert into Sub_Pass values('2021_1', N'214483', N'18130005', 7.7, 3.08, N'B');
- insert into Sub_Pass values('2021_1', N'214383', N'18130005', 8.22, 3.29, N'A');
- insert into Sub_Pass values('2021_1', N'214289', N'18130005', 5.16, 2.06, N'C');
- insert into Sub_Pass values('2021_1', N'214290', N'18130005', 4.95, 1.98, N'D');
- insert into Sub_Pass values('2021_1', N'214379', N'18130005', 3.7, 1.48, N'F');
- insert into Sub_Pass values('2021_1', N'214271', N'18130005', 6.86, 2.74, N'B');
- insert into Sub_Pass values('2021_1', N'214464', N'18130005', 4.57, 1.83, N'D');
- insert into Sub_Pass values('2021_1', N'214491', N'18130005', 5.74, 2.3, N'C');
- insert into Sub_Pass values('2021_1', N'214465', N'18130005', 7.34, 2.94, N'B');
- insert into Sub_Pass values('2021_1', N'214292', N'18130005', 3.65, 1.46, N'F');
- 
- insert into Sub_Pass values('2021_2', N'214286', N'18130005', 8.27, 3.31, N'A');
- insert into Sub_Pass values('2021_2', N'214285', N'18130005', 7.7, 3.08, N'B');
- insert into Sub_Pass values('2021_2', N'214291', N'18130005', 9.91, 3.96, N'A');
- insert into Sub_Pass values('2021_2', N'214490', N'18130005', 5.83, 2.33, N'C');
- insert into Sub_Pass values('2021_2', N'214985', N'18130005', 4.7, 1.88, N'D');
- insert into Sub_Pass values('2021_2', N'214984', N'18130005', 4.8, 1.92, N'D');
- insert into Sub_Pass values('2021_2', N'214374', N'18130005', 6.78, 2.71, N'B');
+insert into Sub_Pass values('2018_1', N'202501', N'18130005', 4.44, 1.78, N'D');
+ insert into Sub_Pass values('2018_1', N'214201', N'18130005', 4.67, 1.87, N'D');
+ insert into Sub_Pass values('2018_1', N'202109', N'18130005', 3.92, 1.57, N'F');
+ insert into Sub_Pass values('2018_1', N'202108', N'18130005', 4.11, 1.64, N'D');
+ insert into Sub_Pass values('2018_1', N'200101', N'18130005', 8.21, 3.28, N'A');
+ insert into Sub_Pass values('2018_1', N'200102', N'18130005', 4.3, 1.72, N'D');
+ insert into Sub_Pass values('2018_1', N'214321', N'18130005', 8.12, 3.25, N'A');
+ insert into Sub_Pass values('2018_1', N'213603', N'18130005', 7.8, 3.12, N'B');
+ insert into Sub_Pass values('2018_1', N'202206', N'18130005', 3.65, 1.46, N'F');
+ insert into Sub_Pass values('2018_2', N'200202', N'18130005', 8.97, 3.59, N'A');
+ insert into Sub_Pass values('2018_2', N'202502', N'18130005', 4.72, 1.89, N'D');
+ insert into Sub_Pass values('2018_2', N'200103', N'18130005', 7.91, 3.16, N'B');
+ insert into Sub_Pass values('2018_2', N'213604', N'18130005', 9.62, 3.85, N'A');
+ insert into Sub_Pass values('2018_2', N'200201', N'18130005', 9.61, 3.84, N'A');
+ insert into Sub_Pass values('2018_2', N'214331', N'18130005', 4.2, 1.68, N'D');
+ insert into Sub_Pass values('2018_2', N'202110', N'18130005', 7.41, 2.96, N'B');
+ insert into Sub_Pass values('2018_2', N'214242', N'18130005', 10, 4, N'A');
+ insert into Sub_Pass values('2018_2', N'214231', N'18130005', 3.52, 1.41, N'F');
 
+ insert into Sub_Pass values('2019_1', N'202622', N'18130005', 5.64, 2.26, N'C');
+ insert into Sub_Pass values('2019_1', N'208453', N'18130005', 9.95, 3.98, N'A');
+ insert into Sub_Pass values('2019_1', N'214441', N'18130005', 3.98, 1.59, N'F');
+ insert into Sub_Pass values('2019_1', N'214241', N'18130005', 6.49, 2.6, N'C');
+ insert into Sub_Pass values('2019_1', N'202620', N'18130005', 3.71, 1.48, N'F');
+ insert into Sub_Pass values('2019_1', N'214251', N'18130005', 8.16, 3.26, N'A');
+ insert into Sub_Pass values('2019_1', N'202121', N'18130005', 5.68, 2.27, N'C');
+ 
+ insert into Sub_Pass values('2019_2', N'200105', N'18130005', 9.41, 3.76, N'A');
+ insert into Sub_Pass values('2019_2', N'214352', N'18130005', 4.03, 1.61, N'D');
+ insert into Sub_Pass values('2019_2', N'214442', N'18130005', 5.45, 2.18, N'C');
+ insert into Sub_Pass values('2019_2', N'214351', N'18130005', 7.41, 2.96, N'B');
+ insert into Sub_Pass values('2019_2', N'214361', N'18130005', 7.91, 3.16, N'B');
+ 
+ insert into Sub_Pass values('2020_1', N'214463', N'18130005', 8.77, 3.51, N'A');
+ insert into Sub_Pass values('2020_1', N'214252', N'18130005', 5.97, 2.39, N'C');
+ insert into Sub_Pass values('2020_1', N'200107', N'18130005', 6.21, 2.48, N'C');
+ insert into Sub_Pass values('2020_1', N'214462', N'18130005', 7.82, 3.13, N'B');
+ insert into Sub_Pass values('2020_1', N'214353', N'18130005', 3.1, 1.24, N'F');
+ insert into Sub_Pass values('2020_1', N'214372', N'18130005', 8.58, 3.43, N'A');
+ insert into Sub_Pass values('2020_1', N'214451', N'18130005', 7.42, 2.97, N'B');
+ insert into Sub_Pass values('2020_1', N'214386', N'18130005', 8.01, 3.2, N'A');
+  
+ insert into Sub_Pass values('2020_2', N'214282', N'18130005', 4.09, 1.64, N'D');
+ insert into Sub_Pass values('2020_2', N'214492', N'18130005', 5.97, 2.39, N'C');
+ insert into Sub_Pass values('2020_2', N'214471', N'18130005', 9.03, 3.61, N'A');
+ insert into Sub_Pass values('2020_2', N'214461', N'18130005', 7.88, 3.15, N'B');
+ insert into Sub_Pass values('2020_2', N'214370', N'18130005', 5.22, 2.09, N'C');
+ insert into Sub_Pass values('2020_2', N'214274', N'18130005', 9.05, 3.62, N'A');
+ insert into Sub_Pass values('2020_2', N'214388', N'18130005', 6.48, 2.59, N'C');
+ insert into Sub_Pass values('2020_2', N'214273', N'18130005', 4.11, 1.64, N'D');
 
-insert into Semester_Result values('2018_1', N'18130005', 6.41, 2.56, 25);
-insert into Semester_Result values('2018_2', N'18130005', 5.9, 2.36, 24);
-insert into Semester_Result values('2019_1', N'18130005', 8.23, 3.29, 19);
-insert into Semester_Result values('2019_2', N'18130005', 7.83, 3.13, 17);
-insert into Semester_Result values('2020_1', N'18130005', 5.24, 2.1, 28);
-insert into Semester_Result values('2020_2', N'18130005', 4.49, 1.8, 30);
-insert into Semester_Result values('2021_1', N'18130005', 5.55, 2.22, 39);
-insert into Semester_Result values('2021_2', N'18130005', 6.58, 2.63, 32);
+ insert into Sub_Pass values('2021_1', N'214387', N'18130005', 5.94, 2.38, N'C');
+ insert into Sub_Pass values('2021_1', N'214485', N'18130005', 3.98, 1.59, N'F');
+ insert into Sub_Pass values('2021_1', N'214483', N'18130005', 8.88, 3.55, N'A');
+ insert into Sub_Pass values('2021_1', N'214383', N'18130005', 7.41, 2.96, N'B');
+ insert into Sub_Pass values('2021_1', N'214289', N'18130005', 8.15, 3.26, N'A');
+ insert into Sub_Pass values('2021_1', N'214290', N'18130005', 6.43, 2.57, N'C');
+ insert into Sub_Pass values('2021_1', N'214379', N'18130005', 6.02, 2.41, N'C');
+ insert into Sub_Pass values('2021_1', N'214271', N'18130005', 8.78, 3.51, N'A');
+ insert into Sub_Pass values('2021_1', N'214464', N'18130005', 7.46, 2.98, N'B');
+ insert into Sub_Pass values('2021_1', N'214491', N'18130005', 9.42, 3.77, N'A');
+ insert into Sub_Pass values('2021_1', N'214465', N'18130005', 7.3, 2.92, N'B');
+ insert into Sub_Pass values('2021_1', N'214292', N'18130005', 6.44, 2.58, N'C');
 
-insert into Final_Result values( N'18130005', 6.07, 2.43);
+ insert into Sub_Pass values('2021_2', N'214286', N'18130005', 8.58, 3.43, N'A');
+ insert into Sub_Pass values('2021_2', N'214285', N'18130005', 5.19, 2.08, N'C');
+ insert into Sub_Pass values('2021_2', N'214291', N'18130005', 8.39, 3.36, N'A');
+ insert into Sub_Pass values('2021_2', N'214490', N'18130005', 5.85, 2.34, N'C');
+ insert into Sub_Pass values('2021_2', N'214985', N'18130005', 9.76, 3.9, N'A');
+ insert into Sub_Pass values('2021_2', N'214984', N'18130005', 9.87, 3.95, N'A');
+ insert into Sub_Pass values('2021_2', N'214374', N'18130005', 3.19, 1.28, N'F');
+
+insert into Semester_Result values('2018_1', N'18130005', 5.11, 2.04, 25);
+ insert into Semester_Result values('2018_2', N'18130005', 7.26, 2.9, 24);
+ insert into Semester_Result values('2019_1', N'18130005', 4.85, 1.94, 19);
+ insert into Semester_Result values('2019_2', N'18130005', 6.48, 2.59, 17);
+ insert into Semester_Result values('2020_1', N'18130005', 6.83, 2.73, 28);
+ insert into Semester_Result values('2020_2', N'18130005', 6.31, 2.52, 30);
+ insert into Semester_Result values('2021_1', N'18130005', 6.69, 2.68, 39);
+ insert into Semester_Result values('2021_2', N'18130005', 7.17, 2.87, 32);
+ insert into Final_Result values( N'18130005', 7.24, 2.9);
