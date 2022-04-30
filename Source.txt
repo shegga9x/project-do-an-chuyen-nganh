@@ -31,7 +31,37 @@ modal err
 xem quy trình đào tạo - get
 
 
+
 Xem điểm -TMT
 Sub_Pass
 Semester_Result
 Final_Result
+
+dtb moi ky [6,3.03,5,5]
+sum = 0;
+sumTotalCertificate = 0;
+sumTotalAvSemester = 0;
+ki 1 
+ki1.sum+= foreach(subpass.certificate)
+semesterResult(ky1)
+semesterResult(ky1) * 0.4
+sumTotalAvSemester+= semesterResult(ky1)
+semesterResult(ky1) * 0.4
+semesterResult(ky1).certificate
+sumTotalCertificate += semesterResult(ky1).certificate
+sum+= ki1.sum
+
+ki 2
+ki2.sum+= foreach(subpass.certificate)
+semesterResult(ky2) 
+semesterResult(ky2) * 0.4
+(sumTotalAvSemester * sum + semesterResult(ky2) * ki2.sum) / (sum+ki2.sum)
+(sumTotalAvSemester * sum + semesterResult(ky2) * ki2.sum) / (sum+ki2.sum) * 0.4
+semesterResult(ky2).certificate
+sumTotalCertificate += semesterResult(ky2).certificate
+sumTotalAvSemester+=semesterResult(ky2)
+sum+= ki2.sum
+
+
+
+>>>>>>> 2594e3e52a439d6aef2d99d05d329fe3c035a42f

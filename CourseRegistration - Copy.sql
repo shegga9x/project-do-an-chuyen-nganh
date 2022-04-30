@@ -533,7 +533,7 @@ GO
 -- tạo function semester_Result	
 
 
--- Semester + Sub_Pass
+
 CREATE FUNCTION get_Semester_Reuslt (@ID_Student nvarchar(50), @ID_Semester nvarchar(50))
 RETURNS TABLE
 AS
@@ -735,462 +735,300 @@ insert into Time_For_Course_Register Values(N'2021_2','30/3/2022','3/4/2022')
 
 
 -- insert into course
+
 -- đại cương
-insert into Course Values(N'213603',null,N'Anh văn 1',4,1,1)
-insert into Course Values(N'213604',null,N'Anh văn 2',3,2,2)
-insert into Course Values(N'202108',null,N'Toán cao cấp A1',3,1,2)
-insert into Course Values(N'202109',null,N'Toán cao cấp A2',3,1,1)
-insert into Course Values(N'202110',null,N'Toán cao cấp A3',3,2,2)
-insert into Course Values(N'200101',null,N'Triết học Mác Lênin',3,2,1)
-insert into Course Values(N'200103',null,N'Chủ nghĩa xã hội khoa học',2,2,2)
-insert into Course Values(N'200102',null,N'Kinh tế chính trị Mác-Lênin',2,2,2)
-insert into Course Values(N'202622',null,N'Pháp luật đại cương',2,1,1)
-insert into Course Values(N'202501',null,N'Giáo dục thể chất 1*',1,1,2)
-insert into Course Values(N'200107',null,N'Tư tưởng Hồ Chí Minh',2,2,2)
-insert into Course Values(N'214201',null,N'Nhập môn tin học',3,1,1)
-insert into Course Values(N'202206',null,N'Vật lý 2',2,2,1)
+insert into Course Values(N'202501',null,N'Giáo dục thể chất 1*',1,1,1);
+insert into Course Values(N'214201',null,N'Nhập môn tin học',3,1,1);
+insert into Course Values(N'202109',null,N'Toán cao cấp A2',3,1,1);
+insert into Course Values(N'202108',null,N'Toán cao cấp A1',3,1,1);
+insert into Course Values(N'200101',null,N'Triết học Mác Lênin',3,1,1);
+insert into Course Values(N'200102',null,N'Kinh tế chính trị Mác- Lênin',2,1,1);
+insert into Course Values(N'213603',null,N'Anh văn 1',4,1,1);
+insert into Course Values(N'202206',null,N'Vật lý 2',2,1,1);
+insert into Course Values(N'200202',null,N'Quân sự (thực hành)*',3,1,2);
+insert into Course Values(N'202502',null,N'Giáo dục thể chất 2*',1,1,2);
+insert into Course Values(N'200103',null,N'Chủ nghĩa xã hội khoa học',2,1,2);
+insert into Course Values(N'213604',null,N'Anh văn 2',3,1,2);
+insert into Course Values(N'200201',null,N'Quân sự 1 (lý thuyết)*',3,1,2);
+insert into Course Values(N'202622',null,N'Pháp luật đại cương',2,2,1);
+insert into Course Values(N'202121',null,N'Xác suất thống kê',3,2,1);
+insert into Course Values(N'200105',null,N'Lịch sử Đảng Cộng sản Việt Nam',2,2,2);
+insert into Course Values(N'200107',null,N'Tư tưởng Hồ Chí Minh',2,3,1);
+
+
+
 
 -- chuyên nghành
 
+
+insert into Course Values(N'214321','DT',N'Lập trình cơ bản',4,1,1);
+insert into Course Values(N'214331','DT',N'Lập trình nâng cao',4,1,2);
+insert into Course Values(N'202110','DT',N'Toán cao cấp A3',3,1,2);
+insert into Course Values(N'214242','DT',N'Nhập môn hệ điều hành',3,1,2);
+insert into Course Values(N'214231','DT',N'Cấu trúc máy tính',2,1,2);
+insert into Course Values(N'208453','DT',N'Marketing căn bản',2,2,1);
+insert into Course Values(N'214441','DT',N'Cấu trúc dữ liệu',4,2,1);
+insert into Course Values(N'214241','DT',N'Mạng máy tính cơ bản',3,2,1);
+insert into Course Values(N'202620','DT',N'Kỹ năng giao tiếp',2,2,1);
+insert into Course Values(N'214251','DT',N'Hệ điều hành nâng cao',3,2,1);
+insert into Course Values(N'214352','DT',N'Thiết kế hướng đối tượng',4,2,2);
+insert into Course Values(N'214442','DT',N'Nhập môn cơ sở dữ liệu',4,2,2);
+insert into Course Values(N'214351','DT',N'Lý thuyết đồ thị',4,2,2);
+insert into Course Values(N'214361','DT',N'Giao tiếp người _máy',3,2,2);
+insert into Course Values(N'214463','DT',N'Nhập môn trí tuệ nhân tạo',4,3,1);
+insert into Course Values(N'214252','DT',N'Lập trình mạng',4,3,1);
+insert into Course Values(N'214462','DT',N'Lập trình Web',4,3,1);
+insert into Course Values(N'214353','DT',N'Đồ họa máy tính',3,3,1);
+insert into Course Values(N'214372','DT',N'Lập trình .NET',4,3,1);
+insert into Course Values(N'214451','DT',N'Hệ quản trị cơ sở dữ liệu',3,3,1);
+insert into Course Values(N'214386','DT',N'Lập trình PHP',4,3,1);
+insert into Course Values(N'214282','DT',N'Mạng máy tính nâng cao',4,3,2);
+insert into Course Values(N'214492','DT',N'Máy học',4,3,2);
+insert into Course Values(N'214471','DT',N'Hệ thống thông tin quản lý',3,3,2);
+insert into Course Values(N'214461','DT',N'Phân tích và thiết kế hệ thống thông tin',4,3,2);
+insert into Course Values(N'214370','DT',N'Nhập môn công nghệ phần mềm',4,3,2);
+insert into Course Values(N'214274','DT',N'Lập trình trên thiết bị di động',3,3,2);
+insert into Course Values(N'214388','DT',N'Lập trình Front End',4,3,2);
+insert into Course Values(N'214273','DT',N'Lập trình mạng nâng cao',4,3,2);
+insert into Course Values(N'214387','DT',N'Chuyên đề mã nguồn mở',3,4,1);
+insert into Course Values(N'214485','DT',N'Data Mining',4,4,1);
+insert into Course Values(N'214483','DT',N'Thương mại điện tử',3,4,1);
+insert into Course Values(N'214383','DT',N'Quản lý dự án phần mềm',3,4,1);
+insert into Course Values(N'214289','DT',N'Giải pháp phần mềm chính phủ điện tử',4,4,1);
+insert into Course Values(N'214290','DT',N'IoT',3,4,1);
+insert into Course Values(N'214379','DT',N'Đảm bảo chất lượng và kiểm thử phần mềm',4,4,1);
+insert into Course Values(N'214271','DT',N'Quản trị mạng',3,4,1);
+insert into Course Values(N'214464','DT',N'An toàn và bảo mật hệ thống thông tin',3,4,1);
+insert into Course Values(N'214491','DT',N'Data Warehouse',3,4,1);
+insert into Course Values(N'214465','DT',N'Hệ thống thông tin địa lý ứng dụng',3,4,1);
+insert into Course Values(N'214292','DT',N'An ninh mạng',3,4,1);
+insert into Course Values(N'214286','DT',N'Chuyên đề Java',4,4,2);
+insert into Course Values(N'214285','DT',N'Giải pháp mạng cho doanh nghiệp',4,4,2);
+insert into Course Values(N'214291','DT',N'Xử lý ảnh và thị giác máy tính',4,4,2);
+insert into Course Values(N'214490','DT',N'Phân tích dữ liệu lớn',4,4,2);
+insert into Course Values(N'214985','DT',N'Khóa luận tốt nghiệp',10,4,2);
+insert into Course Values(N'214984','DT',N'Đồ án chuyên ngành',2,4,2);
+insert into Course Values(N'214374','DT',N'Chuyên đề WEB',4,4,2);
 --dt
-insert into Course Values(N'214321','DT',N'Lập trình cơ bản',4,1,1)
-insert into Course Values(N'214331','DT',N'Lập trình nâng cao',4,1,2)
-insert into Course Values(N'214231','DT',N'Cấu trúc máy tính',2,1,2)
-insert into Course Values(N'214242','DT',N'Nhập môn hệ điều hành',3,1,2)
-insert into Course Values(N'208453','DT',N'Marketing căn bản',2,2,1)
-insert into Course Values(N'202121','DT',N'Xác suất thống kê',3,2,1)
-insert into Course Values(N'214241','DT',N'Mạng máy tính cơ bản',3,2,1)
-insert into Course Values(N'214441','DT',N'Cấu trúc dữ liệu',4,2,1)
-insert into Course Values(N'202620','DT',N'Kỹ năng giao tiếp',2,2,1)
-insert into Course Values(N'214361','DT',N'Giao tiếp người máy',3,2,2)
-insert into Course Values(N'214351','DT',N'Lý thuyết đồ thị',4,2,2)
-insert into Course Values(N'200105','DT',N'Lịch sử đảng',2,2,2)
-insert into Course Values(N'214442','DT',N'Nhập môn cơ sở dữ liệu',3,2,2)
-insert into Course Values(N'214352','DT',N'Thiết kế hướng đối tượng',4,2,2)
-insert into Course Values(N'214462','DT',N'Lập trình Web',4,3,1)
-insert into Course Values(N'214463','DT',N'Nhập môn trí tuệ nhân tạo',4,3,1)
-insert into Course Values(N'214372','DT',N'Lập trình.NET',4,3,1)
-insert into Course Values(N'214353','DT',N'Đồ họa máy tính',3,3,1)
-insert into Course Values(N'214386','DT',N'Lập trình PHP',4,3,1)
-insert into Course Values(N'214451','DT',N'Hệ quản trị cơ sở dữ liệu',4,3,1)
-insert into Course Values(N'214252','DT',N'Lập trình mạng',4,3,1)
-insert into Course Values(N'214370','DT',N'Nhập môn CN phần mềm',4,3,2)
-insert into Course Values(N'214471','DT',N'Hệ thống thông tin quản lý',3,3,4)
-insert into Course Values(N'214282','DT',N'Mạng máy tính nâng cao',3,3,2)
-insert into Course Values(N'214461','DT',N'Phân tích và thiết kế HTTT',4,3,2)
-insert into Course Values(N'214492','DT',N'Máy học',3,3,2)
-insert into Course Values(N'214273','DT',N'Lập trình mạng nâng cao',2,3,2)
-insert into Course Values(N'214388','DT',N'Lập trình Front End',2,3,2)
-insert into Course Values(N'214274','DT',N'Lập trình trên TB di động',2,3,2)
-insert into Course Values(N'214483','DT',N'thương mại điên tử',2,4,1)
-insert into Course Values(N'214485','DT',N'Data Mining',4,4,1)
-insert into Course Values(N'214387','DT',N'Chuyên đề mã nguồn mở',2,4,1)
-insert into Course Values(N'214491','DT',N'Data Warehouse',4,4,1)
-insert into Course Values(N'214464','DT',N'An toàn và bảo mật hệ thống thông tin',2,4,1)
-insert into Course Values(N'214286','DT',N'Chuyên đề Java',2,4,2)
-insert into Course Values(N'214490','DT',N'Phân tích dữ liệu lớn',2,4,2)
-insert into Course Values(N'214984','DT',N'Đồ án chuyên ngành',2,4,2)
-insert into Course Values(N'214985','DT',N'Khóa luận tốt nghiệp',2,4,2)
-insert into Course Values(N'214374','DT',N'Chuyên đề WEB',2,4,2)
 
 -- insert into Course_Offering
-insert into Course_Offering Values(N'1',N'213603','DH18DTA',80,0)
-insert into Course_Offering Values(N'2',N'214201','DH18DTA',80,0)
-insert into Course_Offering Values(N'3',N'202109','DH18DTA',80,0)
-insert into Course_Offering Values(N'4',N'200102','DH18DTA',80,0)
-insert into Course_Offering Values(N'5',N'214321','DH18DTA',80,0)
-insert into Course_Offering Values(N'6',N'202206','DH18DTA',80,0)
-insert into Course_Offering Values(N'7',N'202108','DH18DTA',80,0)
-insert into Course_Offering Values(N'8',N'202501','DH18DTA',80,0)
-insert into Course_Offering Values(N'9',N'200101','DH18DTA',80,0)
-insert into Course_Offering Values(N'10',N'200103','DH18DTA',80,0)
-insert into Course_Offering Values(N'11',N'213604','DH18DTA',80,0)
-insert into Course_Offering Values(N'12',N'202110','DH18DTA',80,0)
-insert into Course_Offering Values(N'13',N'214331','DH18DTA',80,0)
-insert into Course_Offering Values(N'14',N'214231','DH18DTA',80,0)
-insert into Course_Offering Values(N'15',N'214242','DH18DTA',80,0)
-insert into Course_Offering Values(N'16',N'208453','DH18DTA',80,0)
-insert into Course_Offering Values(N'17',N'202121','DH18DTA',80,0)
-insert into Course_Offering Values(N'18',N'214241','DH18DTA',80,0)
-insert into Course_Offering Values(N'19',N'214441','DH18DTA',80,0)
-insert into Course_Offering Values(N'20',N'202622','DH18DTA',80,0)
-insert into Course_Offering Values(N'21',N'202620','DH18DTA',80,0)
-insert into Course_Offering Values(N'22',N'214361','DH18DTA',80,0)
-insert into Course_Offering Values(N'23',N'214351','DH18DTA',80,0)
-insert into Course_Offering Values(N'24',N'200105','DH18DTA',80,0)
-insert into Course_Offering Values(N'25',N'214442','DH18DTA',80,0)
-insert into Course_Offering Values(N'26',N'214352','DH18DTA',80,0)
-insert into Course_Offering Values(N'27',N'214462','DH18DTA',80,0)
-insert into Course_Offering Values(N'28',N'214463','DH18DTA',80,0)
-insert into Course_Offering Values(N'29',N'214372','DH18DTA',80,0)
-insert into Course_Offering Values(N'30',N'214353','DH18DTA',80,0)
-insert into Course_Offering Values(N'31',N'214386','DH18DTA',80,0)
-insert into Course_Offering Values(N'32',N'214451','DH18DTA',80,0)
-insert into Course_Offering Values(N'33',N'200107','DH18DTA',80,0)
-insert into Course_Offering Values(N'34',N'214252','DH18DTA',80,0)
-insert into Course_Offering Values(N'35',N'214370','DH18DTA',80,0)
-insert into Course_Offering Values(N'36',N'214471','DH18DTA',80,0)
-insert into Course_Offering Values(N'37',N'214282','DH18DTA',80,0)
-insert into Course_Offering Values(N'38',N'214461','DH18DTA',80,0)
-insert into Course_Offering Values(N'39',N'214492','DH18DTA',80,0)
-insert into Course_Offering Values(N'40',N'214273','DH18DTA',80,0)
-insert into Course_Offering Values(N'41',N'214388','DH18DTA',80,0)
-insert into Course_Offering Values(N'42',N'214274','DH18DTA',80,0)
-insert into Course_Offering Values(N'43',N'214483','DH18DTA',80,0)
-insert into Course_Offering Values(N'44',N'214485','DH18DTA',80,0)
-insert into Course_Offering Values(N'45',N'214387','DH18DTA',80,0)
-insert into Course_Offering Values(N'46',N'214491','DH18DTA',80,0)
-insert into Course_Offering Values(N'47',N'214464','DH18DTA',80,0)
-insert into Course_Offering Values(N'48',N'214286','DH18DTA',80,0)
-insert into Course_Offering Values(N'49',N'214490','DH18DTA',80,0)
-insert into Course_Offering Values(N'50',N'214984','DH18DTA',80,0)
-insert into Course_Offering Values(N'51',N'214985','DH18DTA',80,0)
-insert into Course_Offering Values(N'52',N'214374','DH18DTA',80,0)
 
 -- insert into Schedule
-insert into Schedule values(N'1',N'1',null,'LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'2',N'2',null,'LT',8,'20/10/2021','20/11/2021',N'Cẩm Tú',1,4)
-insert into Schedule values(N'3',N'3',null,'LT',5,'20/10/2021','20/11/2021',N'Cẩm Tú',1,4)
-insert into Schedule values(N'4',N'4',null,'LT',7,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'5',N'5',null,'LT',5,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'6',N'5',null,'TH',3,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'7',N'6',null,'LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'8',N'7',null,'LT',8,'20/10/2021','20/11/2021',N'Cẩm Tú',1,4)
-insert into Schedule values(N'9',N'8',null,'LT',5,'20/10/2021','20/11/2021',N'Cẩm Tú',1,4)
-insert into Schedule values(N'10',N'9',null,'LT',7,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'11',N'10',null,'LT',5,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'12',N'11',null,'TH',3,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'13',N'12',null,'LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'14',N'13',null,'LT',8,'20/10/2021','20/11/2021',N'Cẩm Tú',1,4)
-insert into Schedule values(N'15',N'13',null,'TH',5,'20/10/2021','20/11/2021',N'Cẩm Tú',1,4)
-insert into Schedule values(N'16',N'15',null,'LT',7,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'17',N'16',null,'LT',5,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'18',N'17',null,'TH',3,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'19',N'19',null,'LT',5,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'20',N'19',null,'TH',5,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
-insert into Schedule values(N'21',N'20',null,'LT',3,'20/10/2021','20/11/2021',N'Rạng Đông',4,4)
-insert into Schedule values(N'22',N'21',null,'LT',3,'20/10/2021','20/11/2021',N'Rạng Đông',3,4)
-insert into Schedule values(N'23',N'22',null,'LT',3,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'24',N'23',null,'LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'25',N'24',null,'LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
-insert into Schedule values(N'26',N'25',null,'LT',4,'20/10/2021','20/11/2021',N'Rạng Đông',3,4)
-insert into Schedule values(N'27',N'26',null,'LT',5,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'28',N'27',null,'LT',5,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
-insert into Schedule values(N'29',N'28',null,'LT',5,'20/10/2021','20/11/2021',N'Rạng Đông',3,4)
-insert into Schedule values(N'30',N'29',null,'LT',6,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'31',N'30',null,'LT',6,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
-insert into Schedule values(N'32',N'31',null,'LT',6,'20/10/2021','20/11/2021',N'Rạng Đông',3,4)
-insert into Schedule values(N'33',N'32',null,'LT',7,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'34',N'33',null,'LT',7,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
-insert into Schedule values(N'35',N'34',null,'LT',7,'20/10/2021','20/11/2021',N'Rạng Đông',3,4)
-insert into Schedule values(N'36',N'35',null,'LT',2,'20/10/2021','20/11/2021',N'Rạng Đông',4,4)
-insert into Schedule values(N'37',N'36',null,'LT',3,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'38',N'37',null,'LT',3,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
-insert into Schedule values(N'39',N'38',null,'LT',3,'20/10/2021','20/11/2021',N'Rạng Đông',3,4)
-insert into Schedule values(N'40',N'39',null,'LT',2,'20/10/2021','20/11/2021',N'Rạng Đông',1,4)
-insert into Schedule values(N'41',N'40',null,'LT',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
-insert into Schedule values(N'42',N'40',null,'TH',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
-insert into Schedule values(N'43',N'36',null,'TH',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
-insert into Schedule values(N'44',N'38',null,'TH',2,'20/10/2021','20/11/2021',N'Rạng Đông',2,4)
-insert into Schedule values(N'45',N'43',null,'TH',2,'20/10/2021','10/12/2021',N'Máy 2',5,4)
-insert into Schedule values(N'46',N'43',null,'LT',2,'20/10/2021','10/12/2021',N'Rạng Đông',4,4)
-insert into Schedule values(N'47',N'44',null,'TH',2,'20/10/2021','10/12/2021',N'Máy 3',2,4)
-insert into Schedule values(N'48',N'44',null,'LT',2,'20/10/2021','10/12/2021',N'Rạng Đông',3,4)
-insert into Schedule values(N'49',N'45',null,'TH',3,'20/10/2021','10/12/2021',N'Máy 1',6,4)
-insert into Schedule values(N'50',N'45',null,'LT',4,'20/10/2021','10/12/2021',N'Rạng Đông',6,1)
-insert into Schedule values(N'51',N'46',null,'TH',2,'20/10/2021','10/12/2021',N'Máy 1',6,7)
-insert into Schedule values(N'52',N'46',null,'LT',2,'20/10/2021','10/12/2021',N'Rạng Đông',7,1)
-insert into Schedule values(N'53',N'47',null,'TH',2,'20/10/2021','10/12/2021',N'Máy 1',2,7)
-insert into Schedule values(N'54',N'47',null,'LT',2,'20/10/2021','10/12/2021',N'Rạng Đông',3,1)
-insert into Schedule values(N'55',N'48',null,'TH',2,'20/10/2021','10/12/2021',N'Máy 1',3,4)
-insert into Schedule values(N'56',N'48',null,'LT',2,'20/10/2021','10/12/2021',N'Rạng Đông',4,1)
-insert into Schedule values(N'57',N'49',null,'TH',2,'20/10/2021','10/12/2021',N'Máy 1',4,4)
-insert into Schedule values(N'58',N'49',null,'LT',2,'20/10/2021','10/12/2021',N'Rạng Đông',5,1)
-insert into Schedule values(N'59',N'50',null,'TH',2,'20/10/2021','10/12/2021',N'Máy 1',5,4)
-insert into Schedule values(N'60',N'50',null,'LT',2,'20/10/2021','10/12/2021',N'Rạng Đông',4,7)
-insert into Schedule values(N'61',N'51',null,'TH',2,'20/10/2021','10/12/2021',N'Máy 1',4,10)
-insert into Schedule values(N'62',N'51',null,'LT',2,'20/10/2021','10/12/2021',N'Rạng Đông',4,12)
-insert into Schedule values(N'63',N'52',null,'TH',2,'20/10/2021','10/12/2021',N'Máy 1',4,10)
-insert into Schedule values(N'64',N'52',null,'LT',2,'20/10/2021','10/12/2021',N'Rạng Đông',3,10)
+
 
 -- insert into Student_Schedule
 
-insert into Student_Schedule values('2019_2',N'28',N'18130006')
-insert into Student_Schedule values('2019_2',N'29',N'18130006')
-insert into Student_Schedule values('2019_2',N'30',N'18130006')
-insert into Student_Schedule values('2019_2',N'31',N'18130006')
-insert into Student_Schedule values('2019_2',N'32',N'18130006')
---insert into Student_Schedule values('2020_1',N'36',N'18130006')
---insert into Student_Schedule values('2020_1',N'37',N'18130006')
---insert into Student_Schedule values('2020_1',N'38',N'18130006')
---insert into Student_Schedule values('2020_1',N'39',N'18130006')
---insert into Student_Schedule values('2020_1',N'40',N'18130006')
-insert into Student_Schedule values('2020_2',N'36',N'18130006')
-insert into Student_Schedule values('2020_2',N'37',N'18130006')
-insert into Student_Schedule values('2020_2',N'38',N'18130006')
-insert into Student_Schedule values('2020_2',N'39',N'18130006')
-insert into Student_Schedule values('2020_2',N'40',N'18130006')
-insert into Student_Schedule values('2020_2',N'36',N'18130005')
-insert into Student_Schedule values('2020_2',N'37',N'18130005')
-insert into Student_Schedule values('2020_2',N'38',N'18130005')
-insert into Student_Schedule values('2020_2',N'39',N'18130005')
-insert into Student_Schedule values('2020_2',N'40',N'18130005')
-insert into Student_Schedule values('2021_1',N'40',N'18130005')
-insert into Student_Schedule values('2021_1',N'41',N'18130005')
-
 -- insert into Student_ScheduleR
-insert into Student_Schedule_F values('2020_1',N'30',N'18130006')
-insert into Student_Schedule_F values('2020_1',N'31',N'18130006')
-insert into Student_Schedule_F values('2020_1',N'32',N'18130006')
-insert into Student_Schedule_F values('2020_1',N'33',N'18130006')
-insert into Student_Schedule_F values('2020_1',N'34',N'18130006')
-insert into Student_Schedule_F values('2020_1',N'35',N'18130006')
-insert into Student_Schedule_F values('2020_2',N'36',N'18130006')
-insert into Student_Schedule_F values('2020_2',N'37',N'18130006')
-insert into Student_Schedule_F values('2020_2',N'38',N'18130006')
-insert into Student_Schedule_F values('2020_2',N'39',N'18130006')
-insert into Student_Schedule_F values('2020_2',N'40',N'18130006')
-insert into Student_Schedule_F values('2020_2',N'36',N'18130005')
-insert into Student_Schedule_F values('2020_2',N'37',N'18130005')
-insert into Student_Schedule_F values('2020_2',N'38',N'18130005')
-insert into Student_Schedule_F values('2020_2',N'39',N'18130005')
-insert into Student_Schedule_F values('2020_2',N'41',N'18130005')
-insert into Student_Schedule_F values('2020_2',N'42',N'18130005')
+
 
 -- insert into Professor_Schedule
-insert into Professor_Schedule values('2019_2',N'28',N'224')
-insert into Professor_Schedule values('2019_2',N'29',N'224')
-insert into Professor_Schedule values('2019_2',N'30',N'224')
-insert into Professor_Schedule values('2019_2',N'31',N'224')
-insert into Professor_Schedule values('2019_2',N'32',N'224')
---insert into Professor_Schedule values('2020_1',N'36',N'224')
---insert into Professor_Schedule values('2020_1',N'37',N'224')
---insert into Professor_Schedule values('2020_1',N'38',N'224')
---insert into Professor_Schedule values('2020_1',N'39',N'224')
---insert into Professor_Schedule values('2020_1',N'40',N'224')
-insert into Professor_Schedule values('2020_2',N'36',N'224')
-insert into Professor_Schedule values('2020_2',N'37',N'224')
-insert into Professor_Schedule values('2020_2',N'38',N'224')
-insert into Professor_Schedule values('2020_2',N'39',N'224')
-insert into Professor_Schedule values('2020_2',N'40',N'224')
+
 
 -- insert into front_Sub
-insert into front_Sub values(N'214331',N'214321')
-insert into front_Sub values(N'214441',N'214331')
+insert into front_Sub values(N'214331',N'214351')
+insert into front_Sub values(N'214242',N'214271')
+insert into front_Sub values(N'214252',N'214273')
+insert into front_Sub values(N'214441',N'214286')
+insert into front_Sub values(N'214370',N'214387')
+insert into front_Sub values(N'214331',N'214463')
+insert into front_Sub values(N'214241',N'214462')
+insert into front_Sub values(N'214352',N'214461')
+insert into front_Sub values(N'214241',N'214282')
+insert into front_Sub values(N'214331',N'214352')
+insert into front_Sub values(N'214462',N'214464')
+insert into front_Sub values(N'214241',N'214252')
+insert into front_Sub values(N'214442',N'214471')
 
-insert into Sub_Pass values('2021_1',N'214492',N'18130005',6.5,2.5,N'C')
-insert into Sub_Pass values('2021_1',N'208453',N'18130005',7.5,3,N'B')
-insert into Sub_Pass values('2021_2',N'214471',N'18130005',8,3.2,N'A')
-insert into Sub_Pass values('2021_2',N'214273',N'18130005',3.9,1.5,N'D')
+insert into front_Sub values(N'214241',N'214292')
+insert into front_Sub values(N'214442',N'214485')
+insert into front_Sub values(N'214463',N'214492')
+insert into front_Sub values(N'214462',N'214483')
+insert into front_Sub values(N'214441',N'214353')
+insert into front_Sub values(N'214370',N'214383')
+insert into front_Sub values(N'214462',N'214374')
+insert into front_Sub values(N'214462',N'214289')
 
-insert into semester_Result values('2020_2',N'18130005',6.37,2.23,4)
-insert into semester_Result values('2021_1',N'18130005',6.0,2.0,4)
-insert into semester_Result values('2021_2',N'18130005',7.6,2.5,16)
+insert into front_Sub values(N'214331',N'214386')
+
+insert into front_Sub values(N'214442',N'214491')
+insert into front_Sub values(N'214331',N'214441')
+insert into front_Sub values(N'214442',N'214451')
+insert into front_Sub values(N'214241',N'214285')
+insert into front_Sub values(N'214442',N'214372')
+insert into front_Sub values(N'214331',N'214388')
+
+insert into front_Sub values(N'214331',N'214361')
+
+insert into front_Sub values(N'214370',N'214379')
+insert into front_Sub values(N'214252',N'214290')
+insert into front_Sub values(N'214321',N'214331')
+insert into front_Sub values(N'214463',N'214291')
+insert into front_Sub values(N'214242',N'214251')
+
+insert into front_Sub values(N'202110',N'202121')
+
+
+
+insert into front_Sub values(N'214442',N'214465')
+
+insert into front_Sub values(N'214463',N'214490')
+insert into front_Sub values(N'214352',N'214370')
+
+insert into front_Sub values(N'214252',N'214274')
+
+
 
 -- insert into date_exam
 
-insert into Schedule values(N'-1',N'52',null,'TH',2,'20/10/2021','10/12/2021',N'Máy 1',4,10)
-insert into Schedule values(N'-2',N'52',null,'LT',2,'20/10/2021','10/12/2021',N'Rạng Đông',3,10)
+-- insert into Course_Progress
+insert into Course_Progress Values('DT',N'202501',1,1);
+insert into Course_Progress Values('DT',N'214201',1,1);
+insert into Course_Progress Values('DT',N'202109',1,1);
+insert into Course_Progress Values('DT',N'202108',1,1);
+insert into Course_Progress Values('DT',N'200101',1,1);
+insert into Course_Progress Values('DT',N'200102',1,1);
+insert into Course_Progress Values('DT',N'214321',1,1);
+insert into Course_Progress Values('DT',N'213603',1,1);
+insert into Course_Progress Values('DT',N'202206',1,1);
+insert into Course_Progress Values('DT',N'200202',1,1);
+insert into Course_Progress Values('DT',N'202502',1,1);
+insert into Course_Progress Values('DT',N'200103',1,1);
+insert into Course_Progress Values('DT',N'213604',1,1);
+insert into Course_Progress Values('DT',N'200201',1,1);
+insert into Course_Progress Values('DT',N'214331',1,1);
+insert into Course_Progress Values('DT',N'202110',1,1);
+insert into Course_Progress Values('DT',N'214242',1,1);
+insert into Course_Progress Values('DT',N'214231',1,1);
+insert into Course_Progress Values('DT',N'202622',2,1);
+insert into Course_Progress Values('DT',N'208453',2,0);
+insert into Course_Progress Values('DT',N'214441',2,1);
+insert into Course_Progress Values('DT',N'214241',2,1);
+insert into Course_Progress Values('DT',N'202620',2,0);
+insert into Course_Progress Values('DT',N'214251',2,1);
+insert into Course_Progress Values('DT',N'202121',2,1);
+insert into Course_Progress Values('DT',N'200105',2,1);
+insert into Course_Progress Values('DT',N'214352',2,1);
+insert into Course_Progress Values('DT',N'214442',2,1);
+insert into Course_Progress Values('DT',N'214351',2,1);
+insert into Course_Progress Values('DT',N'214361',2,1);
+insert into Course_Progress Values('DT',N'214463',3,1);
+insert into Course_Progress Values('DT',N'214252',3,1);
+insert into Course_Progress Values('DT',N'200107',3,1);
+insert into Course_Progress Values('DT',N'214462',3,1);
+insert into Course_Progress Values('DT',N'214353',3,0);
+insert into Course_Progress Values('DT',N'214372',3,0);
+insert into Course_Progress Values('DT',N'214451',3,0);
+insert into Course_Progress Values('DT',N'214386',3,0);
+insert into Course_Progress Values('DT',N'214282',3,0);
+insert into Course_Progress Values('DT',N'214492',3,0);
+insert into Course_Progress Values('DT',N'214471',3,0);
+insert into Course_Progress Values('DT',N'214461',3,1);
+insert into Course_Progress Values('DT',N'214370',3,1);
+insert into Course_Progress Values('DT',N'214274',3,0);
+insert into Course_Progress Values('DT',N'214388',3,0);
+insert into Course_Progress Values('DT',N'214273',3,0);
+insert into Course_Progress Values('DT',N'214387',4,0);
+insert into Course_Progress Values('DT',N'214485',4,0);
+insert into Course_Progress Values('DT',N'214483',4,0);
+insert into Course_Progress Values('DT',N'214383',4,0);
+insert into Course_Progress Values('DT',N'214289',4,0);
+insert into Course_Progress Values('DT',N'214290',4,0);
+insert into Course_Progress Values('DT',N'214379',4,0);
+insert into Course_Progress Values('DT',N'214271',4,0);
+insert into Course_Progress Values('DT',N'214464',4,0);
+insert into Course_Progress Values('DT',N'214491',4,0);
+insert into Course_Progress Values('DT',N'214465',4,0);
+insert into Course_Progress Values('DT',N'214292',4,0);
+insert into Course_Progress Values('DT',N'214286',4,1);
+insert into Course_Progress Values('DT',N'214285',4,0);
+insert into Course_Progress Values('DT',N'214291',4,1);
+insert into Course_Progress Values('DT',N'214490',4,1);
+insert into Course_Progress Values('DT',N'214985',4,1);
+insert into Course_Progress Values('DT',N'214984',4,1);
+insert into Course_Progress Values('DT',N'214374',4,1);
 
-insert into Date_Exam values (N'2021_2',N'-1','nhom1',40);
-insert into Date_Exam values (N'2021_2',N'-2','nhom1',40);
+-- insert into Sub_Pass
+insert into Sub_Pass values('2018_1', N'202501', N'18130005', 7.57, 3.03, N'B');
+ insert into Sub_Pass values('2018_1', N'214201', N'18130005', 4.95, 1.98, N'D');
+ insert into Sub_Pass values('2018_1', N'202109', N'18130005', 7.82, 3.13, N'B');
+ insert into Sub_Pass values('2018_1', N'202108', N'18130005', 5.21, 2.08, N'C');
+ insert into Sub_Pass values('2018_1', N'200101', N'18130005', 4.14, 1.66, N'D');
+ insert into Sub_Pass values('2018_1', N'200102', N'18130005', 4.1, 1.64, N'D');
+ insert into Sub_Pass values('2018_1', N'214321', N'18130005', 5.99, 2.4, N'C');
+ insert into Sub_Pass values('2018_1', N'213603', N'18130005', 9.77, 3.91, N'A');
+ insert into Sub_Pass values('2018_1', N'202206', N'18130005', 7.51, 3, N'B');
+ 
+ insert into Sub_Pass values('2018_2', N'200202', N'18130005', 6.97, 2.79, N'B');
+ insert into Sub_Pass values('2018_2', N'202502', N'18130005', 9.53, 3.81, N'A');
+ insert into Sub_Pass values('2018_2', N'200103', N'18130005', 3.91, 1.56, N'F');
+ insert into Sub_Pass values('2018_2', N'213604', N'18130005', 6.88, 2.75, N'B');
+ insert into Sub_Pass values('2018_2', N'200201', N'18130005', 8.18, 3.27, N'A');
+ insert into Sub_Pass values('2018_2', N'214331', N'18130005', 7.15, 2.86, N'B');
+ insert into Sub_Pass values('2018_2', N'202110', N'18130005', 3.7, 1.48, N'F');
+ insert into Sub_Pass values('2018_2', N'214242', N'18130005', 6.72, 2.69, N'B');
+ insert into Sub_Pass values('2018_2', N'214231', N'18130005', 8.62, 3.45, N'A');
+ 
+ insert into Sub_Pass values('2019_1', N'202622', N'18130005', 6.82, 2.73, N'B');
+ insert into Sub_Pass values('2019_1', N'208453', N'18130005', 9.74, 3.9, N'A');
+ insert into Sub_Pass values('2019_1', N'214441', N'18130005', 7.17, 2.87, N'B');
+ insert into Sub_Pass values('2019_1', N'214241', N'18130005', 9.77, 3.91, N'A');
+ insert into Sub_Pass values('2019_1', N'202620', N'18130005', 6.83, 2.73, N'B');
+ insert into Sub_Pass values('2019_1', N'214251', N'18130005', 8.48, 3.39, N'A');
+ insert into Sub_Pass values('2019_1', N'202121', N'18130005', 8.73, 3.49, N'A');
+ 
+ insert into Sub_Pass values('2019_2', N'200105', N'18130005', 3.59, 1.44, N'F');
+ insert into Sub_Pass values('2019_2', N'214352', N'18130005', 8.61, 3.44, N'A');
+ insert into Sub_Pass values('2019_2', N'214442', N'18130005', 9.97, 3.99, N'A');
+ insert into Sub_Pass values('2019_2', N'214351', N'18130005', 7.22, 2.89, N'B');
+ insert into Sub_Pass values('2019_2', N'214361', N'18130005', 9.96, 3.98, N'A');
+ 
+ insert into Sub_Pass values('2020_1', N'214463', N'18130005', 4.44, 1.78, N'D');
+ insert into Sub_Pass values('2020_1', N'214252', N'18130005', 5.49, 2.2, N'C');
+ insert into Sub_Pass values('2020_1', N'200107', N'18130005', 6.09, 2.44, N'C');
+ insert into Sub_Pass values('2020_1', N'214462', N'18130005', 8.36, 3.34, N'A');
+ insert into Sub_Pass values('2020_1', N'214353', N'18130005', 3.27, 1.31, N'F');
+ insert into Sub_Pass values('2020_1', N'214372', N'18130005', 8.18, 3.27, N'A');
+ insert into Sub_Pass values('2020_1', N'214451', N'18130005', 9.52, 3.81, N'A');
+ insert into Sub_Pass values('2020_1', N'214386', N'18130005', 3.92, 1.57, N'F');
+ 
+ insert into Sub_Pass values('2020_2', N'214282', N'18130005', 4.77, 1.91, N'D');
+ insert into Sub_Pass values('2020_2', N'214492', N'18130005', 8.41, 3.36, N'A');
+ insert into Sub_Pass values('2020_2', N'214471', N'18130005', 6.65, 2.66, N'B');
+ insert into Sub_Pass values('2020_2', N'214461', N'18130005', 3.12, 1.25, N'F');
+ insert into Sub_Pass values('2020_2', N'214370', N'18130005', 5.77, 2.31, N'C');
+ insert into Sub_Pass values('2020_2', N'214274', N'18130005', 6.62, 2.65, N'B');
+ insert into Sub_Pass values('2020_2', N'214388', N'18130005', 3.6, 1.44, N'F');
+ insert into Sub_Pass values('2020_2', N'214273', N'18130005', 4.74, 1.9, N'D');
+ 
+ insert into Sub_Pass values('2021_1', N'214387', N'18130005', 7.95, 3.18, N'B');
+ insert into Sub_Pass values('2021_1', N'214485', N'18130005', 8.97, 3.59, N'A');
+ insert into Sub_Pass values('2021_1', N'214483', N'18130005', 7.7, 3.08, N'B');
+ insert into Sub_Pass values('2021_1', N'214383', N'18130005', 8.22, 3.29, N'A');
+ insert into Sub_Pass values('2021_1', N'214289', N'18130005', 5.16, 2.06, N'C');
+ insert into Sub_Pass values('2021_1', N'214290', N'18130005', 4.95, 1.98, N'D');
+ insert into Sub_Pass values('2021_1', N'214379', N'18130005', 3.7, 1.48, N'F');
+ insert into Sub_Pass values('2021_1', N'214271', N'18130005', 6.86, 2.74, N'B');
+ insert into Sub_Pass values('2021_1', N'214464', N'18130005', 4.57, 1.83, N'D');
+ insert into Sub_Pass values('2021_1', N'214491', N'18130005', 5.74, 2.3, N'C');
+ insert into Sub_Pass values('2021_1', N'214465', N'18130005', 7.34, 2.94, N'B');
+ insert into Sub_Pass values('2021_1', N'214292', N'18130005', 3.65, 1.46, N'F');
+ 
+ insert into Sub_Pass values('2021_2', N'214286', N'18130005', 8.27, 3.31, N'A');
+ insert into Sub_Pass values('2021_2', N'214285', N'18130005', 7.7, 3.08, N'B');
+ insert into Sub_Pass values('2021_2', N'214291', N'18130005', 9.91, 3.96, N'A');
+ insert into Sub_Pass values('2021_2', N'214490', N'18130005', 5.83, 2.33, N'C');
+ insert into Sub_Pass values('2021_2', N'214985', N'18130005', 4.7, 1.88, N'D');
+ insert into Sub_Pass values('2021_2', N'214984', N'18130005', 4.8, 1.92, N'D');
+ insert into Sub_Pass values('2021_2', N'214374', N'18130005', 6.78, 2.71, N'B');
 
 
+insert into Semester_Result values('2018_1', N'18130005', 6.41, 2.56, 25);
+insert into Semester_Result values('2018_2', N'18130005', 5.9, 2.36, 24);
+insert into Semester_Result values('2019_1', N'18130005', 8.23, 3.29, 19);
+insert into Semester_Result values('2019_2', N'18130005', 7.83, 3.13, 17);
+insert into Semester_Result values('2020_1', N'18130005', 5.24, 2.1, 28);
+insert into Semester_Result values('2020_2', N'18130005', 4.49, 1.8, 30);
+insert into Semester_Result values('2021_1', N'18130005', 5.55, 2.22, 39);
+insert into Semester_Result values('2021_2', N'18130005', 6.58, 2.63, 32);
 
-
---test 
-
-select * from ACCOUNT
--- GO
-
--- SELECT sd.*
--- FROM Time_Table_St('19130006') sd
--- ORDER BY sd.ID_Course_Offering;
-
--- --
--- SELECT *
--- FROM get_Semester_Reuslt('18130006', '2021_1');
--- -- tính điểm TB từ semester_Result
--- SELECT SUM(gr.Score * gr.Course_certificate) / SUM(gr.Course_certificate) Diem_TB
--- FROM get_Semester_Reuslt('18130005', '2_2018') gr;
--- -- tính điểm TB từ semester_Result(hệ 4)
--- SELECT SUM(gr.Score_System_4 * gr.Course_certificate) / SUM(gr.Course_certificate) Diem_TB_He_4
--- FROM get_Semester_Reuslt('18130005', '2_2018') gr;
--- -- lấy tổng tín chỉ đã đạt trong học kỳ(ko lấy môn dưới 4.0)
--- SELECT SUM(gr.Course_certificate) so_TC
--- FROM get_Semester_Reuslt('18130005', '2_2018') gr
--- WHERE gr.Score > 4.0;
--- -- tổng tín chỉ đã đăng ký trong học kỳ
--- SELECT SUM(gr.Course_certificate) so_TC
--- FROM get_Semester_Reuslt('18130005', '2_2018') gr;
--- --
-
--- GO
--- --
--- SELECT *
--- FROM get_Semester_Reuslt('18130006', '2021_1');
--- -- tính điểm TB từ semester_Result
--- SELECT SUM(gr.Score * gr.Course_certificate) / SUM(gr.Course_certificate) Diem_TB
--- FROM get_Semester_Reuslt('18130005', '2_2018') gr;
--- -- tính điểm TB từ semester_Result(hệ 4)
--- SELECT SUM(gr.Score_System_4 * gr.Course_certificate) / SUM(gr.Course_certificate) Diem_TB_He_4
--- FROM get_Semester_Reuslt('18130005', '2_2018') gr;
--- -- lấy tổng tín chỉ đã đạt trong học kỳ(ko lấy môn dưới 4.0)
--- SELECT SUM(gr.Course_certificate) so_TC
--- FROM get_Semester_Reuslt('18130005', '2_2018') gr
--- WHERE gr.Score > 4.0;
--- -- tổng tín chỉ đã đăng ký trong học kỳ
--- SELECT SUM(gr.Course_certificate) so_TC
--- FROM get_Semester_Reuslt('18130005', '2_2018') gr;
--- --
-
--- -- tạo function Final_Result(éo biết tính như nào)
--- SELECT * FROM Clazz
--- SELECT * FROM Student DELETE Student WHERE ID_Student LIKE '18135%'
--- DELETE Clazz WHERE Clazz_code LIKE 'DH18TY%'
--- SELECT * FROM Course_Offering
--- UPDATE dbo.Course_Offering SET ID_Course = '213603',Clazz_code = 'DH18DTA',Max_Size = 80,Current_Size = 0 WHERE ID_Course_Offering = '1'
--- ---
--- SELECT sa.ID_Schedule
--- FROM Sub_Available_ST('18130005') sa JOIN
--- Time_Table_St('18130005') tt ON sa.ID_Schedule = tt.ID_Schedule
--- WHERE sa.ID_Schedule = '12';
--- --- Nhập điểm cho giáo viên
--- SELECT DISTINCT c.ID_Course,
---                 c.Name_Course,
---                 pr.ID_Semester
--- FROM Professor_Schedule pr JOIN
--- Schedule sc ON pr.ID_Schedule = sc.ID_Schedule JOIN
--- Course_Offering co ON sc.ID_Course_Offering = co.ID_Course_Offering JOIN
--- Course c ON co.ID_Course = c.ID_Course
--- WHERE pr.ID_Semester = (SELECT
---   s.ID_Semester
--- FROM Semester s
--- WHERE GETDATE() BETWEEN s.start_Date AND s.end_Date)
--- AND pr.ID_Professor = '224';
-
--- SELECT st.ID_Student,
---        s.Student_Name
--- FROM Student_Schedule st JOIN
--- Schedule sc ON st.ID_Schedule = sc.ID_Schedule JOIN
--- Course_Offering co ON sc.ID_Course_Offering = co.ID_Course_Offering JOIN
--- Course c ON co.ID_Course = c.ID_Course JOIN
--- Student s ON st.ID_Student = s.ID_Student
--- WHERE c.ID_Course = '214282'
--- AND st.ID_Semester = '2020_2';
-
-
--- SELECT sp.Score
--- FROM Sub_Pass sp
--- WHERE sp.ID_Student = '18130005'
--- AND sp.ID_Course = '214282'
--- AND sp.ID_Semester = '2020_2';
-
--- ------ xét nó có trong cơ sỡ dữ liệu hay chưa
--- DELETE FROM Student_Schedule_F;
--- SELECT strr.*
--- FROM Student_Schedule_F strr
--- WHERE strr.ID_Semester = '2020_2'
--- AND strr.ID_Student = '18130005'
--- AND strr.ID_Schedule = '36'
-
--- SELECT st.ID_Schedule
--- FROM Student_Schedule st
--- WHERE st.ID_Semester = '2020_2'
--- AND st.ID_Student = '18130005'
-
--- SELECT COUNT(DISTINCT c.ID_Course) AS dem
--- FROM Student_Schedule st JOIN
--- Schedule sc ON st.ID_Schedule = sc.ID_Schedule JOIN
--- Course_Offering co ON sc.ID_Course_Offering = co.ID_Course_Offering JOIN
--- Course c ON co.ID_Course = c.ID_Course
--- WHERE st.ID_Semester = '2020_2'
--- AND st.ID_Student = '18130005'
-
-select *
-from Final_Result
-
-select *
-from Semester_Result
-ORDER BY ID_Student
-
-SELECT *
-FROM Sub_Pass sp
-WHERE  sp.ID_Student = '18130005'
-ORDER BY ID_Semester
-
-select *
-from Student
-
-select * from Refresh_Token
-
-select * from Course_Offering
-
-select * from ACCOUNT
-
-select * from Clazz;
-
-select * from ACCOUNT_Detail
-
-select * from Verification_Token
-
-select * from Student
-
-select * from Role;
-
-select * from get_Semester_Reuslt('18130005','2021_1')
-select * from get_Semester_Reuslt('18130005','2021_2')
-
-select * from student_schedule where ID_Student ='18130005'
-
-delete from Student_Schedule
-
-select * from Student_Schedule_F;
-
-delete from Student_Schedule_F;
-
-select * from Faculty
-select * from  Date_Exam_ST ('18130005','2021_2')
-
---delete from Clazz
-
-SELECT c.ID_Course,
-  c.Name_Course,
-  c.Course_certificate,
-  sp.Score,
-  sp.Score_System_4,
-  sp.Rated
-FROM Sub_Pass sp JOIN
-  Course c ON sp.ID_Course = c.ID_Course
-WHERE  sp.ID_Student = '18130005'
-ORDER BY ID_Semester
-
-GO
--- Dùng để in ra ds điểm của hs theo từng ID_Semester
-CREATE FUNCTION get_ID_Semester (@ID_Student nvarchar(50))
-RETURNS TABLE
-AS
-  RETURN
-  SELECT DISTINCT sp.ID_Semester
-	FROM Sub_Pass sp
-	WHERE sp.ID_Student = @ID_Student
-GO
-SELECT * from get_ID_Semester('18130005')
-
-GO
-CREATE FUNCTION get_Semester_Result_ST (@ID_Student nvarchar(50))
-RETURNS TABLE
-AS
-RETURN
-  SELECT c.ID_Course,
-  c.Name_Course,
-  c.Course_certificate,
-  sp.Score,
-  sp.Score_System_4,
-  sp.ID_Semester,
-  sp.Rated
-FROM Sub_Pass sp JOIN
-  Course c ON sp.ID_Course = c.ID_Course
-WHERE  sp.ID_Student = @ID_Student
-GO
-SELECT * from get_Semester_Result_ST('18130005')
+insert into Final_Result values( N'18130005', 6.07, 2.43);
