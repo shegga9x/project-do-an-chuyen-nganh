@@ -2,6 +2,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { CourseManageService } from 'src/app/services';
+import { forkJoin, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-report-grade',
@@ -12,6 +13,9 @@ export class ReportGradeComponent implements OnInit {
 
   listIDSemester: any[] = [];
   listSemesterResults: any[] = [];
+  listAllSemesterResults: any[] = [];
+
+  listSemesterResultsByIDSemester: any[] = [];
 
   constructor(
     private titleService: Title,
@@ -21,46 +25,79 @@ export class ReportGradeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getIDSemesterST();
-    this.getAllSemesterResults();
+    const combined = forkJoin(
+      [this.getIDSemesterST(),
+      this.getAllSemesterResults(),
+      this.getGradeAVReuslt()]
+    )
+
+    combined.subscribe((latestValues: any) => {
+      this.listIDSemester = latestValues[0];
+      this.listSemesterResults = latestValues[1];
+      this.listAllSemesterResults = latestValues[2];
+      // console.log(latestValues);
+      // console.log(this.listIDSemester);
+      // console.log(this.listSemesterResults);
+      // console.log(this.listAllSemesterResults);
+      this.getAllSemesterResults().subscribe((data: any) => { this.listSemesterResults = data });
+      this.listIDSemester.forEach(element => {
+        this.listSemesterResultsByIDSemester.push(this.listSemesterResults.filter(x => x.id_Semester == element.idSemester));
+      });
+
+    });
+
   }
 
   getIDSemesterST() {
-    this.courseManageService.getIDSemesterST().subscribe({
-      next: (x: any) => {
-        this.listIDSemester = x;
-        //add to course-manage services
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
+    return this.courseManageService.getIDSemesterST();
   }
 
   getAllSemesterResults() {
-    this.courseManageService.getSemesterReusltRegist().subscribe({
-      next: (x: any) => {
-        this.listSemesterResults = x;
-        console.log(x);
-        //add to course-manage services
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
+    return this.courseManageService.getSemesterReuslt();
   }
 
   getSemesterResultsByID(idSemester: string) {
     return this.listSemesterResults.filter(x => x.id_Semester == idSemester);
   }
 
-  getTotalScoreSemester(idSemester: string) {
-    const sum = this.listSemesterResults.filter(x => x.id_Semester == idSemester)
-      .reduce((sum, current) => sum + current.total, 0);
-    console.log(sum);
-    console.log("hellooo");
-  }
-  getTotalScoreSystem4Semester(idSemester: string) {
 
+  getGradeAVReuslt() {
+    return this.courseManageService.getGradeAVSemesterReuslt();
+  }
+
+  getGradeAVReusltByIDSemester(idSemester: string) {
+    return this.listAllSemesterResults.filter(x => x.idSemester == idSemester);
+  }
+
+  getSemesterResultsByIDSemesterALL(idSemester: string) {
+    let totalSTC = 0;
+    let totalScoreForSTC = 0;
+    this.listSemesterResultsByIDSemester.forEach(element => {
+      if (element[0].id_Semester <= idSemester) {
+        element.forEach((element1: any) => {
+          if (element1.score < 4) {
+            element1.score = 0;
+          }
+          totalSTC += element1.course_certificate;
+          totalScoreForSTC += element1.course_certificate * element1.score;
+        });
+      }
+    });
+    return Number((totalScoreForSTC / totalSTC).toFixed(2));
+  }
+
+  getSTC_byIDSemesterALL(idSemester: string) {
+    let totalSTC = 0;
+    this.listSemesterResultsByIDSemester.forEach(element => {
+      if (element[0].id_Semester <= idSemester) {
+        element.forEach((element1: any) => {
+          if (element1.score < 4) {
+            element1.course_certificate = 0;
+          }
+          totalSTC += element1.course_certificate;
+        });
+      }
+    });
+    return Number((totalSTC));
   }
 }

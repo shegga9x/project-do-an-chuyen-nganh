@@ -17,6 +17,7 @@ import code.backend.helpers.payload.dto.CourseDTO;
 import code.backend.helpers.payload.dto.CourseOfferingDTO;
 import code.backend.helpers.payload.dto.DateExamDTO;
 import code.backend.helpers.payload.dto.FacultyDTO;
+import code.backend.helpers.payload.dto.GradeSemesterDTO;
 import code.backend.helpers.payload.dto.ProfessorDTO;
 import code.backend.helpers.payload.dto.ScheduleDTO;
 import code.backend.helpers.payload.dto.SemesterDTO;
@@ -33,6 +34,7 @@ import code.backend.persitence.entities.ProfessorSchedule;
 import code.backend.persitence.entities.ProfessorScheduleId;
 import code.backend.persitence.entities.Schedule;
 import code.backend.persitence.entities.Semester;
+import code.backend.persitence.entities.SemesterResult;
 import code.backend.persitence.entities.Student;
 import code.backend.persitence.entities.StudentSchedule;
 import code.backend.persitence.entities.StudentScheduleF;
@@ -42,6 +44,7 @@ import code.backend.persitence.repository.CourseOfferingRepository;
 import code.backend.persitence.repository.ProfessorScheduleRepository;
 import code.backend.persitence.repository.ScheduleRepository;
 import code.backend.persitence.repository.SemesterRepository;
+import code.backend.persitence.repository.SemesterResultRepository;
 import code.backend.persitence.repository.StudentScheduleFRepository;
 import code.backend.persitence.repository.StudentScheduleRepository;
 import code.backend.service.subService.EntityService;
@@ -63,6 +66,8 @@ public class CourseManageService {
     StudentScheduleFRepository studentScheduleFRepository;
     @Autowired
     ProfessorScheduleRepository professorScheduleRepository;
+    @Autowired
+    SemesterResultRepository semesterResultRepository;
 
     public List<SubAvailableRespone> get_Sub_Available_ST(String id) {
         List<String> ids = new ArrayList<>();
@@ -380,13 +385,15 @@ public class CourseManageService {
     }
 
     // xem điểm của ST
-    public List<String> get_ID_Semester(String model) {
+    public List<SemesterDTO> get_ID_Semester(String model) {
 
         List<String> listParam = Arrays.asList(model);
         List<String[]> columns = entityService.getFunctionResult("get_ID_Semester", listParam);
-        List<String> listResult = new ArrayList<>();
+        List<SemesterDTO> listResult = new ArrayList<>();
         for (String[] arr : columns) {
-            listResult.add(arr[0]);
+            SemesterDTO semesterDTO = (SemesterDTO) SubUtils
+                    .mapperObject(semesterRepository.findById(arr[0]).get(), new SemesterDTO());
+            listResult.add(semesterDTO);
         }
         // System.out.println(listResult);
         return listResult;
@@ -398,8 +405,24 @@ public class CourseManageService {
         List<String[]> columns = entityService.getFunctionResult("get_Semester_Result_ST", listParam);
         List<SemesterReusltDTO> listResult = new ArrayList<>();
         for (String[] arr : columns) {
+            // System.out.println(arr[2]);
+            // System.out.println(arr[3]);
+            // System.out.println(arr[4]);
             listResult.add(new SemesterReusltDTO(arr[0], arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]),
                     Double.parseDouble(arr[4]), arr[5], arr[6]));
+        }
+        listResult.forEach(System.out::println);
+        return listResult;
+    }
+
+    // lấy lên bảng điểm theo từng học kỳ
+    public List<GradeSemesterDTO> get_Grade_Av_Semester_Reuslt(String idStudent) {
+        List<SemesterResult> columns = semesterResultRepository.findByIdStudent(idStudent);
+        List<GradeSemesterDTO> listResult = new ArrayList<>();
+        for (SemesterResult sr : columns) {
+            GradeSemesterDTO gradeSemesterDTO = (GradeSemesterDTO) SubUtils
+                    .mapperObject(sr, new GradeSemesterDTO());
+            listResult.add(gradeSemesterDTO);
         }
         // System.out.println(listResult);
         return listResult;

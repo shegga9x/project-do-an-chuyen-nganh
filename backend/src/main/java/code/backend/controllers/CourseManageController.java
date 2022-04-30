@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import code.backend.helpers.payload.dto.GradeSemesterDTO;
+import code.backend.helpers.payload.dto.SemesterDTO;
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
 import code.backend.helpers.payload.response.CourseRegisterFakeRespone;
 import code.backend.helpers.payload.response.DateExamResponse;
@@ -103,7 +105,7 @@ public class CourseManageController {
 
     // xem điểm của ST
     @GetMapping("/get_id_semester")
-    public @ResponseBody List<String> get_ID_Semester(@RequestParam("idACCOUNT") String model) {
+    public @ResponseBody List<SemesterDTO> get_ID_Semester(@RequestParam("idACCOUNT") String model) {
         return courseManageService.get_ID_Semester(model);
     }
 
@@ -112,5 +114,11 @@ public class CourseManageController {
     @GetMapping("/get_semester_reuslt")
     public @ResponseBody List<SemesterReusltDTO> get_Semester_Reuslt(@RequestParam("idStudent") String idStudent) {
         return courseManageService.get_Semester_Reuslt(idStudent);
+    }
+
+    @GetMapping("/get_grade_av_semester_reuslt/")
+    public @ResponseBody List<GradeSemesterDTO> get_Grade_Av_Semester_Reuslt(
+            @RequestParam("idStudent") String idStudent) {
+        return courseManageService.get_Grade_Av_Semester_Reuslt(idStudent);
     }
 }

@@ -20,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import code.backend.helpers.payload.dto.SemesterDTO;
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
 import code.backend.helpers.payload.response.CourseRegisterFakeRespone;
 import code.backend.helpers.payload.response.TimeTableResponse;
@@ -40,6 +41,7 @@ import code.backend.persitence.repository.CourseOfferingRepository;
 import code.backend.persitence.repository.ProfessorScheduleRepository;
 import code.backend.persitence.repository.ScheduleRepository;
 import code.backend.persitence.repository.SemesterRepository;
+import code.backend.persitence.repository.SemesterResultRepository;
 import code.backend.persitence.repository.StudentRepository;
 import code.backend.persitence.repository.StudentScheduleFRepository;
 import code.backend.persitence.repository.StudentScheduleRepository;
@@ -65,20 +67,24 @@ class BackendApplicationTests {
 	StudentRepository studentRepository;
 	@Autowired
 	ProfessorScheduleRepository professorScheduleRepository;
+	@Autowired
+	SemesterResultRepository semesterResultRepository;
 
 	// @Test
 	// @Transactional
 	// void test1() {
-	// 	List<String> listParam = Arrays.asList("18130005", "2021_1");
+	// List<String> listParam = Arrays.asList("18130005", "2021_1");
 
-	// 	List<String[]> columns = entityService.getFunctionResult("get_Semester_Reuslt", listParam);
+	// List<String[]> columns =
+	// entityService.getFunctionResult("get_Semester_Reuslt", listParam);
 
-	// 	List<SemesterReusltDTO> listResult = new ArrayList<>();
-	// 	for (String[] arr : columns) {
-	// 		listResult.add(new SemesterReusltDTO(arr[0], arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]),
-	// 				Double.parseDouble(arr[4])));
-	// 	}
-	// 	System.out.println(listResult);
+	// List<SemesterReusltDTO> listResult = new ArrayList<>();
+	// for (String[] arr : columns) {
+	// listResult.add(new SemesterReusltDTO(arr[0], arr[1],
+	// Integer.parseInt(arr[2]), Double.parseDouble(arr[3]),
+	// Double.parseDouble(arr[4])));
+	// }
+	// System.out.println(listResult);
 
 	// }
 
@@ -310,13 +316,14 @@ class BackendApplicationTests {
 
 		List<String> listParam = Arrays.asList("18130005");
 
-		List<String[]> columns = entityService.getFunctionResult("get_ID_Semester", listParam);
-
-		for (String[] arr : columns) {
-			// listResult.add(new SemesterReusltDTO(arr[0], arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]),
-			// 		Double.parseDouble(arr[4])));
-			System.out.println(arr[0]);
-		}
+        List<String[]> columns = entityService.getFunctionResult("get_ID_Semester", listParam);
+        List<SemesterDTO> listResult = new ArrayList<>();
+        for (String[] arr : columns) {
+            SemesterDTO semesterDTO = (SemesterDTO) SubUtils
+                    .mapperObject(semesterRepository.findById(arr[0]).get(), new SemesterDTO());
+            listResult.add(semesterDTO);
+        }
+        System.out.println(listResult);
 
 	}
 
@@ -325,15 +332,23 @@ class BackendApplicationTests {
 	void test13() {
 
 		List<String> listParam = Arrays.asList("18130005");
-
-		List<String[]> columns = entityService.getFunctionResult("get_ID_Semester", listParam);
-
-		for (String[] arr : columns) {
-			// listResult.add(new SemesterReusltDTO(arr[0], arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]),
-			// 		Double.parseDouble(arr[4])));
-			System.out.println(arr[0]);
-		}
+        List<String[]> columns = entityService.getFunctionResult("get_Semester_Result_ST", listParam);
+        List<SemesterReusltDTO> listResult = new ArrayList<>();
+        for (String[] arr : columns) {
+            listResult.add(new SemesterReusltDTO(arr[0], arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]),
+                    Double.parseDouble(arr[4]), arr[5], arr[6]));
+        }
+        System.out.println(listResult);
 
 	}
 
+	@Transactional
+	@Test
+	void test14() {
+
+		List<SemesterResult> list = semesterResultRepository.findByIdStudent("18130005");
+
+		list.forEach(System.out::println);
+
+	}
 }

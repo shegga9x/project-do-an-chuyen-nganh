@@ -15,18 +15,17 @@
                         <th style="width:50px">TK(10)</th>
                         <th style="width:50px">TK(CH)</th>
                     </tr>
-                    
                 </thead>
             </table>
 
-            <ng-container *ngFor="let idSemester of listIDSemester;index as i">
+            <ng-container *ngFor="let item of listIDSemester">
                 <div style="background-color: #dbdbdb;width: 100% ;text-align: left; padding-left: 5px;">
-                    <a style="font-size: 14px;font-weight: bold;;">{{idSemester}}</a>
+                    <a style="font-size: 14px;font-weight: bold;;">{{item.idSemester}}</a>
                 </div>
                 <table>
                     <tbody>
-                        <tr *ngFor="let item of getSemesterResultsByID(idSemester);index as i2">
-                            <td style="width:45px">{{i2+1}}</td>
+                        <tr *ngFor="let item of getSemesterResultsByID(item.idSemester);index as i">
+                            <td style="width:45px">{{i+1}}</td>
                             <td style="width:140px">{{item.id_Course}}</td>
                             <td style="width:280px">{{item.name_Course}}</td>
                             <td style="width:50px">{{item.course_certificate}}</td>
@@ -42,22 +41,25 @@
                 <table>
                     <tbody>
                         <tr>
-                            <td>Điểm trung bình học kỳ hệ 10/100:</td>
+                            <td>Điểm trung bình học kỳ hệ 10/100:
+                                {{getGradeAVReusltByIDSemester(item.idSemester)[0].gradeAv}} </td>
                         </tr>
                         <tr>
-                            <td>Điểm trung bình học kỳ hệ 4:</td>
+                            <td>Điểm trung bình học kỳ hệ 4:
+                                {{getGradeAVReusltByIDSemester(item.idSemester)[0].gradeAv4}}</td>
                         </tr>
                         <tr>
-                            <td>Điểm trung bình tích lũy:</td>
+                            <td>Điểm trung bình tích lũy: {{getSemesterResultsByIDSemesterALL(item.idSemester)}}</td>
                         </tr>
                         <tr>
-                            <td>Điểm trung bình tích lũy (hệ 4):</td>
+                            <td>Điểm trung bình tích lũy (hệ 4):
+                                {{(getSemesterResultsByIDSemesterALL(item.idSemester)*0.4).toFixed(2)}}</td>
                         </tr>
                         <tr>
-                            <td>Số tín chỉ đạt:</td>
+                            <td>Số tín chỉ đạt: {{getGradeAVReusltByIDSemester(item.idSemester)[0].creditGet}}</td>
                         </tr>
                         <tr>
-                            <td>Số tín chỉ tích lũy"</td>
+                            <td>Số tín chỉ tích lũy: {{(getSTC_byIDSemesterALL(item.idSemester))}}</td>
                         </tr>
                     </tbody>
                 </table>

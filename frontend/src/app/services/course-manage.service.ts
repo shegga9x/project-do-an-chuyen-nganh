@@ -97,9 +97,16 @@ export class CourseManageService {
     });
   }
 
-  getSemesterReusltRegist() {
+  getSemesterReuslt() {
     let params = { idStudent: this.accountService.accountValue?.idAccount as string };
     return this.http.get(`${baseUrl}/get_semester_reuslt/`, {
+      params: params,
+    });
+  }
+
+  getGradeAVSemesterReuslt() {
+    let params = { idStudent: this.accountService.accountValue?.idAccount as string };
+    return this.http.get(`${baseUrl}/get_grade_av_semester_reuslt/`, {
       params: params,
     });
   }

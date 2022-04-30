@@ -61,7 +61,3 @@ semesterResult(ky2).certificate
 sumTotalCertificate += semesterResult(ky2).certificate
 sumTotalAvSemester+=semesterResult(ky2)
 sum+= ki2.sum
-
-
-
->>>>>>> 2594e3e52a439d6aef2d99d05d329fe3c035a42f
