@@ -40,15 +40,15 @@ public class CourseManageController {
     }
 
     // @PreAuthorize("hasAnyRole('ROLE_Student','ROLE_Professor','ROLE_Admin')")
-    @GetMapping("/get_semester_reuslt")
-    public @ResponseBody List<SemesterReusltDTO> get_Semester_Reuslt(@RequestParam("idStudent") String idStudent,
-            @RequestParam("idSemester") String idSemester) {
-        return courseManageService.get_Semester_Reuslt(idStudent, idSemester);
-    }
-    @GetMapping("/professor")
-    public @ResponseBody Professor Professor(@RequestParam("idProfessor") String idProfessor ) {
-        return courseManageService.Professor(idProfessor);
-    }
+    // @GetMapping("/get_semester_reuslt")
+    // public @ResponseBody List<SemesterReusltDTO> get_Semester_Reuslt(@RequestParam("idStudent") String idStudent,
+    //         @RequestParam("idSemester") String idSemester) {
+    //     return courseManageService.get_Semester_Reuslt(idStudent, idSemester);
+    // }
+    // @GetMapping("/professor")
+    // public @ResponseBody Professor Professor(@RequestParam("idProfessor") String idProfessor ) {
+    //     return courseManageService.Professor(idProfessor);
+    // }
 
 
     @GetMapping("/submit_course_regist")

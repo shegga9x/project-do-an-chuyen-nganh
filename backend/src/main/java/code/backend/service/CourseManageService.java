@@ -91,9 +91,9 @@ public class CourseManageService {
         return subAvailableRespones;
     }
 
-    public Professor Professor(String idProfessor){
+    // public Professor Professor(String idProfessor){
 
-    }
+    // }
 
 
     public MessageResponse submit_Course_Regist() {
