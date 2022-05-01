@@ -347,47 +347,37 @@ GO
 
 go
 
-CREATE FUNCTION sub_Passed (@ID_Course_B nvarchar(50), @ID_ACCOUNT nvarchar(50))
+create FUNCTION sub_Passed (@ID_Course_B nvarchar(50), @ID_ACCOUNT nvarchar(50))
 RETURNS nvarchar(50)
 AS
 BEGIN
   DECLARE @ID_Course_B1 nvarchar(50)
-  (SELECT
-    @ID_Course_B1 = fs.ID_Course_B
-  FROM front_Sub fs
-  WHERE fs.ID_Course_B = @ID_Course_B
-    AND fs.ID_Course =
-                    CASE
-                      WHEN (SELECT
-      ID_Course
-    FROM Sub_Pass
-    WHERE ID_Course = fs.ID_Course
-      AND ID_Student = @ID_ACCOUNT
-      AND Score >= 4)
-                        IS NOT NULL THEN fs.ID_Course
-                      ELSE NULL
-                    END)
+  (SELECT @ID_Course_B1 = fs.ID_Course_B FROM front_Sub fs WHERE fs.ID_Course_B = @ID_Course_B 
+														   AND fs.ID_Course = CASE WHEN (SELECT ID_Course
+																						FROM Sub_Pass
+																						WHERE ID_Course = fs.ID_Course
+																						AND ID_Student = @ID_ACCOUNT
+																						AND Score >= 4) IS NOT NULL THEN fs.ID_Course ELSE NULL END)
   RETURN @ID_Course_B1;
 END
 GO
 
+go
 -- những môn sẽ hiển thị khi nhấn đăng k
 -- những môn có thể đăng ký của giáo viên thì chọn những môn nào trong bảng schedule có chỗ id pr là nullý môn học
-CREATE FUNCTION Sub_Available_ST (@ID_ACCOUNT varchar(50))
+create FUNCTION Sub_Available_ST (@ID_ACCOUNT varchar(50))
 RETURNS TABLE
 AS
   RETURN
-  SELECT sc.ID_Schedule
+  SELECT sc.ID_Schedule , co.ID_Course ,c.Name_Course
 FROM Course_Offering co JOIN
   Course c ON c.ID_Course = co.ID_Course JOIN
+  (select cp.ID_Course from Course_Progress cp where cp.number_year =  SUBSTRING(@ID_ACCOUNT,1,2)) cp ON c.ID_Course = cp.ID_Course JOIN
   Schedule sc ON sc.ID_Course_Offering = co.ID_Course_Offering
 
-WHERE c.ID_Faculty =CASE WHEN c.ID_Faculty IS NULL THEN c.ID_Faculty 
-			ELSE (SELECT ID_Faculty
-					FROM Student
-					WHERE ID_Student = @ID_ACCOUNT) END
+WHERE	(c.ID_Faculty is null or c.ID_Faculty  in  (SELECT ID_Faculty FROM Student WHERE ID_Student = @ID_ACCOUNT))
 		AND sc.ID_Schedule >=0 
-		AND c.years = CASE WHEN c.years IS NULL THEN c.years 
+		AND c.years <= CASE WHEN c.years IS NULL THEN c.years 
 			ELSE (SELECT (YEAR(GETDATE()) - YEAR(Create_date))
 				FROM Student
 				WHERE ID_Student = @ID_ACCOUNT) END
@@ -397,15 +387,14 @@ WHERE c.ID_Faculty =CASE WHEN c.ID_Faculty IS NULL THEN c.ID_Faculty
 				WHERE ID_Semester IN (SELECT ID_Semester
 										FROM Semester
 										WHERE GETDATE() BETWEEN start_Date AND end_Date)) END
-		AND c.ID_Course =CASE WHEN (SELECT ID_Course_B
+		AND c.ID_Course =CASE WHEN (SELECT top 1 ID_Course_B
 									FROM front_Sub
 									WHERE ID_Course_B = c.ID_Course) IS NULL THEN c.ID_Course
 									WHEN [dbo].sub_Passed(c.ID_Course, @ID_ACCOUNT) IS NULL THEN NULL
 									ELSE [dbo].sub_Passed(c.ID_Course, @ID_ACCOUNT) END
-		AND CAST(SUBSTRING(co.Clazz_code,3,2) AS int) = (( YEAR( GETDATE() ) % 100 )) + 1 - (c.number_S - 1) - c.years
+		--AND CAST(SUBSTRING(co.Clazz_code,3,2) AS int) = (( YEAR( GETDATE() ) % 100 )) + 1 - (c.number_S - 1) - c.years
 GO
 
-select * from ACCOUNT
 select * from Sub_Available_ST('18130005');
 
 -- bảng này là bảng check khi nhấn vào ô chọn môn học nếu trùng giờ trùng ngày , trùng môn nếu rỗng thì ko đk được
@@ -635,6 +624,7 @@ insert into ACCOUNT Values(N'300',N'300@st.hcmuaf.edu.vn',N'$2a$10$g/AIRfhpFhGPj
 
 
 --dữ liệu bảng Faculty
+INSERT INTO Faculty VALUES ('DC', 000,N'Đại Cương')
 INSERT INTO Faculty VALUES ('DT', 130,N'Khoa Công Nghệ Thông Tin')
 INSERT INTO Faculty VALUES ('TY', 131,N'Khoa Thú Y')
 INSERT INTO Faculty VALUES ('NH', 132,N'Khoa Nông Học')
@@ -763,6 +753,7 @@ insert into Time_For_Course_Register Values(N'2021_2','30/3/2022','3/4/2022')
 -- insert into course
 
 -- đại cương
+
 insert into Course Values(N'202501',null,N'Giáo dục thể chất 1*',1,1,1);
 insert into Course Values(N'214201',null,N'Nhập môn tin học',3,1,1);
 insert into Course Values(N'202109',null,N'Toán cao cấp A2',3,1,1);
@@ -776,20 +767,18 @@ insert into Course Values(N'202502',null,N'Giáo dục thể chất 2*',1,1,2);
 insert into Course Values(N'200103',null,N'Chủ nghĩa xã hội khoa học',2,1,2);
 insert into Course Values(N'213604',null,N'Anh văn 2',3,1,2);
 insert into Course Values(N'200201',null,N'Quân sự 1 (lý thuyết)*',3,1,2);
+insert into Course Values(N'202110',null,N'Toán cao cấp A3',3,1,2);
 insert into Course Values(N'202622',null,N'Pháp luật đại cương',2,2,1);
 insert into Course Values(N'202121',null,N'Xác suất thống kê',3,2,1);
 insert into Course Values(N'200105',null,N'Lịch sử Đảng Cộng sản Việt Nam',2,2,2);
 insert into Course Values(N'200107',null,N'Tư tưởng Hồ Chí Minh',2,3,1);
 
-
-
-
 -- chuyên nghành
+
 
 
 insert into Course Values(N'214321','DT',N'Lập trình cơ bản',4,1,1);
 insert into Course Values(N'214331','DT',N'Lập trình nâng cao',4,1,2);
-insert into Course Values(N'202110','DT',N'Toán cao cấp A3',3,1,2);
 insert into Course Values(N'214242','DT',N'Nhập môn hệ điều hành',3,1,2);
 insert into Course Values(N'214231','DT',N'Cấu trúc máy tính',2,1,2);
 insert into Course Values(N'208453','DT',N'Marketing căn bản',2,2,1);
@@ -838,14 +827,166 @@ insert into Course Values(N'214374','DT',N'Chuyên đề WEB',4,4,2);
 --dt
 
 -- insert into Course_Offering
-
+insert into Course_Offering Values(N'0',N'202501','DH18DTA',80,0)
+insert into Course_Offering Values(N'1',N'214201','DH18DTA',80,0)
+insert into Course_Offering Values(N'2',N'202109','DH18DTA',80,0)
+insert into Course_Offering Values(N'3',N'202108','DH18DTA',80,0)
+insert into Course_Offering Values(N'4',N'200101','DH18DTA',80,0)
+insert into Course_Offering Values(N'5',N'200102','DH18DTA',80,0)
+insert into Course_Offering Values(N'6',N'214321','DH18DTA',80,0)
+insert into Course_Offering Values(N'7',N'213603','DH18DTA',80,0)
+insert into Course_Offering Values(N'8',N'202206','DH18DTA',80,0)
+insert into Course_Offering Values(N'9',N'200202','DH18DTA',80,0)
+insert into Course_Offering Values(N'10',N'202502','DH18DTA',80,0)
+insert into Course_Offering Values(N'11',N'200103','DH18DTA',80,0)
+insert into Course_Offering Values(N'12',N'213604','DH18DTA',80,0)
+insert into Course_Offering Values(N'13',N'200201','DH18DTA',80,0)
+insert into Course_Offering Values(N'14',N'214331','DH18DTA',80,0)
+insert into Course_Offering Values(N'15',N'202110','DH18DTA',80,0)
+insert into Course_Offering Values(N'16',N'214242','DH18DTA',80,0)
+insert into Course_Offering Values(N'17',N'214231','DH18DTA',80,0)
+insert into Course_Offering Values(N'18',N'202622','DH18DTA',80,0)
+insert into Course_Offering Values(N'19',N'208453','DH18DTA',80,0)
+insert into Course_Offering Values(N'20',N'214441','DH18DTA',80,0)
+insert into Course_Offering Values(N'21',N'214241','DH18DTA',80,0)
+insert into Course_Offering Values(N'22',N'202620','DH18DTA',80,0)
+insert into Course_Offering Values(N'23',N'214251','DH18DTA',80,0)
+insert into Course_Offering Values(N'24',N'202121','DH18DTA',80,0)
+insert into Course_Offering Values(N'25',N'200105','DH18DTA',80,0)
+insert into Course_Offering Values(N'26',N'214352','DH18DTA',80,0)
+insert into Course_Offering Values(N'27',N'214442','DH18DTA',80,0)
+insert into Course_Offering Values(N'28',N'214351','DH18DTA',80,0)
+insert into Course_Offering Values(N'29',N'214361','DH18DTA',80,0)
+insert into Course_Offering Values(N'30',N'214463','DH18DTA',80,0)
+insert into Course_Offering Values(N'31',N'214252','DH18DTA',80,0)
+insert into Course_Offering Values(N'32',N'200107','DH18DTA',80,0)
+insert into Course_Offering Values(N'33',N'214462','DH18DTA',80,0)
+insert into Course_Offering Values(N'34',N'214353','DH18DTA',80,0)
+insert into Course_Offering Values(N'35',N'214372','DH18DTA',80,0)
+insert into Course_Offering Values(N'36',N'214451','DH18DTA',80,0)
+insert into Course_Offering Values(N'37',N'214386','DH18DTA',80,0)
+insert into Course_Offering Values(N'38',N'214282','DH18DTA',80,0)
+insert into Course_Offering Values(N'39',N'214492','DH18DTA',80,0)
+insert into Course_Offering Values(N'40',N'214471','DH18DTA',80,0)
+insert into Course_Offering Values(N'41',N'214461','DH18DTA',80,0)
+insert into Course_Offering Values(N'42',N'214370','DH18DTA',80,0)
+insert into Course_Offering Values(N'43',N'214274','DH18DTA',80,0)
+insert into Course_Offering Values(N'44',N'214388','DH18DTA',80,0)
+insert into Course_Offering Values(N'45',N'214273','DH18DTA',80,0)
+insert into Course_Offering Values(N'46',N'214387','DH18DTA',80,0)
+insert into Course_Offering Values(N'47',N'214485','DH18DTA',80,0)
+insert into Course_Offering Values(N'48',N'214483','DH18DTA',80,0)
+insert into Course_Offering Values(N'49',N'214383','DH18DTA',80,0)
+insert into Course_Offering Values(N'50',N'214289','DH18DTA',80,0)
+insert into Course_Offering Values(N'51',N'214290','DH18DTA',80,0)
+insert into Course_Offering Values(N'52',N'214379','DH18DTA',80,0)
+insert into Course_Offering Values(N'53',N'214271','DH18DTA',80,0)
+insert into Course_Offering Values(N'54',N'214464','DH18DTA',80,0)
+insert into Course_Offering Values(N'55',N'214491','DH18DTA',80,0)
+insert into Course_Offering Values(N'56',N'214465','DH18DTA',80,0)
+insert into Course_Offering Values(N'57',N'214292','DH18DTA',80,0)
+insert into Course_Offering Values(N'58',N'214286','DH18DTA',80,0)
+insert into Course_Offering Values(N'59',N'214285','DH18DTA',80,0)
+insert into Course_Offering Values(N'60',N'214291','DH18DTA',80,0)
+insert into Course_Offering Values(N'61',N'214490','DH18DTA',80,0)
+insert into Course_Offering Values(N'62',N'214985','DH18DTA',80,0)
+insert into Course_Offering Values(N'63',N'214984','DH18DTA',80,0)
+insert into Course_Offering Values(N'64',N'214374','DH18DTA',80,0)
 -- insert into Schedule
-
-
+insert into Schedule values(N'1',N'0',null,'LT',3,'20/10/2021','20/11/2021',N'HD',10,13)
+insert into Schedule values(N'2',N'1',null,'LT',5,'20/10/2021','20/11/2021',N'PV',10,13)
+insert into Schedule values(N'3',N'2',null,'LT',4,'20/10/2021','20/11/2021',N'RD',10,13)
+insert into Schedule values(N'4',N'3',null,'LT',2,'20/10/2021','20/11/2021',N'CT',1,4)
+insert into Schedule values(N'5',N'4',null,'LT',3,'20/10/2021','20/11/2021',N'RD',7,10)
+insert into Schedule values(N'6',N'5',null,'LT',3,'20/10/2021','20/11/2021',N'HD',4,7)
+insert into Schedule values(N'7',N'6',null,'LT',5,'20/10/2021','20/11/2021',N'CT',10,13)
+insert into Schedule values(N'8',N'6',null,'TH',5,'20/10/2021','20/11/2021',N'RD',10,13)
+insert into Schedule values(N'9',N'7',null,'LT',4,'20/10/2021','20/11/2021',N'HD',7,10)
+insert into Schedule values(N'10',N'7',null,'TH',2,'20/10/2021','20/11/2021',N'RD',10,13)
+insert into Schedule values(N'11',N'8',null,'LT',3,'20/10/2021','20/11/2021',N'HD',1,4)
+insert into Schedule values(N'12',N'9',null,'LT',3,'20/10/2021','20/11/2021',N'CT',10,13)
+insert into Schedule values(N'13',N'10',null,'LT',2,'20/10/2021','20/11/2021',N'PV',4,7)
+insert into Schedule values(N'14',N'11',null,'LT',4,'20/10/2021','20/11/2021',N'CT',7,10)
+insert into Schedule values(N'15',N'12',null,'LT',3,'20/10/2021','20/11/2021',N'RD',1,4)
+insert into Schedule values(N'16',N'13',null,'LT',3,'20/10/2021','20/11/2021',N'HD',4,7)
+insert into Schedule values(N'17',N'14',null,'LT',2,'20/10/2021','20/11/2021',N'CT',1,4)
+insert into Schedule values(N'18',N'14',null,'TH',4,'20/10/2021','20/11/2021',N'RD',10,13)
+insert into Schedule values(N'19',N'15',null,'LT',4,'20/10/2021','20/11/2021',N'PV',7,10)
+insert into Schedule values(N'20',N'16',null,'LT',5,'20/10/2021','20/11/2021',N'PV',10,13)
+insert into Schedule values(N'21',N'17',null,'LT',4,'20/10/2021','20/11/2021',N'RD',10,13)
+insert into Schedule values(N'22',N'18',null,'LT',2,'20/10/2021','20/11/2021',N'HD',7,10)
+insert into Schedule values(N'23',N'19',null,'LT',4,'20/10/2021','20/11/2021',N'RD',7,10)
+insert into Schedule values(N'24',N'20',null,'LT',3,'20/10/2021','20/11/2021',N'CT',7,10)
+insert into Schedule values(N'25',N'20',null,'TH',3,'20/10/2021','20/11/2021',N'PV',1,4)
+insert into Schedule values(N'26',N'21',null,'LT',5,'20/10/2021','20/11/2021',N'PV',1,4)
+insert into Schedule values(N'27',N'22',null,'LT',2,'20/10/2021','20/11/2021',N'RD',7,10)
+insert into Schedule values(N'28',N'23',null,'LT',3,'20/10/2021','20/11/2021',N'HD',7,10)
+insert into Schedule values(N'29',N'24',null,'LT',4,'20/10/2021','20/11/2021',N'PV',10,13)
+insert into Schedule values(N'30',N'25',null,'LT',4,'20/10/2021','20/11/2021',N'HD',10,13)
+insert into Schedule values(N'31',N'26',null,'LT',5,'20/10/2021','20/11/2021',N'PV',1,4)
+insert into Schedule values(N'32',N'26',null,'TH',2,'20/10/2021','20/11/2021',N'RD',4,7)
+insert into Schedule values(N'33',N'27',null,'LT',5,'20/10/2021','20/11/2021',N'RD',7,10)
+insert into Schedule values(N'34',N'27',null,'TH',2,'20/10/2021','20/11/2021',N'RD',4,7)
+insert into Schedule values(N'35',N'28',null,'LT',3,'20/10/2021','20/11/2021',N'PV',7,10)
+insert into Schedule values(N'36',N'28',null,'TH',4,'20/10/2021','20/11/2021',N'PV',7,10)
+insert into Schedule values(N'37',N'29',null,'LT',2,'20/10/2021','20/11/2021',N'PV',4,7)
+insert into Schedule values(N'38',N'30',null,'LT',3,'20/10/2021','20/11/2021',N'HD',7,10)
+insert into Schedule values(N'39',N'30',null,'TH',4,'20/10/2021','20/11/2021',N'PV',7,10)
+insert into Schedule values(N'40',N'31',null,'LT',2,'20/10/2021','20/11/2021',N'PV',10,13)
+insert into Schedule values(N'41',N'31',null,'TH',2,'20/10/2021','20/11/2021',N'PV',4,7)
+insert into Schedule values(N'42',N'32',null,'LT',5,'20/10/2021','20/11/2021',N'RD',7,10)
+insert into Schedule values(N'43',N'33',null,'LT',3,'20/10/2021','20/11/2021',N'RD',1,4)
+insert into Schedule values(N'44',N'33',null,'TH',4,'20/10/2021','20/11/2021',N'PV',1,4)
+insert into Schedule values(N'45',N'34',null,'LT',3,'20/10/2021','20/11/2021',N'PV',4,7)
+insert into Schedule values(N'46',N'35',null,'LT',3,'20/10/2021','20/11/2021',N'PV',7,10)
+insert into Schedule values(N'47',N'35',null,'TH',5,'20/10/2021','20/11/2021',N'RD',7,10)
+insert into Schedule values(N'48',N'36',null,'LT',4,'20/10/2021','20/11/2021',N'HD',7,10)
+insert into Schedule values(N'49',N'37',null,'LT',4,'20/10/2021','20/11/2021',N'PV',1,4)
+insert into Schedule values(N'50',N'37',null,'TH',4,'20/10/2021','20/11/2021',N'PV',4,7)
+insert into Schedule values(N'51',N'38',null,'LT',5,'20/10/2021','20/11/2021',N'CT',4,7)
+insert into Schedule values(N'52',N'38',null,'TH',3,'20/10/2021','20/11/2021',N'HD',4,7)
+insert into Schedule values(N'53',N'39',null,'LT',3,'20/10/2021','20/11/2021',N'RD',4,7)
+insert into Schedule values(N'54',N'39',null,'TH',5,'20/10/2021','20/11/2021',N'CT',1,4)
+insert into Schedule values(N'55',N'40',null,'LT',2,'20/10/2021','20/11/2021',N'HD',4,7)
+insert into Schedule values(N'56',N'41',null,'LT',4,'20/10/2021','20/11/2021',N'CT',1,4)
+insert into Schedule values(N'57',N'41',null,'TH',5,'20/10/2021','20/11/2021',N'CT',4,7)
+insert into Schedule values(N'58',N'42',null,'LT',4,'20/10/2021','20/11/2021',N'CT',7,10)
+insert into Schedule values(N'59',N'42',null,'TH',2,'20/10/2021','20/11/2021',N'CT',1,4)
+insert into Schedule values(N'60',N'43',null,'LT',4,'20/10/2021','20/11/2021',N'RD',10,13)
+insert into Schedule values(N'61',N'44',null,'LT',4,'20/10/2021','20/11/2021',N'RD',7,10)
+insert into Schedule values(N'62',N'44',null,'TH',3,'20/10/2021','20/11/2021',N'CT',4,7)
+insert into Schedule values(N'63',N'45',null,'LT',2,'20/10/2021','20/11/2021',N'CT',7,10)
+insert into Schedule values(N'64',N'45',null,'TH',4,'20/10/2021','20/11/2021',N'RD',1,4)
+insert into Schedule values(N'65',N'46',null,'LT',3,'20/10/2021','20/11/2021',N'HD',7,10)
+insert into Schedule values(N'66',N'47',null,'LT',4,'20/10/2021','20/11/2021',N'HD',7,10)
+insert into Schedule values(N'67',N'47',null,'TH',4,'20/10/2021','20/11/2021',N'HD',10,13)
+insert into Schedule values(N'68',N'48',null,'LT',2,'20/10/2021','20/11/2021',N'CT',7,10)
+insert into Schedule values(N'69',N'49',null,'LT',2,'20/10/2021','20/11/2021',N'PV',1,4)
+insert into Schedule values(N'70',N'50',null,'LT',4,'20/10/2021','20/11/2021',N'HD',7,10)
+insert into Schedule values(N'71',N'50',null,'TH',3,'20/10/2021','20/11/2021',N'CT',10,13)
+insert into Schedule values(N'72',N'51',null,'LT',2,'20/10/2021','20/11/2021',N'CT',1,4)
+insert into Schedule values(N'73',N'52',null,'LT',5,'20/10/2021','20/11/2021',N'CT',4,7)
+insert into Schedule values(N'74',N'52',null,'TH',2,'20/10/2021','20/11/2021',N'CT',1,4)
+insert into Schedule values(N'75',N'53',null,'LT',3,'20/10/2021','20/11/2021',N'HD',7,10)
+insert into Schedule values(N'76',N'54',null,'LT',3,'20/10/2021','20/11/2021',N'PV',7,10)
+insert into Schedule values(N'77',N'55',null,'LT',5,'20/10/2021','20/11/2021',N'RD',7,10)
+insert into Schedule values(N'78',N'56',null,'LT',3,'20/10/2021','20/11/2021',N'PV',10,13)
+insert into Schedule values(N'79',N'57',null,'LT',4,'20/10/2021','20/11/2021',N'HD',7,10)
+insert into Schedule values(N'80',N'58',null,'LT',3,'20/10/2021','20/11/2021',N'CT',7,10)
+insert into Schedule values(N'81',N'58',null,'TH',5,'20/10/2021','20/11/2021',N'RD',10,13)
+insert into Schedule values(N'82',N'59',null,'LT',5,'20/10/2021','20/11/2021',N'HD',1,4)
+insert into Schedule values(N'83',N'59',null,'TH',5,'20/10/2021','20/11/2021',N'PV',1,4)
+insert into Schedule values(N'84',N'60',null,'LT',3,'20/10/2021','20/11/2021',N'CT',1,4)
+insert into Schedule values(N'85',N'60',null,'TH',3,'20/10/2021','20/11/2021',N'CT',1,4)
+insert into Schedule values(N'86',N'61',null,'LT',4,'20/10/2021','20/11/2021',N'CT',7,10)
+insert into Schedule values(N'87',N'61',null,'TH',2,'20/10/2021','20/11/2021',N'CT',10,13)
+insert into Schedule values(N'88',N'62',null,'LT',5,'20/10/2021','20/11/2021',N'RD',7,10)
+insert into Schedule values(N'89',N'63',null,'LT',3,'20/10/2021','20/11/2021',N'RD',1,4)
+insert into Schedule values(N'90',N'64',null,'LT',3,'20/10/2021','20/11/2021',N'RD',10,13)
+insert into Schedule values(N'91',N'64',null,'TH',3,'20/10/2021','20/11/2021',N'CT',1,4)
 -- insert into Student_Schedule
 
 -- insert into Student_ScheduleR
-
 
 -- insert into Professor_Schedule
 
@@ -864,7 +1005,6 @@ insert into front_Sub values(N'214331',N'214352')
 insert into front_Sub values(N'214462',N'214464')
 insert into front_Sub values(N'214241',N'214252')
 insert into front_Sub values(N'214442',N'214471')
-
 insert into front_Sub values(N'214241',N'214292')
 insert into front_Sub values(N'214442',N'214485')
 insert into front_Sub values(N'214463',N'214492')
@@ -873,188 +1013,182 @@ insert into front_Sub values(N'214441',N'214353')
 insert into front_Sub values(N'214370',N'214383')
 insert into front_Sub values(N'214462',N'214374')
 insert into front_Sub values(N'214462',N'214289')
-
 insert into front_Sub values(N'214331',N'214386')
-
 insert into front_Sub values(N'214442',N'214491')
 insert into front_Sub values(N'214331',N'214441')
 insert into front_Sub values(N'214442',N'214451')
 insert into front_Sub values(N'214241',N'214285')
 insert into front_Sub values(N'214442',N'214372')
 insert into front_Sub values(N'214331',N'214388')
-
 insert into front_Sub values(N'214331',N'214361')
-
 insert into front_Sub values(N'214370',N'214379')
 insert into front_Sub values(N'214252',N'214290')
 insert into front_Sub values(N'214321',N'214331')
 insert into front_Sub values(N'214463',N'214291')
 insert into front_Sub values(N'214242',N'214251')
-
 insert into front_Sub values(N'202110',N'202121')
-
-
-
 insert into front_Sub values(N'214442',N'214465')
-
 insert into front_Sub values(N'214463',N'214490')
 insert into front_Sub values(N'214352',N'214370')
-
 insert into front_Sub values(N'214252',N'214274')
 
 
 
 -- insert into date_exam
 
+
+insert into Schedule values(N'-1',N'52',null,'TH',2,'20/10/2021','10/12/2021',N'Máy 1',4,10)
+insert into Schedule values(N'-2',N'52',null,'LT',2,'20/10/2021','10/12/2021',N'Rạng Đông',3,10)
+
+insert into Date_Exam values (N'2021_2',N'-1','nhom1',40);
+insert into Date_Exam values (N'2021_2',N'-2','nhom1',40);
+
 -- insert into Course_Progress
-insert into Course_Progress Values('DT',N'202501',1,1);
-insert into Course_Progress Values('DT',N'214201',1,1);
-insert into Course_Progress Values('DT',N'202109',1,1);
-insert into Course_Progress Values('DT',N'202108',1,1);
-insert into Course_Progress Values('DT',N'200101',1,1);
-insert into Course_Progress Values('DT',N'200102',1,1);
-insert into Course_Progress Values('DT',N'214321',1,1);
-insert into Course_Progress Values('DT',N'213603',1,1);
-insert into Course_Progress Values('DT',N'202206',1,1);
-insert into Course_Progress Values('DT',N'200202',1,1);
-insert into Course_Progress Values('DT',N'202502',1,1);
-insert into Course_Progress Values('DT',N'200103',1,1);
-insert into Course_Progress Values('DT',N'213604',1,1);
-insert into Course_Progress Values('DT',N'200201',1,1);
-insert into Course_Progress Values('DT',N'214331',1,1);
-insert into Course_Progress Values('DT',N'202110',1,1);
-insert into Course_Progress Values('DT',N'214242',1,1);
-insert into Course_Progress Values('DT',N'214231',1,1);
-insert into Course_Progress Values('DT',N'202622',2,1);
-insert into Course_Progress Values('DT',N'208453',2,0);
-insert into Course_Progress Values('DT',N'214441',2,1);
-insert into Course_Progress Values('DT',N'214241',2,1);
-insert into Course_Progress Values('DT',N'202620',2,0);
-insert into Course_Progress Values('DT',N'214251',2,1);
-insert into Course_Progress Values('DT',N'202121',2,1);
-insert into Course_Progress Values('DT',N'200105',2,1);
-insert into Course_Progress Values('DT',N'214352',2,1);
-insert into Course_Progress Values('DT',N'214442',2,1);
-insert into Course_Progress Values('DT',N'214351',2,1);
-insert into Course_Progress Values('DT',N'214361',2,1);
-insert into Course_Progress Values('DT',N'214463',3,1);
-insert into Course_Progress Values('DT',N'214252',3,1);
-insert into Course_Progress Values('DT',N'200107',3,1);
-insert into Course_Progress Values('DT',N'214462',3,1);
-insert into Course_Progress Values('DT',N'214353',3,0);
-insert into Course_Progress Values('DT',N'214372',3,0);
-insert into Course_Progress Values('DT',N'214451',3,0);
-insert into Course_Progress Values('DT',N'214386',3,0);
-insert into Course_Progress Values('DT',N'214282',3,0);
-insert into Course_Progress Values('DT',N'214492',3,0);
-insert into Course_Progress Values('DT',N'214471',3,0);
-insert into Course_Progress Values('DT',N'214461',3,1);
-insert into Course_Progress Values('DT',N'214370',3,1);
-insert into Course_Progress Values('DT',N'214274',3,0);
-insert into Course_Progress Values('DT',N'214388',3,0);
-insert into Course_Progress Values('DT',N'214273',3,0);
-insert into Course_Progress Values('DT',N'214387',4,0);
-insert into Course_Progress Values('DT',N'214485',4,0);
-insert into Course_Progress Values('DT',N'214483',4,0);
-insert into Course_Progress Values('DT',N'214383',4,0);
-insert into Course_Progress Values('DT',N'214289',4,0);
-insert into Course_Progress Values('DT',N'214290',4,0);
-insert into Course_Progress Values('DT',N'214379',4,0);
-insert into Course_Progress Values('DT',N'214271',4,0);
-insert into Course_Progress Values('DT',N'214464',4,0);
-insert into Course_Progress Values('DT',N'214491',4,0);
-insert into Course_Progress Values('DT',N'214465',4,0);
-insert into Course_Progress Values('DT',N'214292',4,0);
-insert into Course_Progress Values('DT',N'214286',4,1);
-insert into Course_Progress Values('DT',N'214285',4,0);
-insert into Course_Progress Values('DT',N'214291',4,1);
-insert into Course_Progress Values('DT',N'214490',4,1);
-insert into Course_Progress Values('DT',N'214985',4,1);
-insert into Course_Progress Values('DT',N'214984',4,1);
-insert into Course_Progress Values('DT',N'214374',4,1);
+insert into Course_Progress Values('DT',N'202501',18,1);
+insert into Course_Progress Values('DT',N'214201',18,1);
+insert into Course_Progress Values('DT',N'202109',18,1);
+insert into Course_Progress Values('DT',N'202108',18,1);
+insert into Course_Progress Values('DT',N'200101',18,1);
+insert into Course_Progress Values('DT',N'200102',18,1);
+insert into Course_Progress Values('DT',N'214321',18,1);
+insert into Course_Progress Values('DT',N'213603',18,1);
+insert into Course_Progress Values('DT',N'202206',18,1);
+insert into Course_Progress Values('DT',N'200202',18,1);
+insert into Course_Progress Values('DT',N'202502',18,1);
+insert into Course_Progress Values('DT',N'200103',18,1);
+insert into Course_Progress Values('DT',N'213604',18,1);
+insert into Course_Progress Values('DT',N'200201',18,1);
+insert into Course_Progress Values('DT',N'214331',18,1);
+insert into Course_Progress Values('DT',N'202110',18,1);
+insert into Course_Progress Values('DT',N'214242',18,1);
+insert into Course_Progress Values('DT',N'214231',18,1);
+insert into Course_Progress Values('DT',N'202622',18,1);
+insert into Course_Progress Values('DT',N'208453',18,0);
+insert into Course_Progress Values('DT',N'214441',18,1);
+insert into Course_Progress Values('DT',N'214241',18,1);
+insert into Course_Progress Values('DT',N'202620',18,0);
+insert into Course_Progress Values('DT',N'214251',18,1);
+insert into Course_Progress Values('DT',N'202121',18,1);
+insert into Course_Progress Values('DT',N'200105',18,1);
+insert into Course_Progress Values('DT',N'214352',18,1);
+insert into Course_Progress Values('DT',N'214442',18,1);
+insert into Course_Progress Values('DT',N'214351',18,1);
+insert into Course_Progress Values('DT',N'214361',18,1);
+insert into Course_Progress Values('DT',N'214463',18,1);
+insert into Course_Progress Values('DT',N'214252',18,1);
+insert into Course_Progress Values('DT',N'200107',18,1);
+insert into Course_Progress Values('DT',N'214462',18,1);
+insert into Course_Progress Values('DT',N'214353',18,0);
+insert into Course_Progress Values('DT',N'214372',18,0);
+insert into Course_Progress Values('DT',N'214451',18,0);
+insert into Course_Progress Values('DT',N'214386',18,0);
+insert into Course_Progress Values('DT',N'214282',18,0);
+insert into Course_Progress Values('DT',N'214492',18,0);
+insert into Course_Progress Values('DT',N'214471',18,0);
+insert into Course_Progress Values('DT',N'214461',18,1);
+insert into Course_Progress Values('DT',N'214370',18,1);
+insert into Course_Progress Values('DT',N'214274',18,0);
+insert into Course_Progress Values('DT',N'214388',18,0);
+insert into Course_Progress Values('DT',N'214273',18,0);
+insert into Course_Progress Values('DT',N'214387',18,0);
+insert into Course_Progress Values('DT',N'214485',18,0);
+insert into Course_Progress Values('DT',N'214483',18,0);
+insert into Course_Progress Values('DT',N'214383',18,0);
+insert into Course_Progress Values('DT',N'214289',18,0);
+insert into Course_Progress Values('DT',N'214290',18,0);
+insert into Course_Progress Values('DT',N'214379',18,0);
+insert into Course_Progress Values('DT',N'214271',18,0);
+insert into Course_Progress Values('DT',N'214464',18,0);
+insert into Course_Progress Values('DT',N'214491',18,0);
+insert into Course_Progress Values('DT',N'214465',18,0);
+insert into Course_Progress Values('DT',N'214292',18,0);
+insert into Course_Progress Values('DT',N'214286',18,1);
+insert into Course_Progress Values('DT',N'214285',18,0);
+insert into Course_Progress Values('DT',N'214291',18,1);
+insert into Course_Progress Values('DT',N'214490',18,1);
+insert into Course_Progress Values('DT',N'214985',18,1);
+insert into Course_Progress Values('DT',N'214984',18,1);
+insert into Course_Progress Values('DT',N'214374',18,1);
 
 -- insert into Sub_Pass
-insert into Sub_Pass values('2018_1', N'202501', N'18130005', 7.57, 3.03, N'B');
- insert into Sub_Pass values('2018_1', N'214201', N'18130005', 4.95, 1.98, N'D');
- insert into Sub_Pass values('2018_1', N'202109', N'18130005', 7.82, 3.13, N'B');
- insert into Sub_Pass values('2018_1', N'202108', N'18130005', 5.21, 2.08, N'C');
- insert into Sub_Pass values('2018_1', N'200101', N'18130005', 4.14, 1.66, N'D');
- insert into Sub_Pass values('2018_1', N'200102', N'18130005', 4.1, 1.64, N'D');
- insert into Sub_Pass values('2018_1', N'214321', N'18130005', 5.99, 2.4, N'C');
- insert into Sub_Pass values('2018_1', N'213603', N'18130005', 9.77, 3.91, N'A');
- insert into Sub_Pass values('2018_1', N'202206', N'18130005', 7.51, 3, N'B');
- 
- insert into Sub_Pass values('2018_2', N'200202', N'18130005', 6.97, 2.79, N'B');
- insert into Sub_Pass values('2018_2', N'202502', N'18130005', 9.53, 3.81, N'A');
- insert into Sub_Pass values('2018_2', N'200103', N'18130005', 3.91, 1.56, N'F');
- insert into Sub_Pass values('2018_2', N'213604', N'18130005', 6.88, 2.75, N'B');
- insert into Sub_Pass values('2018_2', N'200201', N'18130005', 8.18, 3.27, N'A');
- insert into Sub_Pass values('2018_2', N'214331', N'18130005', 7.15, 2.86, N'B');
- insert into Sub_Pass values('2018_2', N'202110', N'18130005', 3.7, 1.48, N'F');
- insert into Sub_Pass values('2018_2', N'214242', N'18130005', 6.72, 2.69, N'B');
- insert into Sub_Pass values('2018_2', N'214231', N'18130005', 8.62, 3.45, N'A');
- 
- insert into Sub_Pass values('2019_1', N'202622', N'18130005', 6.82, 2.73, N'B');
- insert into Sub_Pass values('2019_1', N'208453', N'18130005', 9.74, 3.9, N'A');
- insert into Sub_Pass values('2019_1', N'214441', N'18130005', 7.17, 2.87, N'B');
- insert into Sub_Pass values('2019_1', N'214241', N'18130005', 9.77, 3.91, N'A');
- insert into Sub_Pass values('2019_1', N'202620', N'18130005', 6.83, 2.73, N'B');
- insert into Sub_Pass values('2019_1', N'214251', N'18130005', 8.48, 3.39, N'A');
- insert into Sub_Pass values('2019_1', N'202121', N'18130005', 8.73, 3.49, N'A');
- 
- insert into Sub_Pass values('2019_2', N'200105', N'18130005', 3.59, 1.44, N'F');
- insert into Sub_Pass values('2019_2', N'214352', N'18130005', 8.61, 3.44, N'A');
- insert into Sub_Pass values('2019_2', N'214442', N'18130005', 9.97, 3.99, N'A');
- insert into Sub_Pass values('2019_2', N'214351', N'18130005', 7.22, 2.89, N'B');
- insert into Sub_Pass values('2019_2', N'214361', N'18130005', 9.96, 3.98, N'A');
- 
- insert into Sub_Pass values('2020_1', N'214463', N'18130005', 4.44, 1.78, N'D');
- insert into Sub_Pass values('2020_1', N'214252', N'18130005', 5.49, 2.2, N'C');
- insert into Sub_Pass values('2020_1', N'200107', N'18130005', 6.09, 2.44, N'C');
- insert into Sub_Pass values('2020_1', N'214462', N'18130005', 8.36, 3.34, N'A');
- insert into Sub_Pass values('2020_1', N'214353', N'18130005', 3.27, 1.31, N'F');
- insert into Sub_Pass values('2020_1', N'214372', N'18130005', 8.18, 3.27, N'A');
- insert into Sub_Pass values('2020_1', N'214451', N'18130005', 9.52, 3.81, N'A');
- insert into Sub_Pass values('2020_1', N'214386', N'18130005', 3.92, 1.57, N'F');
- 
- insert into Sub_Pass values('2020_2', N'214282', N'18130005', 4.77, 1.91, N'D');
- insert into Sub_Pass values('2020_2', N'214492', N'18130005', 8.41, 3.36, N'A');
- insert into Sub_Pass values('2020_2', N'214471', N'18130005', 6.65, 2.66, N'B');
- insert into Sub_Pass values('2020_2', N'214461', N'18130005', 3.12, 1.25, N'F');
- insert into Sub_Pass values('2020_2', N'214370', N'18130005', 5.77, 2.31, N'C');
- insert into Sub_Pass values('2020_2', N'214274', N'18130005', 6.62, 2.65, N'B');
- insert into Sub_Pass values('2020_2', N'214388', N'18130005', 3.6, 1.44, N'F');
- insert into Sub_Pass values('2020_2', N'214273', N'18130005', 4.74, 1.9, N'D');
- 
- insert into Sub_Pass values('2021_1', N'214387', N'18130005', 7.95, 3.18, N'B');
- insert into Sub_Pass values('2021_1', N'214485', N'18130005', 8.97, 3.59, N'A');
- insert into Sub_Pass values('2021_1', N'214483', N'18130005', 7.7, 3.08, N'B');
- insert into Sub_Pass values('2021_1', N'214383', N'18130005', 8.22, 3.29, N'A');
- insert into Sub_Pass values('2021_1', N'214289', N'18130005', 5.16, 2.06, N'C');
- insert into Sub_Pass values('2021_1', N'214290', N'18130005', 4.95, 1.98, N'D');
- insert into Sub_Pass values('2021_1', N'214379', N'18130005', 3.7, 1.48, N'F');
- insert into Sub_Pass values('2021_1', N'214271', N'18130005', 6.86, 2.74, N'B');
- insert into Sub_Pass values('2021_1', N'214464', N'18130005', 4.57, 1.83, N'D');
- insert into Sub_Pass values('2021_1', N'214491', N'18130005', 5.74, 2.3, N'C');
- insert into Sub_Pass values('2021_1', N'214465', N'18130005', 7.34, 2.94, N'B');
- insert into Sub_Pass values('2021_1', N'214292', N'18130005', 3.65, 1.46, N'F');
- 
- insert into Sub_Pass values('2021_2', N'214286', N'18130005', 8.27, 3.31, N'A');
- insert into Sub_Pass values('2021_2', N'214285', N'18130005', 7.7, 3.08, N'B');
- insert into Sub_Pass values('2021_2', N'214291', N'18130005', 9.91, 3.96, N'A');
- insert into Sub_Pass values('2021_2', N'214490', N'18130005', 5.83, 2.33, N'C');
- insert into Sub_Pass values('2021_2', N'214985', N'18130005', 4.7, 1.88, N'D');
- insert into Sub_Pass values('2021_2', N'214984', N'18130005', 4.8, 1.92, N'D');
- insert into Sub_Pass values('2021_2', N'214374', N'18130005', 6.78, 2.71, N'B');
+insert into Sub_Pass values('2018_1', N'202501', N'18130005', 4.44, 1.78, N'D');
+ insert into Sub_Pass values('2018_1', N'214201', N'18130005', 4.67, 1.87, N'D');
+ insert into Sub_Pass values('2018_1', N'202109', N'18130005', 3.92, 1.57, N'F');
+ insert into Sub_Pass values('2018_1', N'202108', N'18130005', 4.11, 1.64, N'D');
+ insert into Sub_Pass values('2018_1', N'200101', N'18130005', 8.21, 3.28, N'A');
+ insert into Sub_Pass values('2018_1', N'200102', N'18130005', 4.3, 1.72, N'D');
+ insert into Sub_Pass values('2018_1', N'214321', N'18130005', 8.12, 3.25, N'A');
+ insert into Sub_Pass values('2018_1', N'213603', N'18130005', 7.8, 3.12, N'B');
+ insert into Sub_Pass values('2018_1', N'202206', N'18130005', 3.65, 1.46, N'F');
+ insert into Sub_Pass values('2018_2', N'200202', N'18130005', 8.97, 3.59, N'A');
+ insert into Sub_Pass values('2018_2', N'202502', N'18130005', 4.72, 1.89, N'D');
+ insert into Sub_Pass values('2018_2', N'200103', N'18130005', 7.91, 3.16, N'B');
+ insert into Sub_Pass values('2018_2', N'213604', N'18130005', 9.62, 3.85, N'A');
+ insert into Sub_Pass values('2018_2', N'200201', N'18130005', 9.61, 3.84, N'A');
+ insert into Sub_Pass values('2018_2', N'214331', N'18130005', 4.2, 1.68, N'D');
+ insert into Sub_Pass values('2018_2', N'202110', N'18130005', 7.41, 2.96, N'B');
+ insert into Sub_Pass values('2018_2', N'214242', N'18130005', 10, 4, N'A');
+ insert into Sub_Pass values('2018_2', N'214231', N'18130005', 3.52, 1.41, N'F');
 
+ insert into Sub_Pass values('2019_1', N'202622', N'18130005', 5.64, 2.26, N'C');
+ insert into Sub_Pass values('2019_1', N'208453', N'18130005', 9.95, 3.98, N'A');
+ insert into Sub_Pass values('2019_1', N'214441', N'18130005', 3.98, 1.59, N'F');
+ insert into Sub_Pass values('2019_1', N'214241', N'18130005', 6.49, 2.6, N'C');
+ insert into Sub_Pass values('2019_1', N'202620', N'18130005', 3.71, 1.48, N'F');
+ insert into Sub_Pass values('2019_1', N'214251', N'18130005', 8.16, 3.26, N'A');
+ insert into Sub_Pass values('2019_1', N'202121', N'18130005', 5.68, 2.27, N'C');
+ 
+ insert into Sub_Pass values('2019_2', N'200105', N'18130005', 9.41, 3.76, N'A');
+ insert into Sub_Pass values('2019_2', N'214352', N'18130005', 4.03, 1.61, N'D');
+ insert into Sub_Pass values('2019_2', N'214442', N'18130005', 5.45, 2.18, N'C');
+ insert into Sub_Pass values('2019_2', N'214351', N'18130005', 7.41, 2.96, N'B');
+ insert into Sub_Pass values('2019_2', N'214361', N'18130005', 7.91, 3.16, N'B');
+ 
+ insert into Sub_Pass values('2020_1', N'214463', N'18130005', 8.77, 3.51, N'A');
+ insert into Sub_Pass values('2020_1', N'214252', N'18130005', 5.97, 2.39, N'C');
+ insert into Sub_Pass values('2020_1', N'200107', N'18130005', 6.21, 2.48, N'C');
+ insert into Sub_Pass values('2020_1', N'214462', N'18130005', 7.82, 3.13, N'B');
+ insert into Sub_Pass values('2020_1', N'214353', N'18130005', 3.1, 1.24, N'F');
+ insert into Sub_Pass values('2020_1', N'214372', N'18130005', 8.58, 3.43, N'A');
+ insert into Sub_Pass values('2020_1', N'214451', N'18130005', 7.42, 2.97, N'B');
+ insert into Sub_Pass values('2020_1', N'214386', N'18130005', 8.01, 3.2, N'A');
+  
+ insert into Sub_Pass values('2020_2', N'214282', N'18130005', 4.09, 1.64, N'D');
+ insert into Sub_Pass values('2020_2', N'214492', N'18130005', 5.97, 2.39, N'C');
+ insert into Sub_Pass values('2020_2', N'214471', N'18130005', 9.03, 3.61, N'A');
+ insert into Sub_Pass values('2020_2', N'214461', N'18130005', 7.88, 3.15, N'B');
+ insert into Sub_Pass values('2020_2', N'214370', N'18130005', 5.22, 2.09, N'C');
+ insert into Sub_Pass values('2020_2', N'214274', N'18130005', 9.05, 3.62, N'A');
+ insert into Sub_Pass values('2020_2', N'214388', N'18130005', 6.48, 2.59, N'C');
+ insert into Sub_Pass values('2020_2', N'214273', N'18130005', 4.11, 1.64, N'D');
 
-insert into Semester_Result values('2018_1', N'18130005', 6.41, 2.56, 25);
-insert into Semester_Result values('2018_2', N'18130005', 5.9, 2.36, 24);
-insert into Semester_Result values('2019_1', N'18130005', 8.23, 3.29, 19);
-insert into Semester_Result values('2019_2', N'18130005', 7.83, 3.13, 17);
-insert into Semester_Result values('2020_1', N'18130005', 5.24, 2.1, 28);
-insert into Semester_Result values('2020_2', N'18130005', 4.49, 1.8, 30);
-insert into Semester_Result values('2021_1', N'18130005', 5.55, 2.22, 39);
-insert into Semester_Result values('2021_2', N'18130005', 6.58, 2.63, 32);
+ insert into Sub_Pass values('2021_1', N'214387', N'18130005', 5.94, 2.38, N'C');
+ insert into Sub_Pass values('2021_1', N'214485', N'18130005', 3.98, 1.59, N'F');
+ insert into Sub_Pass values('2021_1', N'214483', N'18130005', 8.88, 3.55, N'A');
+ insert into Sub_Pass values('2021_1', N'214383', N'18130005', 7.41, 2.96, N'B');
+ insert into Sub_Pass values('2021_1', N'214289', N'18130005', 8.15, 3.26, N'A');
+ insert into Sub_Pass values('2021_1', N'214290', N'18130005', 6.43, 2.57, N'C');
+ insert into Sub_Pass values('2021_1', N'214379', N'18130005', 6.02, 2.41, N'C');
+ insert into Sub_Pass values('2021_1', N'214271', N'18130005', 8.78, 3.51, N'A');
+ insert into Sub_Pass values('2021_1', N'214464', N'18130005', 7.46, 2.98, N'B');
+ insert into Sub_Pass values('2021_1', N'214491', N'18130005', 9.42, 3.77, N'A');
+ insert into Sub_Pass values('2021_1', N'214465', N'18130005', 7.3, 2.92, N'B');
+ insert into Sub_Pass values('2021_1', N'214292', N'18130005', 6.44, 2.58, N'C');
 
-insert into Final_Result values( N'18130005', 6.07, 2.43);
+ insert into Sub_Pass values('2021_2', N'214286', N'18130005', 8.58, 3.43, N'A');
+ insert into Sub_Pass values('2021_2', N'214285', N'18130005', 5.19, 2.08, N'C');
+ insert into Sub_Pass values('2021_2', N'214291', N'18130005', 8.39, 3.36, N'A');
+ insert into Sub_Pass values('2021_2', N'214490', N'18130005', 5.85, 2.34, N'C');
+ insert into Sub_Pass values('2021_2', N'214985', N'18130005', 9.76, 3.9, N'A');
+ insert into Sub_Pass values('2021_2', N'214984', N'18130005', 9.87, 3.95, N'A');
+ insert into Sub_Pass values('2021_2', N'214374', N'18130005', 3.19, 1.28, N'F');
+
+insert into Semester_Result values('2018_1', N'18130005', 5.11, 2.04, 25);
+ insert into Semester_Result values('2018_2', N'18130005', 7.26, 2.9, 24);
+ insert into Semester_Result values('2019_1', N'18130005', 4.85, 1.94, 19);
+ insert into Semester_Result values('2019_2', N'18130005', 6.48, 2.59, 17);
+ insert into Semester_Result values('2020_1', N'18130005', 6.83, 2.73, 28);
+ insert into Semester_Result values('2020_2', N'18130005', 6.31, 2.52, 30);
+ insert into Semester_Result values('2021_1', N'18130005', 6.69, 2.68, 39);
+ insert into Semester_Result values('2021_2', N'18130005', 7.17, 2.87, 32);
+ insert into Final_Result values( N'18130005', 7.24, 2.9);

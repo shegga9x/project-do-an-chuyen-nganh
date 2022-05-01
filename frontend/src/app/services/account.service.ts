@@ -64,9 +64,6 @@ export class AccountService {
       }));
   }
 
-  register(account: Account) {
-      
-  }
 
   verifyEmail(token: string) {
     return this.http.post(`${baseUrl}/verify-email`, { token });

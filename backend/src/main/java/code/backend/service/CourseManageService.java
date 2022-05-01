@@ -87,7 +87,6 @@ public class CourseManageService {
                     (ScheduleDTO) SubUtils.mapperObject(schedule, new ScheduleDTO()));
             subAvailableRespones.add(subAvailableRespone);
         }
-        // System.out.println(subAvailableRespones);
         return subAvailableRespones;
     }
 
@@ -205,7 +204,6 @@ public class CourseManageService {
 
     public List<TimeTableResponse> get_Time_Table_ST(String idACCOUNT) {
         List<String> listParam = Arrays.asList(idACCOUNT, semesterRepository.getCurrentSemester().getIdSemester());
-        System.out.println(listParam);
         List<String[]> columns = entityService.getFunctionResult("Time_Table_St", listParam);
         List<TimeTableResponse> listResult = new ArrayList<>();
         for (String[] arr : columns) {
@@ -218,7 +216,6 @@ public class CourseManageService {
                     new CourseDTO());
             listResult.add(new TimeTableResponse(scheduleDTO, courseOfferingDTO, courseDTO));
         }
-        // System.out.println(listResult);
         return listResult;
     }
 
@@ -356,7 +353,6 @@ public class CourseManageService {
                     new CourseDTO());
             listResult.add(new TimeTableResponse(scheduleDTO, courseOfferingDTO, courseDTO));
         }
-        // System.out.println(listResult);
         return listResult;
     }
 

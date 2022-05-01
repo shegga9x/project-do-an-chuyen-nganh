@@ -65,15 +65,6 @@ export class HomeComponent implements OnInit {
       result.forEach((element: any) => {
         // let id = element[Object.keys(element)[1]];
         // let firstName = element[Object.keys(element)[2]];
-        // let lastName = element[Object.keys(element)[3]];
-        // let clazzCode = element[Object.keys(element)[4]];
-        // let commandAccount: string = `insert into ACCOUNT Values(N'${id}',N'${id}@st.hcmuaf.edu.vn',N'$2a$10$g/AIRfhpFhGPjAnUw5m8qu974.uI71HwrBpjXeYQu4khl8KI.4VgS',getdate(),null,null,1);`;
-        // let commandACCOUNT_has_role: string = `insert into ACCOUNT_has_role VALUES (N'${id}',3);`;
-        // let commandACCOUNT_detail: string = `insert into ACCOUNT_detail VALUES (N'${id}','${firstName}','${lastName}','','','20/10/2018')`;
-        // let commandVerification_Token: string = `insert into Verification_Token VALUES (N'${id}',null,getdate())`;
-        // let commandStudent: string = `insert into Student Values(N'${id}',N'${firstName} ${lastName}','DT',getdate(),N'${clazzCode}',136,0)`;
-        // resultString += commandAccount + "\n";
-
         let ID_Course = element[Object.keys(element)[1]];
         let ID_Course_Offering = count;
         let coureName = element[Object.keys(element)[2]];
@@ -101,7 +92,6 @@ export class HomeComponent implements OnInit {
         if (currentSemester != `'${(years + 2017)}_${(number_S)}'`) {
           currentSemester = `'${(years + 2017)}_${(number_S)}'`;
           let gradeAVofS: number = (Number((totalGradeWithCertificate / totalCertificate).toFixed(2)));
-
           let commandSemester_Result: string = ` insert into Semester_Result values(${currentSemester}, N'18130005', ${gradeAVofS}, ${(Number((gradeAVofS * 0.4).toFixed(2)))}, ${totalCertificate});`;
           totalGradeWithCertificate = 0;
           totalCertificate = 0;
@@ -110,7 +100,7 @@ export class HomeComponent implements OnInit {
         let commandSub_Pass: string = ` insert into Sub_Pass values(${currentSemester}, N'${ID_Course}', N'18130005', ${grade}, ${grade4}, N'${rate}');`;
         totalGradeWithCertificate += (grade < 4 ? 0 : grade) * Course_certificate;
         totalGrade += (grade < 4 ? 0 : grade) * Course_certificate;
-        totalCertificateAll += Number(Course_certificate)
+        totalCertificateAll += Number((grade < 4 ? 0 : Course_certificate))
         totalCertificate += Number(Course_certificate);
         resultString += commandSub_Pass + "\n";
 
@@ -130,5 +120,4 @@ export class HomeComponent implements OnInit {
     }
   }
 }
-
 
