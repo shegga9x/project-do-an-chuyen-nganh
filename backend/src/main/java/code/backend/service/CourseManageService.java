@@ -407,7 +407,7 @@ public class CourseManageService {
             listResult.add(new SemesterReusltDTO(arr[0], arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]),
                     Double.parseDouble(arr[4]), arr[5], arr[6]));
         }
-        listResult.forEach(System.out::println);
+        // listResult.forEach(System.out::println);
         return listResult;
     }
 

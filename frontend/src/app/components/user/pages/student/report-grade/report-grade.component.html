@@ -1,5 +1,10 @@
 <section class="aca-event text-center">
     <div class="container">
+        <div class="search">
+            <span style="padding-left: 5px;">Nhập học kỳ xem điểm thi từng học kì (vd: 2018_1):</span>
+            <input type="text" style="margin-left: 15px;" #idSemester>
+            <input type="button" value="Lọc >>" style="margin-left: 5px;" (click)="filterSubAvaiable(idSemester.value)">
+        </div>
         <div class="fixTableHead">
             <table>
                 <thead>
@@ -17,54 +22,219 @@
                     </tr>
                 </thead>
             </table>
+            <ng-container *ngFor="let item of listIDSemester;index as i">
 
-            <ng-container *ngFor="let item of listIDSemester">
-                <div style="background-color: #dbdbdb;width: 100% ;text-align: left; padding-left: 5px;">
-                    <a style="font-size: 14px;font-weight: bold;;">{{item.idSemester}}</a>
-                </div>
-                <table>
-                    <tbody>
-                        <tr *ngFor="let item of getSemesterResultsByID(item.idSemester);index as i">
-                            <td style="width:45px">{{i+1}}</td>
-                            <td style="width:140px">{{item.id_Course}}</td>
-                            <td style="width:280px">{{item.name_Course}}</td>
-                            <td style="width:50px">{{item.course_certificate}}</td>
-                            <td style="width:50px"></td>
-                            <td style="width:50px"></td>
-                            <td style="width:50px">{{item.score}}</td>
-                            <td style="width:50px"></td>
-                            <td style="width:50px">{{item.score}}</td>
-                            <td style="width:50px">{{item.rate}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>Điểm trung bình học kỳ hệ 10/100:
-                                {{getGradeAVReusltByIDSemester(item.idSemester)[0].gradeAv}} </td>
-                        </tr>
-                        <tr>
-                            <td>Điểm trung bình học kỳ hệ 4:
-                                {{getGradeAVReusltByIDSemester(item.idSemester)[0].gradeAv4}}</td>
-                        </tr>
-                        <tr>
-                            <td>Điểm trung bình tích lũy: {{getSemesterResultsByIDSemesterALL(item.idSemester)}}</td>
-                        </tr>
-                        <tr>
-                            <td>Điểm trung bình tích lũy (hệ 4):
-                                {{(getSemesterResultsByIDSemesterALL(item.idSemester)*0.4).toFixed(2)}}</td>
-                        </tr>
-                        <tr>
-                            <td>Số tín chỉ đạt: {{getGradeAVReusltByIDSemester(item.idSemester)[0].creditGet}}</td>
-                        </tr>
-                        <tr>
-                            <td>Số tín chỉ tích lũy: {{(getSTC_byIDSemesterALL(item.idSemester))}}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <ng-container *ngIf="i == 0 && listSubAvailable[i+1]!=null">
+                    <!-- <ng-container *ngIf="listSemesterResults[i].idSemester != listSemesterResults[i+1].idSemester"></ng-container> -->
+                    <ng-container *ngIf="listSemesterResults[i].idSemester != listSemesterResults[i+1].idSemester">
+                        <div style="background-color: #dbdbdb;width: 100% ;text-align: left; padding-left: 5px;">
+                            <a style="font-size: 14px;font-weight: bold;;">{{item.idSemester}}</a>
+                        </div>
+                        <table>
+                            <tbody>
+                                <tr *ngFor="let item of getSemesterResultsByID(item.idSemester);index as i2">
+                                    <td style="width:45px">{{i2+1}}</td>
+                                    <td style="width:140px">{{item.id_Course}}</td>
+                                    <td style="width:280px">{{item.name_Course}}</td>
+                                    <td style="width:50px">{{item.course_certificate}}</td>
+                                    <td style="width:50px"></td>
+                                    <td style="width:50px"></td>
+                                    <td style="width:50px">{{item.score}}</td>
+                                    <td style="width:50px"></td>
+                                    <td style="width:50px">{{item.score}}</td>
+                                    <td style="width:50px">{{item.rate}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>Điểm trung bình học kỳ hệ 10/100:
+                                        {{getGradeAVReusltByIDSemester(item.idSemester)[0].gradeAv}} </td>
+                                    <!-- <td>Điểm trung bình học kỳ hệ 10/100:
+                                        {{(getSemesterResult1(item.idSemester)).toFixed(2)}} </td> -->
+                                </tr>
+                                <tr>
+                                    <td>Điểm trung bình học kỳ hệ 4:
+                                        {{getGradeAVReusltByIDSemester(item.idSemester)[0].gradeAv4}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Điểm trung bình tích lũy: {{getSemesterResultsByIDSemesterALL(item.idSemester)}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Điểm trung bình tích lũy (hệ 4):
+                                        {{(getSemesterResultsByIDSemesterALL(item.idSemester)*0.4).toFixed(2)}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Số tín chỉ đạt: {{getGradeAVReusltByIDSemester(item.idSemester)[0].creditGet}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Số tín chỉ tích lũy: {{(getSTC_byIDSemesterALL(item.idSemester))}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="i > 0 && i < listSubAvailable.length - 1">
+                    <ng-container *ngIf="listSemesterResults[i].idSemester != listSemesterResults[i+1].idSemester">
+                        <div style="background-color: #dbdbdb;width: 100% ;text-align: left; padding-left: 5px;">
+                            <a style="font-size: 14px;font-weight: bold;;">{{item.idSemester}}</a>
+                        </div>
+                        <table>
+                            <tbody>
+                                <tr *ngFor="let item of getSemesterResultsByID(item.idSemester);index as i2">
+                                    <td style="width:45px">{{i2+1}}</td>
+                                    <td style="width:140px">{{item.id_Course}}</td>
+                                    <td style="width:280px">{{item.name_Course}}</td>
+                                    <td style="width:50px">{{item.course_certificate}}</td>
+                                    <td style="width:50px"></td>
+                                    <td style="width:50px"></td>
+                                    <td style="width:50px">{{item.score}}</td>
+                                    <td style="width:50px"></td>
+                                    <td style="width:50px">{{item.score}}</td>
+                                    <td style="width:50px">{{item.rate}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>Điểm trung bình học kỳ hệ 10/100:
+                                        {{getGradeAVReusltByIDSemester(item.idSemester)[0].gradeAv}} </td>
+                                    <!-- <td>Điểm trung bình học kỳ hệ 10/100:
+                                        {{(getSemesterResult1(item.idSemester)).toFixed(2)}} </td> -->
+                                </tr>
+                                <tr>
+                                    <td>Điểm trung bình học kỳ hệ 4:
+                                        {{getGradeAVReusltByIDSemester(item.idSemester)[0].gradeAv4}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Điểm trung bình tích lũy: {{getSemesterResultsByIDSemesterALL(item.idSemester)}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Điểm trung bình tích lũy (hệ 4):
+                                        {{(getSemesterResultsByIDSemesterALL(item.idSemester)*0.4).toFixed(2)}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Số tín chỉ đạt: {{getGradeAVReusltByIDSemester(item.idSemester)[0].creditGet}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Số tín chỉ tích lũy: {{(getSTC_byIDSemesterALL(item.idSemester))}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="i == listSubAvailable.length - 1  && listSubAvailable[i-1]!=null ">
+                    <ng-container *ngIf="listSemesterResults[i].idSemester != listSemesterResults[i+1].idSemester">
+                        <div style="background-color: #dbdbdb;width: 100% ;text-align: left; padding-left: 5px;">
+                            <a style="font-size: 14px;font-weight: bold;;">{{item.idSemester}}</a>
+                        </div>
+                        <table>
+                            <tbody>
+                                <tr *ngFor="let item of getSemesterResultsByID(item.idSemester);index as i2">
+                                    <td style="width:45px">{{i2+1}}</td>
+                                    <td style="width:140px">{{item.id_Course}}</td>
+                                    <td style="width:280px">{{item.name_Course}}</td>
+                                    <td style="width:50px">{{item.course_certificate}}</td>
+                                    <td style="width:50px"></td>
+                                    <td style="width:50px"></td>
+                                    <td style="width:50px">{{item.score}}</td>
+                                    <td style="width:50px"></td>
+                                    <td style="width:50px">{{item.score}}</td>
+                                    <td style="width:50px">{{item.rate}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>Điểm trung bình học kỳ hệ 10/100:
+                                        {{getGradeAVReusltByIDSemester(item.idSemester)[0].gradeAv}} </td>
+                                    <!-- <td>Điểm trung bình học kỳ hệ 10/100:
+                                        {{(getSemesterResult1(item.idSemester)).toFixed(2)}} </td> -->
+                                </tr>
+                                <tr>
+                                    <td>Điểm trung bình học kỳ hệ 4:
+                                        {{getGradeAVReusltByIDSemester(item.idSemester)[0].gradeAv4}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Điểm trung bình tích lũy: {{getSemesterResultsByIDSemesterALL(item.idSemester)}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Điểm trung bình tích lũy (hệ 4):
+                                        {{(getSemesterResultsByIDSemesterALL(item.idSemester)*0.4).toFixed(2)}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Số tín chỉ đạt: {{getGradeAVReusltByIDSemester(item.idSemester)[0].creditGet}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Số tín chỉ tích lũy: {{(getSTC_byIDSemesterALL(item.idSemester))}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="i == 0 && listSubAvailable[i+1] == null">
+                    <ng-container *ngIf="listSemesterResults[i].idSemester != listSemesterResults[i+1].idSemester">
+                        <div style="background-color: #dbdbdb;width: 100% ;text-align: left; padding-left: 5px;">
+                            <a style="font-size: 14px;font-weight: bold;;">{{item.idSemester}}</a>
+                        </div>
+                        <table>
+                            <tbody>
+                                <tr *ngFor="let item of getSemesterResultsByID(item.idSemester);index as i2">
+                                    <td style="width:45px">{{i2+1}}</td>
+                                    <td style="width:140px">{{item.id_Course}}</td>
+                                    <td style="width:280px">{{item.name_Course}}</td>
+                                    <td style="width:50px">{{item.course_certificate}}</td>
+                                    <td style="width:50px"></td>
+                                    <td style="width:50px"></td>
+                                    <td style="width:50px">{{item.score}}</td>
+                                    <td style="width:50px"></td>
+                                    <td style="width:50px">{{item.score}}</td>
+                                    <td style="width:50px">{{item.rate}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>Điểm trung bình học kỳ hệ 10/100:
+                                        {{getGradeAVReusltByIDSemester(item.idSemester)[0].gradeAv}} </td>
+                                    <!-- <td>Điểm trung bình học kỳ hệ 10/100:
+                                        {{(getSemesterResult1(item.idSemester)).toFixed(2)}} </td> -->
+                                </tr>
+                                <tr>
+                                    <td>Điểm trung bình học kỳ hệ 4:
+                                        {{getGradeAVReusltByIDSemester(item.idSemester)[0].gradeAv4}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Điểm trung bình tích lũy: {{getSemesterResultsByIDSemesterALL(item.idSemester)}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Điểm trung bình tích lũy (hệ 4):
+                                        {{(getSemesterResultsByIDSemesterALL(item.idSemester)*0.4).toFixed(2)}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Số tín chỉ đạt: {{getGradeAVReusltByIDSemester(item.idSemester)[0].creditGet}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Số tín chỉ tích lũy: {{(getSTC_byIDSemesterALL(item.idSemester))}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </ng-container>
+                </ng-container>
+
             </ng-container>
-
         </div>
     </div>
 </section>

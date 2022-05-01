@@ -61,8 +61,7 @@ semesterResult(ky2).certificate
 sumTotalCertificate += semesterResult(ky2).certificate
 sumTotalAvSemester+=semesterResult(ky2)
 sum+= ki2.sum
-<<<<<<< HEAD
-=======
+
 
 
 
@@ -150,4 +149,4 @@ insert into Semester_Result values('2018_2', N'18130005', 5.11, 2.04, 25);
  insert into Semester_Result values('2021_2', N'18130005', 6.69, 2.68, 39);
  insert into Semester_Result values('2021_2', N'18130005', 7.17, 2.87, 32);
  insert into Final_Result values( N'18130005', 7.24, 2.9);
->>>>>>> 591f1dcbe033a9cd57b93946de35f5385143d2b6
+
