@@ -51,7 +51,6 @@ export class AutoImportGradeComponent implements OnInit {
       this.pDTService.addAccountFromExcel(request).subscribe({
         next: (x2) => {},
         error: (err) => {
-          console.log(err)
           let objectError = JSON.parse(err)
           this.listError = this.listFull.filter(obj => {
             return objectError[obj['studentID']] != undefined

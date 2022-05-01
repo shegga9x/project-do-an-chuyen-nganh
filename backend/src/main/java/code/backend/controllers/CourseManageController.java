@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import code.backend.helpers.payload.dto.GradeSemesterDTO;
+import code.backend.helpers.payload.dto.SemesterDTO;
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
 import code.backend.helpers.payload.response.CourseRegisterFakeRespone;
 import code.backend.helpers.payload.response.DateExamResponse;
@@ -102,8 +104,9 @@ public class CourseManageController {
         return courseManageService.delete_Course_Register_Professor(listIdCourse);
     }
 
+    // có cần @ResponseBod ko? get_time_table_st thì ko có?
     @GetMapping("/get_time_table_professor")
-    public List<TimeTableResponse> get_Time_Table_Professor(@RequestParam("idACCOUNT") String model) {
+    public @ResponseBody List<TimeTableResponse> get_Time_Table_Professor(@RequestParam("idACCOUNT") String model) {
         return courseManageService.get_Time_Table_Professor(model);
     }
 
@@ -111,5 +114,31 @@ public class CourseManageController {
     public DateExamResponse get_Date_Exam_ST(@RequestParam("idACCOUNT") String idACCOUNT,
             @RequestParam("ID_Semester") String iDSemester) {
         return courseManageService.get_Date_Exam_ST(idACCOUNT, iDSemester);
+    }
+
+    @GetMapping("/get_semester_by_id_student")
+    public @ResponseBody List<SemesterDTO> get_Semester_By_Id_Student(@RequestParam("idACCOUNT") String idACCOUNT){
+        System.out.println("cccccc");
+        return courseManageService.get_Semester_By_Id_Student(idACCOUNT);
+    }
+
+
+    // xem điểm của ST
+    @GetMapping("/get_id_semester")
+    public @ResponseBody List<SemesterDTO> get_ID_Semester(@RequestParam("idACCOUNT") String model) {
+        return courseManageService.get_ID_Semester(model);
+    }
+
+    // xem điểm của ST
+    // @PreAuthorize("hasAnyRole('ROLE_Student','ROLE_Professor','ROLE_Admin')")
+    @GetMapping("/get_semester_reuslt")
+    public @ResponseBody List<SemesterReusltDTO> get_Semester_Reuslt(@RequestParam("idStudent") String idStudent) {
+        return courseManageService.get_Semester_Reuslt(idStudent);
+    }
+
+    @GetMapping("/get_grade_av_semester_reuslt/")
+    public @ResponseBody List<GradeSemesterDTO> get_Grade_Av_Semester_Reuslt(
+            @RequestParam("idStudent") String idStudent) {
+        return courseManageService.get_Grade_Av_Semester_Reuslt(idStudent);
     }
 }

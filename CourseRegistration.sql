@@ -158,7 +158,7 @@ CREATE TABLE Course
   -- số chứng chỉ học phần (cao nhất là 4 nên để tinyint)	
   Course_certificate tinyint NOT NULL,
   -- học viên năm bao nhiêu có thể học
-  years int ,
+  years int,
   -- học kì cố định có môn này sẽ mở nếu/ hk sẽ là 1, 2  / nếu ko thì sẽ là null
   number_S smallint
     PRIMARY KEY (ID_Course)
@@ -533,7 +533,7 @@ GO
 -- tạo function semester_Result	
 
 
-
+-- Semester + Sub_Pass
 CREATE FUNCTION get_Semester_Reuslt (@ID_Student nvarchar(50), @ID_Semester nvarchar(50))
 RETURNS TABLE
 AS
@@ -979,6 +979,9 @@ insert into front_Sub values(N'214331',N'214321')
 insert into front_Sub values(N'214441',N'214331')
 
 insert into Sub_Pass values('2021_1',N'214492',N'18130005',6.5,2.5,N'C')
+insert into Sub_Pass values('2021_1',N'208453',N'18130005',7.5,3,N'B')
+insert into Sub_Pass values('2021_2',N'214471',N'18130005',8,3.2,N'A')
+insert into Sub_Pass values('2021_2',N'214273',N'18130005',3.9,1.5,N'D')
 
 insert into semester_Result values('2020_2',N'18130005',6.37,2.23,4)
 insert into semester_Result values('2021_1',N'18130005',6.0,2.0,4)
@@ -1104,20 +1107,18 @@ select * from ACCOUNT
 -- WHERE st.ID_Semester = '2020_2'
 -- AND st.ID_Student = '18130005'
 
-
-select *
-from Sub_Pass
-where ID_Semester = '2018_1'
-ORDER BY ID_Student
 select *
 from Final_Result
+
 select *
-from semester_Result
-where ID_Semester = '2018_1'
+from Semester_Result
 ORDER BY ID_Student
+
 SELECT *
 FROM Sub_Pass sp
 WHERE  sp.ID_Student = '18130005'
+ORDER BY ID_Semester
+
 select *
 from Student
 
@@ -1138,6 +1139,7 @@ select * from Student
 select * from Role;
 
 select * from get_Semester_Reuslt('18130005','2021_1')
+select * from get_Semester_Reuslt('18130005','2021_2')
 
 select * from student_schedule where ID_Student ='18130005'
 
@@ -1151,3 +1153,44 @@ select * from Faculty
 select * from  Date_Exam_ST ('18130005','2021_2')
 
 --delete from Clazz
+
+SELECT c.ID_Course,
+  c.Name_Course,
+  c.Course_certificate,
+  sp.Score,
+  sp.Score_System_4,
+  sp.Rated
+FROM Sub_Pass sp JOIN
+  Course c ON sp.ID_Course = c.ID_Course
+WHERE  sp.ID_Student = '18130005'
+ORDER BY ID_Semester
+
+GO
+-- Dùng để in ra ds điểm của hs theo từng ID_Semester
+CREATE FUNCTION get_ID_Semester (@ID_Student nvarchar(50))
+RETURNS TABLE
+AS
+  RETURN
+  SELECT DISTINCT sp.ID_Semester
+	FROM Sub_Pass sp
+	WHERE sp.ID_Student = @ID_Student
+GO
+SELECT * from get_ID_Semester('18130005')
+
+GO
+CREATE FUNCTION get_Semester_Result_ST (@ID_Student nvarchar(50))
+RETURNS TABLE
+AS
+RETURN
+  SELECT c.ID_Course,
+  c.Name_Course,
+  c.Course_certificate,
+  sp.Score,
+  sp.Score_System_4,
+  sp.ID_Semester,
+  sp.Rated
+FROM Sub_Pass sp JOIN
+  Course c ON sp.ID_Course = c.ID_Course
+WHERE  sp.ID_Student = @ID_Student
+GO
+SELECT * from get_Semester_Result_ST('18130005')

@@ -32,6 +32,7 @@ import { ListStudentTTBComponent } from './pages/commons/list-student-ttb/list-s
 import { PageNotFoundComponent } from './pages/commons/page-not-found/page-not-found.component';
 import { HomeComponent } from './pages/commons/home/home.component';
 
+import * as Professor from './pages/professor/course-regist/course-regist.component';
 
 export const UserDeclarations = [
     ListStudentTTBComponent,
@@ -66,4 +67,5 @@ export const UserDeclarations = [
     PageNotFoundComponent,
     HomeComponent,
 
+    Professor.CourseRegistComponent,
 ]
