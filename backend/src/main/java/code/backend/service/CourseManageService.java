@@ -24,6 +24,7 @@ import code.backend.helpers.payload.dto.SemesterReusltDTO;
 import code.backend.helpers.payload.response.CourseRegisterFakeRespone;
 import code.backend.helpers.payload.response.DateExamResponse;
 import code.backend.helpers.payload.response.MessageResponse;
+import code.backend.helpers.payload.response.Professor;
 import code.backend.helpers.payload.response.StudentBySubjectResponse;
 import code.backend.helpers.payload.response.SubAvailableRespone;
 import code.backend.helpers.payload.response.TimeTableResponse;
@@ -101,6 +102,10 @@ public class CourseManageService {
         return listResult;
 
     }
+    public Professor Professor(String idProfessor){
+
+    }
+
 
     public MessageResponse submit_Course_Regist() {
         String semesterID = semesterRepository.getCurrentSemester().getIdSemester();
