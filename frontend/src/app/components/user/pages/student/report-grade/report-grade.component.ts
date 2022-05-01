@@ -18,7 +18,7 @@ export class ReportGradeComponent implements OnInit {
 
   listSemesterResultsByIDSemester: any[] = [];
   // search by id semester
-  listSubAvailable: any[] = [];
+  listFilter: any[] = [];
 
   constructor(
     private titleService: Title,
@@ -28,6 +28,7 @@ export class ReportGradeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.toStringByIDSemester("asdf");
     const combined = forkJoin(
       [this.getIDSemesterST(),
       this.getAllSemesterResults(),
@@ -36,11 +37,12 @@ export class ReportGradeComponent implements OnInit {
 
     combined.subscribe((latestValues: any) => {
       this.listIDSemester = latestValues[0];
+      this.listFilter = latestValues[0];
       this.listSemesterResults = latestValues[1];
       this.listAllSemesterResults = latestValues[2];
       // console.log(latestValues);
       // console.log(this.listIDSemester);
-      console.log(this.listSemesterResults);
+      // console.log(this.listSemesterResults);
       // console.log(this.listAllSemesterResults);
 
       // this.getAllSemesterResults().subscribe((data: any) => { this.listSemesterResults = data });
@@ -126,9 +128,26 @@ export class ReportGradeComponent implements OnInit {
   // search by id semester
   filterSubAvaiable(idSemester: string) {
     if (idSemester == '') {
-      this.listSemesterResults = this.courseManageService.listSubAvailable;
+      this.listIDSemester = this.listFilter;
       return;
     }
-    return this.listSemesterResults.filter(x => x.id_Semester == idSemester);
+    this.listIDSemester = this.listFilter.filter(x => x.idSemester == idSemester);
+  }
+
+  toStringByIDSemester(idSemester: string) {
+    const words = idSemester.split('_');
+    return "Học kỳ " + words[1] + " Năm học " + words[0] + "-" + Number(Number(words[0]) + 1)
+  }
+
+  getFullSemesterOrLatestSemester(x: any) {
+    console.log(x);
+    if (x.innerHTML == "Xem học kì mới nhất") {
+      this.listIDSemester = this.listFilter.filter(x => x.idSemester == this.listFilter[this.listFilter.length - 1].idSemester);
+      // console.log(this.listFilter[this.listFilter.length - 1].idSemester);
+      x.innerHTML = "Xem tất cả học kì"
+    } else {
+      this.listIDSemester = this.listFilter;
+      x.innerHTML = "Xem học kì mới nhất";
+    }
   }
 }
