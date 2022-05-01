@@ -12,14 +12,19 @@ public class SemesterReusltDTO {
 
     private double Score_System_4;
 
+    private String ID_Semester;
+
+    private String Rate;
+
     public SemesterReusltDTO(String iD_Course, String name_Course, int course_certificate, double score,
-            double score_System_4) {
-                
+            double score_System_4, String iD_Semester, String rate) {
         ID_Course = iD_Course;
         Name_Course = name_Course;
         Course_certificate = course_certificate;
         Score = score;
         Score_System_4 = score_System_4;
+        ID_Semester = iD_Semester;
+        Rate = rate;
     }
 
     public String getID_Course() {
@@ -62,10 +67,27 @@ public class SemesterReusltDTO {
         Score_System_4 = score_System_4;
     }
 
+    public String getID_Semester() {
+        return ID_Semester;
+    }
+
+    public void setID_Semester(String ID_Semester) {
+        this.ID_Semester = ID_Semester;
+    }
+
+    public String getRate() {
+        return Rate;
+    }
+
+    public void setRate(String rate) {
+        Rate = rate;
+    }
+
     @Override
     public String toString() {
         return "SemesterReusltDTO [Course_certificate=" + Course_certificate + ", ID_Course=" + ID_Course
-                + ", Name_Course=" + Name_Course + ", Score=" + Score + ", Score_System_4=" + Score_System_4 + "]";
+                + ", ID_Semester=" + ID_Semester + ", Name_Course=" + Name_Course + ", Rate=" + Rate + ", Score="
+                + Score + ", Score_System_4=" + Score_System_4 + "]";
     }
 
 }

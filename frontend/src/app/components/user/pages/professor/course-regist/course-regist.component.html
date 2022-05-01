@@ -27,6 +27,7 @@
             </tr>
           </thead>
           <tbody>
+            
             <ng-container *ngFor="let list of listSubAvailable; index as i">
               <ng-container *ngIf="i == 0 && listSubAvailable[i+1]!=null">
                 <ng-container *ngIf="
@@ -300,6 +301,7 @@
                 </tr>
               </ng-container>
             </ng-container>
+
           </tbody>
         </table>
       </div>

@@ -49,7 +49,6 @@ export class AccountService {
   }
 
   logout() {
-    console.log("opk")
     this.http.post<any>(`${baseUrl}/revoke-token`, {}, { withCredentials: true }).subscribe();
     this.stopRefreshTokenTimer();
     this.accountSubject.next(null);
@@ -131,7 +130,6 @@ export class AccountService {
   }
 
   private stopRefreshTokenTimer() {
-    console.log("ok")
     clearTimeout(this.refreshTokenTimeout);
   }
 

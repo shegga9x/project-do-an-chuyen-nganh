@@ -24,13 +24,6 @@ export class CourseManageService {
     });
   }
 
-  getSemesterReusltRegist() {
-    let params = { idStudent: '18130005', idSemester: '2021_1' };
-    return this.http.get(`${baseUrl}/get_semester_reuslt/`, {
-      params: params,
-    });
-  }
-
   submitCourseRegisterFake(idCourseOffering: string) {
     return this.http.post(`${baseUrl}/submit_course_register_fake`,
       idCourseOffering
@@ -92,6 +85,40 @@ export class CourseManageService {
   getTimeTablePRRegist() {
     let params = { idACCOUNT: this.accountService.accountValue?.idAccount as string };
     return this.http.get(`${baseUrl}/get_time_table_professor/`, {
+      params: params,
+    });
+  }
+
+  // Xem điểm cuối kì của ST
+  getIDSemesterST() {
+    let params = { idACCOUNT: this.accountService.accountValue?.idAccount as string };
+    return this.http.get(`${baseUrl}/get_id_semester/`, {
+      params: params,
+    });
+  }
+
+  getSemesterReuslt() {
+    let params = { idStudent: this.accountService.accountValue?.idAccount as string };
+    return this.http.get(`${baseUrl}/get_semester_reuslt/`, {
+      params: params,
+    });
+  }
+
+  getGradeAVSemesterReuslt() {
+    let params = { idStudent: this.accountService.accountValue?.idAccount as string };
+    return this.http.get(`${baseUrl}/get_grade_av_semester_reuslt/`, {
+      params: params,
+    });
+  }
+  getDateExam(ID_Semester: string){
+    let params = { idACCOUNT: this.accountService.accountValue?.idAccount as string, ID_Semester: ID_Semester };
+    return this.http.get(`${baseUrl}/get_Date_Exam_ST/`, {
+      params: params,
+    });
+  }
+  getSemesterByIdStudent(){
+    let params = { idACCOUNT: this.accountService.accountValue?.idAccount as string};
+    return this.http.get(`${baseUrl}/get_semester_by_id_student`, {
       params: params,
     });
   }

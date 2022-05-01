@@ -54,6 +54,12 @@ public class SemesterDTO {
         this.numberS = numberS;
     }
 
+    @Override
+    public String toString() {
+        return "SemesterDTO [endDate=" + endDate + ", idSemester=" + idSemester + ", numberS=" + numberS
+                + ", startDate=" + startDate + ", years=" + years + "]";
+    }
+
    
 
 }

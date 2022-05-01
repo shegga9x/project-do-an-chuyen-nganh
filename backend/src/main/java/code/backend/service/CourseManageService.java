@@ -17,6 +17,7 @@ import code.backend.helpers.payload.dto.CourseDTO;
 import code.backend.helpers.payload.dto.CourseOfferingDTO;
 import code.backend.helpers.payload.dto.DateExamDTO;
 import code.backend.helpers.payload.dto.FacultyDTO;
+import code.backend.helpers.payload.dto.GradeSemesterDTO;
 import code.backend.helpers.payload.dto.ProfessorDTO;
 import code.backend.helpers.payload.dto.ScheduleDTO;
 import code.backend.helpers.payload.dto.SemesterDTO;
@@ -33,6 +34,7 @@ import code.backend.persitence.entities.ProfessorSchedule;
 import code.backend.persitence.entities.ProfessorScheduleId;
 import code.backend.persitence.entities.Schedule;
 import code.backend.persitence.entities.Semester;
+import code.backend.persitence.entities.SemesterResult;
 import code.backend.persitence.entities.Student;
 import code.backend.persitence.entities.StudentSchedule;
 import code.backend.persitence.entities.StudentScheduleF;
@@ -42,6 +44,7 @@ import code.backend.persitence.repository.CourseOfferingRepository;
 import code.backend.persitence.repository.ProfessorScheduleRepository;
 import code.backend.persitence.repository.ScheduleRepository;
 import code.backend.persitence.repository.SemesterRepository;
+import code.backend.persitence.repository.SemesterResultRepository;
 import code.backend.persitence.repository.StudentScheduleFRepository;
 import code.backend.persitence.repository.StudentScheduleRepository;
 import code.backend.service.subService.EntityService;
@@ -63,6 +66,8 @@ public class CourseManageService {
     StudentScheduleFRepository studentScheduleFRepository;
     @Autowired
     ProfessorScheduleRepository professorScheduleRepository;
+    @Autowired
+    SemesterResultRepository semesterResultRepository;
 
     public List<SubAvailableRespone> get_Sub_Available_ST(String id) {
         List<String> ids = new ArrayList<>();
@@ -82,24 +87,7 @@ public class CourseManageService {
                     (ScheduleDTO) SubUtils.mapperObject(schedule, new ScheduleDTO()));
             subAvailableRespones.add(subAvailableRespone);
         }
-        // System.out.println(subAvailableRespones);
         return subAvailableRespones;
-    }
-
-    public List<SemesterReusltDTO> get_Semester_Reuslt(String idStudent, String idSemester) {
-
-        List<String> listParam = Arrays.asList(idStudent, idSemester);
-
-        List<String[]> columns = entityService.getFunctionResult("get_Semester_Reuslt", listParam);
-
-        List<SemesterReusltDTO> listResult = new ArrayList<>() {
-        };
-        for (String[] arr : columns) {
-            listResult.add(new SemesterReusltDTO(arr[0], arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]),
-                    Double.parseDouble(arr[4])));
-        }
-        return listResult;
-
     }
 
     public MessageResponse submit_Course_Regist() {
@@ -216,7 +204,6 @@ public class CourseManageService {
 
     public List<TimeTableResponse> get_Time_Table_ST(String idACCOUNT) {
         List<String> listParam = Arrays.asList(idACCOUNT, semesterRepository.getCurrentSemester().getIdSemester());
-        System.out.println(listParam);
         List<String[]> columns = entityService.getFunctionResult("Time_Table_St", listParam);
         List<TimeTableResponse> listResult = new ArrayList<>();
         for (String[] arr : columns) {
@@ -229,7 +216,6 @@ public class CourseManageService {
                     new CourseDTO());
             listResult.add(new TimeTableResponse(scheduleDTO, courseOfferingDTO, courseDTO));
         }
-        // System.out.println(listResult);
         return listResult;
     }
 
@@ -367,10 +353,15 @@ public class CourseManageService {
                     new CourseDTO());
             listResult.add(new TimeTableResponse(scheduleDTO, courseOfferingDTO, courseDTO));
         }
-        // System.out.println(listResult);
         return listResult;
     }
-
+    public List<SemesterDTO> get_Semester_By_Id_Student(String idACCOUNT){
+        List<SemesterDTO> semesterDTOs = new ArrayList<>();
+        for (Semester semester : semesterRepository.findAll()) {
+            semesterDTOs.add((SemesterDTO) SubUtils.mapperObject(semester, new SemesterDTO()));
+        }
+        return semesterDTOs;
+    }
     public DateExamResponse get_Date_Exam_ST(String idACCOUNT, String iDSemester) {
         List<String> listParam = Arrays.asList(idACCOUNT,
                 iDSemester.equals("") ? semesterRepository.getCurrentSemester().getIdSemester() : iDSemester);
@@ -393,5 +384,49 @@ public class CourseManageService {
             semesterDTOs.add((SemesterDTO) SubUtils.mapperObject(semester, new SemesterDTO()));
         }
         return new DateExamResponse(semesterDTOs, dateExamDTOs);
+    }
+
+    // xem điểm của ST
+    public List<SemesterDTO> get_ID_Semester(String model) {
+
+        List<String> listParam = Arrays.asList(model);
+        List<String[]> columns = entityService.getFunctionResult("get_ID_Semester", listParam);
+        List<SemesterDTO> listResult = new ArrayList<>();
+        for (String[] arr : columns) {
+            SemesterDTO semesterDTO = (SemesterDTO) SubUtils
+                    .mapperObject(semesterRepository.findById(arr[0]).get(), new SemesterDTO());
+            listResult.add(semesterDTO);
+        }
+        // System.out.println(listResult);
+        return listResult;
+    }
+
+    public List<SemesterReusltDTO> get_Semester_Reuslt(String idStudent) {
+
+        List<String> listParam = Arrays.asList(idStudent);
+        List<String[]> columns = entityService.getFunctionResult("get_Semester_Result_ST", listParam);
+        List<SemesterReusltDTO> listResult = new ArrayList<>();
+        for (String[] arr : columns) {
+            // System.out.println(arr[2]);
+            // System.out.println(arr[3]);
+            // System.out.println(arr[4]);
+            listResult.add(new SemesterReusltDTO(arr[0], arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]),
+                    Double.parseDouble(arr[4]), arr[5], arr[6]));
+        }
+        // listResult.forEach(System.out::println);
+        return listResult;
+    }
+
+    // lấy lên bảng điểm theo từng học kỳ
+    public List<GradeSemesterDTO> get_Grade_Av_Semester_Reuslt(String idStudent) {
+        List<SemesterResult> columns = semesterResultRepository.findByIdStudent(idStudent);
+        List<GradeSemesterDTO> listResult = new ArrayList<>();
+        for (SemesterResult sr : columns) {
+            GradeSemesterDTO gradeSemesterDTO = (GradeSemesterDTO) SubUtils
+                    .mapperObject(sr, new GradeSemesterDTO());
+            listResult.add(gradeSemesterDTO);
+        }
+        // System.out.println(listResult);
+        return listResult;
     }
 }

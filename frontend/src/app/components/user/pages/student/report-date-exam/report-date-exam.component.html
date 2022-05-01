@@ -1,1 +1,45 @@
-<p>report-date-exam works!</p>
+<section class="aca-event text-center">
+    <div class="container">
+        
+        <select style="margin-bottom: 20px;">
+            <option #option [selected]="checkLastestSemester(option.value)" [value]="item.idSemester"  *ngFor="let item of listSemester"> Học kỳ {{ item.numberS}}  - Năm học {{item.years}} </option>
+        </select>
+        <!-- [value]="opt.key" [selected]="opt.selected" -->
+        <div class="fixTableHead">
+            
+            <table>
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã MH</th>
+                        <th>Tên môn học</th>
+                        <th>Ghép Thi</th>
+                        <th>Tổ Thi</th>
+                        <th>Số Lượng</th>
+                        <th>Ngày Thi</th>
+                        <th>Tiết BD</th>
+                        <th>Số Tiết</th>
+                        <th>Phòng</th>
+                        <th>Ghi Chú</th>
+                        <th>DS Thi</th>
+                    </tr>
+                    <tbody>
+                        <tr *ngFor="let item of listDateExam">
+                            <td></td>
+                            <td>{{item['courseDTO'].idCourse}}</td>
+                            <td>{{item['courseDTO'].nameCourse}}</td>
+                            <td>{{item['courseOfferingDTO'].clazzCode}}</td>
+                            <td></td>
+                            <td>{{item['courseOfferingDTO'].currentSize}}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{{item.seats}}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+            </table>
+
+        </div>
+    </div>
+</section>

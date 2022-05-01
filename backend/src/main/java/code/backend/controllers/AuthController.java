@@ -49,7 +49,6 @@ public class AuthController {
 
     @PostMapping("/verify-email")
     public ResponseEntity<?> verifyEmail(@Valid @RequestBody VerifyEmailRequest model) {
-        System.out.println("????");
         accountService.verifyEmail(model.getToken());
         return ResponseEntity.ok(
                 new MessageResponse("Verification successful, you can now login"));
@@ -58,7 +57,6 @@ public class AuthController {
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticate(@Valid @RequestBody AuthenticateRequest model,
             HttpServletResponse servletResponse) {
-        System.out.println("?????");
         var response = accountService.authenticate(model, controlerUtils.ipAddress());
         controlerUtils.setTokenCookie(servletResponse, response.getRefreshToken());
         return ResponseEntity.ok(response);
@@ -66,9 +64,7 @@ public class AuthController {
 
     @PostMapping("/refresh-token")
     public ResponseEntity<?> refreshToken(HttpServletResponse servletResponse) {
-        System.out.println("refresh-token");
         String refreshToken = controlerUtils.getSingleFormCookie("refreshToken");
-        System.out.println(refreshToken);
         var response = accountService.refreshToken(refreshToken, controlerUtils.ipAddress());
         try {
             controlerUtils.setTokenCookie(servletResponse, response.getRefreshToken());
