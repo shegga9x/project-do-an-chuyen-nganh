@@ -20,6 +20,7 @@ import code.backend.helpers.payload.dto.SemesterReusltDTO;
 import code.backend.helpers.payload.response.CourseRegisterFakeRespone;
 import code.backend.helpers.payload.response.DateExamResponse;
 import code.backend.helpers.payload.response.MessageResponse;
+import code.backend.helpers.payload.response.Professor;
 import code.backend.helpers.payload.response.StudentBySubjectResponse;
 import code.backend.helpers.payload.response.SubAvailableRespone;
 import code.backend.helpers.payload.response.TimeTableResponse;
@@ -37,6 +38,18 @@ public class CourseManageController {
     public @ResponseBody List<SubAvailableRespone> get_Sub_Available_ST(@RequestParam("id") String model) {
         return courseManageService.get_Sub_Available_ST(model);
     }
+
+    // @PreAuthorize("hasAnyRole('ROLE_Student','ROLE_Professor','ROLE_Admin')")
+    // @GetMapping("/get_semester_reuslt")
+    // public @ResponseBody List<SemesterReusltDTO> get_Semester_Reuslt(@RequestParam("idStudent") String idStudent,
+    //         @RequestParam("idSemester") String idSemester) {
+    //     return courseManageService.get_Semester_Reuslt(idStudent, idSemester);
+    // }
+    // @GetMapping("/professor")
+    // public @ResponseBody Professor Professor(@RequestParam("idProfessor") String idProfessor ) {
+    //     return courseManageService.Professor(idProfessor);
+    // }
+
 
     @GetMapping("/submit_course_regist")
     public @ResponseBody MessageResponse submit_Course_Regist() {

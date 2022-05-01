@@ -23,6 +23,7 @@ import { MissionAndVisionComponent } from './pages/commons/about/mission-and-vis
 import { OurPrincipalComponent } from './pages/commons/about/our-principal/our-principal.component';
 import { ContactComponent } from './pages/commons/contact/contact.component';
 
+
 const routes: Routes = [{
     path: '', component: UserComponent,
     children: [
@@ -50,6 +51,7 @@ const routes: Routes = [{
                 {
                     path: 'time-table', component: TimeTableComponent
                 },
+                
             ]
         },
         {

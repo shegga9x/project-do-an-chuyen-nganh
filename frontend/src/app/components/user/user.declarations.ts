@@ -66,5 +66,6 @@ export const UserDeclarations = [
     DialogLoginComponent,
     PageNotFoundComponent,
     HomeComponent,
+
     Professor.CourseRegistComponent,
 ]
