@@ -108,6 +108,7 @@ export class CourseRegistComponent implements OnInit {
   getSubAvailable() {
     this.courseManageService.getSubAvailableRegist().subscribe({
       next: (x: any) => {
+        console.log(x);
         this.listSubAvailable = x;
         //add to course-manage services
         this.courseManageService.listSubAvailable = this.listSubAvailable;
