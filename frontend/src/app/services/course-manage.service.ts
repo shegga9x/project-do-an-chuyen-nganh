@@ -110,4 +110,16 @@ export class CourseManageService {
       params: params,
     });
   }
+  getDateExam(ID_Semester: string){
+    let params = { idACCOUNT: this.accountService.accountValue?.idAccount as string, ID_Semester: ID_Semester };
+    return this.http.get(`${baseUrl}/get_Date_Exam_ST/`, {
+      params: params,
+    });
+  }
+  getSemesterByIdStudent(){
+    let params = { idACCOUNT: this.accountService.accountValue?.idAccount as string};
+    return this.http.get(`${baseUrl}/get_semester_by_id_student`, {
+      params: params,
+    });
+  }
 }

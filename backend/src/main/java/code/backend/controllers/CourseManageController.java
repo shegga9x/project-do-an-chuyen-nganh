@@ -103,6 +103,13 @@ public class CourseManageController {
         return courseManageService.get_Date_Exam_ST(idACCOUNT, iDSemester);
     }
 
+    @GetMapping("/get_semester_by_id_student")
+    public @ResponseBody List<SemesterDTO> get_Semester_By_Id_Student(@RequestParam("idACCOUNT") String idACCOUNT){
+        System.out.println("cccccc");
+        return courseManageService.get_Semester_By_Id_Student(idACCOUNT);
+    }
+
+
     // xem điểm của ST
     @GetMapping("/get_id_semester")
     public @ResponseBody List<SemesterDTO> get_ID_Semester(@RequestParam("idACCOUNT") String model) {

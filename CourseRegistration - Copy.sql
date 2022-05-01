@@ -345,6 +345,17 @@ AS
 GO
 
 
+Select * from Date_Exam_ST('18130005', '2021_2')
+select * from Date_Exam
+select * from Student_Schedule
+
+insert into Date_Exam values (N'2021_2',N'49','nhom1',40);
+insert into Date_Exam values (N'2021_2',N'50','nhom1',40);
+insert into Date_Exam values (N'2021_2',N'77','nhom1',40);
+insert into Date_Exam values (N'2021_2',N'84','nhom1',40);
+insert into Date_Exam values (N'2021_2',N'85','nhom1',40);
+
+SELECT GETDATE();
 go
 
 create FUNCTION sub_Passed (@ID_Course_B nvarchar(50), @ID_ACCOUNT nvarchar(50))
@@ -1042,6 +1053,8 @@ insert into Schedule values(N'-2',N'52',null,'LT',2,'20/10/2021','10/12/2021',N'
 
 insert into Date_Exam values (N'2021_2',N'-1','nhom1',40);
 insert into Date_Exam values (N'2021_2',N'-2','nhom1',40);
+
+
 
 -- insert into Course_Progress
 insert into Course_Progress Values('DT',N'202501',18,1);

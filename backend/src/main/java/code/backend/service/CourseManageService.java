@@ -355,7 +355,13 @@ public class CourseManageService {
         }
         return listResult;
     }
-
+    public List<SemesterDTO> get_Semester_By_Id_Student(String idACCOUNT){
+        List<SemesterDTO> semesterDTOs = new ArrayList<>();
+        for (Semester semester : semesterRepository.findAll()) {
+            semesterDTOs.add((SemesterDTO) SubUtils.mapperObject(semester, new SemesterDTO()));
+        }
+        return semesterDTOs;
+    }
     public DateExamResponse get_Date_Exam_ST(String idACCOUNT, String iDSemester) {
         List<String> listParam = Arrays.asList(idACCOUNT,
                 iDSemester.equals("") ? semesterRepository.getCurrentSemester().getIdSemester() : iDSemester);
