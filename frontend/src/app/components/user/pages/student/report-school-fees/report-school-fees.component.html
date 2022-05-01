@@ -1,1 +1,53 @@
 <p>report-school-fees works!</p>
+<section class="aca-event text-center">
+    <div class="container">
+
+
+
+        <div style="margin-top: 10px;height: 50px;display: flex;align-items: center;">
+            <p style="font-weight: bold">DANH SÁCH MÔN HỌC ĐÃ CHỌN</p>
+        </div>
+        <div class="search">
+            <button id="submit" (click)="submit(checkalldeletebox)">Lưu Đăng Ký</button>
+            <button style="margin-right: 4px;" (click)="submitDelete(checkalldeletebox)">Xóa</button>
+        </div>
+        <div class="fixTableHead">
+            <table>
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã MH</th>
+                        <th>Tên môn học</th>
+                        <th>NMH</th>
+                        <th>TTH</th>
+                        <th>STC</th>
+                        <th>STCHP</th>
+                        <th>Học phí</th>
+                        <th>Miễn giảm</th>
+                        <th>Phải Đóng</th>
+                        <th>Trạng thái môn học</th>
+                        <th>Giáo viên</th>
+                        <th><input type="checkbox" #checkalldeletebox (change)="selectAllDeleteBox(checkalldeletebox)"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of listCourseRegisterFake;index as i">
+                        <td>{{i+1}}</td>
+                        <td>{{item.idCourse}}</td>
+                        <td>{{item.nameCourse}}</td>
+                        <td></td>
+                        <td></td>
+                        <td>{{item.courseCertificate}}</td>
+                        <td>{{item.courseCertificate}}</td>
+                        <td>{{item.courseCertificate * 360}}</td>
+                        <td></td>
+                        <td>{{item.courseCertificate * 360}}</td>
+                        <td>{{item.status}}</td>
+                        <td>{{item.}}</td>
+                        <td><input class="deletebox" type="checkbox" [value]="item.idCourse"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
