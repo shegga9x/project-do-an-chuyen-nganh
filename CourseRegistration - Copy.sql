@@ -344,18 +344,6 @@ AS
   and de.ID_Semester = @ID_Semester
 GO
 
-
-Select * from Date_Exam_ST('18130005', '2021_2')
-select * from Date_Exam
-select * from Student_Schedule
-
-insert into Date_Exam values (N'2021_2',N'49','nhom1',40);
-insert into Date_Exam values (N'2021_2',N'50','nhom1',40);
-insert into Date_Exam values (N'2021_2',N'77','nhom1',40);
-insert into Date_Exam values (N'2021_2',N'84','nhom1',40);
-insert into Date_Exam values (N'2021_2',N'85','nhom1',40);
-
-SELECT GETDATE();
 go
 
 create FUNCTION sub_Passed (@ID_Course_B nvarchar(50), @ID_ACCOUNT nvarchar(50))
@@ -1196,7 +1184,7 @@ insert into Course_Progress Values('DT',N'214374',18,1);
  insert into Sub_Pass values('2021_2', N'214984', N'18130005', 4.92, 1.97, N'D');
  insert into Sub_Pass values('2021_2', N'214374', N'18130005', 9.58, 3.83, N'A');
 
- insert into Semester_Result values('2018_1`', N'18130005', 5.93, 2.37, 19);
+ insert into Semester_Result values('2018_1', N'18130005', 5.93, 2.37, 19);
  insert into Semester_Result values('2018_2', N'18130005', 6.04, 2.42, 21);
  insert into Semester_Result values('2019_1', N'18130005', 6.43, 2.57, 19);
  insert into Semester_Result values('2019_2', N'18130005', 6.82, 2.73, 17);
@@ -1206,3 +1194,6 @@ insert into Course_Progress Values('DT',N'214374',18,1);
  insert into Semester_Result values('2021_2', N'18130005', 6.83, 2.73, 32);
 
  insert into Final_Result values( N'18130005', 5.91, 2.36);
+
+ select * from Semester_Result
+ select * from Semester
