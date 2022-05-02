@@ -347,7 +347,6 @@ AS
   and de.ID_Semester = @ID_Semester
 GO
 
-
 go
 
 create FUNCTION sub_Passed (@ID_Course_B nvarchar(50), @ID_ACCOUNT nvarchar(50))
