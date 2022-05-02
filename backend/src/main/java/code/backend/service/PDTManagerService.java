@@ -1,13 +1,16 @@
 package code.backend.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -15,11 +18,6 @@ import javax.persistence.metamodel.Attribute;
 import javax.persistence.metamodel.Attribute.PersistentAttributeType;
 import javax.persistence.metamodel.EntityType;
 
-import code.backend.persitence.entities.*;
-import code.backend.persitence.enumModel.RoleEnum;
-import code.backend.persitence.repository.AccountRepository;
-import code.backend.persitence.repository.ClazzRepository;
-import code.backend.persitence.repository.FacultyRepository;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -28,17 +26,49 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import code.backend.helpers.advice.CustomException;
+import code.backend.helpers.payload.dto.ClazzDTO;
+import code.backend.helpers.payload.dto.CourseDTO;
+import code.backend.helpers.payload.dto.CourseOfferingDTO;
+import code.backend.helpers.payload.dto.FacultyDTO;
+import code.backend.helpers.payload.dto.ProfessorDTO;
+import code.backend.helpers.payload.dto.ScheduleDTO;
 import code.backend.helpers.payload.request.AccountFromExcelRequest;
 import code.backend.helpers.payload.request.DeleteEntityRequest;
 import code.backend.helpers.payload.request.ScoreFromExcelRequest;
 import code.backend.helpers.payload.request.UpdateEntityRequest;
 import code.backend.helpers.payload.response.EntityResponse;
 import code.backend.helpers.payload.response.MessageResponse;
+import code.backend.helpers.payload.response.SubAvailableRespone;
 import code.backend.helpers.payload.subModel.SubScoreModel;
+import code.backend.helpers.utils.SubUtils;
+import code.backend.persitence.entities.Account;
+import code.backend.persitence.entities.AccountDetail;
+import code.backend.persitence.entities.Clazz;
+import code.backend.persitence.entities.Course;
+import code.backend.persitence.entities.FinalResult;
+import code.backend.persitence.entities.ResetToken;
+import code.backend.persitence.entities.Role;
+import code.backend.persitence.entities.Schedule;
+import code.backend.persitence.entities.SemesterResult;
+import code.backend.persitence.entities.Student;
+import code.backend.persitence.entities.StudentSchedule;
+import code.backend.persitence.entities.SubPass;
+import code.backend.persitence.entities.VerificationToken;
+import code.backend.persitence.enumModel.RoleEnum;
+import code.backend.persitence.repository.AccountRepository;
+import code.backend.persitence.repository.ClazzRepository;
+import code.backend.persitence.repository.CourseOfferingRepository;
+import code.backend.persitence.repository.FacultyRepository;
+import code.backend.persitence.repository.ScheduleRepository;
 import code.backend.persitence.repository.StudentRepository;
+import code.backend.service.subService.EntityService;
 
 @Service
 public class PDTManagerService {
+    @Autowired
+    private EntityService entityService;
+    @Autowired
+    ScheduleRepository scheduleRepository;
     @Autowired
     private EntityManager entityManager;
     @Autowired
@@ -50,9 +80,12 @@ public class PDTManagerService {
     @Autowired
     FacultyRepository facultyRepository;
     @Autowired
+    CourseOfferingRepository courseOfferingRepository;
+    @Autowired
     ClazzService clazzService;
 
-    public Map<String, Integer> studentCount(List<AccountFromExcelRequest> listAccountFromExcelRequests, Set<AccountFromExcelRequest> listError) {
+    public Map<String, Integer> studentCount(List<AccountFromExcelRequest> listAccountFromExcelRequests,
+            Set<AccountFromExcelRequest> listError) {
         Map<String, Integer> map = new HashMap<>();
         for (AccountFromExcelRequest accountFromExcelRequest : listAccountFromExcelRequests) {
             if (facultyRepository.findByIdFaculty(accountFromExcelRequest.getFaculty()).isPresent()) {
@@ -68,7 +101,8 @@ public class PDTManagerService {
         return map;
     }
 
-    public Set<AccountFromExcelRequest> addAccountFromExcel(List<AccountFromExcelRequest> listAccountFromExcelRequests) {
+    public Set<AccountFromExcelRequest> addAccountFromExcel(
+            List<AccountFromExcelRequest> listAccountFromExcelRequests) {
         int khoa = Calendar.getInstance().get(Calendar.YEAR) % 100;
         // tìm kím tên student có tên có class ở khóa 22
         List<Student> studentList = studentRepository.findByClazzCodeLike("%" + khoa + "%");
@@ -89,7 +123,7 @@ public class PDTManagerService {
         if (listClazzToDelete.size() > 0) {
             clazzRepository.deleteAll(listClazzToDelete);
         }
-        ///////làm lại từ đầu izi
+        /////// làm lại từ đầu izi
         Set<AccountFromExcelRequest> listError = new HashSet<>();
         // tao clazz
         Map<String, Integer> map = studentCount(listAccountFromExcelRequests, listError);
@@ -109,7 +143,6 @@ public class PDTManagerService {
         List<Student> listStudent = new ArrayList<>();
         List<Clazz> clazzList = new ArrayList<>();
 
-
         // check nếu ... thì hợp lại thêm nữa
         for (AccountFromExcelRequest accountFromExcelRequest : listAccountFromExcelRequests) {
             String firstName = accountFromExcelRequest.getFirstName();
@@ -122,14 +155,15 @@ public class PDTManagerService {
                 String idAccount = "" + khoa + Id_Faculty_N + numberToString(map2.get(maNganh));
                 String email = idAccount + "@st.hcmuaf.edu.vn";
                 String password = "$2a$10$g/AIRfhpFhGPjAnUw5m8qu974.uI71HwrBpjXeYQu4khl8KI.4VgS";
-                //account
-                //check exist
+                // account
+                // check exist
                 Account account = createNewAccount(idAccount, firstName, lastName, email, password);
                 listAccount.add(account);
 
-                //student
-                //check exist
-                Student student = new Student(idAccount, firstName + lastName, maNganh, new Date(), clazz.getClazzCode(), (short) 136, (short) 0);
+                // student
+                // check exist
+                Student student = new Student(idAccount, firstName + lastName, maNganh, new Date(),
+                        clazz.getClazzCode(), (short) 136, (short) 0);
                 listStudent.add(student);
 
                 //
@@ -146,21 +180,22 @@ public class PDTManagerService {
                 listError.add(accountFromExcelRequest);
             }
         }
-//        accountRepository.saveAll(listAccount);
-//        studentRepository.saveAll(listStudent);
-//        clazzRepository.saveAll(clazzList);
+        // accountRepository.saveAll(listAccount);
+        // studentRepository.saveAll(listStudent);
+        // clazzRepository.saveAll(clazzList);
 
         return listError;
     }
 
-    public Account createNewAccount(String idAccount, String firstName, String lastName, String email, String password) {
-        //account detail
+    public Account createNewAccount(String idAccount, String firstName, String lastName, String email,
+            String password) {
+        // account detail
         AccountDetail accountDetail = new AccountDetail();
         accountDetail.setIdAccount(idAccount);
         accountDetail.setFirstName(firstName);
         accountDetail.setLastName(lastName);
         accountDetail.setBirthday(new Date());
-        //account
+        // account
         Account account = new Account();
         account.setIdAccount(idAccount);
         account.setEmail(email);
@@ -170,10 +205,10 @@ public class PDTManagerService {
         account.setLastExpires(new Date());
         List<Role> roles = new ArrayList<>(List.of(new Role(RoleEnum.Student)));
         account.setListOfRole(roles);
-        //verification token
+        // verification token
         VerificationToken verificationToken = new VerificationToken(account.getIdAccount(), null);
         verificationToken.setVerified(new Date());
-        //add all to account
+        // add all to account
         account.setVerificationToken(verificationToken);
         account.setResetToken(new ResetToken(account.getIdAccount()));
         account.setAccountDetail(accountDetail);
@@ -418,9 +453,30 @@ public class PDTManagerService {
         return new MessageResponse("Thay doi thanh cong !!!");
     }
 
-    public MessageResponse closeCourseRegist() {
-        
-        return null;
+    public List<SubAvailableRespone> closeCourseRegist() {
+        List<String> ids = new ArrayList<>();
+        for (String[] strings : entityService.getFunctionResult("get_closable_course_offering", new ArrayList<>())) {
+            ids.add(strings[0]);
+        }
+        List<Schedule> schedules = scheduleRepository.findAllByIds(ids);
+        List<SubAvailableRespone> subAvailableRespones = new ArrayList<>();
+        for (Schedule schedule : schedules) {
+            SubAvailableRespone subAvailableRespone = new SubAvailableRespone(
+                    (ClazzDTO) SubUtils.mapperObject(schedule.getCourseOffering().getClazz(), new ClazzDTO()),
+                    (CourseDTO) SubUtils.mapperObject(schedule.getCourseOffering().getCourse(), new CourseDTO()),
+                    (CourseOfferingDTO) SubUtils.mapperObject(schedule.getCourseOffering(), new CourseOfferingDTO()),
+                    (FacultyDTO) SubUtils.mapperObject(schedule.getCourseOffering().getCourse().getFaculty(),
+                            new FacultyDTO()),
+                    (ProfessorDTO) SubUtils.mapperObject(schedule.getProfessor(), new ProfessorDTO()),
+                    (ScheduleDTO) SubUtils.mapperObject(schedule, new ScheduleDTO()));
+            subAvailableRespones.add(subAvailableRespone);
+        }
+        return subAvailableRespones;
     }
 
+    @Transactional
+    public MessageResponse deleteCourseOffering(List<String> ids) {
+        courseOfferingRepository.deleteAllById(ids);
+        return new MessageResponse("Thanh Cong !!!");
+    }
 }

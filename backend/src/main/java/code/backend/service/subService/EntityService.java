@@ -22,7 +22,12 @@ public class EntityService {
         for (int i = 0; i < listParam.size(); i++) {
             params += ":" + i + ",";
         }
-        params = params.substring(0, params.length() - 1);
+        String command = "SELECT * FROM {0}({1})";
+        if (listParam.size() != 0) {
+            params = params.substring(0, params.length() - 1);
+        }else{
+            command = "SELECT * FROM {0}()";
+        }
         String queryContent = MessageFormat.format("SELECT * FROM {0}({1})", functionName, params);
         Query query = entityManager.createNativeQuery(queryContent);
         for (int i = 0; i < listParam.size(); i++) {

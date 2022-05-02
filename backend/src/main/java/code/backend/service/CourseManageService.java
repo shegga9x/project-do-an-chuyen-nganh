@@ -25,7 +25,6 @@ import code.backend.helpers.payload.dto.SemesterReusltDTO;
 import code.backend.helpers.payload.response.CourseRegisterFakeRespone;
 import code.backend.helpers.payload.response.DateExamResponse;
 import code.backend.helpers.payload.response.MessageResponse;
-import code.backend.helpers.payload.response.Professor;
 import code.backend.helpers.payload.response.StudentBySubjectResponse;
 import code.backend.helpers.payload.response.SubAvailableRespone;
 import code.backend.helpers.payload.response.TimeTableResponse;

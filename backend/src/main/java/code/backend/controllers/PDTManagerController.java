@@ -1,5 +1,6 @@
 package code.backend.controllers;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import code.backend.helpers.payload.request.AccountFromExcelRequest;
@@ -18,6 +20,7 @@ import code.backend.helpers.payload.request.ScoreFromExcelRequest;
 import code.backend.helpers.payload.request.UpdateEntityRequest;
 import code.backend.helpers.payload.response.EntityResponse;
 import code.backend.helpers.payload.response.MessageResponse;
+import code.backend.helpers.payload.response.SubAvailableRespone;
 import code.backend.service.PDTManagerService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -38,11 +41,15 @@ public class PDTManagerController {
         return pdtManagerService.addScoreFromExcel(scoreFromExcelRequest);
     }
 
-    @PostMapping(value = "close-course-regist")
-    public MessageResponse closeCourseRegist() {
-        return pdtManagerService.closeCourseRegist();
+    @PostMapping(value = "delete_course_offering")
+    public MessageResponse deleteCourseOffering(@RequestBody List<String> ids) {
+        return pdtManagerService.deleteCourseOffering((ids));
     }
 
+    @GetMapping("/close_course_regist")
+    public @ResponseBody List<SubAvailableRespone> closeCourseRegist() {
+        return pdtManagerService.closeCourseRegist();
+    }
 
     @GetMapping(value = "load_entity")
     public EntityResponse loadEntity(@RequestParam("entityClass") String entityClass) {

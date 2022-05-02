@@ -39,6 +39,7 @@ public class CourseOffering implements Serializable {
     @Column(name = "Current_Size", nullable = false)
     private Byte currentSize;
 
+
     // --- ENTITY LINKS ( RELATIONSHIP )
     @ManyToOne
     @JoinColumn(name = "ID_Course", referencedColumnName = "ID_Course", insertable = false, updatable = false)
@@ -50,8 +51,6 @@ public class CourseOffering implements Serializable {
     @ManyToOne
     @JoinColumn(name = "Clazz_code", referencedColumnName = "Clazz_code", insertable = false, updatable = false)
     private Clazz clazz;
-
-
 
     /**
      * Constructor
@@ -116,8 +115,6 @@ public class CourseOffering implements Serializable {
 
 
 
-
-    
     @Override
     public boolean equals(Object o) {
         if (this == o)

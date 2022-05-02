@@ -8,22 +8,19 @@ const baseUrl = `${environment.apiUrl}/ptd_manager`;
     providedIn: 'root'
 })
 export class PDTService {
-
+    listSubAvailable: any[] = [];
     constructor(private http: HttpClient) { }
 
     addAccountFromExcel(listAccount: any) {
         return this.http.post(`${baseUrl}/add_Account_From_Excel`, listAccount);
     }
+    deleteCourseOffering(ids: any) {
+        return this.http.post(`${baseUrl}/delete_course_offering`, ids);
+    }
 
-    // addScoreFromExcel(listScoreRequest: any) {
-    //     return new Promise((resolve, rejects) => {
-    //         this.http.post(`${baseUrl}/add_Score_From_Excel`, listScoreRequest).subscribe({
-    //             next: (v) => resolve(v),
-    //             error: (e) => rejects(e),
-    //             complete: () => console.info('complete')
-    //         })
-    //     });
-    // }
+    getCloseCourseRegist() {
+        return this.http.get(`${baseUrl}/close_course_regist/`);
+      }
 
     addScoreFromExcel(listScoreRequest: any) {
         return this.http.post(`${baseUrl}/add_Score_From_Excel`, listScoreRequest);
