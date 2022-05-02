@@ -345,17 +345,6 @@ AS
 GO
 
 
-Select * from Date_Exam_ST('18130005', '2021_2')
-select * from Date_Exam
-select * from Student_Schedule
-
-insert into Date_Exam values (N'2021_2',N'49','nhom1',40);
-insert into Date_Exam values (N'2021_2',N'50','nhom1',40);
-insert into Date_Exam values (N'2021_2',N'77','nhom1',40);
-insert into Date_Exam values (N'2021_2',N'84','nhom1',40);
-insert into Date_Exam values (N'2021_2',N'85','nhom1',40);
-
-SELECT GETDATE();
 go
 
 create FUNCTION sub_Passed (@ID_Course_B nvarchar(50), @ID_ACCOUNT nvarchar(50))
@@ -570,33 +559,7 @@ BEGIN
 END
 
 GO
-CREATE FUNCTION get_ID_Semester (@ID_Student nvarchar(50))
-RETURNS TABLE
-AS
-  RETURN
-  SELECT DISTINCT sp.ID_Semester
-	FROM Sub_Pass sp
-	WHERE sp.ID_Student = @ID_Student
-GO
-SELECT * from get_ID_Semester('18130005')
 
-GO
-CREATE FUNCTION get_Semester_Result_ST (@ID_Student nvarchar(50))
-RETURNS TABLE
-AS
-RETURN
-  SELECT c.ID_Course,
-  c.Name_Course,
-  c.Course_certificate,
-  sp.Score,
-  sp.Score_System_4,
-  sp.ID_Semester,
-  sp.Rated
-FROM Sub_Pass sp JOIN
-  Course c ON sp.ID_Course = c.ID_Course
-WHERE  sp.ID_Student = @ID_Student
-GO
-SELECT * from get_Semester_Result_ST('18130005')
 
 go
 
@@ -1054,8 +1017,6 @@ insert into Schedule values(N'-2',N'52',null,'LT',2,'20/10/2021','10/12/2021',N'
 insert into Date_Exam values (N'2021_2',N'-1','nhom1',40);
 insert into Date_Exam values (N'2021_2',N'-2','nhom1',40);
 
-
-
 -- insert into Course_Progress
 insert into Course_Progress Values('DT',N'202501',18,1);
 insert into Course_Progress Values('DT',N'214201',18,1);
@@ -1205,4 +1166,4 @@ insert into Course_Progress Values('DT',N'214374',18,1);
  insert into Semester_Result values('2021_1', N'18130005', 5.92, 2.37, 33);
  insert into Semester_Result values('2021_2', N'18130005', 6.83, 2.73, 32);
 
- insert into Final_Result values( N'18130005', 5.91, 2.36);
+ insert into Final_Result values( N'18130005', 5.91, 2.36);     
