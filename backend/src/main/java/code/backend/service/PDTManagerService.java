@@ -418,4 +418,9 @@ public class PDTManagerService {
         return new MessageResponse("Thay doi thanh cong !!!");
     }
 
+    public MessageResponse closeCourseRegist() {
+        
+        return null;
+    }
+
 }

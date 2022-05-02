@@ -316,14 +316,14 @@ class BackendApplicationTests {
 
 		List<String> listParam = Arrays.asList("18130005");
 
-        List<String[]> columns = entityService.getFunctionResult("get_ID_Semester", listParam);
-        List<SemesterDTO> listResult = new ArrayList<>();
-        for (String[] arr : columns) {
-            SemesterDTO semesterDTO = (SemesterDTO) SubUtils
-                    .mapperObject(semesterRepository.findById(arr[0]).get(), new SemesterDTO());
-            listResult.add(semesterDTO);
-        }
-        System.out.println(listResult);
+		List<String[]> columns = entityService.getFunctionResult("get_ID_Semester", listParam);
+		List<SemesterDTO> listResult = new ArrayList<>();
+		for (String[] arr : columns) {
+			SemesterDTO semesterDTO = (SemesterDTO) SubUtils
+					.mapperObject(semesterRepository.findById(arr[0]).get(), new SemesterDTO());
+			listResult.add(semesterDTO);
+		}
+		System.out.println(listResult);
 
 	}
 
@@ -332,19 +332,29 @@ class BackendApplicationTests {
 	void test13() {
 
 		List<String> listParam = Arrays.asList("18130005");
-        List<String[]> columns = entityService.getFunctionResult("get_Semester_Result_ST", listParam);
-        List<SemesterReusltDTO> listResult = new ArrayList<>();
-        for (String[] arr : columns) {
-            listResult.add(new SemesterReusltDTO(arr[0], arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]),
-                    Double.parseDouble(arr[4]), arr[5], arr[6]));
-        }
-        System.out.println(listResult);
+		List<String[]> columns = entityService.getFunctionResult("get_Semester_Result_ST", listParam);
+		List<SemesterReusltDTO> listResult = new ArrayList<>();
+		for (String[] arr : columns) {
+			listResult.add(new SemesterReusltDTO(arr[0], arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]),
+					Double.parseDouble(arr[4]), arr[5], arr[6]));
+		}
+		System.out.println(listResult);
 
 	}
 
 	@Transactional
 	@Test
 	void test14() {
+
+		List<SemesterResult> list = semesterResultRepository.findByIdStudent("18130005");
+
+		list.forEach(System.out::println);
+
+	}
+
+	@Transactional
+	@Test
+	void test15() {
 
 		List<SemesterResult> list = semesterResultRepository.findByIdStudent("18130005");
 

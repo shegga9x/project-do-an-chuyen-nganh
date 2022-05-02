@@ -38,6 +38,12 @@ public class PDTManagerController {
         return pdtManagerService.addScoreFromExcel(scoreFromExcelRequest);
     }
 
+    @PostMapping(value = "close-course-regist")
+    public MessageResponse closeCourseRegist() {
+        return pdtManagerService.closeCourseRegist();
+    }
+
+
     @GetMapping(value = "load_entity")
     public EntityResponse loadEntity(@RequestParam("entityClass") String entityClass) {
         return pdtManagerService.loadEntity(entityClass);

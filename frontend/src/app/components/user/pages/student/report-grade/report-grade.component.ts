@@ -36,6 +36,7 @@ export class ReportGradeComponent implements OnInit {
     )
 
     combined.subscribe((latestValues: any) => {
+      console.log(latestValues)
       this.listIDSemester = latestValues[0];
       this.listFilter = latestValues[0];
       this.listSemesterResults = latestValues[1];

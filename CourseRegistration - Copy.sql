@@ -176,6 +176,8 @@ CREATE TABLE Course_Offering
   Current_Size tinyint NOT NULL,
   -- lịch học thì sẽ có ngày bắt đầu và ngày kết thúc 
   -- ngày bắt đầu
+   -- lịch học đã cũ
+   isOld bit,
   PRIMARY KEY (ID_Course_Offering)
 )
 CREATE TABLE Schedule
@@ -200,6 +202,7 @@ CREATE TABLE Schedule
   Start_Slot tinyint NOT NULL,
   -- tiết kết thúc
   End_Slot tinyint NOT NULL,
+ 
   PRIMARY KEY (ID_Schedule)
 )
 CREATE TABLE Student_Schedule
@@ -377,6 +380,7 @@ FROM Course_Offering co JOIN
 
 WHERE	(c.ID_Faculty is null or c.ID_Faculty  in  (SELECT ID_Faculty FROM Student WHERE ID_Student = @ID_ACCOUNT))
 		AND sc.ID_Schedule >=0 
+		AND co.isOld = 0
 		AND c.years <= CASE WHEN c.years IS NULL THEN c.years 
 			ELSE (SELECT (YEAR(GETDATE()) - YEAR(Create_date))
 				FROM Student
@@ -539,6 +543,53 @@ WHERE sp.ID_Student = @ID_Student
   AND sp.ID_Semester = @ID_Semester
 GO
 
+
+
+-- Dùng để in ra ds điểm của hs theo từng ID_Semester
+CREATE FUNCTION get_ID_Semester (@ID_Student nvarchar(50))
+RETURNS TABLE
+AS
+  RETURN
+  SELECT DISTINCT sp.ID_Semester
+	FROM Sub_Pass sp
+	WHERE sp.ID_Student = @ID_Student
+GO
+SELECT * from get_ID_Semester('18130005')
+
+GO
+CREATE FUNCTION get_Semester_Result_ST (@ID_Student nvarchar(50))
+RETURNS TABLE
+AS
+RETURN
+  SELECT c.ID_Course,
+  c.Name_Course,
+  c.Course_certificate,
+  sp.Score,
+  sp.Score_System_4,
+  sp.ID_Semester,
+  sp.Rated
+FROM Sub_Pass sp JOIN
+  Course c ON sp.ID_Course = c.ID_Course
+WHERE  sp.ID_Student = @ID_Student
+GO
+SELECT * from get_Semester_Result_ST('18130005')
+go
+
+
+GO
+create FUNCTION get_closable_course_offering ()
+RETURNS TABLE
+AS
+RETURN
+  SELECT sc.* from Schedule sc join Course_Offering co on sc.ID_Course_Offering = co.ID_Course_Offering
+  where sc.ID_Schedule > 0 and (sc.ID_Schedule is null or co.Current_Size < 30) and co.isOld = 0
+  
+GO
+SELECT * from get_closable_course_offering()
+go
+select * from Student_Schedule
+
+--
 GO
 CREATE TRIGGER check_Course_Offering
 ON Course_Offering
@@ -558,11 +609,27 @@ BEGIN
   END
 END
 
+
 GO
+CREATE TRIGGER check_insert_student_schedule
+ON Student_Schedule
+FOR INSERT, UPDATE
+AS
+BEGIN
+  DECLARE @CurrentSizeI tinyint = (SELECT
+    I.Current_Size
+  FROM inserted I);
+  DECLARE @MaxSizeI tinyint = (SELECT
+    I.Max_Size
+  FROM inserted I);
+  IF @CurrentSizeI > @MaxSizeI
+  BEGIN
+    RAISERROR (N'lớp đã đầy', 11, 1)
+    ROLLBACK TRANSACTION
+  END
+END
 
-
-go
-
+GO
 -- insert Record
 
 -- dữ liệu bảng Role
@@ -598,7 +665,7 @@ insert into ACCOUNT Values(N'300',N'300@st.hcmuaf.edu.vn',N'$2a$10$g/AIRfhpFhGPj
 
 
 --dữ liệu bảng Faculty
-INSERT INTO Faculty VALUES ('DC', 000,N'Đại Cương')
+INSERT INTO Faculty VALUES ('TC', 000,N'Tín Chỉ')
 INSERT INTO Faculty VALUES ('DT', 130,N'Khoa Công Nghệ Thông Tin')
 INSERT INTO Faculty VALUES ('TY', 131,N'Khoa Thú Y')
 INSERT INTO Faculty VALUES ('NH', 132,N'Khoa Nông Học')
@@ -676,6 +743,7 @@ insert into Verification_Token VALUES (N'220',null,getdate())
 insert into Verification_Token VALUES (N'300',null,getdate())
 insert into Verification_Token VALUES (N'pdt',null,getdate())
 -- dữ liệu bảng Clazz
+insert into Clazz Values(N'TinChi','TC',100,0)
 insert into Clazz Values(N'DH18DTA','DT',100,0)
 insert into Clazz Values(N'DH19DTA','DT',100,0)
 insert into Clazz Values(N'DH20DTA','DT',100,0)
@@ -801,71 +869,77 @@ insert into Course Values(N'214374','DT',N'Chuyên đề WEB',4,4,2);
 --dt
 
 -- insert into Course_Offering
-insert into Course_Offering Values(N'0',N'202501','DH18DTA',80,0)
-insert into Course_Offering Values(N'1',N'214201','DH18DTA',80,0)
-insert into Course_Offering Values(N'2',N'202109','DH18DTA',80,0)
-insert into Course_Offering Values(N'3',N'202108','DH18DTA',80,0)
-insert into Course_Offering Values(N'4',N'200101','DH18DTA',80,0)
-insert into Course_Offering Values(N'5',N'200102','DH18DTA',80,0)
-insert into Course_Offering Values(N'6',N'214321','DH18DTA',80,0)
-insert into Course_Offering Values(N'7',N'213603','DH18DTA',80,0)
-insert into Course_Offering Values(N'8',N'202206','DH18DTA',80,0)
-insert into Course_Offering Values(N'9',N'200202','DH18DTA',80,0)
-insert into Course_Offering Values(N'10',N'202502','DH18DTA',80,0)
-insert into Course_Offering Values(N'11',N'200103','DH18DTA',80,0)
-insert into Course_Offering Values(N'12',N'213604','DH18DTA',80,0)
-insert into Course_Offering Values(N'13',N'200201','DH18DTA',80,0)
-insert into Course_Offering Values(N'14',N'214331','DH18DTA',80,0)
-insert into Course_Offering Values(N'15',N'202110','DH18DTA',80,0)
-insert into Course_Offering Values(N'16',N'214242','DH18DTA',80,0)
-insert into Course_Offering Values(N'17',N'214231','DH18DTA',80,0)
-insert into Course_Offering Values(N'18',N'202622','DH18DTA',80,0)
-insert into Course_Offering Values(N'19',N'208453','DH18DTA',80,0)
-insert into Course_Offering Values(N'20',N'214441','DH18DTA',80,0)
-insert into Course_Offering Values(N'21',N'214241','DH18DTA',80,0)
-insert into Course_Offering Values(N'22',N'202620','DH18DTA',80,0)
-insert into Course_Offering Values(N'23',N'214251','DH18DTA',80,0)
-insert into Course_Offering Values(N'24',N'202121','DH18DTA',80,0)
-insert into Course_Offering Values(N'25',N'200105','DH18DTA',80,0)
-insert into Course_Offering Values(N'26',N'214352','DH18DTA',80,0)
-insert into Course_Offering Values(N'27',N'214442','DH18DTA',80,0)
-insert into Course_Offering Values(N'28',N'214351','DH18DTA',80,0)
-insert into Course_Offering Values(N'29',N'214361','DH18DTA',80,0)
-insert into Course_Offering Values(N'30',N'214463','DH18DTA',80,0)
-insert into Course_Offering Values(N'31',N'214252','DH18DTA',80,0)
-insert into Course_Offering Values(N'32',N'200107','DH18DTA',80,0)
-insert into Course_Offering Values(N'33',N'214462','DH18DTA',80,0)
-insert into Course_Offering Values(N'34',N'214353','DH18DTA',80,0)
-insert into Course_Offering Values(N'35',N'214372','DH18DTA',80,0)
-insert into Course_Offering Values(N'36',N'214451','DH18DTA',80,0)
-insert into Course_Offering Values(N'37',N'214386','DH18DTA',80,0)
-insert into Course_Offering Values(N'38',N'214282','DH18DTA',80,0)
-insert into Course_Offering Values(N'39',N'214492','DH18DTA',80,0)
-insert into Course_Offering Values(N'40',N'214471','DH18DTA',80,0)
-insert into Course_Offering Values(N'41',N'214461','DH18DTA',80,0)
-insert into Course_Offering Values(N'42',N'214370','DH18DTA',80,0)
-insert into Course_Offering Values(N'43',N'214274','DH18DTA',80,0)
-insert into Course_Offering Values(N'44',N'214388','DH18DTA',80,0)
-insert into Course_Offering Values(N'45',N'214273','DH18DTA',80,0)
-insert into Course_Offering Values(N'46',N'214387','DH18DTA',80,0)
-insert into Course_Offering Values(N'47',N'214485','DH18DTA',80,0)
-insert into Course_Offering Values(N'48',N'214483','DH18DTA',80,0)
-insert into Course_Offering Values(N'49',N'214383','DH18DTA',80,0)
-insert into Course_Offering Values(N'50',N'214289','DH18DTA',80,0)
-insert into Course_Offering Values(N'51',N'214290','DH18DTA',80,0)
-insert into Course_Offering Values(N'52',N'214379','DH18DTA',80,0)
-insert into Course_Offering Values(N'53',N'214271','DH18DTA',80,0)
-insert into Course_Offering Values(N'54',N'214464','DH18DTA',80,0)
-insert into Course_Offering Values(N'55',N'214491','DH18DTA',80,0)
-insert into Course_Offering Values(N'56',N'214465','DH18DTA',80,0)
-insert into Course_Offering Values(N'57',N'214292','DH18DTA',80,0)
-insert into Course_Offering Values(N'58',N'214286','DH18DTA',80,0)
-insert into Course_Offering Values(N'59',N'214285','DH18DTA',80,0)
-insert into Course_Offering Values(N'60',N'214291','DH18DTA',80,0)
-insert into Course_Offering Values(N'61',N'214490','DH18DTA',80,0)
-insert into Course_Offering Values(N'62',N'214985','DH18DTA',80,0)
-insert into Course_Offering Values(N'63',N'214984','DH18DTA',80,0)
-insert into Course_Offering Values(N'64',N'214374','DH18DTA',80,0)
+insert into Course_Offering Values(N'0',N'202501','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'1',N'214201','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'2',N'202109','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'3',N'202108','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'4',N'200101','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'5',N'200102','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'6',N'214321','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'7',N'213603','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'8',N'202206','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'9',N'200202','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'10',N'202502','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'11',N'200103','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'12',N'213604','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'13',N'200201','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'14',N'214331','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'15',N'202110','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'16',N'214242','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'17',N'214231','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'18',N'202622','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'19',N'208453','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'20',N'214441','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'21',N'214241','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'22',N'202620','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'23',N'214251','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'24',N'202121','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'25',N'200105','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'26',N'214352','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'27',N'214442','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'28',N'214351','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'29',N'214361','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'30',N'214463','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'31',N'214252','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'32',N'200107','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'33',N'214462','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'34',N'214353','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'35',N'214372','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'36',N'214451','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'37',N'214386','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'38',N'214282','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'39',N'214492','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'40',N'214471','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'41',N'214461','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'42',N'214370','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'43',N'214274','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'44',N'214388','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'45',N'214273','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'46',N'214387','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'47',N'214485','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'48',N'214483','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'49',N'214383','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'50',N'214289','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'51',N'214290','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'52',N'214379','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'53',N'214271','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'54',N'214464','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'55',N'214491','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'56',N'214465','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'57',N'214292','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'58',N'214286','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'59',N'214285','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'60',N'214291','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'61',N'214490','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'62',N'214985','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'63',N'214984','DH18DTA',80,0,0)
+insert into Course_Offering Values(N'64',N'214374','DH18DTA',80,0,0)
+
+
+
+
+
+
 -- insert into Schedule
 insert into Schedule values(N'1',N'0',null,'LT',3,'20/10/2021','20/11/2021',N'HD',10,13)
 insert into Schedule values(N'2',N'1',null,'LT',5,'20/10/2021','20/11/2021',N'PV',10,13)
@@ -1084,6 +1158,7 @@ insert into Course_Progress Values('DT',N'214985',18,1);
 insert into Course_Progress Values('DT',N'214984',18,1);
 insert into Course_Progress Values('DT',N'214374',18,1);
 
+use Course_Registration
 -- insert into Sub_Pass
  insert into Sub_Pass values('2018_1', N'202501', N'18130005', 9.57, 3.83, N'A');
  insert into Sub_Pass values('2018_1', N'214201', N'18130005', 9.54, 3.82, N'A');
@@ -1157,7 +1232,7 @@ insert into Course_Progress Values('DT',N'214374',18,1);
  insert into Sub_Pass values('2021_2', N'214984', N'18130005', 4.92, 1.97, N'D');
  insert into Sub_Pass values('2021_2', N'214374', N'18130005', 9.58, 3.83, N'A');
 
- insert into Semester_Result values('2018_1`', N'18130005', 5.93, 2.37, 19);
+ insert into Semester_Result values('2018_1', N'18130005', 5.93, 2.37, 19);
  insert into Semester_Result values('2018_2', N'18130005', 6.04, 2.42, 21);
  insert into Semester_Result values('2019_1', N'18130005', 6.43, 2.57, 19);
  insert into Semester_Result values('2019_2', N'18130005', 6.82, 2.73, 17);
@@ -1167,3 +1242,4 @@ insert into Course_Progress Values('DT',N'214374',18,1);
  insert into Semester_Result values('2021_2', N'18130005', 6.83, 2.73, 32);
 
  insert into Final_Result values( N'18130005', 5.91, 2.36);     
+
