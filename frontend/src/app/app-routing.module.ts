@@ -1,6 +1,9 @@
+import { AccountService } from 'src/app/services';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './components/user/pages/commons/page-not-found/page-not-found.component';
+import { AuthenticationGuard,Permissions } from '././services/auth-guard.service';
+
 //component
 
 const userModule = () => import('src/app/components/user/user.model').then(x => x.userModule)
@@ -12,10 +15,10 @@ const routes: Routes = [
     path: '', redirectTo: 'user', pathMatch: 'full'
   },
   {
-    path: 'user', loadChildren: userModule
+    path: 'user',  loadChildren: userModule
   },
   {
-    path: 'admin', loadChildren: adminModule
+    path: 'admin', canActivate: [AuthenticationGuard],loadChildren: adminModule
   },
   {
     path: '**', pathMatch: 'full',
@@ -25,6 +28,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthenticationGuard, AccountService, Permissions]
 })
 export class AppRoutingModule { }

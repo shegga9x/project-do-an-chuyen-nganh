@@ -20,7 +20,9 @@ export class HeaderComponent implements OnInit {
   }
 
   openDialogLogin() {
-    this.generalService.openDialogLogin();
+    if (!this.account) {
+      this.generalService.openDialogLogin();
+    }
   }
 
   logout() {
@@ -28,7 +30,7 @@ export class HeaderComponent implements OnInit {
   }
 
   changeLanguage(language: string) {
-    localStorage.setItem('lang',language);
+    localStorage.setItem('lang', language);
     // this.translateService.setLocale(language);
     this.generalService.onRefresh(this.router.url);
   }

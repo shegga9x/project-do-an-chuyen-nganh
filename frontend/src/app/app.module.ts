@@ -39,6 +39,7 @@ import { DialogErrorComponent } from './components/user/shared/dialog-error/dial
     DialogErrorComponent
   ],
   imports: [
+    
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -56,6 +57,7 @@ import { DialogErrorComponent } from './components/user/shared/dialog-error/dial
     { provide: APP_INITIALIZER, useFactory: appInitializer, multi: true, deps: [AccountService] },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    
   ],
   bootstrap: [AppComponent]
 })

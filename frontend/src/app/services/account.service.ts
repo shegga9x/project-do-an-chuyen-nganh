@@ -26,6 +26,7 @@ export class AccountService {
   }
 
   public get accountValue(): Account | null {
+    
     return this.accountSubject.value;
   }
 

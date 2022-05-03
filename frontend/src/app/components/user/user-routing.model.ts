@@ -1,3 +1,5 @@
+import { AccountService } from 'src/app/services';
+import { AuthenticationGuard, Permissions } from './../../services/auth-guard.service';
 import * as timeTableComponent from './pages/professor/time-table/time-table.component';
 import * as reportGradeComponent from './pages/professor/report-grade/report-grade.component';
 import * as reportDateExamComponent from './pages/professor/report-date-exam/report-date-exam.component';
@@ -34,8 +36,11 @@ const routes: Routes = [{
             path: 'home', component: HomeComponent,
         },
         {
-            path: 'student', component: StudentComponent,
+            path: 'student', canActivate: [AuthenticationGuard], component: StudentComponent,
             children: [
+                {
+                    path: '', component: HomeComponent
+                },
                 {
                     path: 'course-regist', component: CourseRegistComponent
                 },
@@ -51,12 +56,15 @@ const routes: Routes = [{
                 {
                     path: 'time-table', component: TimeTableComponent
                 },
-                
+
             ]
         },
         {
-            path: 'professor', component: ProfessorComponent,
+            path: 'professor', canActivate: [AuthenticationGuard], component: ProfessorComponent,
             children: [
+                {
+                    path: '', component: HomeComponent
+                },
                 {
                     path: 'course-regist', component: courseRegistComponent.CourseRegistComponent
                 },
@@ -92,7 +100,7 @@ const routes: Routes = [{
                 }
             ]
         },
-        
+
         {
             path: 'contact', component: ContactComponent
         },
@@ -102,7 +110,9 @@ const routes: Routes = [{
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
+
+
 })
 
 export class UserRoutingModule { }
