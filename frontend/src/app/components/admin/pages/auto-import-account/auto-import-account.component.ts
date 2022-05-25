@@ -12,7 +12,7 @@ export class AutoImportAccountComponent implements OnInit {
   listError: any[] = [];
   listAll: any[] = [];
   listSuccess: any[] = [];
-  finish: boolean = false;
+  finish: boolean = true;
 
   constructor(private titleService: Title, private generalService: GeneralService, private pdtService: PDTService) {
     this.titleService.setTitle("Jsc Exam Result");
@@ -53,5 +53,27 @@ export class AutoImportAccountComponent implements OnInit {
         });
       });
     }
+  }
+
+  checkTableAllHeight() {
+    let x = document.getElementById('dataTable') as HTMLElement
+    if (x != null && x.clientHeight >= 300) {
+      return true;
+    }
+    return false;
+  }
+  checkTableSuccessHeight() {
+    let x = document.getElementById('dataTable2') as HTMLElement
+    if (x != null && x.clientHeight >= 300) {
+      return true;
+    }
+    return false;
+  }
+  checkTableErrorHeight() {
+    let x = document.getElementById('dataTable3') as HTMLElement
+    if (x != null && x.clientHeight >= 300) {
+      return true;
+    }
+    return false;
   }
 }

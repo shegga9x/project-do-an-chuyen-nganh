@@ -1,77 +1,147 @@
-<section class="ssc-early-result">
+<!-- Page Wrapper -->
+<div id="wrapper">
+    <!-- Sidebar -->
+    <app-side-bar></app-side-bar>
+    <!-- End of Sidebar -->
 
-    <div class="container">
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
 
-        <h1>SSC Exam Result Sheet</h1>
+            <!-- Topbar -->
+            <app-top-bar></app-top-bar>
+            <!-- End of Topbar -->
 
-        <input type="file" style="display: inline-block;" (change)="onFileChange($event)" placeholder="Upload file" accept=".xlsx">
+            <section class="ssc-early-result">
+                <div class="container">
+                    <h3 style="text-align: center">SSC Exam Result Sheet</h3>
+                    <div style="text-align: center;">
+                        <input type="file" style="display: inline-block;" (change)="onFileChange($event)"
+                            placeholder="Upload file" accept=".xlsx">
+                    </div>
 
-
-
-        <div class="ssc-result">
-            <h3>Kết quả</h3>
-            <mat-tab-group *ngIf="finish">
-                <mat-tab label="Tất cả">
-                    <table>
-                        <tr>
-                            <th>MSSV</th>
-                            <th>Họ và Tên Đệm</th>
-                            <th>Tên</th>
-                            <th>Điểm</th>
-                            <th>Tình Trạng</th>
-                        </tr>
-                        <tr *ngFor="let item of listFull" [ngStyle]="{'color': item.mess == null ? '#fff' : '#D8000C','background-color': item.mess == null ? '#88B04B' : '#FFBABA'}">
-                            <td>{{ item.studentID }} </td>
-                            <td>{{ item.firstName }}</td>
-                            <td>{{ item.lastName }}</td>
-                            <td>{{ item.finalResult }}</td>
-                            <td>{{ item.mess == null ? "Ok" : item.mess }}</td>
-                        </tr>
-                    </table>
-                </mat-tab>
-                <mat-tab label="Thành Công">
-                    <table>
-                        <tr>
-                            <th>MSSV</th>
-                            <th>Họ và Tên Đệm</th>
-                            <th>Tên</th>
-                            <th>Điểm</th>
-                            <th>Tình Trạng</th>
-                        </tr>
-                        <tr *ngFor="let item of listOk" style="color: #fff;background-color: #88B04B;">
-                            <td>{{ item.studentID }} </td>
-                            <td>{{ item.firstName }}</td>
-                            <td>{{ item.lastName }}</td>
-                            <td>{{ item.finalResult }}</td>
-                            <td>OK</td>
-                        </tr>
-                    </table>
-                </mat-tab>
-                <mat-tab label="Lỗi">
-                    <table>
-                        <tr>
-                            <th>MSSV</th>
-                            <th>Họ và Tên Đệm</th>
-                            <th>Tên</th>
-                            <th>Điểm</th>
-                            <th>Tình Trạng</th>
-                        </tr>
-                        <tr *ngFor="let item of listError" style="color: #D8000C;background-color: #FFBABA;">
-                            <td>{{ item.studentID }} </td>
-                            <td>{{ item.firstName }}</td>
-                            <td>{{ item.lastName }}</td>
-                            <td>{{ item.finalResult }}</td>
-                            <td>{{ item.mess }}</td>
-                        </tr>
-                    </table>
-                </mat-tab>
-            </mat-tab-group>
+                    <div class="ssc-result">
+                        <h3 style="text-align: center">Kết quả</h3>
+                        <mat-tab-group *ngIf="finish" style="margin-top: 20px;">
+                            <mat-tab label="Tất cả">
+                                <div class="card shadow mb-4">
+                                    <div class="card-body">
+                                        <div class="table-responsive" [class.table-scrollable]="checkTableAllHeight()">
+                                            <table class="table table-bordered" id="dataTable" width="100%"
+                                                cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>MSSV</th>
+                                                        <th>Họ và Tên Đệm</th>
+                                                        <th>Tên</th>
+                                                        <th>Điểm</th>
+                                                        <th>Tình Trạng</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of listFull"
+                                                        [ngStyle]="{'color': item.mess == null ? '#fff' : '#D8000C','background-color': item.mess == null ? '#88B04B' : '#FFBABA'}">
+                                                        <td>{{ item.studentID }} </td>
+                                                        <td>{{ item.firstName }}</td>
+                                                        <td>{{ item.lastName }}</td>
+                                                        <td>{{ item.finalResult }}</td>
+                                                        <td>{{ item.mess == null ? "Ok" : item.mess }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                            <mat-tab label="Thành Công">
+                                <div class="card shadow mb-4">
+                                    <div class="card-body">
+                                        <div class="table-responsive" [class.table-scrollable]="checkTableSuccessHeight()">
+                                            <table class="table table-bordered" id="dataTable2" width="100%"
+                                                cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>MSSV</th>
+                                                        <th>Họ và Tên Đệm</th>
+                                                        <th>Tên</th>
+                                                        <th>Điểm</th>
+                                                        <th>Tình Trạng</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of listOk"
+                                                        style="color: #fff;background-color: #88B04B;">
+                                                        <td>{{ item.studentID }} </td>
+                                                        <td>{{ item.firstName }}</td>
+                                                        <td>{{ item.lastName }}</td>
+                                                        <td>{{ item.finalResult }}</td>
+                                                        <td>OK</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                            <mat-tab label="Lỗi">
+                                <div class="card shadow mb-4">
+                                    <div class="card-body">
+                                        <div class="table-responsive" [class.table-scrollable]="checkTableErrorHeight()">
+                                            <table class="table table-bordered" id="dataTable3" width="100%"
+                                                cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>MSSV</th>
+                                                        <th>Họ và Tên Đệm</th>
+                                                        <th>Tên</th>
+                                                        <th>Điểm</th>
+                                                        <th>Tình Trạng</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of listError"
+                                                        style="color: #D8000C;background-color: #FFBABA;">
+                                                        <td>{{ item.studentID }} </td>
+                                                        <td>{{ item.firstName }}</td>
+                                                        <td>{{ item.lastName }}</td>
+                                                        <td>{{ item.finalResult }}</td>
+                                                        <td>{{ item.mess }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                        </mat-tab-group>
+                    </div>
+                    <div style="text-align: center">
+                        <a href="assets/image/half-exam-result.PNG" download>
+                            <button type="button" class="result-buttion">Download PDF</button>
+                        </a>
+                    </div>
+                </div>
+            </section>
 
 
         </div>
-        <a href="assets/image/half-exam-result.PNG" download><button type="button" class="result-buttion">Download
-                PDF</button></a>
+        <!-- End of Main Content -->
+
+
+        <!-- Footer -->
+        <app-admin-footer></app-admin-footer>
+        <!-- End of Footer -->
 
     </div>
+    <!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
 
-</section>
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<app-logout-modal></app-logout-modal>

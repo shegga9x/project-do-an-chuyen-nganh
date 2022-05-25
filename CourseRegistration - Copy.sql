@@ -1238,3 +1238,5 @@ use Course_Registration
 
  insert into Final_Result values( N'18130005', 5.91, 2.36);     
 
+ select * from ACCOUNT;
+

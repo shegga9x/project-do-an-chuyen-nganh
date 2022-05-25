@@ -11,7 +11,7 @@ export class AutoImportGradeComponent implements OnInit {
   listFull: any[] = [];
   listError: any[];
   listOk: any[];
-  finish: boolean = false;
+  finish: boolean = true;
   constructor(private titleService: Title, private generalService: GeneralService, private pDTService: PDTService) {
     this.titleService.setTitle("Ssc Exam Result");
   }
@@ -49,7 +49,7 @@ export class AutoImportGradeComponent implements OnInit {
       //   });
       // })
       this.pDTService.addAccountFromExcel(request).subscribe({
-        next: (x2) => {},
+        next: (x2) => { },
         error: (err) => {
           let objectError = JSON.parse(err)
           this.listError = this.listFull.filter(obj => {
@@ -66,6 +66,27 @@ export class AutoImportGradeComponent implements OnInit {
         }
       })
     })
+  }
+  checkTableAllHeight() {
+    let x = document.getElementById('dataTable') as HTMLElement
+    if (x != null && x.clientHeight >= 300) {
+      return true;
+    }
+    return false;
+  }
+  checkTableSuccessHeight() {
+    let x = document.getElementById('dataTable2') as HTMLElement
+    if (x != null && x.clientHeight >= 300) {
+      return true;
+    }
+    return false;
+  }
+  checkTableErrorHeight() {
+    let x = document.getElementById('dataTable3') as HTMLElement
+    if (x != null && x.clientHeight >= 300) {
+      return true;
+    }
+    return false;
   }
 }
 

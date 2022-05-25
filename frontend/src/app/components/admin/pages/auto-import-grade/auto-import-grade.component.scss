@@ -1,12 +1,9 @@
-.ssc-early-result {
-    text-align: center;
-  
-    h3 {
-      text-align: center;
+    .mat-tab-label,
+    .mat-tab-link {
+      color: #111;
     }
-  }
-  
-  
-  .mat-tab-label, .mat-tab-link {
-    color: #111;
-  }
+
+    .table-scrollable {
+      height: 300px;
+      overflow-y: scroll;
+    }

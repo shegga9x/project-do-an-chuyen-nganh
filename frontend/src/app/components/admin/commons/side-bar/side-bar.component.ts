@@ -13,7 +13,6 @@ export class SideBarComponent implements OnInit {
     $(document).ready(function () {
       // Toggle the side navigation
       $("#sidebarToggle, #sidebarToggleTop").on('click', function (e: any) {
-        console.log('???????')
         $("body").toggleClass("sidebar-toggled");
         $(".sidebar").toggleClass("toggled");
         if ($(".sidebar").hasClass("toggled")) {

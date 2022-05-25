@@ -11,6 +11,7 @@ export class HomeComponent implements OnInit {
   constructor() {
     $(document).ready(function () {
       $('#dataTable').DataTable();
+      $('#dataTable2').DataTable();
     });
   }
 
