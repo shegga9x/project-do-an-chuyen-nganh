@@ -14,7 +14,6 @@ import { ReportGradeComponent } from './pages/student/report-grade/report-grade.
 import { ReportSchoolFeesComponent } from './pages/student/report-school-fees/report-school-fees.component';
 import { TimeTableComponent } from './pages/student/time-table/time-table.component';
 import { StudentComponent } from './pages/student/student.component';
-// import { CommonsComponent } from '../admin/commons/commons.component';
 import { AutoImportAccountComponent } from '../admin/pages/auto-import-account/auto-import-account.component';
 import { AutoImportGradeComponent } from '../admin/pages/auto-import-grade/auto-import-grade.component';
 import { CloseCourseRegistComponent } from '../admin/pages/close-course-regist/close-course-regist.component';
@@ -38,7 +37,6 @@ export const UserDeclarations = [
     ListStudentTTBComponent,
     ManageEntitesComponent,
     PagesComponent,
-    // CommonsComponent,
     SharedComponent,
     CloseCourseRegistComponent,
     AutoImportGradeComponent,

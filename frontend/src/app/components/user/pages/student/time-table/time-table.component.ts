@@ -11,6 +11,8 @@ import { CourseManageService } from 'src/app/services';
 export class TimeTableComponent implements OnInit {
 
   listTimeTableST: any[] = [];
+  listTop3Semester:any[] = [];
+  idSemester:string = "";
   loading: boolean = false;
 
   constructor(
@@ -23,15 +25,27 @@ export class TimeTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getTimeTableST();
-  }
-
-  getTimeTableST() {
-    this.courseManageService.getTimeTableSTRegist().subscribe({
-      next: (x: any) => {
+    this.courseManageService.getTop3SemesterTimeTableST().subscribe({
+    next: (x: any) => {
         //foreach
         x.forEach((element: any) => {
-          console.log(element);
+          this.listTop3Semester.push(element);
+        });
+        this.idSemester = this.listTop3Semester[0];
+        this.getTimeTableST(this.idSemester);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+  getTimeTableST(idSemester:string) {
+    this.courseManageService.getTimeTableSTRegist(idSemester).subscribe({
+      next: (x: any) => {
+        //foreach
+        this.listTimeTableST = [];
+        x.forEach((element: any) => {
           this.listTimeTableST.push(element);
         });
         //add to course-manage services
@@ -47,19 +61,6 @@ export class TimeTableComponent implements OnInit {
   getListStudentBySubject(idSCHEDULE: any) {
     console.log(idSCHEDULE);
     this.router.navigate(["user/list-student-ttb"], { queryParams: { idSCHEDULE: idSCHEDULE } });
-    // this.courseManageService
-    //   .getListStudentBySubjectRegist(idSCHEDULE)
-    //   .subscribe({
-    //     next: (x: any) => {
-    //       //foreach
-    //       x.forEach((element: any) => {
-    //         console.log(element);
-    //       });
-    //     },
-    //     error: (error) => {
-    //       console.log(error);
-    //     },
-    //   });
   }
 
 }

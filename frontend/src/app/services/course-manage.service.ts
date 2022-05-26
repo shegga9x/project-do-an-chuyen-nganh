@@ -45,9 +45,16 @@ export class CourseManageService {
     return this.http.get(`${baseUrl}/submit_course_regist`);
   }
 
-  getTimeTableSTRegist() {
+  getTop3SemesterTimeTableST() {
     let params = { idACCOUNT: this.accountService.accountValue?.idAccount as string };
-    return this.http.get(`${baseUrl}/get_time_table_st/`, {
+    return this.http.get(`${baseUrl}/get_top_3_semester_time_table_st`, {
+      params: params,
+    });
+  }
+
+  getTimeTableSTRegist(idSemester: string) {
+    let params = { idACCOUNT: this.accountService.accountValue?.idAccount as string, idSemester: idSemester };
+    return this.http.get(`${baseUrl}/get_time_table_st`, {
       params: params,
     });
   }
@@ -110,14 +117,14 @@ export class CourseManageService {
       params: params,
     });
   }
-  getDateExam(ID_Semester: string){
+  getDateExam(ID_Semester: string) {
     let params = { idACCOUNT: this.accountService.accountValue?.idAccount as string, ID_Semester: ID_Semester };
     return this.http.get(`${baseUrl}/get_Date_Exam_ST/`, {
       params: params,
     });
   }
-  getSemesterByIdStudent(){
-    let params = { idACCOUNT: this.accountService.accountValue?.idAccount as string};
+  getSemesterByIdStudent() {
+    let params = { idACCOUNT: this.accountService.accountValue?.idAccount as string };
     return this.http.get(`${baseUrl}/get_semester_by_id_student`, {
       params: params,
     });

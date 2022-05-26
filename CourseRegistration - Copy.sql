@@ -366,7 +366,7 @@ GO
 go
 -- những môn sẽ hiển thị khi nhấn đăng k
 -- những môn có thể đăng ký của giáo viên thì chọn những môn nào trong bảng schedule có chỗ id pr là nullý môn học
-create FUNCTION Sub_Available_ST (@ID_ACCOUNT varchar(50))
+alter FUNCTION Sub_Available_ST (@ID_ACCOUNT varchar(50))
 RETURNS TABLE
 AS
   RETURN
@@ -379,7 +379,7 @@ FROM Course_Offering co JOIN
 WHERE	(c.ID_Faculty is null or c.ID_Faculty  in  (SELECT ID_Faculty FROM Student WHERE ID_Student = @ID_ACCOUNT))
 		AND sc.ID_Schedule >=0 
 		AND sc.Start_Day >= (SELECT start_Date FROM Semester WHERE GETDATE() BETWEEN start_Date AND end_Date)
-		AND c.years <= CASE WHEN c.years IS NULL THEN c.years 
+		AND c.years = CASE WHEN c.years IS NULL THEN c.years 
 			ELSE (SELECT (YEAR(GETDATE()) - YEAR(Create_date))
 				FROM Student
 				WHERE ID_Student = @ID_ACCOUNT) END
@@ -605,7 +605,7 @@ END
 
 
 GO
-CREATE TRIGGER check_insert_student_schedule
+ALTER TRIGGER check_insert_student_schedule
 ON Student_Schedule
 FOR INSERT, UPDATE
 AS
@@ -620,6 +620,14 @@ BEGIN
     RAISERROR (N'Ngoài giờ đăng ký %s', 11, 1,@EffectiveEndDateText)
     ROLLBACK TRANSACTION
   END
+   --declare @id_semester nvarchar(50) = (select s.ID_Semester from Semester s where GETDATE() between s.start_Date and s.end_Date)
+   --declare @start_date date = (select tfcr.start_Date from Time_For_Course_Register tfcr where tfcr.ID_Semester = @id_semester);
+   --declare @end_date date = (select tfcr.end_Date from Time_For_Course_Register tfcr where tfcr.ID_Semester = @id_semester);
+   --if(GETDATE() not between @start_date and @end_date)
+	 --begin 
+		--RAISERROR (N'Ngoài giờ đăng ký %s', 11, 1)
+	    --ROLLBACK TRANSACTION
+   --end
 END
 GO
 
@@ -785,6 +793,7 @@ insert into Time_For_Course_Register Values(N'2021_1','6/1/2022','27/1/2022')
 ---delete Time_For_Course_Register  where ID_Semester = '2021_2'
 insert into Time_For_Course_Register Values(N'2021_2','16/4/2022','10/6/2022')
 
+select * from Time_For_Course_Register;
 
 
 -- insert into course
@@ -1238,5 +1247,4 @@ use Course_Registration
 
  insert into Final_Result values( N'18130005', 5.91, 2.36);     
 
- select * from ACCOUNT;
 

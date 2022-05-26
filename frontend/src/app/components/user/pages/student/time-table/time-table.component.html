@@ -1,8 +1,14 @@
 <section class="aca-event text-center">
     <div class="container">
 
+        <div style="margin-bottom: 20px;text-align: left;">
+            <span>Chọn học kỳ xem TKB</span>
+            <select style="margin-left:5px" #select (change)="getTimeTableST(select.value)">
+                <option *ngFor="let i of listTop3Semester" [value]="i">Học Kỳ {{i.split('_')[1]}} - Năm học {{i.split('_')[0]}}-{{i.split('_')[0]-1}}</option>
+              </select>
+        </div>
+
         <div class="fixTableHead">
-            
             <table>
                 <thead>
                     <tr>
@@ -27,7 +33,7 @@
                 <tbody>
                     <ng-container *ngIf="loading == true">
                         <ng-container *ngFor="let list of listTimeTableST;index as i">
-                            <ng-container *ngIf="i == 0">
+                            <ng-container *ngIf="i == 0 && listTimeTableST[i+1] != undefined">
                                 <ng-container
                                     *ngIf="listTimeTableST[i]['courseDTO'].idCourse != listTimeTableST[i+1]['courseDTO'].idCourse">
                                     <tr>
@@ -134,7 +140,7 @@
                                     </tr>
                                 </ng-container>
                             </ng-container>
-                            <ng-container *ngIf="i == listTimeTableST.length - 1">
+                            <ng-container *ngIf="i == listTimeTableST.length - 1 && i != 0">
                                 <ng-container
                                     *ngIf="listTimeTableST[i]['courseDTO'].idCourse != listTimeTableST[i-1]['courseDTO'].idCourse">
                                     <tr>
@@ -160,6 +166,29 @@
                                 <ng-container
                                     *ngIf="listTimeTableST[i]['courseDTO'].idCourse == listTimeTableST[i-1]['courseDTO'].idCourse">
                                     <tr>
+                                        <td>{{list['courseOfferingDTO'].maxSize}}</td>
+                                        <td>{{list['courseOfferingDTO'].maxSize -
+                                            list['courseOfferingDTO'].currentSize}}</td>
+                                        <td>{{list['scheduleDTO'].theoretical}}</td>
+                                        <td>{{list['scheduleDTO'].teachingDay}}</td>
+                                        <td>{{list['scheduleDTO'].startSlot}}</td>
+                                        <td></td>
+                                        <td>{{list['scheduleDTO'].studyPlace}}</td>
+                                        <td>{{list['scheduleDTO'].idProfeesor}}</td>
+                                        <td><a (click)="getListStudentBySubject(list['scheduleDTO'].idSchedule)">DSSV</a></td>
+                                    </tr>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="i == 0 && listTimeTableST[i+1] == undefined">
+                                <ng-container>
+                                    <tr>
+                                        <td>{{list['courseDTO'].idCourse}}</td>
+                                        <td>{{list['courseDTO'].nameCourse}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{list['courseDTO'].courseCertificate}}</td>
+                                        <td>{{list['courseDTO'].courseCertificate}}</td>
+                                        <td>{{list['courseOfferingDTO'].clazzCode}}</td>
                                         <td>{{list['courseOfferingDTO'].maxSize}}</td>
                                         <td>{{list['courseOfferingDTO'].maxSize -
                                             list['courseOfferingDTO'].currentSize}}</td>

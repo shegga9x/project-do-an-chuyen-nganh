@@ -207,8 +207,12 @@ public class CourseManageService {
         return new MessageResponse("Hoan thanh !!");
     }
 
-    public List<TimeTableResponse> get_Time_Table_ST(String idACCOUNT) {
-        List<String> listParam = Arrays.asList(idACCOUNT, semesterRepository.getCurrentSemester().getIdSemester());
+    public List<String> get_Top_3_Semester_Time_Table_ST(String idACCOUNT) {
+        return studentScheduleRepository.findTop3ByIdSemester(idACCOUNT);
+    }
+
+    public List<TimeTableResponse> get_Time_Table_ST(String idACCOUNT,String idSemester) {
+        List<String> listParam = Arrays.asList(idACCOUNT, idSemester);
         List<String[]> columns = entityService.getFunctionResult("Time_Table_St", listParam);
         List<TimeTableResponse> listResult = new ArrayList<>();
         for (String[] arr : columns) {
@@ -360,13 +364,15 @@ public class CourseManageService {
         }
         return listResult;
     }
-    public List<SemesterDTO> get_Semester_By_Id_Student(String idACCOUNT){
+
+    public List<SemesterDTO> get_Semester_By_Id_Student(String idACCOUNT) {
         List<SemesterDTO> semesterDTOs = new ArrayList<>();
         for (Semester semester : semesterRepository.findAll()) {
             semesterDTOs.add((SemesterDTO) SubUtils.mapperObject(semester, new SemesterDTO()));
         }
         return semesterDTOs;
     }
+
     public DateExamResponse get_Date_Exam_ST(String idACCOUNT, String iDSemester) {
         List<String> listParam = Arrays.asList(idACCOUNT,
                 iDSemester.equals("") ? semesterRepository.getCurrentSemester().getIdSemester() : iDSemester);

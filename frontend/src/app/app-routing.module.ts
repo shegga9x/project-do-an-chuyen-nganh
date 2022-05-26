@@ -17,11 +17,8 @@ const routes: Routes = [
   {
     path: 'user',  loadChildren: userModule
   },
-  // {
-  //   path: 'admin', canActivate: [AuthenticationGuard],loadChildren: adminModule
-  // },
   {
-    path: 'admin',loadChildren: adminModule
+    path: 'admin', canActivate: [AuthenticationGuard],loadChildren: adminModule
   },
   {
     path: '**', pathMatch: 'full',

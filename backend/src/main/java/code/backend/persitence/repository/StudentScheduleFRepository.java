@@ -19,4 +19,5 @@ public interface StudentScheduleFRepository extends JpaRepository<StudentSchedul
 
     @Query("SELECT stF.idSchedule FROM StudentScheduleF stF WHERE stF.idSemester = ?1 and stF.idStudent =?2")
     List<String> findIdScheduleByIdSemesterAndIdStudent(String idSemester,String idStudent);
+
 }

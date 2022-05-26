@@ -34,7 +34,8 @@ public class CourseManageController {
     CourseManageService courseManageService;
 
     @GetMapping("/get_sub_available_st")
-    public @ResponseBody List<SubAvailableRespone> get_Sub_Available_ST(@RequestParam("id") String model) {
+    public @ResponseBody
+    List<SubAvailableRespone> get_Sub_Available_ST(@RequestParam("id") String model) {
         return courseManageService.get_Sub_Available_ST(model);
     }
 
@@ -51,14 +52,22 @@ public class CourseManageController {
 
 
     @GetMapping("/submit_course_regist")
-    public @ResponseBody MessageResponse submit_Course_Regist() {
+    public @ResponseBody
+    MessageResponse submit_Course_Regist() {
         return courseManageService.submit_Course_Regist();
     }
 
-    // @PreAuthorize("hasAnyRole('ROLE_Student','ROLE_Professor','ROLE_Admin')")
+
+    @GetMapping("/get_top_3_semester_time_table_st")
+    public @ResponseBody
+    List<String> getTop3SemesterTimeTableST(@RequestParam("idACCOUNT") String model) {
+        return courseManageService.get_Top_3_Semester_Time_Table_ST(model);
+    }
+
     @GetMapping("/get_time_table_st")
-    public List<TimeTableResponse> get_Time_Table_ST(@RequestParam("idACCOUNT") String model) {
-        return courseManageService.get_Time_Table_ST(model);
+    public @ResponseBody
+    List<TimeTableResponse> get_Time_Table_ST(@RequestParam("idACCOUNT") String model, @RequestParam("idSemester") String idSemester) {
+        return courseManageService.get_Time_Table_ST(model, idSemester);
     }
 
     @PostMapping("/submit_course_register_fake")
@@ -67,7 +76,8 @@ public class CourseManageController {
     }
 
     @GetMapping("get_course_register_fake")
-    public @ResponseBody Set<CourseRegisterFakeRespone> get_Course_Register_Fake(@RequestParam("id") String idStudent) {
+    public @ResponseBody
+    Set<CourseRegisterFakeRespone> get_Course_Register_Fake(@RequestParam("id") String idStudent) {
         return courseManageService.get_Course_Register_Fake(idStudent);
     }
 
@@ -82,7 +92,8 @@ public class CourseManageController {
     }
 
     @GetMapping("/get_list_subject_for_professor")
-    public @ResponseBody List<SubAvailableRespone> get_List_Subject_For_Professor(
+    public @ResponseBody
+    List<SubAvailableRespone> get_List_Subject_For_Professor(
             @RequestParam("idProfessor") String model) {
         return courseManageService.get_List_Subject_For_Professor(model);
     }
@@ -93,7 +104,8 @@ public class CourseManageController {
     }
 
     @GetMapping("get_course_register_fake_for_professor") // ("get_course_register_fake")
-    public @ResponseBody Set<CourseRegisterFakeRespone> get_Course_Registe_Professor(
+    public @ResponseBody
+    Set<CourseRegisterFakeRespone> get_Course_Registe_Professor(
             @RequestParam("idProfessor") String idProfessor) {
         return courseManageService.get_Course_Registe_Professor(idProfessor);
     }
@@ -103,20 +115,21 @@ public class CourseManageController {
         return courseManageService.delete_Course_Register_Professor(listIdCourse);
     }
 
-    // có cần @ResponseBod ko? get_time_table_st thì ko có?
     @GetMapping("/get_time_table_professor")
-    public @ResponseBody List<TimeTableResponse> get_Time_Table_Professor(@RequestParam("idACCOUNT") String model) {
+    public @ResponseBody
+    List<TimeTableResponse> get_Time_Table_Professor(@RequestParam("idACCOUNT") String model) {
         return courseManageService.get_Time_Table_Professor(model);
     }
 
     @GetMapping("/get_Date_Exam_ST")
     public DateExamResponse get_Date_Exam_ST(@RequestParam("idACCOUNT") String idACCOUNT,
-            @RequestParam("ID_Semester") String iDSemester) {
+                                             @RequestParam("ID_Semester") String iDSemester) {
         return courseManageService.get_Date_Exam_ST(idACCOUNT, iDSemester);
     }
 
     @GetMapping("/get_semester_by_id_student")
-    public @ResponseBody List<SemesterDTO> get_Semester_By_Id_Student(@RequestParam("idACCOUNT") String idACCOUNT){
+    public @ResponseBody
+    List<SemesterDTO> get_Semester_By_Id_Student(@RequestParam("idACCOUNT") String idACCOUNT) {
         System.out.println("cccccc");
         return courseManageService.get_Semester_By_Id_Student(idACCOUNT);
     }
@@ -124,19 +137,22 @@ public class CourseManageController {
 
     // xem điểm của ST
     @GetMapping("/get_id_semester")
-    public @ResponseBody List<SemesterDTO> get_ID_Semester(@RequestParam("idACCOUNT") String model) {
+    public @ResponseBody
+    List<SemesterDTO> get_ID_Semester(@RequestParam("idACCOUNT") String model) {
         return courseManageService.get_ID_Semester(model);
     }
 
     // xem điểm của ST
     // @PreAuthorize("hasAnyRole('ROLE_Student','ROLE_Professor','ROLE_Admin')")
     @GetMapping("/get_semester_reuslt")
-    public @ResponseBody List<SemesterReusltDTO> get_Semester_Reuslt(@RequestParam("idStudent") String idStudent) {
+    public @ResponseBody
+    List<SemesterReusltDTO> get_Semester_Reuslt(@RequestParam("idStudent") String idStudent) {
         return courseManageService.get_Semester_Reuslt(idStudent);
     }
 
     @GetMapping("/get_grade_av_semester_reuslt/")
-    public @ResponseBody List<GradeSemesterDTO> get_Grade_Av_Semester_Reuslt(
+    public @ResponseBody
+    List<GradeSemesterDTO> get_Grade_Av_Semester_Reuslt(
             @RequestParam("idStudent") String idStudent) {
         return courseManageService.get_Grade_Av_Semester_Reuslt(idStudent);
     }

@@ -355,10 +355,6 @@ class BackendApplicationTests {
 	@Transactional
 	@Test
 	void test15() {
-
-		List<SemesterResult> list = semesterResultRepository.findByIdStudent("18130005");
-
-		list.forEach(System.out::println);
-
+		System.out.println(studentScheduleRepository.findTop3ByIdSemester("18130005"));
 	}
 }
