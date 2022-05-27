@@ -1,4 +1,3 @@
-import { AccountService } from 'src/app/services';
 import { AuthenticationGuard, Permissions } from './../../services/auth-guard.service';
 import * as timeTableComponent from './pages/professor/time-table/time-table.component';
 import * as reportGradeComponent from './pages/professor/report-grade/report-grade.component';
@@ -10,7 +9,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 //component
-
 import { UserComponent } from 'src/app/components/user/user.component';
 import { CourseRegistComponent } from './pages/student/course-regist/course-regist.component';
 import { ReportDateExamComponent } from './pages/student/report-date-exam/report-date-exam.component';
@@ -24,6 +22,7 @@ import { FacultyMemberComponent } from './pages/commons/about/faculty-member/fac
 import { MissionAndVisionComponent } from './pages/commons/about/mission-and-vision/mission-and-vision.component';
 import { OurPrincipalComponent } from './pages/commons/about/our-principal/our-principal.component';
 import { ContactComponent } from './pages/commons/contact/contact.component';
+import { CourseProgramComponent } from './pages/student/course-program/course-program.component';
 
 
 const routes: Routes = [{
@@ -56,6 +55,9 @@ const routes: Routes = [{
                 {
                     path: 'time-table', component: TimeTableComponent
                 },
+                {
+                    path: 'course-program', component: CourseProgramComponent
+                }
 
             ]
         },

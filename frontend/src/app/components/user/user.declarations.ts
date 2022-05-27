@@ -30,6 +30,7 @@ import { DeclareComponent } from './pages/commons/declare/declare.component';
 import { ListStudentTTBComponent } from './pages/commons/list-student-ttb/list-student-ttb.component';
 import { PageNotFoundComponent } from './pages/commons/page-not-found/page-not-found.component';
 import { HomeComponent } from './pages/commons/home/home.component';
+import { CourseProgramComponent } from './pages/student/course-program/course-program.component';
 
 import * as Professor from './pages/professor/course-regist/course-regist.component';
 
@@ -64,6 +65,6 @@ export const UserDeclarations = [
     DialogLoginComponent,
     PageNotFoundComponent,
     HomeComponent,
-
+    CourseProgramComponent,
     Professor.CourseRegistComponent,
 ]

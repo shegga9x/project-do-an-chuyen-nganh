@@ -17,4 +17,6 @@ public interface StudentScheduleRepository extends JpaRepository<StudentSchedule
 
     @Query(value = "select DISTINCT top 3 ID_Semester from Student_Schedule order by ID_Semester desc",nativeQuery = true)
     List<String> findTop3ByIdSemester(String idStudent);
+
+    List<StudentSchedule> findByIdStudent(String idStudent);
 }

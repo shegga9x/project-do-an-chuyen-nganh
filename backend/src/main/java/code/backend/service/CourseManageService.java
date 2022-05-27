@@ -8,6 +8,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import code.backend.helpers.payload.response.*;
+import code.backend.persitence.entities.*;
+import code.backend.persitence.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,31 +25,7 @@ import code.backend.helpers.payload.dto.ProfessorDTO;
 import code.backend.helpers.payload.dto.ScheduleDTO;
 import code.backend.helpers.payload.dto.SemesterDTO;
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
-import code.backend.helpers.payload.response.CourseRegisterFakeRespone;
-import code.backend.helpers.payload.response.DateExamResponse;
-import code.backend.helpers.payload.response.MessageResponse;
-import code.backend.helpers.payload.response.StudentBySubjectResponse;
-import code.backend.helpers.payload.response.SubAvailableRespone;
-import code.backend.helpers.payload.response.TimeTableResponse;
 import code.backend.helpers.utils.SubUtils;
-import code.backend.persitence.entities.CourseOffering;
-import code.backend.persitence.entities.ProfessorSchedule;
-import code.backend.persitence.entities.ProfessorScheduleId;
-import code.backend.persitence.entities.Schedule;
-import code.backend.persitence.entities.Semester;
-import code.backend.persitence.entities.SemesterResult;
-import code.backend.persitence.entities.Student;
-import code.backend.persitence.entities.StudentSchedule;
-import code.backend.persitence.entities.StudentScheduleF;
-import code.backend.persitence.entities.StudentScheduleFId;
-import code.backend.persitence.entities.StudentScheduleId;
-import code.backend.persitence.repository.CourseOfferingRepository;
-import code.backend.persitence.repository.ProfessorScheduleRepository;
-import code.backend.persitence.repository.ScheduleRepository;
-import code.backend.persitence.repository.SemesterRepository;
-import code.backend.persitence.repository.SemesterResultRepository;
-import code.backend.persitence.repository.StudentScheduleFRepository;
-import code.backend.persitence.repository.StudentScheduleRepository;
 import code.backend.service.subService.EntityService;
 
 @Service
@@ -68,6 +47,8 @@ public class CourseManageService {
     ProfessorScheduleRepository professorScheduleRepository;
     @Autowired
     SemesterResultRepository semesterResultRepository;
+    @Autowired
+    CourseProgressRepository courseProgressRepository;
 
     public List<SubAvailableRespone> get_Sub_Available_ST(String id) {
         List<String> ids = new ArrayList<>();
@@ -211,7 +192,7 @@ public class CourseManageService {
         return studentScheduleRepository.findTop3ByIdSemester(idACCOUNT);
     }
 
-    public List<TimeTableResponse> get_Time_Table_ST(String idACCOUNT,String idSemester) {
+    public List<TimeTableResponse> get_Time_Table_ST(String idACCOUNT, String idSemester) {
         List<String> listParam = Arrays.asList(idACCOUNT, idSemester);
         List<String[]> columns = entityService.getFunctionResult("Time_Table_St", listParam);
         List<TimeTableResponse> listResult = new ArrayList<>();
@@ -440,4 +421,24 @@ public class CourseManageService {
         // System.out.println(listResult);
         return listResult;
     }
+
+    //lấy chương trình đào tạo
+    public List<CourseProgramResponse> get_Course_Program(String idStudent) {
+        int number_year = Integer.parseInt(idStudent.substring(0, 2));
+        List<CourseProgramResponse> result = new ArrayList<>();
+        List<CourseProgress> listCourseProgress = courseProgressRepository.findByNumberYear(number_year);
+        List<StudentSchedule> list = studentScheduleRepository.findByIdStudent("18130005");
+        List<Course> listCourse = list.stream().map(x -> x.getSchedule().getCourseOffering().getCourse()).collect(Collectors.toList());
+        Set<Course> setCoruse = new HashSet<>(listCourse);
+        for (CourseProgress courseProgress : listCourseProgress) {
+            int year = courseProgress.getNumberYear() + 2000 + courseProgress.getCourse().getCourseCertificate() - 1;
+            CourseProgramResponse courseProgramResponse = new CourseProgramResponse(courseProgress.getId(), courseProgress.getIdCourse(), courseProgress.getCourse().getNameCourse(), courseProgress.getCourse().getCourseCertificate(), courseProgress.getCourse().getCourseCertificate(), String.valueOf(year), courseProgress.getCourse().getNumberS(), courseProgress.getOptional(), false);
+            if (setCoruse.contains(courseProgress.getCourse())) {
+                courseProgramResponse.setWasLearned(true);
+            }
+            result.add(courseProgramResponse);
+        }
+        return result;
+    }
+
 }

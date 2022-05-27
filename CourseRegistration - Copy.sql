@@ -1247,4 +1247,10 @@ use Course_Registration
 
  insert into Final_Result values( N'18130005', 5.91, 2.36);     
 
+ select * from Course_Progress;
+
+ select * from Student_Schedule;
+
+ select * from ACCOUNT;
+
 

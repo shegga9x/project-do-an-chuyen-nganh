@@ -12,13 +12,15 @@
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav"> </ul>
-                    <ul class="nav navbar-nav navbar-right" *ngIf="account === null || account.idAccount.length >= 4  else other_content">
+                    <!-- <ul class="nav navbar-nav navbar-right" *ngIf="account === null || account.idAccount.length >= 4  else other_content">-->
+                        <ul class="nav navbar-nav navbar-right">
                         <li><a [routerLink]="['/user/home']"> {{ 'header_bar.home' | translate }} </a></li>
                         <li><a [routerLink]="['/user/student/course-regist']"> Đăng Ký Môn Học </a></li>
                         <li><a [routerLink]="['/user/student/time-table']"> Thời Khóa Biểu </a></li>
                         <li><a [routerLink]="['/user/student/report-grade']"> Xem Điểm </a></li>
                         <li><a [routerLink]="['/user/student/report-date-exam']"> Xem Lịch Thi </a></li>
                         <li><a [routerLink]="['/user/student/report-school-fees']"> Xem Học Phí </a></li>
+                        <li><a [routerLink]="['/user/student/course-program']"> Xem CTĐT </a></li>
                         <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ 'header_bar.about' | translate }}<span class="caret"></span></a>
                             <ul class="dropdown-menu animated zoomIn">
                                 <li><a [routerLink]="['/user/about/about-us']">{{ 'header_bar.aboutUs' | translate }}</a></li>
@@ -27,18 +29,18 @@
                                 <li><a [routerLink]="['/user/about/faculty-member']">{{ 'header_bar.facultyMember' | translate }}</a></li>
                             </ul>
                         </li>
-                        <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Thông Báo<span class="caret"></span></a>
+                        <!-- <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Thông Báo<span class="caret"></span></a>
                             <ul class="dropdown-menu animated zoomIn">
                                 <li><a [routerLink]="['/user/about/about-us']">{{ 'header_bar.aboutUs' | translate }}</a></li>
                                 <li><a [routerLink]="['/user/about/our-principal']">{{ 'header_bar.ourPrincipal' | translate }}</a></li>
                                 <li><a [routerLink]="['/user/about/mission-and-vission']">{{ 'header_bar.missionVision' | translate }}</a></li>
                                 <li><a [routerLink]="['/user/about/faculty-member']">{{ 'header_bar.facultyMember' | translate }}</a></li>
                             </ul>
-                        </li>
+                        </li> -->
                         <li><a [routerLink]="['/user/contact']">{{ 'header_bar.contact' | translate }}</a></li>
 
                     </ul>
-                    <ng-template #other_content>
+                    <!-- <ng-template #other_content>
                         <ul class="nav navbar-nav navbar-right">
                             <li><a [routerLink]="['/user/home']"> {{ 'header_bar.home' | translate }} </a></li>
                             <li><a [routerLink]="['/user/professor/course-regist']"> Đăng Ký Môn Học </a></li>
@@ -64,7 +66,7 @@
                             <li><a [routerLink]="['/user/contact']">{{ 'header_bar.contact' | translate }}</a></li>
 
                         </ul>
-                    </ng-template>
+                    </ng-template> -->
 
                 </div>
                 <!-- /.navbar-collapse -->

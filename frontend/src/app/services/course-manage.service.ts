@@ -129,4 +129,10 @@ export class CourseManageService {
       params: params,
     });
   }
+  getCourseProgram(){
+    let params = { idStudent: this.accountService.accountValue?.idAccount as string };
+    return this.http.get(`${baseUrl}/get_course_program`, {
+      params: params,
+    });
+  }
 }

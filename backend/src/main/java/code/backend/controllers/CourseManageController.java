@@ -3,6 +3,7 @@ package code.backend.controllers;
 import java.util.List;
 import java.util.Set;
 
+import code.backend.helpers.payload.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,12 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import code.backend.helpers.payload.dto.GradeSemesterDTO;
 import code.backend.helpers.payload.dto.SemesterDTO;
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
-import code.backend.helpers.payload.response.CourseRegisterFakeRespone;
-import code.backend.helpers.payload.response.DateExamResponse;
-import code.backend.helpers.payload.response.MessageResponse;
-import code.backend.helpers.payload.response.StudentBySubjectResponse;
-import code.backend.helpers.payload.response.SubAvailableRespone;
-import code.backend.helpers.payload.response.TimeTableResponse;
 import code.backend.service.CourseManageService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -155,5 +150,11 @@ public class CourseManageController {
     List<GradeSemesterDTO> get_Grade_Av_Semester_Reuslt(
             @RequestParam("idStudent") String idStudent) {
         return courseManageService.get_Grade_Av_Semester_Reuslt(idStudent);
+    }
+
+    @GetMapping("/get_course_program")
+    public @ResponseBody
+    List<CourseProgramResponse> get_Course_Program(@RequestParam("idStudent") String idStudent) {
+        return courseManageService.get_Course_Program(idStudent);
     }
 }
