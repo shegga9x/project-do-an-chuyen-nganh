@@ -427,11 +427,16 @@ public class CourseManageService {
         int number_year = Integer.parseInt(idStudent.substring(0, 2));
         List<CourseProgramResponse> result = new ArrayList<>();
         List<CourseProgress> listCourseProgress = courseProgressRepository.findByNumberYear(number_year);
-        List<StudentSchedule> list = studentScheduleRepository.findByIdStudent("18130005");
+        // chưa có CTĐT kỳ này
+        // lấy kỳ gần nhất
+        if (listCourseProgress.size() == 0) {
+            listCourseProgress = courseProgressRepository.findByNumberYear(Integer.parseInt(courseProgressRepository.getLastNumberYear()));
+        }
+        List<StudentSchedule> list = studentScheduleRepository.findByIdStudent(idStudent);
         List<Course> listCourse = list.stream().map(x -> x.getSchedule().getCourseOffering().getCourse()).collect(Collectors.toList());
         Set<Course> setCoruse = new HashSet<>(listCourse);
         for (CourseProgress courseProgress : listCourseProgress) {
-            int year = courseProgress.getNumberYear() + 2000 + courseProgress.getCourse().getCourseCertificate() - 1;
+            int year = 2000 + number_year + courseProgress.getCourse().getYears() - 1;
             CourseProgramResponse courseProgramResponse = new CourseProgramResponse(courseProgress.getId(), courseProgress.getIdCourse(), courseProgress.getCourse().getNameCourse(), courseProgress.getCourse().getCourseCertificate(), courseProgress.getCourse().getCourseCertificate(), String.valueOf(year), courseProgress.getCourse().getNumberS(), courseProgress.getOptional(), false);
             if (setCoruse.contains(courseProgress.getCourse())) {
                 courseProgramResponse.setWasLearned(true);

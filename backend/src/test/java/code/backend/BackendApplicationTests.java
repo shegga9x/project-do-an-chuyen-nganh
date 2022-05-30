@@ -341,12 +341,14 @@ class BackendApplicationTests {
     @Transactional
     @Test
     void test15() {
-        List<CourseProgress> listCourseProgress = courseProgressRepository.findByNumberYear(18);
-        List<StudentSchedule> list = studentScheduleRepository.findByIdStudent("18130005");
-        List<Course> listCourse = list.stream().map(x -> x.getSchedule().getCourseOffering().getCourse()).collect(Collectors.toList());
-        Set<Course> setCoruse = new HashSet<>(listCourse);
-        for (CourseProgress courseProgress : listCourseProgress) {
-            System.out.println(setCoruse.contains(courseProgress.getCourse()));
-        }
+        List<CourseProgress> listCourseProgress = courseProgressRepository.findByNumberYear(20);
+        System.out.println(listCourseProgress.size() == 0);
+    }
+
+    @Transactional
+    @Test
+    void test16() {
+        String s = courseProgressRepository.getLastNumberYear();
+        System.out.println(s);
     }
 }

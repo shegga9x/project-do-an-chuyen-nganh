@@ -1249,6 +1249,8 @@ use Course_Registration
 
  select * from Course_Progress;
 
+ select DISTINCT top 1 cp.number_year from Course_Progress cp order by cp.number_year desc
+
  select * from Student_Schedule;
 
  select * from ACCOUNT;
