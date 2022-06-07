@@ -346,6 +346,8 @@ AS
   and de.ID_Semester = @ID_Semester
 GO
 
+select * from Time_Table_St('18130005','2020_2');
+
 go
 
 create FUNCTION sub_Passed (@ID_Course_B nvarchar(50), @ID_ACCOUNT nvarchar(50))
@@ -1092,8 +1094,14 @@ insert into front_Sub values(N'214252',N'214274')
 insert into Schedule values(N'-1',N'52',null,'TH',2,'1/5/2022','10/12/2021',N'Máy 1',4,10)
 insert into Schedule values(N'-2',N'52',null,'LT',2,'1/5/2022','10/12/2021',N'Rạng Đông',3,10)
 
-insert into Date_Exam values (N'2021_2',N'-1','nhom1',40);
-insert into Date_Exam values (N'2021_2',N'-2','nhom1',40);
+insert into Date_Exam values (N'2021_2',N'80','nhom1',40);
+insert into Date_Exam values (N'2021_2',N'81','nhom1',40);
+insert into Date_Exam values (N'2021_2',N'82','nhom1',40);
+insert into Date_Exam values (N'2021_2',N'83','nhom1',40);
+insert into Date_Exam values (N'2021_2',N'84','nhom1',40);
+insert into Date_Exam values (N'2021_2',N'85','nhom1',40);
+insert into Date_Exam values (N'2021_2',N'86','nhom1',40);
+insert into Date_Exam values (N'2021_2',N'87','nhom1',40);
 
 -- insert into Course_Progress
 insert into Course_Progress Values('DT',N'202501',18,1);

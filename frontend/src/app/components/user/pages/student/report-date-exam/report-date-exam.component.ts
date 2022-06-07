@@ -7,7 +7,7 @@ import { CourseManageService } from 'src/app/services';
   styleUrls: ['./report-date-exam.component.scss']
 })
 export class ReportDateExamComponent implements OnInit {
-  
+
   listSemester: any[] = [];
   listDateExam: any[] = [];
   constructor(private courseManageService: CourseManageService) { }
@@ -15,25 +15,21 @@ export class ReportDateExamComponent implements OnInit {
   ngOnInit(): void {
     this.getSemesterByIdStudent();
   }
-  getSemesterByIdStudent(){
+  getSemesterByIdStudent() {
     this.courseManageService.getSemesterByIdStudent().subscribe((res: any) => {
-      this.listSemester=res;
+      this.listSemester = res;
       console.log(this.listSemester);
-      this.getDateExam(this.listSemester[this.listSemester.length-1].idSemester);
+      this.getDateExam(this.listSemester[0]);
     })
   }
-  getDateExam(IdSemester: string){
-    this.courseManageService.getDateExam(IdSemester).subscribe((res: any) =>{
-      this.listDateExam=res.dateExamDTO;
+  getDateExam(IdSemester: string) {
+    this.courseManageService.getDateExam(IdSemester).subscribe((res: any) => {
+      this.listDateExam = res.dateExamDTO;
       console.log(this.listDateExam);
     })
   }
-  checkLastestSemester(idSemester: string){
-    console.log(idSemester);
-    if (idSemester == this.listSemester[this.listSemester.length-1].idSemester) {
-      return true;
-    }
-    return false;
-  }
 
+  toInt(ele: string) {
+    return Number(ele);
+  }
 }

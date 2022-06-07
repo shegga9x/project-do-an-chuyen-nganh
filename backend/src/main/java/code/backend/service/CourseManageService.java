@@ -346,19 +346,18 @@ public class CourseManageService {
         return listResult;
     }
 
-    public List<SemesterDTO> get_Semester_By_Id_Student(String idACCOUNT) {
-        List<SemesterDTO> semesterDTOs = new ArrayList<>();
-        for (Semester semester : semesterRepository.findAll()) {
-            semesterDTOs.add((SemesterDTO) SubUtils.mapperObject(semester, new SemesterDTO()));
-        }
-        return semesterDTOs;
+//    public List<String> get_Top_3_Semester_Time_Table_ST(String idACCOUNT) {
+//        return studentScheduleRepository.findTop3ByIdSemester(idACCOUNT);
+//    }
+
+    public List<String> get_Semester_By_Id_Student(String idACCOUNT) {
+        return studentScheduleRepository.findTop3ByIdSemester(idACCOUNT);
     }
 
     public DateExamResponse get_Date_Exam_ST(String idACCOUNT, String iDSemester) {
         List<String> listParam = Arrays.asList(idACCOUNT,
                 iDSemester.equals("") ? semesterRepository.getCurrentSemester().getIdSemester() : iDSemester);
-        List<DateExamDTO> dateExamDTOs = new ArrayList<>();
-        List<SemesterDTO> semesterDTOs = new ArrayList<>();
+        Set<DateExamDTO> dateExamDTOs = new HashSet<>();
         List<String[]> columns = entityService.getFunctionResult("Date_Exam_ST", listParam);
         for (String[] arr : columns) {
             Schedule schedule = scheduleRepository.findById(arr[2]).get();
@@ -372,10 +371,7 @@ public class CourseManageService {
                     scheduleDTO, courseOfferingDTO, courseDTO);
             dateExamDTOs.add(dateExamDTO);
         }
-        for (Semester semester : semesterRepository.findAll()) {
-            semesterDTOs.add((SemesterDTO) SubUtils.mapperObject(semester, new SemesterDTO()));
-        }
-        return new DateExamResponse(semesterDTOs, dateExamDTOs);
+        return new DateExamResponse(dateExamDTOs);
     }
 
     // xem điểm của ST
@@ -399,13 +395,9 @@ public class CourseManageService {
         List<String[]> columns = entityService.getFunctionResult("get_Semester_Result_ST", listParam);
         List<SemesterReusltDTO> listResult = new ArrayList<>();
         for (String[] arr : columns) {
-            // System.out.println(arr[2]);
-            // System.out.println(arr[3]);
-            // System.out.println(arr[4]);
             listResult.add(new SemesterReusltDTO(arr[0], arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]),
                     Double.parseDouble(arr[4]), arr[5], arr[6]));
         }
-        // listResult.forEach(System.out::println);
         return listResult;
     }
 

@@ -1,8 +1,8 @@
 <section class="aca-event text-center">
     <div class="container">
         
-        <select style="margin-bottom: 20px;">
-            <option #option [selected]="checkLastestSemester(option.value)" [value]="item.idSemester"  *ngFor="let item of listSemester"> Học kỳ {{ item.numberS}}  - Năm học {{item.years}} </option>
+        <select style="margin-bottom: 20px;" #select (change)="getDateExam(select.value)">
+            <option [value]="i"  *ngFor="let i of listSemester"> Học Kỳ {{i.split('_')[1]}} - Năm học {{i.split('_')[0]}}-{{toInt(i.split('_')[0])+1}} </option>
         </select>
         <!-- [value]="opt.key" [selected]="opt.selected" -->
         <div class="fixTableHead">

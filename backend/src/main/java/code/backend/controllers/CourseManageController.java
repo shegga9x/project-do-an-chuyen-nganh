@@ -124,8 +124,7 @@ public class CourseManageController {
 
     @GetMapping("/get_semester_by_id_student")
     public @ResponseBody
-    List<SemesterDTO> get_Semester_By_Id_Student(@RequestParam("idACCOUNT") String idACCOUNT) {
-        System.out.println("cccccc");
+    List<String> get_Semester_By_Id_Student(@RequestParam("idACCOUNT") String idACCOUNT) {
         return courseManageService.get_Semester_By_Id_Student(idACCOUNT);
     }
 

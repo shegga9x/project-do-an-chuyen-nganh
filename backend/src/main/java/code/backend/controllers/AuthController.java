@@ -65,7 +65,6 @@ public class AuthController {
     @PostMapping("/refresh-token")
     public ResponseEntity<?> refreshToken(HttpServletResponse servletResponse) {
         String refreshToken = controlerUtils.getSingleFormCookie("refreshToken");
-        System.out.println("get"+refreshToken);
         var response = accountService.refreshToken(refreshToken, controlerUtils.ipAddress());
         try {
             controlerUtils.setTokenCookie(servletResponse, response.getRefreshToken());

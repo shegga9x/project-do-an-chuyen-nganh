@@ -1,5 +1,7 @@
 package code.backend.helpers.payload.dto;
 
+import java.util.Objects;
+
 public class DateExamDTO {
 
     private Integer id;
@@ -93,4 +95,16 @@ public class DateExamDTO {
         this.courseDTO = courseDTO;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DateExamDTO)) return false;
+        DateExamDTO that = (DateExamDTO) o;
+        return getCourseOfferingDTO().getIdCourse().equals(that.getCourseOfferingDTO().getIdCourse()) && getCourseDTO().getIdCourse().equals(that.getCourseDTO().getIdCourse());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCourseOfferingDTO().getIdCourse(), getCourseDTO().getIdCourse());
+    }
 }
