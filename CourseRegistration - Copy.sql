@@ -368,7 +368,7 @@ GO
 go
 -- những môn sẽ hiển thị khi nhấn đăng k
 -- những môn có thể đăng ký của giáo viên thì chọn những môn nào trong bảng schedule có chỗ id pr là nullý môn học
-alter FUNCTION Sub_Available_ST (@ID_ACCOUNT varchar(50))
+Create FUNCTION Sub_Available_ST (@ID_ACCOUNT varchar(50))
 RETURNS TABLE
 AS
   RETURN
@@ -607,29 +607,29 @@ END
 
 
 GO
-ALTER TRIGGER check_insert_student_schedule
+Create TRIGGER check_insert_student_schedule
 ON Student_Schedule
 FOR INSERT, UPDATE
 AS
 BEGIN
-  DECLARE @current_semester_number int = (SELECT RIGHT(tfcr.ID_Semester,1) from Time_For_Course_Register tfcr where GETDATE() BETWEEN tfcr.start_Date AND tfcr.end_Date )
-  DECLARE @student_year int =  (SELECT YEAR( GETDATE() ) % 100 - SUBSTRING(I.ID_Student,0,3) FROM inserted I) - (@current_semester_number-1) + 1;
-  DECLARE @tfcr_start_Date date = (SELECT tfcr.start_Date from Time_For_Course_Register tfcr where GETDATE() BETWEEN tfcr.start_Date AND tfcr.end_Date )
-  DECLARE @student_year_date_start date = DATEADD(DAY,(case when @student_year > 4 then 0 else  @student_year end )*3 +1,@tfcr_start_Date);
-  declare @EffectiveEndDateText varchar(30)set @EffectiveEndDateText = cast(@student_year_date_start as varchar)
-  IF ((GETDATE() NOT BETWEEN @student_year_date_start AND DATEADD(DAY,3,@student_year_date_start)))
-  BEGIN
-    RAISERROR (N'Ngoài giờ đăng ký %s', 11, 1,@EffectiveEndDateText)
-    ROLLBACK TRANSACTION
-  END
-   --declare @id_semester nvarchar(50) = (select s.ID_Semester from Semester s where GETDATE() between s.start_Date and s.end_Date)
-   --declare @start_date date = (select tfcr.start_Date from Time_For_Course_Register tfcr where tfcr.ID_Semester = @id_semester);
-   --declare @end_date date = (select tfcr.end_Date from Time_For_Course_Register tfcr where tfcr.ID_Semester = @id_semester);
-   --if(GETDATE() not between @start_date and @end_date)
-	 --begin 
-		--RAISERROR (N'Ngoài giờ đăng ký %s', 11, 1)
-	    --ROLLBACK TRANSACTION
-   --end
+  --DECLARE @current_semester_number int = (SELECT RIGHT(tfcr.ID_Semester,1) from Time_For_Course_Register tfcr where GETDATE() BETWEEN tfcr.start_Date AND tfcr.end_Date )
+  --DECLARE @student_year int =  (SELECT YEAR( GETDATE() ) % 100 - SUBSTRING(I.ID_Student,0,3) FROM inserted I) - (@current_semester_number-1) + 1;
+  --DECLARE @tfcr_start_Date date = (SELECT tfcr.start_Date from Time_For_Course_Register tfcr where GETDATE() BETWEEN tfcr.start_Date AND tfcr.end_Date )
+  --DECLARE @student_year_date_start date = DATEADD(DAY,(case when @student_year > 4 then 0 else  @student_year end )*3 +1,@tfcr_start_Date);
+  --declare @EffectiveEndDateText varchar(30)set @EffectiveEndDateText = cast(@student_year_date_start as varchar)
+  --IF ((GETDATE() NOT BETWEEN @student_year_date_start AND DATEADD(DAY,3,@student_year_date_start)))
+  --BEGIN
+  --  RAISERROR (N'Ngoài giờ đăng ký %s', 11, 1,@EffectiveEndDateText)
+  --  ROLLBACK TRANSACTION
+  --END
+   declare @id_semester nvarchar(50) = (select s.ID_Semester from Semester s where GETDATE() between s.start_Date and s.end_Date)
+   declare @start_date date = (select tfcr.start_Date from Time_For_Course_Register tfcr where tfcr.ID_Semester = @id_semester);
+   declare @end_date date = (select tfcr.end_Date from Time_For_Course_Register tfcr where tfcr.ID_Semester = @id_semester);
+   if(GETDATE() not between @start_date and @end_date)
+	 begin 
+		RAISERROR (N'Ngoài giờ đăng ký %s', 11, 1)
+	    ROLLBACK TRANSACTION
+   end
 END
 GO
 
