@@ -14,7 +14,7 @@
             </div>
             <div class="col-md-5">
                 <div class="header-right">
-                    <button style="    margin: 0 10px;" type="button" class="Admission-button" (click)="openDialogLogin()">{{ account !== null ?"Xin chao"+account.lastName:"Login" }}</button>
+                    <button style="margin: 0 10px;" type="button" class="Admission-button" (click)="openDialogLogin()">{{ account !== null ?"Xin chao "+account.idAccount:"Login" }}</button>
 
                     <button *ngIf="account !== null" type="button" class="Admission-button" (click)="logout()">Logout</button>
                 </div>

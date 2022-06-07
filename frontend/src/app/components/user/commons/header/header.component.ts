@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.account = this.accountService.accountValue;
+    console.log(this.account);
   }
 
   openDialogLogin() {

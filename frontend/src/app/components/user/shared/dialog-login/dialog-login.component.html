@@ -1,15 +1,14 @@
 <div class="center">
     <h1>Login</h1>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div class="txt_field">
-            <input type="text" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+        <div [ngClass]="submitted && f.email.errors ? 'is-invalid' : 'txt_field'">
+            <input type="text" formControlName="email"
                 required>
             <span></span>
             <label>Email</label>
         </div>
-        <div class="txt_field">
-            <input type="password" formControlName="password"
-                [ngClass]="{ 'is-invalid': submitted && f.password.errors }" required>
+        <div [ngClass]="submitted && f.password.errors ? 'is-invalid' : 'txt_field'">
+            <input type="password" formControlName="password" required>
             <span></span>
             <label>Password</label>
         </div>
@@ -20,8 +19,8 @@
             (load)="handleLoad()" (success)="handleSuccess($event)" [useGlobalDomain]="false" [size]="size" [hl]="lang"
             [theme]="theme" [type]="type" formControlName="recaptcha">
         </ngx-recaptcha2>
-        <div class="signup_link">
-            Not a member? <a href="#">Signup</a>
+        <div style="margin-top: 20px">
+
         </div>
     </form>
 </div>
