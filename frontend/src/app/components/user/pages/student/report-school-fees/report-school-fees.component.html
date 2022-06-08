@@ -1,57 +1,10 @@
 <section class="aca-event text-center">
     <div class="container">
-
-
-        <!-- 
-        <div style="margin-top: 10px;height: 50px;display: flex;align-items: center;">
-            <p style="font-weight: bold">DANH SÁCH MÔN HỌC ĐÃ CHỌN</p>
-        </div>
-        <div class="search">
-            <button id="submit" (click)="submit(checkalldeletebox)">Lưu Đăng Ký</button>
-            <button style="margin-right: 4px;" (click)="submitDelete(checkalldeletebox)">Xóa</button>
-        </div>
         <div class="fixTableHead">
             <table>
                 <thead>
                     <tr>
-                        <th>STT</th>
-                        <th>Mã MH</th>
-                        <th>Tên môn học</th>
-                        <th>NMH</th>
-                        <th>TTH</th>
-                        <th>STC</th>
-                        <th>STCHP</th>
-                        <th>Học phí</th>
-                        <th>Miễn giảm</th>
-                        <th>Phải Đóng</th>
-                        <th>Trạng thái môn học</th>
-                        <th>Giáo viên</th>
-                        <th><input type="checkbox" #checkalldeletebox (change)="selectAllDeleteBox(checkalldeletebox)"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of listCourseRegisterFake;index as i">
-                        <td>{{i+1}}</td>
-                        <td>{{item.idCourse}}</td>
-                        <td>{{item.nameCourse}}</td>
-                        <td></td>
-                        <td></td>
-                        <td>{{item.courseCertificate}}</td>
-                        <td>{{item.courseCertificate}}</td>
-                        <td>{{item.courseCertificate * 360}}</td>
-                        <td></td>
-                        <td>{{item.courseCertificate * 360}}</td>
-                        <td>{{item.status}}</td>
-                        
-                        <td><input class="deletebox" type="checkbox" [value]="item.idCourse"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div> -->
-        <div class="fixTableHead">
-            <table>
-                <thead>
-                    <tr>
+                        <!-- {{ 'entities.orderNumber' | translate }} -->
                         <th>STT</th>
                         <th>Số phiếu</th>
                         <th>Nội dung</th>
@@ -59,7 +12,7 @@
                         <th>Kí hiệu loại thu</th>
                         <th>Số tiền</th>
                         <th>Chọn</th>
-                        
+
                     </tr>
                 </thead>
                 <tbody>
@@ -71,15 +24,12 @@
                         <td>{{detail}}</td>
                         <td>1</td>
                         <td>{{total}}</td>
-                        
-
-
                         <td><input type="checkbox"></td>
-                        
+
                     </tr>
                 </tbody>
             </table>
-            <input type="button" value="[Thanh toán học phí qua BIDV]"> 
+            <input type="button" value="[Thanh toán học phí qua BIDV]">
         </div>
     </div>
 </section>
