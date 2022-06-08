@@ -17,6 +17,7 @@ export class DssvComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('???')
     this.route.queryParams.subscribe(params => {
       this.getListStudentBySubject(params.idSCHEDULE)
 

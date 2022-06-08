@@ -32,7 +32,7 @@ import { ListStudentTTBComponent } from './pages/commons/list-student-ttb/list-s
 import { PageNotFoundComponent } from './pages/commons/page-not-found/page-not-found.component';
 import { HomeComponent } from './pages/commons/home/home.component';
 import { CourseProgramComponent } from './pages/student/course-program/course-program.component';
-import { DssvComponent } from './pages/student/dssv/dssv.component';
+import { DssvComponent } from './pages/commons/dssv/dssv.component';
 
 import * as Professor from './pages/professor/course-regist/course-regist.component';
 
