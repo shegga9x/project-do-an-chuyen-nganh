@@ -10,7 +10,7 @@ import { CourseManageService } from 'src/app/services';
 })
 export class TimeTableComponent implements OnInit {
 
-  listTimeTableST: any[] = [];
+  listTimeTablePR: any[] = [];
   loading: boolean = false;
 
   constructor( private titleService: Title,
@@ -19,19 +19,19 @@ export class TimeTableComponent implements OnInit {
     this.titleService.setTitle("Rules And Regulation");
   }
   ngOnInit(): void {
-    this.getTimeTableST();
+    this.getTimeTablePR();
   }
 
-  getTimeTableST() {
+  getTimeTablePR() {
     this.courseManageService.getTimeTablePRRegist().subscribe({
       next: (x: any) => {
         //foreach
         x.forEach((element: any) => {
           console.log(element);
-          this.listTimeTableST.push(element);
+          this.listTimeTablePR.push(element);
         });
         //add to course-manage services
-        this.courseManageService.listTimeTable_ST = this.listTimeTableST;
+        this.courseManageService.listTimeTable_ST = this.listTimeTablePR;
         this.loading = true;
       },
       error: (error) => {

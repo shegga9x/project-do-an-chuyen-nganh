@@ -307,7 +307,8 @@ CREATE FUNCTION Time_Table_Pr (@ID_Professor varchar(50),@ID_Semester varchar(50
 RETURNS TABLE
 AS
   RETURN
-  SELECT sd.*
+  SELECT sd.ID_Schedule,
+  sd.ID_Course_Offering
 FROM Schedule sd JOIN
   Course_Offering co ON sd.ID_Course_Offering = co.ID_Course_Offering JOIN
   Professor_Schedule prc ON prc.ID_Schedule = sd.ID_Schedule

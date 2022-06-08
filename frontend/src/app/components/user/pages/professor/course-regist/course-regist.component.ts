@@ -37,7 +37,7 @@ export class CourseRegistComponent implements OnInit {
         this.listSubAvailable = x;
         //add to course-manage services
         this.courseManageService.listSubAvailable = this.listSubAvailable;
-        console.log(this.courseManageService.listSubAvailable);
+        // console.log(this.courseManageService.listSubAvailable);
       },
       error: (error) => {
         console.log(error);
@@ -81,7 +81,7 @@ export class CourseRegistComponent implements OnInit {
           this.generalService.openDialogError(error);
         },
       });
-    console.log(idCourseOffering);
+      // console.log(idCourseOffering);
   }
 
   findIdCourse(idCourse: string) {
