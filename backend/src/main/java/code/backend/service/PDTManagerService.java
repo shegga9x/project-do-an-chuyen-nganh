@@ -478,4 +478,25 @@ public class PDTManagerService {
         courseOfferingRepository.deleteAllById(ids);
         return new MessageResponse("Thanh Cong !!!");
     }
+
+    public List<SubAvailableRespone> getCourseRegist() {
+        List<String> ids = new ArrayList<>();
+        for (String[] strings : entityService.getFunctionResult("get_course_offering", new ArrayList<>())) {
+            ids.add(strings[0]);
+        }
+        List<Schedule> schedules = scheduleRepository.findAllByIds(ids);
+        List<SubAvailableRespone> subAvailableRespones = new ArrayList<>();
+        for (Schedule schedule : schedules) {
+            SubAvailableRespone subAvailableRespone = new SubAvailableRespone(
+                    (ClazzDTO) SubUtils.mapperObject(schedule.getCourseOffering().getClazz(), new ClazzDTO()),
+                    (CourseDTO) SubUtils.mapperObject(schedule.getCourseOffering().getCourse(), new CourseDTO()),
+                    (CourseOfferingDTO) SubUtils.mapperObject(schedule.getCourseOffering(), new CourseOfferingDTO()),
+                    (FacultyDTO) SubUtils.mapperObject(schedule.getCourseOffering().getCourse().getFaculty(),
+                            new FacultyDTO()),
+                    (ProfessorDTO) SubUtils.mapperObject(schedule.getProfessor(), new ProfessorDTO()),
+                    (ScheduleDTO) SubUtils.mapperObject(schedule, new ScheduleDTO()));
+            subAvailableRespones.add(subAvailableRespone);
+        }
+        return subAvailableRespones;
+    }
 }

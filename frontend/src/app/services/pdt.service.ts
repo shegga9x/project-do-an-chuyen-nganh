@@ -22,6 +22,10 @@ export class PDTService {
         return this.http.get(`${baseUrl}/close_course_regist/`);
       }
 
+      getCourseRegist() {
+        return this.http.get(`${baseUrl}/get_course_regist/`);
+      }
+
     addScoreFromExcel(listScoreRequest: any) {
         return this.http.post(`${baseUrl}/add_Score_From_Excel`, listScoreRequest);
     }
