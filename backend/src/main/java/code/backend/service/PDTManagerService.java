@@ -179,9 +179,9 @@ public class PDTManagerService {
                 listError.add(accountFromExcelRequest);
             }
         }
-         accountRepository.saveAll(listAccount);
-         studentRepository.saveAll(listStudent);
-         clazzRepository.saveAll(clazzList);
+        accountRepository.saveAll(listAccount);
+        studentRepository.saveAll(listStudent);
+        clazzRepository.saveAll(clazzList);
 
         return listError;
     }
