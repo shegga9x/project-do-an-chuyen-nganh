@@ -26,10 +26,10 @@
                 </thead>
                 <tbody>
                     <ng-container *ngIf="loading == true">
-                        <ng-container *ngFor="let list of listTimeTableST;index as i">
+                        <ng-container *ngFor="let list of listTimeTablePR;index as i">
                             <ng-container *ngIf="i == 0">
                                 <ng-container
-                                    *ngIf="listTimeTableST[i]['courseDTO'].idCourse != listTimeTableST[i+1]['courseDTO'].idCourse">
+                                    *ngIf="listTimeTablePR[i]['courseDTO'].idCourse != listTimeTablePR[i+1]['courseDTO'].idCourse">
                                     <tr>
                                         <td>{{list['courseDTO'].idCourse}}</td>
                                         <td>{{list['courseDTO'].nameCourse}}</td>
@@ -51,7 +51,7 @@
                                     </tr>
                                 </ng-container>
                                 <ng-container
-                                    *ngIf="listTimeTableST[i]['courseDTO'].idCourse == listTimeTableST[i+1]['courseDTO'].idCourse">
+                                    *ngIf="listTimeTablePR[i]['courseDTO'].idCourse == listTimeTablePR[i+1]['courseDTO'].idCourse">
                                     <tr>
                                         <td rowspan="2">{{list['courseDTO'].idCourse}}</td>
                                         <td rowspan="2">{{list['courseDTO'].nameCourse}}</td>
@@ -73,9 +73,9 @@
                                     </tr>
                                 </ng-container>
                             </ng-container>
-                            <ng-container *ngIf="i > 0 && i < listTimeTableST.length - 1">
+                            <ng-container *ngIf="i > 0 && i < listTimeTablePR.length - 1">
                                 <ng-container
-                                    *ngIf="listTimeTableST[i]['courseDTO'].idCourse == listTimeTableST[i-1]['courseDTO'].idCourse">
+                                    *ngIf="listTimeTablePR[i]['courseDTO'].idCourse == listTimeTablePR[i-1]['courseDTO'].idCourse">
                                     <tr>
                                         <td>{{list['courseOfferingDTO'].maxSize}}</td>
                                         <td>{{list['courseOfferingDTO'].maxSize -
@@ -90,7 +90,7 @@
                                     </tr>
                                 </ng-container>
                                 <ng-container
-                                    *ngIf="listTimeTableST[i]['courseDTO'].idCourse != listTimeTableST[i-1]['courseDTO'].idCourse && listTimeTableST[i]['courseDTO'].idCourse == listTimeTableST[i+1]['courseDTO'].idCourse">
+                                    *ngIf="listTimeTablePR[i]['courseDTO'].idCourse != listTimeTablePR[i-1]['courseDTO'].idCourse && listTimeTablePR[i]['courseDTO'].idCourse == listTimeTablePR[i+1]['courseDTO'].idCourse">
 
                                     <td rowspan="2">{{list['courseDTO'].idCourse}}</td>
                                     <td rowspan="2">{{list['courseDTO'].nameCourse}}</td>
@@ -112,7 +112,7 @@
 
                                 </ng-container>
                                 <ng-container
-                                    *ngIf="listTimeTableST[i]['courseDTO'].idCourse != listTimeTableST[i-1]['courseDTO'].idCourse && listTimeTableST[i]['courseDTO'].idCourse != listTimeTableST[i+1]['courseDTO'].idCourse">
+                                    *ngIf="listTimeTablePR[i]['courseDTO'].idCourse != listTimeTablePR[i-1]['courseDTO'].idCourse && listTimeTablePR[i]['courseDTO'].idCourse != listTimeTablePR[i+1]['courseDTO'].idCourse">
                                     <tr>
                                         <td>{{list['courseDTO'].idCourse}}</td>
                                         <td>{{list['courseDTO'].nameCourse}}</td>
@@ -134,9 +134,9 @@
                                     </tr>
                                 </ng-container>
                             </ng-container>
-                            <ng-container *ngIf="i == listTimeTableST.length - 1">
+                            <ng-container *ngIf="i == listTimeTablePR.length - 1">
                                 <ng-container
-                                    *ngIf="listTimeTableST[i]['courseDTO'].idCourse != listTimeTableST[i-1]['courseDTO'].idCourse">
+                                    *ngIf="listTimeTablePR[i]['courseDTO'].idCourse != listTimeTablePR[i-1]['courseDTO'].idCourse">
                                     <tr>
                                         <td>{{list['courseDTO'].idCourse}}</td>
                                         <td>{{list['courseDTO'].nameCourse}}</td>
@@ -158,7 +158,7 @@
                                     </tr>
                                 </ng-container>
                                 <ng-container
-                                    *ngIf="listTimeTableST[i]['courseDTO'].idCourse == listTimeTableST[i-1]['courseDTO'].idCourse">
+                                    *ngIf="listTimeTablePR[i]['courseDTO'].idCourse == listTimeTablePR[i-1]['courseDTO'].idCourse">
                                     <tr>
                                         <td>{{list['courseOfferingDTO'].maxSize}}</td>
                                         <td>{{list['courseOfferingDTO'].maxSize -

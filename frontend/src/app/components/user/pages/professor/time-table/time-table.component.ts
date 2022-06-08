@@ -10,7 +10,7 @@ import { CourseManageService } from 'src/app/services';
 })
 export class TimeTableComponent implements OnInit {
 
-  listTimeTableST: any[] = [];
+  listTimeTablePR: any[] = [];
   loading: boolean = false;
 
   constructor( private titleService: Title,
@@ -28,10 +28,10 @@ export class TimeTableComponent implements OnInit {
         //foreach
         x.forEach((element: any) => {
           console.log(element);
-          this.listTimeTableST.push(element);
+          this.listTimeTablePR.push(element);
         });
         //add to course-manage services
-        this.courseManageService.listTimeTable_ST = this.listTimeTableST;
+        this.courseManageService.listTimeTable_ST = this.listTimeTablePR;
         this.loading = true;
       },
       error: (error) => {
@@ -42,7 +42,7 @@ export class TimeTableComponent implements OnInit {
 
   getListStudentBySubject(idSCHEDULE: any) {
     console.log(idSCHEDULE);
-    // this.router.navigate(["user/exam-routine/half-early-exam"], { queryParams: { idSCHEDULE: idSCHEDULE } });
+    this.router.navigate(["user/student/dssv"], { queryParams: { idSCHEDULE: idSCHEDULE } });
     // this.courseManageService
     //   .getListStudentBySubjectRegist(idSCHEDULE)
     //   .subscribe({
