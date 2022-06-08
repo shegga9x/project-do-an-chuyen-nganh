@@ -94,10 +94,13 @@ export class DialogLoginComponent implements OnInit {
     this.accountService.login(this.f['email'].value, this.f['password'].value)
       .pipe(first())
       .subscribe({
-        next: () => {
+        next: (account) => {
+          if (account.role.includes('Admin')) {
+             this.router.navigate(['admin'])
+          } else {
+            this.generealService.onRefresh(this.router.url);
+          }
           this.dialogRef.close();
-          console.log(this.router.url);
-          this.generealService.onRefresh(this.router.url);
         },
         error: error => {
           //this.alertService.error(error);
