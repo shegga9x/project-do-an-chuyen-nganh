@@ -19,10 +19,10 @@ export class TimeTableComponent implements OnInit {
     this.titleService.setTitle("Rules And Regulation");
   }
   ngOnInit(): void {
-    this.getTimeTableST();
+    this.getTimeTablePR();
   }
 
-  getTimeTableST() {
+  getTimeTablePR() {
     this.courseManageService.getTimeTablePRRegist().subscribe({
       next: (x: any) => {
         //foreach
@@ -42,7 +42,7 @@ export class TimeTableComponent implements OnInit {
 
   getListStudentBySubject(idSCHEDULE: any) {
     console.log(idSCHEDULE);
-    this.router.navigate(["user/exam-routine/half-early-exam"], { queryParams: { idSCHEDULE: idSCHEDULE } });
+    // this.router.navigate(["user/exam-routine/half-early-exam"], { queryParams: { idSCHEDULE: idSCHEDULE } });
     // this.courseManageService
     //   .getListStudentBySubjectRegist(idSCHEDULE)
     //   .subscribe({

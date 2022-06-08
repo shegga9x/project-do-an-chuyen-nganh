@@ -75,7 +75,6 @@ public class CourseManageService {
 
     // }
 
-
     public MessageResponse submit_Course_Regist() {
         String semesterID = semesterRepository.getCurrentSemester().getIdSemester();
         String userID = SubUtils.getCurrentUser().getId();
@@ -346,9 +345,9 @@ public class CourseManageService {
         return listResult;
     }
 
-//    public List<String> get_Top_3_Semester_Time_Table_ST(String idACCOUNT) {
-//        return studentScheduleRepository.findTop3ByIdSemester(idACCOUNT);
-//    }
+    // public List<String> get_Top_3_Semester_Time_Table_ST(String idACCOUNT) {
+    // return studentScheduleRepository.findTop3ByIdSemester(idACCOUNT);
+    // }
 
     public List<String> get_Semester_By_Id_Student(String idACCOUNT) {
         return studentScheduleRepository.findTop3ByIdSemester(idACCOUNT);
@@ -414,7 +413,7 @@ public class CourseManageService {
         return listResult;
     }
 
-    //lấy chương trình đào tạo
+    // lấy chương trình đào tạo
     public List<CourseProgramResponse> get_Course_Program(String idStudent) {
         int number_year = Integer.parseInt(idStudent.substring(0, 2));
         List<CourseProgramResponse> result = new ArrayList<>();
@@ -422,14 +421,20 @@ public class CourseManageService {
         // chưa có CTĐT kỳ này
         // lấy kỳ gần nhất
         if (listCourseProgress.size() == 0) {
-            listCourseProgress = courseProgressRepository.findByNumberYear(Integer.parseInt(courseProgressRepository.getLastNumberYear()));
+            listCourseProgress = courseProgressRepository
+                    .findByNumberYear(Integer.parseInt(courseProgressRepository.getLastNumberYear()));
         }
         List<StudentSchedule> list = studentScheduleRepository.findByIdStudent(idStudent);
-        List<Course> listCourse = list.stream().map(x -> x.getSchedule().getCourseOffering().getCourse()).collect(Collectors.toList());
+        List<Course> listCourse = list.stream().map(x -> x.getSchedule().getCourseOffering().getCourse())
+                .collect(Collectors.toList());
         Set<Course> setCoruse = new HashSet<>(listCourse);
         for (CourseProgress courseProgress : listCourseProgress) {
             int year = 2000 + number_year + courseProgress.getCourse().getYears() - 1;
-            CourseProgramResponse courseProgramResponse = new CourseProgramResponse(courseProgress.getId(), courseProgress.getIdCourse(), courseProgress.getCourse().getNameCourse(), courseProgress.getCourse().getCourseCertificate(), courseProgress.getCourse().getCourseCertificate(), String.valueOf(year), courseProgress.getCourse().getNumberS(), courseProgress.getOptional(), false);
+            CourseProgramResponse courseProgramResponse = new CourseProgramResponse(courseProgress.getId(),
+                    courseProgress.getIdCourse(), courseProgress.getCourse().getNameCourse(),
+                    courseProgress.getCourse().getCourseCertificate(),
+                    courseProgress.getCourse().getCourseCertificate(), String.valueOf(year),
+                    courseProgress.getCourse().getNumberS(), courseProgress.getOptional(), false);
             if (setCoruse.contains(courseProgress.getCourse())) {
                 courseProgramResponse.setWasLearned(true);
             }
