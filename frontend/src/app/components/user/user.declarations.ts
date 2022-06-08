@@ -12,7 +12,8 @@ import { CourseRegistComponent } from './pages/student/course-regist/course-regi
 import { ReportDateExamComponent } from './pages/student/report-date-exam/report-date-exam.component';
 import { ReportGradeComponent } from './pages/student/report-grade/report-grade.component';
 import { ReportSchoolFeesComponent } from './pages/student/report-school-fees/report-school-fees.component';
-import { TimeTableComponent } from './pages/student/time-table/time-table.component';
+import  *  as userTimeTable from './pages/student/time-table/time-table.component';
+import  *  as professorTimeTable from './pages/professor/time-table/time-table.component';
 import { StudentComponent } from './pages/student/student.component';
 import { AutoImportAccountComponent } from '../admin/pages/auto-import-account/auto-import-account.component';
 import { AutoImportGradeComponent } from '../admin/pages/auto-import-grade/auto-import-grade.component';
@@ -31,6 +32,7 @@ import { ListStudentTTBComponent } from './pages/commons/list-student-ttb/list-s
 import { PageNotFoundComponent } from './pages/commons/page-not-found/page-not-found.component';
 import { HomeComponent } from './pages/commons/home/home.component';
 import { CourseProgramComponent } from './pages/student/course-program/course-program.component';
+import { DssvComponent } from './pages/student/dssv/dssv.component';
 
 import * as Professor from './pages/professor/course-regist/course-regist.component';
 
@@ -45,7 +47,8 @@ export const UserDeclarations = [
     StudentComponent,
     ProfessorComponent,
     CourseRegistComponent,
-    TimeTableComponent,
+    userTimeTable.TimeTableComponent,
+    professorTimeTable.TimeTableComponent,
     ReportGradeComponent,
     ReportSchoolFeesComponent,
     ReportDateExamComponent,
@@ -67,4 +70,5 @@ export const UserDeclarations = [
     HomeComponent,
     CourseProgramComponent,
     Professor.CourseRegistComponent,
+    DssvComponent
 ]

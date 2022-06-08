@@ -60,7 +60,7 @@ export class TimeTableComponent implements OnInit {
 
   getListStudentBySubject(idSCHEDULE: any) {
     console.log(idSCHEDULE);
-    this.router.navigate(["user/list-student-ttb"], { queryParams: { idSCHEDULE: idSCHEDULE } });
+    this.router.navigate(["user/student/dssv"], { queryParams: { idSCHEDULE: idSCHEDULE } });
   }
 
 }

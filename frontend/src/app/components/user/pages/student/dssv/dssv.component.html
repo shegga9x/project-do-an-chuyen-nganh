@@ -1,0 +1,42 @@
+<section class="half-early-routine">
+    <div class="container">
+        <div class="h-early-routine">
+            <div style="text-align: left;">
+                <span style="padding-right: 10px">Sắp xếp khi xuất danh sách </span>
+                <input type="radio" name="arrangement" (change)="handleChange($event,'idStudent')"><label style="font-weight: 400;padding-right: 5px;">Theo mã sinh
+                    viên</label>
+                <input type="radio" name="arrangement" (change)="handleChange($event,'studentName')"><label style="font-weight: 400;padding-right: 5px;">Theo tên sinh
+                    viên</label>
+                <input type="radio" name="arrangement" (change)="handleChange($event,'clazzCode')"><label style="font-weight: 400;">Theo mã lớp</label>
+            </div>
+            <table>
+                <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Mã sinh viên</th>
+                    <th>Họ Tên</th>
+                    <th>Mã lớp</th>
+                    <th>Tên lớp</th>
+                    <th>ĐT liên lạc</th>
+                    <th>Email</th>
+                    <th>Ghi chú</th>
+                </tr>
+                </thead>
+                <tr *ngFor="let item of listStudentAfterSort;index as i">
+                    <td>{{i+1}}</td>
+                    <td>{{item.idStudent}}</td>
+                    <td>{{item.studentName}}</td>
+                    <td>{{item.clazzCode}}</td>
+                    <td>{{item.nameFaculty}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            
+            </table>
+        </div>
+        <a href="assets/image/haly-eaxm-routine.PNG" download>
+            <button type="button" class="routine-buttion">Download PDF</button>
+        </a>
+    </div>
+</section>

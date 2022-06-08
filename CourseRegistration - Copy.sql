@@ -317,9 +317,6 @@ FROM Schedule sd JOIN
 WHERE prc.ID_Professor = @ID_Professor
   AND sd.ID_Schedule >= 0
   AND prc.ID_Semester = @ID_Semester
-
-
-
 GO
 -- thời khóa biểu có học sinh , thời khóa biểu của giáo viên chỉ cần gọi schdule
 CREATE FUNCTION Time_Table_St (@ID_ACCOUNT varchar(50),@ID_Semester varchar(50))
@@ -1261,6 +1258,8 @@ use Course_Registration
  select DISTINCT top 1 cp.number_year from Course_Progress cp order by cp.number_year desc
 
  select * from Student_Schedule;
+
+ delete from Student_Schedule
 
  select * from ACCOUNT;
 
