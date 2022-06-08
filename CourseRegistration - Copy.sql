@@ -1262,6 +1262,7 @@ use Course_Registration
  delete from Student_Schedule
 
  select * from ACCOUNT;
+ select * from Student;
 
  select * from Clazz;
 

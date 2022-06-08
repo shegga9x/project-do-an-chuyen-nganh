@@ -20,7 +20,7 @@ export const i18nAsset = {
       ourPrincipal: 'Our Principal',
       missionVision: 'Mission & Vision',
       facultyMember: 'Faculty Member',
-      
+
     },
     entities: {
       // CourseRegistration
@@ -171,5 +171,6 @@ export const i18nAsset = {
     home: {
       demo: 'VietNam',
     },
+
   },
 };
