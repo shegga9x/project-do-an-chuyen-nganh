@@ -1263,4 +1263,6 @@ use Course_Registration
 
  select * from ACCOUNT;
 
+ select * from Clazz;
+
 

@@ -47,6 +47,6 @@ public class ClazzService {
             clazz.setCurrentSize((byte) 0);
             listClazz.add(clazz);
         }
-//        clazzRepository.saveAll(listClazz);
+        clazzRepository.saveAll(listClazz);
     }
 }
