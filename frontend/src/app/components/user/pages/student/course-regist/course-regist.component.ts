@@ -35,6 +35,8 @@ export class CourseRegistComponent implements OnInit {
     idCourseOffering: string,
     checked: HTMLInputElement
   ): void {
+    console.log(idCourseOffering);
+    console.log(this.listSubAvailable);
     this.courseManageService
       .submitCourseRegisterFake(idCourseOffering)
       .subscribe({

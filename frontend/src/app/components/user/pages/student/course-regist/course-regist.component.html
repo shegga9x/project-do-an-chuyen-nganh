@@ -130,7 +130,7 @@
                                     <td><input type="checkbox" #checked
                                             [checked]="findIdCourse(listSubAvailable[i]['courseDTO'].idCourse)"
                                             [disabled]="findIdCourse(listSubAvailable[i]['courseDTO'].idCourse)"
-                                            (change)="updateListAndSaveToDB(listSubAvailable[i]['scheduleDTO'].idSchedule,checked)">
+                                            (change)="updateListAndSaveToDB(listSubAvailable[i]['scheduleDTO'].idCourseOffering,checked)">
                                     </td>
                                     <td>{{list['courseDTO'].idCourse}}</td>
                                     <td>{{list['courseDTO'].nameCourse}}</td>
