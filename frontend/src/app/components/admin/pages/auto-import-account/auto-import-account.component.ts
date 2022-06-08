@@ -26,6 +26,7 @@ export class AutoImportAccountComponent implements OnInit {
       if (file.files.length !== 1) {
         throw new Error('Cannot use multiple files');
       }
+      
       let listFieldNameDefualt = ["firstName", "lastName", "faculty"];
       this.generalService.excelReader(file.files[0], listFieldNameDefualt).then((listAccount: []) => {
 
