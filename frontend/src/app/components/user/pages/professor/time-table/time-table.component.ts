@@ -42,20 +42,7 @@ export class TimeTableComponent implements OnInit {
 
   getListStudentBySubject(idSCHEDULE: any) {
     console.log(idSCHEDULE);
-    this.router.navigate(["user/student/dssv"], { queryParams: { idSCHEDULE: idSCHEDULE } });
-    // this.courseManageService
-    //   .getListStudentBySubjectRegist(idSCHEDULE)
-    //   .subscribe({
-    //     next: (x: any) => {
-    //       //foreach
-    //       x.forEach((element: any) => {
-    //         console.log(element);
-    //       });
-    //     },
-    //     error: (error) => {
-    //       console.log(error);
-    //     },
-    //   });
+    this.router.navigate(["user/dssv"], { queryParams: { idSCHEDULE: idSCHEDULE } });
   }
 
 }

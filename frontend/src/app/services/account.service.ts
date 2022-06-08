@@ -26,7 +26,7 @@ export class AccountService {
   }
 
   public get accountValue(): Account | null {
-    
+
     return this.accountSubject.value;
   }
 
@@ -38,13 +38,13 @@ export class AccountService {
         return account;
       }));
   }
-  
-  loginWithJWT(token : string) {
+
+  loginWithJWT(token: string) {
     return this.http.post<any>(`${baseUrl}/authenticate-with-jwt`, token, { withCredentials: true })
       .pipe(map(account => {
         this.accountSubject.next(account);
         this.startRefreshTokenTimer();
-     
+
         return account;
       }));
   }
@@ -53,7 +53,11 @@ export class AccountService {
     this.http.post<any>(`${baseUrl}/revoke-token`, {}, { withCredentials: true }).subscribe();
     this.stopRefreshTokenTimer();
     this.accountSubject.next(null);
-    this.generalService.onRefresh(this.router.url);
+    if (this.router.url === '/user/home') {
+      this.generalService.onRefresh(this.router.url);
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 
   refreshToken() {

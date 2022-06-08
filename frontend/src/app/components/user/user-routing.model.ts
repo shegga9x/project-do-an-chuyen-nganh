@@ -23,7 +23,7 @@ import { MissionAndVisionComponent } from './pages/commons/about/mission-and-vis
 import { OurPrincipalComponent } from './pages/commons/about/our-principal/our-principal.component';
 import { ContactComponent } from './pages/commons/contact/contact.component';
 import { CourseProgramComponent } from './pages/student/course-program/course-program.component';
-import { DssvComponent } from './pages/student/dssv/dssv.component';
+import { DssvComponent } from 'src/app/components/user/pages/commons/dssv/dssv.component';
 
 
 const routes: Routes = [{
@@ -58,11 +58,7 @@ const routes: Routes = [{
                 },
                 {
                     path: 'course-program', component: CourseProgramComponent
-                },
-                {
-                    path: 'dssv', component: DssvComponent
                 }
-
             ]
         },
         {
@@ -106,7 +102,9 @@ const routes: Routes = [{
                 }
             ]
         },
-
+        {
+            path: 'dssv', component: DssvComponent
+        },
         {
             path: 'contact', component: ContactComponent
         },

@@ -5,7 +5,6 @@ import { Observable } from "rxjs";
 
 export class Permissions {
   canActivate(accountService: AccountService, path: string): boolean {
-    // if (accountService.accountValue?.role.filter((str) => String(str).includes('Admin')).length != 0)    return true;
     if (accountService.accountValue?.role.filter((str) => String(str).toLowerCase().includes(path)).length != 0)
       return true;
     return false;
