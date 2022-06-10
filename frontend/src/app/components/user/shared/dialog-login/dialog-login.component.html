@@ -1,14 +1,14 @@
 <div class="center">
     <h1>Login</h1>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div [ngClass]="submitted && f.email.errors ? 'is-invalid' : 'txt_field'">
-            <input type="text" formControlName="email"
+        <div [ngClass]="onblurEmail && f.email.errors ? 'is-invalid' : 'txt_field'">
+            <input type="text" formControlName="email" (blur)="onBlurEmail()"
                 required>
             <span></span>
             <label>Email</label>
         </div>
-        <div [ngClass]="submitted && f.password.errors ? 'is-invalid' : 'txt_field'">
-            <input type="password" formControlName="password" required>
+        <div [ngClass]="onblurPassword && f.password.errors ? 'is-invalid' : 'txt_field'">
+            <input type="password" formControlName="password" (blur)="onBlurPassword()" required>
             <span></span>
             <label>Password</label>
         </div>

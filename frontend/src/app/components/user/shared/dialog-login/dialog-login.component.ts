@@ -16,6 +16,8 @@ export class DialogLoginComponent implements OnInit {
 
   form: FormGroup;
   submitted = false;
+  onblurEmail = false;
+  onblurPassword = false;
 
   // capcha siteKey
   public readonly siteKey = '6Lcayk0fAAAAAM9QpCgH3sQWCS8IdtupD2PyCszR';
@@ -96,7 +98,7 @@ export class DialogLoginComponent implements OnInit {
       .subscribe({
         next: (account) => {
           if (account.role.includes('Admin')) {
-             this.router.navigate(['admin'])
+            this.router.navigate(['admin'])
           } else {
             this.generealService.onRefresh(this.router.url);
           }
@@ -107,6 +109,14 @@ export class DialogLoginComponent implements OnInit {
           //this.loading = false;
         }
       });
+  }
+
+  onBlurEmail() {
+    this.onblurEmail = true;
+  }
+
+  onBlurPassword() {
+    this.onblurPassword = true;
   }
 
 }
