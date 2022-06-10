@@ -345,10 +345,6 @@ public class CourseManageService {
         return listResult;
     }
 
-    // public List<String> get_Top_3_Semester_Time_Table_ST(String idACCOUNT) {
-    // return studentScheduleRepository.findTop3ByIdSemester(idACCOUNT);
-    // }
-
     public List<String> get_Semester_By_Id_Student(String idACCOUNT) {
         return studentScheduleRepository.findTop3ByIdSemester(idACCOUNT);
     }

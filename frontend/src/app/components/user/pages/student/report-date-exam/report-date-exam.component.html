@@ -1,43 +1,44 @@
 <section class="aca-event text-center">
     <div class="container">
-        
+
         <select style="margin-bottom: 20px;" #select (change)="getDateExam(select.value)">
-            <option [value]="i"  *ngFor="let i of listSemester"> Học Kỳ {{i.split('_')[1]}} - Năm học {{i.split('_')[0]}}-{{toInt(i.split('_')[0])+1}} </option>
+            <option [value]="i" *ngFor="let i of listSemester"> Học Kỳ {{i.split('_')[1]}} - Năm học
+                {{i.split('_')[0]}}-{{toInt(i.split('_')[0])+1}} </option>
         </select>
         <!-- [value]="opt.key" [selected]="opt.selected" -->
         <div class="fixTableHead">
-            
+
             <table>
-                    <tr>
-                        <th>STT</th>
-                        <th>Mã MH</th>
-                        <th>Tên môn học</th>
-                        <th>Ghép Thi</th>
-                        <th>Tổ Thi</th>
-                        <th>Số Lượng</th>
-                        <th>Ngày Thi</th>
-                        <th>Tiết BD</th>
-                        <th>Số Tiết</th>
-                        <th>Phòng</th>
-                        <th>Ghi Chú</th>
-                        <th>DS Thi</th>
+                <tr>
+                    <th>{{ 'entities.orderNumber' | translate }}</th>
+                    <th>{{ 'entities.subCode' | translate }}</th>
+                    <th>{{ 'entities.subjectName' | translate }}</th>
+                    <th>{{ 'entities.combinedExamination' | translate }}</th>
+                    <th>{{ 'entities.examTeam' | translate }}</th>
+                    <th>{{ 'entities.quantity' | translate }}</th>
+                    <th>{{ 'entities.examDate' | translate }}</th>
+                    <th>{{ 'entities.startSlot' | translate }}</th>
+                    <th>{{ 'entities.numberOfSlot' | translate }}</th>
+                    <th>{{ 'entities.roomName' | translate }}</th>
+                    <th>{{ 'entities.gvHeaderGhiChu' | translate }}</th>
+                    <th>{{ 'entities.examinationList' | translate }}</th>
+                </tr>
+                <tbody>
+                    <tr *ngFor="let item of listDateExam">
+                        <td></td>
+                        <td>{{item['courseDTO'].idCourse}}</td>
+                        <td>{{item['courseDTO'].nameCourse}}</td>
+                        <td>{{item['courseOfferingDTO'].clazzCode}}</td>
+                        <td></td>
+                        <td>{{item['courseOfferingDTO'].currentSize}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>{{item.seats}}</td>
+                        <td></td>
+                        <td></td>
                     </tr>
-                    <tbody>
-                        <tr *ngFor="let item of listDateExam">
-                            <td></td>
-                            <td>{{item['courseDTO'].idCourse}}</td>
-                            <td>{{item['courseDTO'].nameCourse}}</td>
-                            <td>{{item['courseOfferingDTO'].clazzCode}}</td>
-                            <td></td>
-                            <td>{{item['courseOfferingDTO'].currentSize}}</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>{{item.seats}}</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
+                </tbody>
             </table>
 
         </div>

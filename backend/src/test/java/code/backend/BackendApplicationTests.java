@@ -348,7 +348,9 @@ class BackendApplicationTests {
     @Transactional
     @Test
     void test16() {
-        String s = courseProgressRepository.getLastNumberYear();
-        System.out.println(s);
+        List<String[]> columns = entityService.getFunctionResult("Date_Exam_ST", Arrays.asList("18130005", "2021_2"));
+        for (String[] s : columns) {
+            System.out.println(s[0]);
+        }
     }
 }

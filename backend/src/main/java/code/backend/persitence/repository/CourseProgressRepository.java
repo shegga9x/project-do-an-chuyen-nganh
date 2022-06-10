@@ -1,11 +1,11 @@
 package code.backend.persitence.repository;
 
-import code.backend.persitence.entities.CourseProgress;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
-import java.util.Optional;
+import code.backend.persitence.entities.CourseProgress;
 
 public interface CourseProgressRepository extends JpaRepository<CourseProgress, Integer> {
 

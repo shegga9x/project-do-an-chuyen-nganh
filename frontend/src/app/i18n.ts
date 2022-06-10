@@ -5,32 +5,60 @@ export const i18nAsset = {
     // tên trang
     header_bar: {
       home: 'Home',
+
+      courseRegistration: 'Course registration',
+      timeTable: 'Time table',
+      reportGrade: 'Report Grade',
+      reportDateExam: 'Report Date Exam',
+      reportSchoolFees: 'Report School Fees',
+      courseProgram: 'Course Program',
+
       about: 'About',
-      academic: 'Academic',
-      examRoutine: 'Exam Routine',
-      classEBook: 'All Class E-Book',
-      result: 'Result',
-      gallery:'GALLERY',
-      tutionFee: 'Tution Fee',
       contact: 'Contact',
-      library: 'Library',
       // About
       aboutUs: 'About Us',
       ourPrincipal: 'Our Principal',
       missionVision: 'Mission & Vision',
       facultyMember: 'Faculty Member',
-      // Academic
-      classRoutine: 'Class Routine',
-      events: 'Academic Events',
-      calender: 'Academic Calender',
-      rulesRegulations: 'Rules & Regulations',
-      facultyInformations: 'Faculty Informations',
-      // Exam Routine - Result
-      halfExam: 'half-early exam',
-      tutorialExam: 'Tutorial Exam ',
-      finalExam: 'Final Exam',
-      scc: 'SSC Exam',
-      jsc: 'JSC Exam',
+
+    },
+    entities: {
+      // CourseRegistration
+
+      // Time Table
+      subCode: 'Sub Code',
+      subjectName: 'Subject Name',
+      group: 'Group',
+      credit: 'Credit',
+      classCode: 'Class Code',
+      creditTuit: 'Credit Tuit',
+      sSCP: 'SSCP',
+      sSCL: 'SSCL',
+      practice: 'Practice',
+      day: 'Day',
+      startSlot: 'Start Slot',
+      room: 'Room',
+      instructor: 'Instructor',
+      // Report Grade - xem điểm
+
+      // Report Date Exam - xem lịch thi
+      orderNumber: 'Order Number',
+      subjectCode: 'Subject Code',
+      // subjectName	:'Tên môn học',
+      combinedExamination: 'Combined Examination',
+      examTeam: 'Exam Team',
+      quantity: 'Quantity',
+      examDate: 'Exam Date',
+      // startSlot: "Tiết bắt đầu	",
+      numberOfSlot: 'Number of slot',
+      roomName: 'Room name',
+      gvHeaderGhiChu: 'gvHeaderGhiChu',
+      examinationList: 'Examination List',
+      // Report School Fees - xem học phí
+
+      // Course Program - xem CTĐT
+      year: 'Year',
+      semester: 'Semester',
     },
 
     footer: {
@@ -64,12 +92,12 @@ export const i18nAsset = {
     header_bar: {
       home: 'Trang chủ',
       about: 'Thông tin',
-      academic: 'Academic',
-      examRoutine: 'Quy trình kiểm tra',
-      classEBook: 'Các lớp E-Book',
-      result: 'Kết quả',
-      gallery:'Bộ sưu tập',
-      tutionFee: 'Học phí',
+      courseRegistration: 'Đăng ký môn học',
+      timeTable: 'Thời khóa biểu',
+      reportGrade: 'Xem điểm',
+      reportDateExam: 'Xem lịch thi',
+      reportSchoolFees: 'Xem học phí',
+      courseProgram: 'Xem CTĐT',
       contact: 'Liên hệ',
       library: 'Thư viện',
       // About
@@ -77,18 +105,45 @@ export const i18nAsset = {
       ourPrincipal: 'Thông tin hiệu trưởng',
       missionVision: 'Sứ mệnh & Tầm nhìn',
       facultyMember: 'Thành viên khoa',
-      // Academic
-      classRoutine: 'Quy trình lớp học',
-      events: 'Sự kiện học tập',
-      calender: 'Lịch học',
-      rulesRegulations: 'Nội quy & Quy định',
-      facultyInformations: 'Thông tin Khoa',
-      // Exam Routine - Result
-      halfExam: 'Thi giữa kỳ',
-      tutorialExam: 'Bài kiểm tra hướng dẫn',
-      finalExam: 'Thi cuối kỳ',
-      scc: 'Thi SSC',
-      jsc: 'Thi JSC',
+    },
+
+    entities: {
+      // CourseRegistration
+
+      // Time Table
+      subCode: 'Mã MH',
+      subjectName: 'Tên môn học',
+      group: 'NMH',
+      credit: 'STC',
+      classCode: 'Mã lớp',
+      creditTuit: 'STCHP',
+      sSCP: 'Sĩ số',
+      sSCL: 'CL',
+      practice: 'TH',
+      day: 'Thứ',
+      startSlot: 'Tiết BĐ',
+      room: 'Phòng',
+      instructor: 'Giảng viên',
+      // Report Grade - xem điểm
+
+      // Report Date Exam - xem lịch thi
+      orderNumber: 'STT',
+      subjectCode: 'Mã Môn Học',
+      // subjectName	:'Tên môn học',
+      combinedExamination: 'Ghép thi',
+      examTeam: 'Tổ Thi',
+      quantity: 'Số lượng',
+      examDate: 'Ngày Thi',
+      // startSlot: "Tiết bắt đầu	",
+      numberOfSlot: 'Số tiết',
+      roomName: 'Phòng',
+      gvHeaderGhiChu: 'Ghi chú',
+      examinationList: 'DS thi',
+      // Report School Fees - xem học phí
+
+      // Course Program - xem CTĐT
+      year: 'Năm',
+      semester: 'Học kỳ',
     },
 
     footer: {
@@ -116,5 +171,6 @@ export const i18nAsset = {
     home: {
       demo: 'VietNam',
     },
+
   },
 };

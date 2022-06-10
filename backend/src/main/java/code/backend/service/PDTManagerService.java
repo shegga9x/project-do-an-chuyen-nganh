@@ -1,7 +1,6 @@
 package code.backend.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -18,12 +17,12 @@ import javax.persistence.metamodel.Attribute;
 import javax.persistence.metamodel.Attribute.PersistentAttributeType;
 import javax.persistence.metamodel.EntityType;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import code.backend.helpers.advice.CustomException;
 import code.backend.helpers.payload.dto.ClazzDTO;
