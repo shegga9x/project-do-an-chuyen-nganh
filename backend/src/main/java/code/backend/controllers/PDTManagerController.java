@@ -50,6 +50,11 @@ public class PDTManagerController {
         return pdtManagerService.closeCourseRegist();
     }
 
+    @GetMapping("/get_course_regist")
+    public @ResponseBody List<SubAvailableRespone> getCourseRegist() {
+        return pdtManagerService.getCourseRegist();
+    }
+
     @GetMapping(value = "load_entity")
     public EntityResponse loadEntity(@RequestParam("entityClass") String entityClass) {
         return pdtManagerService.loadEntity(entityClass);
@@ -70,4 +75,5 @@ public class PDTManagerController {
         return pdtManagerService.addEntity(addEntityRequest);
     }
 
+    
 }

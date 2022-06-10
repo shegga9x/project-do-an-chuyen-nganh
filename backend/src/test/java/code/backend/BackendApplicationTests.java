@@ -13,8 +13,6 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import code.backend.persitence.entities.*;
-import code.backend.persitence.repository.*;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +20,40 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import code.backend.helpers.payload.dto.ClazzDTO;
+import code.backend.helpers.payload.dto.CourseDTO;
+import code.backend.helpers.payload.dto.CourseOfferingDTO;
+import code.backend.helpers.payload.dto.FacultyDTO;
+import code.backend.helpers.payload.dto.ProfessorDTO;
+import code.backend.helpers.payload.dto.ScheduleDTO;
 import code.backend.helpers.payload.dto.SemesterDTO;
 import code.backend.helpers.payload.dto.SemesterReusltDTO;
 import code.backend.helpers.payload.response.CourseRegisterFakeRespone;
+import code.backend.helpers.payload.response.SubAvailableRespone;
 import code.backend.helpers.payload.response.TimeTableResponse;
 import code.backend.helpers.payload.subModel.SubScoreModel;
 import code.backend.helpers.utils.SubUtils;
+import code.backend.persitence.entities.Course;
+import code.backend.persitence.entities.CourseOffering;
+import code.backend.persitence.entities.CourseProgress;
+import code.backend.persitence.entities.FinalResult;
+import code.backend.persitence.entities.ProfessorSchedule;
+import code.backend.persitence.entities.ProfessorScheduleId;
+import code.backend.persitence.entities.Schedule;
+import code.backend.persitence.entities.SemesterResult;
+import code.backend.persitence.entities.Student;
+import code.backend.persitence.entities.StudentSchedule;
+import code.backend.persitence.entities.SubPass;
 import code.backend.persitence.model.UserDetailCustom;
+import code.backend.persitence.repository.CourseOfferingRepository;
+import code.backend.persitence.repository.CourseProgressRepository;
+import code.backend.persitence.repository.ProfessorScheduleRepository;
+import code.backend.persitence.repository.ScheduleRepository;
+import code.backend.persitence.repository.SemesterRepository;
+import code.backend.persitence.repository.SemesterResultRepository;
+import code.backend.persitence.repository.StudentRepository;
+import code.backend.persitence.repository.StudentScheduleFRepository;
+import code.backend.persitence.repository.StudentScheduleRepository;
 import code.backend.service.subService.EntityService;
 
 @RunWith(SpringRunner.class)
@@ -348,9 +373,6 @@ class BackendApplicationTests {
     @Transactional
     @Test
     void test16() {
-        List<String[]> columns = entityService.getFunctionResult("Date_Exam_ST", Arrays.asList("18130005", "2021_2"));
-        for (String[] s : columns) {
-            System.out.println(s[0]);
-        }
+
     }
 }

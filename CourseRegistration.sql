@@ -274,7 +274,7 @@ CREATE TABLE Date_Exam
 (
 	id int IDENTITY(1,1) PRIMARY KEY,
 	ID_Semester nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Semester (ID_Semester),
-	ID_Schedule nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Schedule (ID_Schedule),
+	ID_Schedule nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Schedule (ID_Schedule) ON DELETE CASCADE,
 	group_Exam nvarchar(50) ,
 	seats smallint  not null,
 )

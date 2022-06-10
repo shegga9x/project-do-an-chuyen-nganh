@@ -276,7 +276,7 @@ CREATE TABLE Date_Exam
 (
 	id int IDENTITY(1,1) PRIMARY KEY,
 	ID_Semester nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Semester (ID_Semester),
-	ID_Schedule nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Schedule (ID_Schedule),
+	ID_Schedule nvarchar(50) NOT NULL FOREIGN KEY REFERENCES Schedule (ID_Schedule) ON DELETE CASCADE,
 	group_Exam nvarchar(50) ,
 	seats smallint  not null,
 )
@@ -575,14 +575,22 @@ go
 
 
 GO
-create FUNCTION get_closable_course_offering()
+Create FUNCTION get_closable_course_offering()
 RETURNS TABLE
 AS
 RETURN
-  SELECT DISTINCT  sc.* from Schedule sc join Course_Offering co on sc.ID_Course_Offering = co.ID_Course_Offering
+  SELECT DISTINCT  sc.ID_Schedule from Schedule sc join Course_Offering co on sc.ID_Course_Offering = co.ID_Course_Offering
   where sc.ID_Schedule > 0 
 		AND (sc.ID_Schedule is null or co.Current_Size < 30 or sc.Id_Profeesor is null) 
   		AND sc.Start_Day >= (SELECT start_Date FROM Semester WHERE GETDATE() BETWEEN start_Date AND end_Date)
+GO
+Create FUNCTION get_course_offering()
+RETURNS TABLE
+AS
+RETURN
+  SELECT DISTINCT  sc.ID_Schedule from Schedule sc join Course_Offering co on sc.ID_Course_Offering = co.ID_Course_Offering
+  where sc.ID_Schedule > 0
+-- TRIGGER
 GO
 -- TRIGGER
 CREATE TRIGGER check_Course_Offering
@@ -1258,4 +1266,4 @@ use Course_Registration
 
  select * from Clazz;
 
-
+ select * from get_course_offering();
