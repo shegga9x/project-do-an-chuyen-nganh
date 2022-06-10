@@ -5,14 +5,12 @@ import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-close-course-regist',
   templateUrl: './close-course-regist.component.html',
-  styleUrls: ['./close-course-regist.component.scss']
+  styleUrls: ['./close-course-regist.component.scss'],
 })
 export class CloseCourseRegistComponent implements OnInit {
   listCourseRegist: any[] = [];
   listCloseCourseRegist: any[] = [];
-  constructor(
-    private pDTService: PDTService,
-  ) { }
+  constructor(private pDTService: PDTService) {}
 
   ngOnInit(): void {
     this.getListCourseRegist();
@@ -44,13 +42,27 @@ export class CloseCourseRegistComponent implements OnInit {
   }
 
   checkCloseCourseRegist(idSchedule: string) {
-    return this.listCloseCourseRegist.some(element => {
+    return this.listCloseCourseRegist.some((element) => {
       return element.scheduleDTO.idSchedule == idSchedule;
-    })
+    });
   }
 
   deletCourseRegist() {
-    const cac = [... new Set(this.listCloseCourseRegist.map(data => data.courseOfferingDTO.idCourseOffering))];
-    this.pDTService.deleteCourseOffering(cac).subscribe();
+    const cac = [
+      ...new Set(
+        this.listCloseCourseRegist.map(
+          (data) => data.courseOfferingDTO.idCourseOffering
+        )
+      ),
+    ];
+    this.pDTService.deleteCourseOffering(cac).subscribe({
+      next: (obj: any) => {
+        this.getListCourseRegist();
+        alert(obj.message);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 }

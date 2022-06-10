@@ -11,6 +11,7 @@ const baseUrl = `${environment.apiUrl}/course-manage`;
 export class CourseManageService {
   listSubAvailable: any[] = [];
   listTimeTable_ST: any[] = [];
+  listTimeTable_PR: any[] = [];
 
   constructor(
     private http: HttpClient,

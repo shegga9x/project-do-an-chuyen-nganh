@@ -31,7 +31,7 @@ export class TimeTableComponent implements OnInit {
           this.listTimeTablePR.push(element);
         });
         //add to course-manage services
-        this.courseManageService.listTimeTable_ST = this.listTimeTablePR;
+        this.courseManageService.listTimeTable_PR = this.listTimeTablePR;
         this.loading = true;
       },
       error: (error) => {
