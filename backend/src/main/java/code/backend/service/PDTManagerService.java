@@ -84,7 +84,7 @@ public class PDTManagerService {
     ClazzService clazzService;
 
     public Map<String, Integer> studentCount(List<AccountFromExcelRequest> listAccountFromExcelRequests,
-            Set<AccountFromExcelRequest> listError) {
+                                             Set<AccountFromExcelRequest> listError) {
         Map<String, Integer> map = new HashMap<>();
         for (AccountFromExcelRequest accountFromExcelRequest : listAccountFromExcelRequests) {
             if (facultyRepository.findByIdFaculty(accountFromExcelRequest.getFaculty()).isPresent()) {
@@ -187,7 +187,7 @@ public class PDTManagerService {
     }
 
     public Account createNewAccount(String idAccount, String firstName, String lastName, String email,
-            String password) {
+                                    String password) {
         // account detail
         AccountDetail accountDetail = new AccountDetail();
         accountDetail.setIdAccount(idAccount);

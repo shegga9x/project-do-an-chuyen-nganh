@@ -335,7 +335,7 @@ WHERE stc.ID_Student = @ID_ACCOUNT
 GO
 
 -- Xem lich thi cua hoc sinh
-Alter FUNCTION Date_Exam_ST (@ID_ACCOUNT varchar(50),@ID_Semester varchar(50))
+create FUNCTION Date_Exam_ST (@ID_ACCOUNT varchar(50),@ID_Semester varchar(50))
 RETURNS TABLE
 AS
   RETURN
@@ -344,7 +344,7 @@ AS
   and de.ID_Semester = @ID_Semester
 GO
 
-select * from Date_Exam_ST('18130005','2021_2')
+--select * from Date_Exam_ST('18130005','2021_2')
 
 go
 
@@ -467,7 +467,7 @@ WHERE prc.ID_Professor = @ID_ACCOUNT
   WHERE GETDATE() BETWEEN start_Date AND end_Date)
 GO
 --Phương thức check những môn mà giáo viên có thể đk ký
-CREATE FUNCTION check_Subject_For_Professor (@ID_Professor nvarchar(50))
+alter FUNCTION check_Subject_For_Professor (@ID_Professor nvarchar(50))
 RETURNS TABLE
 AS
   RETURN
@@ -476,11 +476,13 @@ FROM Schedule sc JOIN
   Course_Offering co ON sc.ID_Course_Offering = co.ID_Course_Offering JOIN
   Course c ON co.ID_Course = c.ID_Course
 WHERE sc.Id_Profeesor IS NULL
+  AND sc.ID_Schedule >=0
   AND (c.ID_Faculty = (SELECT
     pf.ID_Faculty
   FROM Professor pf
   WHERE pf.ID_Professor = @ID_Professor)
   OR c.ID_Faculty IS NULL);
+
 -- Phương thức check có trùng ngày và giờ ko
 go
 CREATE FUNCTION check_Start_Slot_Teach_Day_PR (@ID_Professor varchar(50), @Start_Slot varchar(50), @Teaching_Day varchar(50))
@@ -504,7 +506,7 @@ WHERE prc.ID_Professor = @ID_Professor
 GO
 
 --Phương thức đk cho giáo viên
-CREATE FUNCTION check_Day_Pr (@ID_Schedule nvarchar(50), @ID_Professor varchar(50))
+alter FUNCTION check_Day_Pr (@ID_Schedule nvarchar(50), @ID_Professor varchar(50))
 RETURNS TABLE
 AS
   RETURN
@@ -519,6 +521,7 @@ WHERE (sc.Start_Slot IN (SELECT
   FROM check_Sub_Exist_For_Professor(@ID_Professor))
   )
   AND sc.ID_Schedule = @ID_Schedule
+  AND sc.ID_Schedule >=0
 --and (select count(ID_Schedule) from Professor_Schedule where ID_Professor = @ID_Professor) <= 3
 GO
 -- tạo function semester_Result	
@@ -613,7 +616,7 @@ END
 
 
 GO
-alter TRIGGER check_insert_student_schedule
+create TRIGGER check_insert_student_schedule
 ON Student_Schedule
 FOR INSERT, UPDATE
 AS
@@ -789,6 +792,7 @@ insert into Semester Values(N'2020_1','1/9/2020','31/1/2021',2020,1)
 insert into Semester Values(N'2020_2','1/3/2021','30/6/2021',2020,2)
 insert into Semester Values(N'2021_1','1/9/2021','31/1/2022',2021,1)
 insert into Semester Values(N'2021_2','1/3/2022','30/6/2022',2021,2)
+update Semester set end_Date='30/7/2022' where ID_Semester='2021_2';
 
 -- insert into Time_For_Course_Register
 insert into Time_For_Course_Register Values(N'2018_1','6/1/2019','12/1/2019')
@@ -800,7 +804,7 @@ insert into Time_For_Course_Register Values(N'2020_2','3/5/2021','12/5/2021')
 insert into Time_For_Course_Register Values(N'2021_1','6/1/2022','27/1/2022')
 ---delete Time_For_Course_Register  where ID_Semester = '2021_2'
 insert into Time_For_Course_Register Values(N'2021_2','16/4/2022','20/6/2022')
-update Time_For_Course_Register set end_Date='20/6/2022' where ID_Semester='2021_2';
+update Time_For_Course_Register set end_Date='29/7/2022' where ID_Semester='2021_2';
 select * from Time_For_Course_Register;
 
 
@@ -1263,7 +1267,7 @@ use Course_Registration
 
  select * from ACCOUNT;
  select * from Student;
-
+ select * from Semester_Result
  select * from Clazz;
 
  select * from get_course_offering();
