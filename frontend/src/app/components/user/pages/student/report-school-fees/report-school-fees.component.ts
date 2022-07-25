@@ -22,19 +22,19 @@ export class ReportSchoolFeesComponent implements OnInit {
     this.titleService.setTitle('Academic Events');
   }
   ngOnInit(): void {
-
     this.getListCourseRegisterFake();
   }
+
   getListCourseRegisterFake() {
     this.courseManageService.getCourseRegisterFake().subscribe({
 
       next: (x: any) => {
-      
+
         let list: any[] = x;
         console.log(list)
-        list.forEach(element=>{
-          if(element.status == "Đã lưu vào CSDL"){
-            this.detail += `${element.nameCourse} (${element.idCourse}),`  ;
+        list.forEach(element => {
+          if (element.status == "Đã lưu vào CSDL") {
+            this.detail += `${element.nameCourse} (${element.idCourse}),`;
             this.total += (element.courseCertificate * 360);
 
           }
@@ -45,9 +45,5 @@ export class ReportSchoolFeesComponent implements OnInit {
       },
     });
   }
-
-
-
-
 
 }
