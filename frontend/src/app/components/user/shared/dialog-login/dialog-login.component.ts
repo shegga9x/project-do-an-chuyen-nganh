@@ -105,8 +105,7 @@ export class DialogLoginComponent implements OnInit {
           this.dialogRef.close();
         },
         error: error => {
-          //this.alertService.error(error);
-          //this.loading = false;
+          alert('Sai tên đăng nhập hoặc mật khẩu')
         }
       });
   }
