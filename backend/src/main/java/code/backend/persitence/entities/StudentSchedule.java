@@ -4,7 +4,6 @@
  */
 package code.backend.persitence.entities;
 
-
 import java.io.Serializable;
 import javax.persistence.*;
 
@@ -15,9 +14,9 @@ import javax.persistence.*;
  *
  */
 @Entity
-@Table(name="Student_Schedule", schema="dbo", catalog = "${bezkoder.app.databaseName}")
+@Table(name="Student_Schedule", schema="dbo", catalog = Account.CATALOG)
 @IdClass(StudentScheduleId.class)
-public class StudentSchedule implements Serializable {
+public class StudentSchedule implements Serializable {    
 
     private static final long serialVersionUID = 1L;
 

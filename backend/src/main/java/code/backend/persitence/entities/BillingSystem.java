@@ -4,9 +4,17 @@
  */
 package code.backend.persitence.entities;
 
-
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * JPA entity class for "BillingSystem"
@@ -15,9 +23,9 @@ import javax.persistence.*;
  *
  */
 @Entity
-@Table(name="Billing_System", schema="dbo", catalog = "${bezkoder.app.databaseName}")
+@Table(name="Billing_System", schema="dbo", catalog = Account.CATALOG)
 @IdClass(BillingSystemId.class)
-public class BillingSystem implements Serializable {
+public class BillingSystem implements Serializable {    
 
     private static final long serialVersionUID = 1L;
 

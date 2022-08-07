@@ -110,7 +110,7 @@ public class AuthController {
                 new MessageResponse("Password reset successful, you can now login"));
     }
 
-    @PreAuthorize("hasRole('ROLE_Admin')")
+    // @PreAuthorize("hasRole('ROLE_Admin')")
     @GetMapping("")
     public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(accountService.getAll());
