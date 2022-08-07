@@ -1,12 +1,15 @@
+Project CourseRegister Angular + Spring Rest
 
+Demo : https://project-do-an-chuyen-nganh.vercel.app/
 
-taikhoandangnhap
+tai khoan dang nhap
+role Student
 18130005@st.hcmuaf.edu.vn
 123456
-
+role Professor
 300@st.hcmuaf.edu.vn
 123456
-
+role Admin
 pdt@st.hcmuaf.edu.vn
 123456
 
