@@ -15,7 +15,7 @@ import javax.persistence.*;
  *
  */
 @Entity
-@Table(name="Professor_Schedule", schema="dbo", catalog="Course_Registration" )
+@Table(name="Professor_Schedule", schema="dbo", catalog = "shegga_course_register" )
 @IdClass(ProfessorScheduleId.class)
 public class ProfessorSchedule implements Serializable {
 

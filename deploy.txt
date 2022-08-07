@@ -6,4 +6,4 @@ backend:
 git : https://git.heroku.com/courseregister123.git
 url : https://courseregister123.herokuapp.com/
 frontend : 
-url : project-chuyen-de-web.vercel.app
+url : https://project-do-an-chuyen-nganh.vercel.app/
