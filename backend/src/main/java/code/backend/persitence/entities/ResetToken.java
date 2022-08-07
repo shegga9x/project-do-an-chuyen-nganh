@@ -15,7 +15,7 @@ import javax.persistence.*;
  *
  */
 @Entity
-@Table(name = "reset_token", schema = "dbo", catalog = "Course_Registration")
+@Table(name = "reset_token", schema = "dbo", catalog = "shegga_course_register" )
 public class ResetToken implements Serializable {
 
     private static final long serialVersionUID = 1L;

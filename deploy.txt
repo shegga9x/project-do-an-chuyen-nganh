@@ -1,9 +1,9 @@
 sql:
 Server Name: sql.bsite.net\MSSQL2016SQL 
-Username: shegga_shopvip132
+Username: shegga_courseRegister
 password : 0378876395pP
 backend: 
-git : https://git.heroku.com/sqlshop123.git
-url : https://sqlshop123.herokuapp.com/
+git : https://git.heroku.com/courseregister123.git
+url : https://courseregister123.herokuapp.com/
 frontend : 
 url : project-chuyen-de-web.vercel.app

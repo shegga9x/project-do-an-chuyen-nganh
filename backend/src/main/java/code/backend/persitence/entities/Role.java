@@ -26,7 +26,7 @@ import code.backend.persitence.enumModel.RoleEnum;
  *
  */
 @Entity
-@Table(name = "Role", schema = "dbo", catalog = "Course_Registration")
+@Table(name = "Role", schema = "dbo", catalog = "shegga_course_register" )
 public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -14,7 +14,7 @@ import javax.persistence.*;
  *
  */
 @Entity
-@Table(name = "Sub_Pass", schema = "dbo", catalog = "Course_Registration")
+@Table(name = "Sub_Pass", schema = "dbo", catalog = "shegga_course_register" )
 @IdClass(SubPassId.class)
 public class SubPass implements Serializable {
 

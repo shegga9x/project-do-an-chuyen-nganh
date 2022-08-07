@@ -28,7 +28,7 @@ import javax.persistence.TemporalType;
  *
  */
 @Entity
-@Table(name = "ACCOUNT", schema = "dbo", catalog = "Course_Registration")
+@Table(name = "ACCOUNT", schema = "dbo", catalog = "shegga_course_register" )
 public class Account implements Serializable {
 
     private static final long serialVersionUID = 1L;
