@@ -4,14 +4,14 @@ USE Course_Registration
 SET DATEFORMAT DMY
 GO
 
-CREATE SEQUENCE [dbo].[hibernate_sequence] 
- AS [bigint]
- START WITH 10000000
- INCREMENT BY 1
- MINVALUE -9223372036854775808
- MAXVALUE 9223372036854775807
- CACHE 
- go
+--CREATE SEQUENCE [dbo].[hibernate_sequence] 
+-- AS [bigint]
+-- START WITH 10000000
+-- INCREMENT BY 1
+-- MINVALUE -9223372036854775808
+-- MAXVALUE 9223372036854775807
+-- CACHE 
+-- go
 create table Role
 (
   [id] [int] IDENTITY(1,1) NOT NULL,
@@ -467,7 +467,7 @@ WHERE prc.ID_Professor = @ID_ACCOUNT
   WHERE GETDATE() BETWEEN start_Date AND end_Date)
 GO
 --Phương thức check những môn mà giáo viên có thể đk ký
-alter FUNCTION check_Subject_For_Professor (@ID_Professor nvarchar(50))
+CREATE FUNCTION check_Subject_For_Professor (@ID_Professor nvarchar(50))
 RETURNS TABLE
 AS
   RETURN
@@ -506,7 +506,7 @@ WHERE prc.ID_Professor = @ID_Professor
 GO
 
 --Phương thức đk cho giáo viên
-alter FUNCTION check_Day_Pr (@ID_Schedule nvarchar(50), @ID_Professor varchar(50))
+CREATE FUNCTION check_Day_Pr (@ID_Schedule nvarchar(50), @ID_Professor varchar(50))
 RETURNS TABLE
 AS
   RETURN

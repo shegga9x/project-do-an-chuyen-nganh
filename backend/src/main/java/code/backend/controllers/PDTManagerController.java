@@ -75,5 +75,4 @@ public class PDTManagerController {
         return pdtManagerService.addEntity(addEntityRequest);
     }
 
-    
 }
