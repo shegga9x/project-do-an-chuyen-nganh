@@ -1,9 +1,0 @@
-sql:
-Server Name: sql.bsite.net\MSSQL2016SQL 
-Username: shegga_courseRegister
-password : 0378876395pP
-backend: 
-git : https://git.heroku.com/courseregister123.git
-url : https://courseregister123.herokuapp.com/
-frontend : 
-url : https://project-do-an-chuyen-nganh.vercel.app/

@@ -792,7 +792,7 @@ insert into Semester Values(N'2020_1','1/9/2020','31/1/2021',2020,1)
 insert into Semester Values(N'2020_2','1/3/2021','30/6/2021',2020,2)
 insert into Semester Values(N'2021_1','1/9/2021','31/1/2022',2021,1)
 insert into Semester Values(N'2021_2','1/3/2022','30/6/2022',2021,2)
-update Semester set end_Date='30/7/2022' where ID_Semester='2021_2';
+update Semester set end_Date='9/30/2022' where ID_Semester='2021_2';
 
 -- insert into Time_For_Course_Register
 insert into Time_For_Course_Register Values(N'2018_1','6/1/2019','12/1/2019')
