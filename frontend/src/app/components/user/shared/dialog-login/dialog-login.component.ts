@@ -20,7 +20,7 @@ export class DialogLoginComponent implements OnInit {
   onblurPassword = false;
 
   // capcha siteKey
-  public readonly siteKey = '6Lcayk0fAAAAAM9QpCgH3sQWCS8IdtupD2PyCszR';
+  public readonly siteKey = '6LdWaFUhAAAAACjJRB3JLyd0PtazbY8S7uFz0MXD';
 
   // capcha variable
   public theme: 'light' | 'dark' = 'light';
