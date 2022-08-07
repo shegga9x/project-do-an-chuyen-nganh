@@ -15,7 +15,7 @@ import javax.persistence.*;
  *
  */
 @Entity
-@Table(name="Time_For_Course_Register", schema="dbo", catalog = "shegga_course_register" )
+@Table(name="Time_For_Course_Register", schema="dbo", catalog = "${bezkoder.app.databaseName}")
 public class TimeForCourseRegister implements Serializable {
 
     private static final long serialVersionUID = 1L;

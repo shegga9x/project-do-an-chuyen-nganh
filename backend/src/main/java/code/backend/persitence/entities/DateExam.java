@@ -14,7 +14,7 @@ import javax.persistence.*;
  *
  */
 @Entity
-@Table(name = "Date_Exam", schema = "dbo", catalog = "shegga_course_register" )
+@Table(name = "Date_Exam", schema = "dbo", catalog = "${bezkoder.app.databaseName}")
 public class DateExam implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -14,7 +14,7 @@ import javax.persistence.*;
  *
  */
 @Entity
-@Table(name = "Final_Result", schema = "dbo", catalog = "shegga_course_register" )
+@Table(name = "Final_Result", schema = "dbo", catalog = "${bezkoder.app.databaseName}")
 public class FinalResult implements Serializable {
 
     private static final long serialVersionUID = 1L;

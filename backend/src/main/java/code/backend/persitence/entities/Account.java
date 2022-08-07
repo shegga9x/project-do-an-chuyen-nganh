@@ -21,6 +21,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.beans.factory.annotation.Value;
+
 /**
  * JPA entity class for "Account"
  *
@@ -28,7 +30,8 @@ import javax.persistence.TemporalType;
  *
  */
 @Entity
-@Table(name = "ACCOUNT", schema = "dbo", catalog = "shegga_course_register" )
+
+@Table(name = "ACCOUNT", schema = "dbo", catalog = "${bezkoder.app.databaseName}")
 public class Account implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -14,7 +14,7 @@ import javax.persistence.*;
  *
  */
 @Entity
-@Table(name="front_Sub", schema="dbo", catalog = "shegga_course_register" )
+@Table(name="front_Sub", schema="dbo", catalog = "${bezkoder.app.databaseName}")
 public class FrontSub implements Serializable {
 
     private static final long serialVersionUID = 1L;
